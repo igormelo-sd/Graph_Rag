@@ -1,0 +1,4 @@
+interface:
+  display_name: "Investimentos e Comércio Exterior"
+  short_description: "Analisa investimentos e fluxos comerciais"
+  default_prompt: "Use $investment-trade-analysis para analisar investimentos e comércio exterior paulista."

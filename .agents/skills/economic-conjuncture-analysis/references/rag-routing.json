@@ -1,0 +1,22 @@
+{
+  "domain": "economic_conjuncture",
+  "label": "Conjuntura Econômica",
+  "priority": 70,
+  "keywords": [
+    "atividade econômica",
+    "conjuntura",
+    "pib",
+    "produto interno bruto",
+    "crescimento econômico",
+    "recessão",
+    "desaceleração",
+    "produção industrial",
+    "produção",
+    "volume de serviços",
+    "vendas do comércio",
+    "ciclo econômico",
+    "cenário internacional",
+    "acumulado no ano",
+    "quatro trimestres"
+  ]
+}

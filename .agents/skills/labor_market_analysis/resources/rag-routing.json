@@ -1,0 +1,29 @@
+{
+  "domain": "labor_market",
+  "label": "Mercado de Trabalho",
+  "priority": 100,
+  "keywords": [
+    "emprego",
+    "desemprego",
+    "desocupação",
+    "ocupação",
+    "mercado de trabalho",
+    "trabalhador",
+    "trabalho",
+    "informalidade",
+    "carteira assinada",
+    "emprego formal",
+    "caged",
+    "rais",
+    "pnad",
+    "pnadc",
+    "salário",
+    "remuneração",
+    "renda do trabalho",
+    "admissão",
+    "desligamento",
+    "saldo de empregos",
+    "rotatividade",
+    "subutilização"
+  ]
+}

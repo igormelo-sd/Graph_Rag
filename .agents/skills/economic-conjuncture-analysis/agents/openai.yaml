@@ -1,0 +1,4 @@
+interface:
+  display_name: "Análise de Conjuntura Econômica"
+  short_description: "Interpreta atividade, PIB e ciclos econômicos"
+  default_prompt: "Use $economic-conjuncture-analysis para analisar a conjuntura econômica paulista com rigor."
