@@ -17,7 +17,7 @@ variáveis de setor nas bases PNADC, RAIS e CAGED.
 
 ---
 
-## Agrupamento Detalhado (10 Grupos)
+## Agrupamento Detalhado (11 Grupos)
 
 | Grupo | Seções CNAE | Nomenclatura |
 |---|---|---|
@@ -47,7 +47,7 @@ MAP_CNAE_MACROSSETOR = {
 for s in 'GHIJKLMNOPQRSTU':
     MAP_CNAE_MACROSSETOR[s] = 'Serviços'
 
-MAP_CNAE_GRUPO10 = {
+MAP_CNAE_GRUPO11 = {
     'A': 'Agropecuária',
     'B': 'Ind. extrativa e utilities', 'D': 'Ind. extrativa e utilities',
     'E': 'Ind. extrativa e utilities',

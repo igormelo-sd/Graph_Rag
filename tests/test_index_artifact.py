@@ -75,7 +75,7 @@ def test_bootstrap_reutiliza_banco_local_valido(tmp_path, monkeypatch):
 
     monkeypatch.setattr(index_artifact, "_download_file", unexpected_download)
 
-    count, downloaded = index_artifact.ensure_release_index(target=target)
+    count, downloaded = index_artifact.ensure_release_index(target=target, repo="owner/repo")
 
     assert count == 16_237
     assert downloaded is False
@@ -103,7 +103,7 @@ def test_bootstrap_baixa_valida_e_instala_uma_vez(tmp_path, monkeypatch):
     target = tmp_path / "destino" / "chroma_db"
     target.mkdir(parents=True)
 
-    count, downloaded = index_artifact.ensure_release_index(target=target)
+    count, downloaded = index_artifact.ensure_release_index(target=target, repo="owner/repo")
     second_count, second_downloaded = index_artifact.ensure_release_index(target=target)
 
     assert count == second_count == 16_237
@@ -141,7 +141,7 @@ def test_url_da_release_escapa_tag_e_asset():
 
 
 def test_startup_principal_ativa_bootstrap_sem_forcar_leitura(tmp_path, monkeypatch):
-    from rag_principal.src import startup
+    import startup
 
     captured = {}
 
@@ -150,6 +150,10 @@ def test_startup_principal_ativa_bootstrap_sem_forcar_leitura(tmp_path, monkeypa
         return 16_237, True
 
     monkeypatch.delenv("RAG_INDEX_READ_ONLY", raising=False)
+    monkeypatch.setenv("RAG_INDEX_AUTO_DOWNLOAD", "1")
+    monkeypatch.delenv("RAG_INDEX_REPO", raising=False)
+    monkeypatch.delenv("RAG_INDEX_TAG", raising=False)
+    monkeypatch.delenv("RAG_INDEX_ASSET", raising=False)
     monkeypatch.setattr(startup, "ensure_release_index", fake_ensure)
 
     startup.ensure_principal_index(str(tmp_path / "chroma_db"))
@@ -163,7 +167,7 @@ def test_startup_principal_ativa_bootstrap_sem_forcar_leitura(tmp_path, monkeypa
 
 
 def test_startup_principal_permite_desativar_bootstrap(tmp_path, monkeypatch):
-    from rag_principal.src import startup
+    import startup
 
     monkeypatch.setenv("RAG_INDEX_AUTO_DOWNLOAD", "0")
 

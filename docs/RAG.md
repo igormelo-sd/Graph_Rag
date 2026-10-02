@@ -29,7 +29,7 @@ mais difícil — e, quando acontece, fica visível.
 | A biblioteca | `data/` (10 PDFs Seade) + `chroma_db/` (índice) | Onde o conhecimento mora |
 | Os bibliotecários | Retrievers (`text`, `tables`, `timeseries`, `images`, `graph`) | Acham os trechos relevantes |
 | O chefe dos bibliotecários | `query_interpreter.py` | Decide *onde* procurar e reescreve a pergunta |
-| O redator | LLM principal (`sabia-4` por padrão) | Escreve a resposta só com os trechos |
+| O redator | LLM principal (GPT por padrão) | Escreve a resposta só com os trechos |
 | O revisor | `numerical_validator.py` + `citation_validator.py` | Confere números e citações contra as fontes |
 
 ## 4. Fase 1 — Preparação: organizando a biblioteca (indexação)
@@ -58,7 +58,7 @@ impreciso. Por isso tudo é cortado em **chunks**:
   (`text` / `table` / `image`), seção — e um id determinístico (sha256), para
   reindexações não duplicarem nada.
 
-Resultado típico: ~1490 chunks a partir dos 10 PDFs.
+A quantidade de chunks depende do corpus e da configuração; valores históricos não são garantias para o pipeline atual.
 
 ### 4.3. Embedding: traduzindo para números (`src/indexing.py:setup_embeddings`)
 
@@ -73,8 +73,7 @@ próximos — *"remédios"* encontra *"farmacêutica"* mesmo sem palavras em com
 - **`bm25_nodes.pkl`**: os textos originais, para a busca por palavras exatas.
 - **`indexed_manifest.json`**: o carimbo do que foi indexado (modelo, dimensão, arquivos).
 
-Por isso o primeiro boot leva ~20–30 min em CPU: são ~1490 vetores de 1024 números
-sendo calculados. Depois, congele com `RAG_INDEX_READ_ONLY=1`.
+O primeiro boot prepara os embeddings e o índice; não há tempo medido para esta versão. Depois da preparação, `RAG_INDEX_READ_ONLY=1` evita sincronizações.
 
 ## 5. Fase 2 — A pergunta: do texto à resposta
 
@@ -95,10 +94,10 @@ Cada retriever especializado busca ao mesmo tempo, cada um do seu jeito:
 
 - **Texto** (`text_retriever.py`): busca **híbrida** — embedding (sentido) + BM25
   (palavras exatas, com stemmer de português: *indústria/industriais* = mesma raiz)
-  fundidos por *reciprocal rank*. Ainda gera 2 variações da pergunta (query fusion)
+  fundidos por *reciprocal rank*. Inclui a consulta original e uma alternativa (query fusion)
   para ampliar a rede. Traz ~80 candidatos.
 - **Tabelas / séries** (`tables_retriever.py`, `timeseries_retriever.py`): busca +
-  análise pandas — comparam anos, calculam variações, montam o gráfico da resposta.
+  planos JSON e operações Decimal — comparam células, calculam variações e montam gráficos.
 - **Imagens** (`images_retriever.py`): busca nos chunks de gráficos.
 - **Grafo** (`graph_retriever.py`): navega pelas relações (detalhes em [GRAFOS.md](GRAFOS.md)).
 
@@ -107,29 +106,26 @@ Cada retriever especializado busca ao mesmo tempo, cada um do seu jeito:
 Os ~80 candidatos passam por um reordenador que escolhe os ~20–24 melhores:
 
 1. **Cross-encoder local** `bge-reranker-v2-m3` (`RAG_BGE_RERANK=1`, padrão) — lê
-   pergunta + trecho juntos e dá nota fina. Rápido e bom em português.
+   pergunta + trecho juntos e dá nota fina. Executado localmente; sua qualidade e latência precisam ser medidas neste corpus.
 2. Fallback **LLM rerank** (`LLMRerank`) ou **score híbrido** (`ScoreReranker`, ex.:
    no modo Ollama local, para não estourar a janela do modelo).
 
-Ainda há diversificação: no máximo 3 chunks por documento, para a resposta não
+Ainda há diversificação: preferência por até três chunks por documento, podendo preencher o limite final com excedentes, para a resposta não
 viciar numa fonte só — e a **costura do grafo** anexa chunks vizinhos de ideias
 partidas pelo chunking.
 
 ### 5.4. Síntese: o redator escreve (1 chamada LLM)
 
-O LLM principal recebe o bloco de contexto (trechos numerados `[1]`, `[2]`...,
-dados de tabelas, vizinhos do grafo) + o bloco da skill de domínio, e escreve a
-resposta citando as fontes. Se o contexto vier vazio, o sistema **se recusa** a
+O LLM principal recebe contexto identificado por `[Fonte: arquivo, p./aba ...]`, dados de tabelas e vizinhos, além do bloco da skill. O prompt pede citações inline quando solicitadas; a API retorna fontes e candidatos de evidência separadamente. Se o contexto vier vazio, o sistema **se recusa** a
 responder em vez de inventar (`REFUSAL_TEXT`).
 
 ### 5.5. Revisão: o revisor confere (`numerical_validator.py`)
 
-Cada número da resposta é procurado nos trechos-fonte (com execução segura via
-`safe_exec.py`). O resultado vai no campo `validation` da API:
+Cada ocorrência numérica é comparada ao contexto dos trechos-fonte, considerando indicador, período, região e unidade. Isso é uma heurística, não prova semântica. O resultado vai em `validation`:
 `verified/total/unverified` — números não confirmados são sinalizados, não escondidos.
-`citation_validator.py` faz o mesmo para as citações `[1]`, `[2]`.
+`citation_validator.py` verifica citações explícitas como `(Fonte: arquivo, p. X)`. `claim_evidence` e `calculations` preservam candidatos e contas para revisão; nenhum Python gerado pelo LLM é executado nos cálculos atuais.
 
-## 6. Exemplo completo
+## 6. Exemplo didático (valores e resultado ilustrativos)
 
 Pergunta: *"A indústria farmacêutica paulista cresceu em 2022?"*
 
@@ -139,15 +135,14 @@ Pergunta: *"A indústria farmacêutica paulista cresceu em 2022?"*
    palavra "cresceu"); BM25 acha `Ano: 2022 / Variação: +4,1%` (palavra exata).
 3. Rerank elege os ~20 melhores; a costura anexa o chunk vizinho com o sujeito da frase.
 4. O LLM escreve *"Sim, cresceu 4,1%..."* citando `SpEconomia-junho-2022-...pdf`.
-5. O revisor confirma "4,1%" no trecho-fonte → verificado.
+5. O revisor compara a ocorrência de "4,1%" e suas dimensões no trecho-fonte → correspondência contextual ou revisão.
 
 ## 7. Quando o RAG não basta (limites honestos)
 
-- **Pergunta fora dos documentos** → recusa (correto!) em vez de chute.
+- **Pergunta fora dos documentos** → contexto vazio gera recusa; contexto recuperado insuficiente ainda pode produzir erros.
 - **Contexto partido** → mitigado pela costura do grafo, mas chunking sempre perde algo.
 - **Números em imagem escaneada mal** → OCR erra, o erro propaga.
-- **Rerank e síntese custam LLM** → cada pergunta consome chamadas; o modo simples
-  (`rag_simples/`, se existir no repo) mostra o mínimo viável.
+- **Custo** → BGE é local; interpretação, síntese e outras etapas podem usar LLM remoto. Uso incompleto ou tarifa ausente implica custo indisponível, não zero.
 
 ## 8. Glossário
 
@@ -162,3 +157,5 @@ Pergunta: *"A indústria farmacêutica paulista cresceu em 2022?"*
 | Rerank | Reordenar candidatos e ficar com os melhores |
 | Alucinação | LLM inventando fatos; RAG + validador existem para contê-la |
 | REFUSAL_TEXT | Recusa padrão quando não há contexto — melhor que inventar |
+
+Veja [Confiabilidade](CONFIABILIDADE.md) para limitações e avaliação pendente. Nenhum teste ou avaliação foi executado nesta atualização.

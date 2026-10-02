@@ -273,7 +273,7 @@ def _assign_deterministic_ids(nodes: list) -> list:
         ntype = str(md.get("type") or "text")
         cid = str(md.get("chunk_id") or "1")
         content = getattr(n, "text", "") or ""
-        raw = f"{source}::{page}::{ntype}::{cid}::{content[:200]}"
+        raw = f"{source}::{page}::{ntype}::{cid}::{content}"
         h = hashlib.sha256(raw.encode("utf-8", errors="ignore")).hexdigest()[:32]
         n.id_ = h
         md["node_id"] = h

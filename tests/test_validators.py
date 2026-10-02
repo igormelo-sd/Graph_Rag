@@ -57,14 +57,14 @@ def test_contexto_enviado_ao_llm_inclui_proveniencia():
     assert context.endswith("Trecho documental.")
 
 
-def test_resultado_aritmetico_explicito_e_verificado():
+def test_equacao_do_llm_nao_confirma_resultado_sem_trilha():
     checks = validate_numbers(
         "A diferença foi 3,4% − 2,8% = 0,6 p.p.",
         [_node("Taxas observadas: 3,4% e 2,8%.")],
     )
     by_value = {check.value: check for check in checks}
-    assert by_value["0,6"].verified
-    assert by_value["0,6"].derived
+    assert not by_value["0,6"].verified
+    assert not by_value["0,6"].value_found
 
 
 def test_resultado_aritmetico_incorreto_e_rejeitado():
@@ -105,6 +105,16 @@ def test_citacao_tabular_preserva_linha_estruturada_completa():
         [table_node],
     )
 
-    assert checks[0].source_snippet == (
-        "Setor: Indústria\nEmpregos: 125.400\nVariação: 3,2%"
-    )
+    assert "125.400" in checks[0].source_snippet
+    assert checks[0].value_found
+    assert not checks[0].verified  # falta período e região explícitos
+
+
+def test_mesmo_valor_em_afirmacoes_diferentes_e_validado_separadamente():
+    source = "A desocupação em São Paulo foi 7,9% em 2023."
+    answer = source + " A desocupação no Brasil foi 7,9% em 2024."
+    rates = [c for c in validate_numbers(answer, [_node(source)]) if c.value == "7,9%"]
+    assert len(rates) == 2
+    assert rates[0].verified
+    assert not rates[1].verified
+    assert rates[0].response_start != rates[1].response_start

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Tables Retriever — recupera dados de tabelas estáticas (não temporais) e os
 estrutura via pandas para o Analysis Engine.
 
@@ -8,12 +8,13 @@ estrutura via pandas para o Analysis Engine.
 import re
 
 from logger import get_logger
+from calculations import calculate
+from query_results import SeriesResult
 from runtime import limit_context
 from text_retriever import rerank_candidate_limit, structured_top_n
 from structured_output import (
     StructuredOutputError,
     parse_json_object,
-    result_text,
     tabular_payload,
 )
 
@@ -46,25 +47,13 @@ Regras:
 - Use apenas strings, números, booleanos ou null nas células.
 - Não inclua código, comentários ou campos adicionais.
 - Use nomes de colunas em português quando possível.
+- Preserve indicador, período, região e unidade explicitados na fonte em colunas
+  ou rótulos. Não complete dimensões ausentes por inferência.
 
 Trechos:
 {context}
 
 Pergunta: {question}
-"""
-
-_CALCULATE_PROMPT = """\
-Você tem os dados estruturados abaixo. Calcule a resposta usando exclusivamente esses dados.
-Retorne SOMENTE JSON válido no formato {{"resultado": "texto final"}}.
-Regras:
-- Não inclua código ou explicações fora do campo `resultado`.
-- Formate números com separador de milhar e 2 casas decimais quando aplicável.
-- Se a pergunta exigir uma conta, apresente a operação no texto final.
-
-Pergunta: {question}
-
-Dados disponíveis:
-{data_preview}
 """
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -84,7 +73,7 @@ class TablesRetriever:
     Recupera chunks de tabelas estáticas e extrai dados estruturados via pandas.
 
     Fluxo: pool tabular top-K → filtra tabelas estáticas → rerank → extração estruturada
-    Retorna (structured_data: str, nodes: list) ou None se sem tabelas relevantes.
+    Retorna SeriesResult com dados e trilha de cálculo, ou None sem tabelas.
     """
 
     def __init__(self, retriever, reranker, llm):
@@ -92,7 +81,7 @@ class TablesRetriever:
         self._reranker = reranker
         self._llm = llm
 
-    def retrieve(self, question: str) -> tuple[str, list] | None:
+    def retrieve(self, question: str) -> SeriesResult | None:
         nodes = self._retriever.retrieve(question)
 
         table_nodes = [n for n in nodes if _is_static_table(n)]
@@ -117,10 +106,10 @@ class TablesRetriever:
         reranked = list(reranked[:structured_top_n()])
 
         context = limit_context("\n\n---\n\n".join(n.get_content() for n in reranked))
-        structured = self._extract_and_calculate(question, context)
-        return structured, reranked
+        structured, calculations = self._extract_and_calculate(question, context, reranked)
+        return SeriesResult(structured, reranked, calculations=calculations)
 
-    def _extract_and_calculate(self, question: str, context: str) -> str:
+    def _extract_and_calculate(self, question: str, context: str, nodes=()) -> tuple[str, list]:
         # Fase 1: extração estruturada em JSON (nenhum código do LLM é executado)
         extract_resp = self._llm.complete(
             _EXTRACT_PROMPT.format(context=context, question=question)
@@ -130,21 +119,6 @@ class TablesRetriever:
             df, data = tabular_payload(payload)
         except StructuredOutputError as exc:
             log.warning("Extracao estruturada de tabela falhou: %s", exc)
-            return "[Sem dados estruturados extraídos da tabela]"
+            return "[Sem dados estruturados extraídos da tabela]", []
 
-        if df is not None:
-            data_preview = df.to_string(max_rows=20)
-        elif data is not None:
-            data_preview = str(data)
-        else:
-            return "[Sem dados estruturados extraídos da tabela]"
-
-        # Fase 2: cálculo pelo LLM com saída JSON estrita, sem execução de Python
-        calc_resp = self._llm.complete(
-            _CALCULATE_PROMPT.format(question=question, data_preview=data_preview)
-        )
-        try:
-            return result_text(parse_json_object(calc_resp.text))
-        except StructuredOutputError as exc:
-            log.warning("Calculo estruturado sobre tabela falhou: %s", exc)
-            return data_preview
+        return calculate(question, df, data, self._llm, nodes)

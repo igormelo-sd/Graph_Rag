@@ -23,7 +23,6 @@ from provenance import relevance_score, source_file, source_page
 from tables_retriever import _is_static_table
 from timeseries_retriever import _df_is_valid_timeseries, _is_temporal_table
 from runtime import estimate_tokens, limit_context
-from rag_raptor.src.raptor_engine import _raptor_level
 
 
 class _Node:
@@ -327,13 +326,6 @@ def test_indice_numerico_generico_nao_e_serie_temporal():
     assert not _df_is_valid_timeseries(df)
 
 
-def test_nivel_raptor_normaliza_indices_legados():
-    assert _raptor_level("2") == 2
-    assert _raptor_level(1) == 1
-    assert _raptor_level("inválido") == 0
-    assert _raptor_level(-1) == 0
-
-
 def test_proveniencia_normaliza_origem_pagina_e_escore():
     leaf = _Node({"source_file": "regional/a.pdf", "page": 3}, score=0.82)
     summary = _Node({"source_files": "a.pdf, b.pdf"}, score=8.2)
@@ -358,7 +350,6 @@ def test_deterministic_node_ids():
     _assign_deterministic_ids([n1, n2])
     assert n1.id_ == n2.id_
     assert len(n1.id_) == 32
-
 
 
 

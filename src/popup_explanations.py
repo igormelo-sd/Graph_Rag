@@ -17,6 +17,8 @@ from api_models import NumericCitationInfo
 from llm import openai_client_kwargs, popup_model
 from logger import get_logger
 from metrics import record_reported_usage
+from load_control import async_resource_slot
+from query_usage import tracked_call
 from runtime import bounded_float, bounded_int
 from structured_output import parse_json_object
 
@@ -172,7 +174,7 @@ async def generate_popup_explanations(
     timeout = bounded_float("RAG_POPUP_TIMEOUT", 20.0, 2.0, 60.0)
     try:
         response = await asyncio.wait_for(
-            client.chat.completions.create(
+            _limited_create(client,
                 model=selected_model,
                 messages=[
                     {"role": "system", "content": _SYSTEM_PROMPT},
@@ -217,3 +219,10 @@ async def generate_popup_explanations(
         result[item.index] = text
         _cache_put(key, text)
     return result
+
+async def _limited_create(client, **kwargs):
+    async with async_resource_slot("LLM"):
+        with tracked_call() as record:
+            result = await client.chat.completions.create(**kwargs)
+            record(result)
+            return result

@@ -106,6 +106,8 @@ def main() -> None:
     if args.cli:
         _run_cli(_use_graph=args.graph)
     else:
+        if args.graph:
+            os.environ["RAG_USE_GRAPH"] = "1"
         _run_server(args.host, args.port)
 
 

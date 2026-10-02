@@ -8,24 +8,24 @@ bge-m3) e não passam por aqui.
 
 Configuração por ambiente
 --------------------------
-    RAG_LLM_PROVIDER   "maritaca" (padrão) | "openai" | "ollama"
+    RAG_LLM_PROVIDER   "openai" (padrão) | "openrouter" | "ollama"
     RAG_LLM_MODEL      sobrescreve o modelo de síntese
     RAG_INTERP_MODEL   sobrescreve o modelo de interpretação/crítica
     RAG_POPUP_MODEL    sobrescreve o modelo das explicações de citações
     RAG_LLM_BASE_URL   sobrescreve a base URL do provedor
     RAG_LLM_API_KEY    sobrescreve a chave (senão usa a chave padrão do provedor)
 
-Maritaca usa a chave `MARITACA_API_KEY`; OpenAI usa `OPENAI_API_KEY`.
+OpenAI usa a chave `OPENAI_API_KEY`; OpenRouter usa `OPENROUTER_API_KEY`.
 Ollama roda localmente e não exige chave.
 
 Dois consumidores
 -----------------
 - `make_llm(...)`          → objeto LLM do LlamaIndex (startups, processing).
-                             Para provedores com base URL própria, registra o
-                             modelo (ex.: "sabia-4") no catálogo do LlamaIndex
-                             e usa a classe `OpenAI` base — sem depender do
-                             pacote `openai-like`, cuja versão colide com o
-                             `llama-index-llms-openai` já resolvido pelo core.
+                              Para provedores com base URL própria, registra o
+                              modelo no catálogo do LlamaIndex e usa a classe
+                              `OpenAI` base — sem depender do pacote `openai-like`,
+                              cuja versão colide com o `llama-index-llms-openai`
+                              já resolvido pelo core.
 - `openai_client_kwargs()` → kwargs para `openai.OpenAI`/`AsyncOpenAI` cru
                              (agentic, self-rag, raptor, orchestrator analyzer).
 """
@@ -34,17 +34,17 @@ from __future__ import annotations
 import os
 
 _PROVIDERS: dict[str, dict] = {
-    "maritaca": {
-        "base_url": "https://chat.maritaca.ai/api",
-        "key_env": "MARITACA_API_KEY",
-        "main_model": "sabia-4",
-        "interp_model": "sabia-4",
-        "popup_model": "sabiazinho-4",
-        "context_window": 128000,
-    },
     "openai": {
         "base_url": None,  # SDK usa o endpoint padrão da OpenAI
         "key_env": "OPENAI_API_KEY",
+        "main_model": "gpt-5-chat-latest",
+        "interp_model": "gpt-5-mini",
+        "popup_model": "gpt-5-mini",
+        "context_window": 128000,
+    },
+    "openrouter": {
+        "base_url": "https://openrouter.ai/api/v1",
+        "key_env": "OPENROUTER_API_KEY",
         "main_model": "gpt-5-chat-latest",
         "interp_model": "gpt-5-mini",
         "popup_model": "gpt-5-mini",
@@ -64,7 +64,7 @@ _PROVIDERS: dict[str, dict] = {
 
 
 def provider_name() -> str:
-    return os.getenv("RAG_LLM_PROVIDER", "maritaca").lower()
+    return os.getenv("RAG_LLM_PROVIDER", "openai").lower()
 
 
 def _cfg() -> dict:
@@ -128,7 +128,7 @@ def openai_client_kwargs() -> dict:
 
 def _register_model(model: str, context_window: int) -> None:
     """
-    Registra um modelo fora do catálogo OpenAI (ex.: "sabia-4") no LlamaIndex,
+    Registra um modelo fora do catálogo OpenAI no LlamaIndex,
     para a classe `OpenAI` base aceitá-lo sem exigir o pacote `openai-like`.
     Idempotente (`setdefault`).
     """
@@ -152,14 +152,38 @@ def make_llm(
     provedor distingue); caso contrário, o modelo de síntese.
     """
     from llama_index.llms.openai import OpenAI
+    from load_control import resource_slot
+    from query_usage import tracked_call
+
+    class LimitedOpenAI(OpenAI):
+        def complete(self, *args, **kwargs):
+            with resource_slot("LLM"), tracked_call() as record:
+                result = super().complete(*args, **kwargs)
+                record(result)
+                return result
+
+        def chat(self, *args, **kwargs):
+            with resource_slot("LLM"), tracked_call() as record:
+                result = super().chat(*args, **kwargs)
+                record(result)
+                return result
+
+        async def achat(self, *args, **kwargs):
+            import asyncio
+            return await asyncio.to_thread(self.chat, *args, **kwargs)
+
+        async def acomplete(self, *args, **kwargs):
+            # Usa o caminho síncrono limitado sem bloquear o event loop.
+            import asyncio
+            return await asyncio.to_thread(self.complete, *args, **kwargs)
 
     cfg = _cfg()
     mdl = model or (cfg["interp_model"] if interp else cfg["main_model"])
 
     if cfg["base_url"]:
-        # Provedor compatível (Maritaca): registra o modelo e aponta a base URL.
+        # Provedor compatível (OpenRouter/Ollama): registra o modelo e aponta a base URL.
         _register_model(mdl, cfg["context_window"])
-        return OpenAI(
+        return LimitedOpenAI(
             model=mdl,
             api_base=cfg["base_url"],
             api_key=cfg["api_key"],
@@ -167,4 +191,4 @@ def make_llm(
             timeout=timeout,
         )
 
-    return OpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout)
+    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout)

@@ -216,6 +216,7 @@ def update_index_incrementally(
     collection_name="estatisticas",
 ):
     """Insere substitutos e só depois remove IDs antigos das fontes alteradas."""
+    nodes = list(nodes)
     setup_embeddings()
 
     db = chromadb.PersistentClient(path=db_path)
@@ -229,11 +230,15 @@ def update_index_incrementally(
         storage_context=storage_context,
     )
 
-    if nodes:
-        print(f"Indexando incrementalmente {len(nodes)} bloco(s) novo(s)/alterado(s)...")
-        index.insert_nodes(list(nodes))
+    old_ids = set(stale_ids)
+    new_nodes = [node for node in nodes if node.node_id not in old_ids]
+    if new_nodes:
+        print(f"Indexando incrementalmente {len(new_nodes)} bloco(s) novo(s)/alterado(s)...")
+        index.insert_nodes(new_nodes)
 
-    _delete_ids(collection, stale_ids)
+    replacement_ids = {node.node_id for node in nodes}
+    # IDs determinísticos podem ser compartilhados com trechos preservados.
+    _delete_ids(collection, [nid for nid in stale_ids if nid not in replacement_ids])
 
     cached_nodes = load_nodes_cache(db_path)
     file_changed = [s for s in (changed_sources or []) if not str(s).startswith("__")]

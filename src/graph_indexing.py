@@ -10,6 +10,7 @@ seguintes. É reconstruído automaticamente quando os documentos mudam
 (force_rebuild=True).
 """
 import os
+import json
 
 from llama_index.core import PropertyGraphIndex
 from llama_index.core.graph_stores import SimplePropertyGraphStore
@@ -208,6 +209,7 @@ def build_or_load_graph(
     base_dir: str,
     llm,
     force_rebuild: bool = False,
+    use_llm: bool = False,
 ) -> PropertyGraphIndex:
     """
     Constrói o PropertyGraphIndex a partir dos nós de texto ou carrega do disco.
@@ -227,8 +229,25 @@ def build_or_load_graph(
     -------
     PropertyGraphIndex pronto para uso.
     """
-    graph_dir = os.path.join(base_dir, _GRAPH_DIR)
+    graph_dir = os.getenv("RAG_GRAPH_DIR") or os.path.join(base_dir, _GRAPH_DIR)
     graph_path = os.path.join(graph_dir, _GRAPH_FILE)
+    config_path = os.path.join(graph_dir, "graph_config.json")
+    from graph_ontology import ontology_enabled
+    graph_config = {
+        "llm": bool(use_llm or _graph_embed_enabled() or ontology_enabled()),
+        "embed": _graph_embed_enabled(),
+        "struct": _graph_struct_enabled(),
+        "ontology": ontology_enabled(),
+    }
+    try:
+        with open(config_path, encoding="utf-8") as f:
+            force_rebuild = force_rebuild or json.load(f) != graph_config
+    except (OSError, ValueError):
+        force_rebuild = True
+
+    def save_config():
+        with open(config_path, "w", encoding="utf-8") as f:
+            json.dump(graph_config, f)
 
     if not force_rebuild and os.path.exists(graph_path):
         try:
@@ -256,6 +275,9 @@ def build_or_load_graph(
 
     log.info("[Graph] Construindo grafo de conhecimento...")
     os.makedirs(graph_dir, exist_ok=True)
+    # Um fallback estrutural após falha não deve parecer um cache LLM completo.
+    if os.path.exists(config_path):
+        os.remove(config_path)
 
     # Usa apenas nós de texto narrativo — tabelas/timeseries têm pouco contexto relacional
     narrative_nodes = [
@@ -268,7 +290,7 @@ def build_or_load_graph(
     log.info("[Graph] Extraindo entidades e relações de %d nós", len(narrative_nodes))
 
     # Fast-path P0: quando só estrutural está ativo (custo zero), não chama LLM
-    _need_llm_graph = _graph_embed_enabled()
+    _need_llm_graph = graph_config["llm"]
     try:
         from graph_ontology import ontology_enabled
         if ontology_enabled():
@@ -280,6 +302,7 @@ def build_or_load_graph(
         graph_store = SimplePropertyGraphStore()
         _inject_structural_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
+        save_config()
         log.info("[Graph] Grafo estrutural salvo em %s (%d triplets)", graph_path, len(graph_store.graph.triplets))
         try:
             export_graph_image(graph_store, os.path.join(graph_dir, "graph_store.png"))
@@ -323,6 +346,7 @@ def build_or_load_graph(
         if _graph_struct_enabled():
             _inject_structural_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
+        save_config()
         log.info("[Graph] Grafo salvo em %s", graph_path)
 
         image_path = os.path.join(graph_dir, "graph_store.png")

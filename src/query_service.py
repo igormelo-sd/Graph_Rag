@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import asyncio
+import inspect
 from dataclasses import dataclass
 
 from answer_policy import sanitize_answer
@@ -19,6 +20,9 @@ from metrics import record_estimated_usage
 from popup_explanations import generate_popup_explanations
 from provenance import relevance_score, source_file, source_page
 from runtime import request_timeout_seconds
+from load_control import request_slot
+from evidence import build_claim_evidence
+from query_usage import usage_scope
 
 _SOURCE_EXCERPT_MAX_CHARS = 4_000
 log = get_logger(__name__)
@@ -46,6 +50,19 @@ class QueryDiagnostics:
 
 
 async def execute_engine_query(
+    **kwargs,
+) -> tuple[QueryResponse, QueryDiagnostics]:
+    """Aplica o prazo à interpretação, busca, síntese e pós-processamento."""
+    async with request_slot():
+        with usage_scope() as usage:
+            response, diagnostics = await asyncio.wait_for(
+                _execute_engine_query(**kwargs), timeout=request_timeout_seconds()
+            )
+            response.usage = usage.snapshot()
+            return response, diagnostics
+
+
+async def _execute_engine_query(
     *,
     question: str,
     engine,
@@ -56,36 +73,20 @@ async def execute_engine_query(
 ) -> tuple[QueryResponse, QueryDiagnostics]:
     """Interpreta, executa, valida e serializa uma consulta de engine."""
     interp = await asyncio.to_thread(interpreter, question, interp_llm)
-    # Deep search: engine pode aceitar rewritten_queries (principal) ou não (agentic/raptor/selfrag legado)
-    try:
-        answer, source_nodes = await asyncio.wait_for(
-            engine.answer(
-                question=question,
-                sources=interp["sources"],
-                rewritten_query=interp["rewritten_query"],
-                is_labor_market=interp.get("is_labor_market", False),
-                rewritten_queries=interp.get("rewritten_queries"),
-            ),
-            timeout=request_timeout_seconds(),
-        )
-    except TypeError:
-        answer, source_nodes = await asyncio.wait_for(
-            engine.answer(
-                question=question,
-                sources=interp["sources"],
-                rewritten_query=interp["rewritten_query"],
-                is_labor_market=interp.get("is_labor_market", False),
-            ),
-            timeout=request_timeout_seconds(),
-        )
+    kwargs = dict(
+        question=question, sources=interp["sources"],
+        rewritten_query=interp["rewritten_query"],
+        is_labor_market=interp.get("is_labor_market", False),
+    )
+    parameters = inspect.signature(engine.answer).parameters
+    if "rewritten_queries" in parameters or any(
+        p.kind == inspect.Parameter.VAR_KEYWORD for p in parameters.values()
+    ):
+        kwargs["rewritten_queries"] = interp.get("rewritten_queries")
+    result = await engine.answer(**kwargs)
+    answer, source_nodes = result
     answer = sanitize_answer(answer, question=question)
-    # chart payload preservado pelo timeseries retriever (para grafos)
-    timeseries_chart = getattr(engine, "_last_chart_payload", None)
-    if timeseries_chart is None:
-        # fallback: tenta no retriever direto (caso engine não tenha exposto)
-        ts_ret = getattr(engine, "_ts", None)
-        if ts_ret is not None:
-            timeseries_chart = getattr(ts_ret, "_last_chart_payload", None)
+    timeseries_chart = getattr(result, "chart", None)
     checks = await asyncio.to_thread(validate_numbers, answer, source_nodes)
     unverified = [check.value for check in checks if not check.verified]
     verified = len(checks) - len(unverified)
@@ -148,6 +149,8 @@ async def execute_engine_query(
             tot = None
         return cid, tot
 
+    calculations = getattr(result, "calculations", [])
+    claim_evidence = build_claim_evidence(answer, source_nodes, checks, calculations)
     response = QueryResponse(
         answer=answer,
         sources_used=interp["sources"],
@@ -167,6 +170,7 @@ async def execute_engine_query(
             verified=verified,
             total=len(checks),
             unverified=unverified,
+            requires_review=bool(unverified) or any(item["status"] == "requires_review" for item in claim_evidence),
         ),
         citation_validation=CitationValidationInfo(
             verified=len(citation_checks) - len(unverified_citations),
@@ -177,6 +181,8 @@ async def execute_engine_query(
         rag_type=rag_type,
         rag_label=rag_label,
         timeseries_chart=timeseries_chart,
+        calculations=calculations,
+        claim_evidence=claim_evidence,
     )
     diagnostics = QueryDiagnostics(
         sources=interp["sources"],

@@ -31,6 +31,7 @@ from query_service import execute_engine_query
 from metrics import MetricsMiddleware, render_prometheus
 from query_interpreter import interpret_query
 from startup import initialize
+from load_control import CapacityExceeded
 
 RAG_TYPE = "principal"
 RAG_LABEL = "RAG Principal"
@@ -194,6 +195,8 @@ async def query(
                 extra={"question": question[:120], "unverified": diagnostics.unverified},
             )
 
+    except CapacityExceeded as exc:
+        raise HTTPException(status_code=503, detail="Sistema ocupado. Tente novamente em instantes.", headers={"Retry-After": "5"}) from exc
     except TimeoutError as exc:
         log.warning("Timeout global ao processar requisicao", extra={"question": question[:120]})
         raise HTTPException(status_code=504, detail="Tempo limite da requisição excedido.") from exc

@@ -16,11 +16,8 @@ from logger import get_logger
 
 log = get_logger(__name__)
 
-# Pricing fallback (USD por 1M tokens) — kg MODEL_PRICING + Maritaca estimado
+# Pricing fallback (USD por 1M tokens) — modelos OpenAI/OpenRouter
 _PRICING = {
-    "sabia-4": (1.0, 3.0),
-    "sabiazinho-4": (0.5, 1.5),
-    "sabia-3": (0.8, 2.4),
     "gpt-5-chat-latest": (5.0, 15.0),
     "gpt-5-mini": (0.3, 1.2),
     "gpt-4o": (2.5, 10.0),

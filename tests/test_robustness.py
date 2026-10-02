@@ -1,9 +1,7 @@
 import asyncio
 from types import SimpleNamespace
 
-from rag_principal.src.analysis_engine import AnalysisEngine
-from rag_agentic.src.agent_engine import _critic_rounds, _max_iterations, _max_tool_calls
-from rag_selfrag.src.self_rag_engine import _max_retries
+from analysis_engine import AnalysisEngine
 from query_service import execute_engine_query
 
 
@@ -40,27 +38,16 @@ def test_analysis_engine_tolera_falha_parcial_de_retriever():
     assert sources == [node]
 
 
-def test_limites_de_iteracao_sao_saturados(monkeypatch):
-    monkeypatch.setenv("RAG_AGENTIC_MAX_ITERATIONS", "999")
-    monkeypatch.setenv("RAG_AGENTIC_MAX_TOOL_CALLS", "999")
-    monkeypatch.setenv("RAG_AGENTIC_CRITIC_ROUNDS", "999")
-    monkeypatch.setenv("RAG_SELFRAG_MAX_RETRIES", "999")
-    assert _max_iterations() == 12
-    assert _max_tool_calls() == 32
-    assert _critic_rounds() == 3
-    assert _max_retries() == 2
-
-
 def test_servico_compartilhado_preserva_contrato_http(monkeypatch):
     node = SimpleNamespace(
         metadata={"source_file": "boletim.pdf", "page": 2},
         score=0.9,
-        get_content=lambda: "A taxa foi 7,9%.",
+        get_content=lambda: "A desocupação foi 7,9% em São Paulo em 2023.",
     )
 
     class Engine:
         async def answer(self, **_kwargs):
-            return "A taxa foi 7,9% (Fonte: boletim.pdf, p. 2).", [node]
+            return "A desocupação foi 7,9% em São Paulo em 2023 (Fonte: boletim.pdf, p. 2).", [node]
 
     def interpreter(question, _llm):
         return {"sources": ["text"], "rewritten_query": question, "is_labor_market": False}
@@ -82,13 +69,13 @@ def test_servico_compartilhado_preserva_contrato_http(monkeypatch):
     ))
     assert response.sources[0].file == "boletim.pdf"
     assert response.sources[0].page == 2
-    assert response.sources[0].excerpt == "A taxa foi 7,9%."
+    assert response.sources[0].excerpt == "A desocupação foi 7,9% em São Paulo em 2023."
     assert response.numeric_citations[0].value == "7,9%"
     assert response.numeric_citations[0].file == "boletim.pdf"
     assert response.numeric_citations[0].page == 2
     assert response.numeric_citations[0].snippet
-    assert "A taxa foi 7,9%" in response.numeric_citations[0].claim
+    assert "A desocupação foi 7,9%" in response.numeric_citations[0].claim
     assert response.numeric_citations[0].explanation == "A taxa informada foi de 7,9%."
-    assert response.answer == "A taxa foi 7,9%."
-    assert response.validation.verified == 1
+    assert response.answer == "A desocupação foi 7,9% em São Paulo em 2023."
+    assert response.validation.verified == 2
     assert diagnostics.chunks == 1

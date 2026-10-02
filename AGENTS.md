@@ -1,69 +1,31 @@
-# RAGs/rag_principal — RAG Principal (híbrido)
+# Graph_Rag — orientações do repositório
 
-> Leia primeiro `../AGENTS.md` (espelhamento do `src/`) e `../../AGENTS.md` (regras globais).
+Leia também [.agents/AGENTS.md](.agents/AGENTS.md) ao alterar skills. Este é um repositório independente; não pressupõe variantes ou arquivos Docker em diretórios superiores.
 
-## Papel
+## Arquitetura
 
-Engine **padrão** do sistema: retrieval **híbrido** (Vector + BM25) sobre texto,
-mais retrievers de **tabelas** e **séries temporais** via pandas e grafo de
-conhecimento (opcional, `--graph`). Roda em **:8080** no Docker.
+- `main.py`: CLI (`--cli`) e API (`--port 8080`); `--graph` ativa extração de relações via LLM nos dois modos.
+- `src/startup.py`: resolve caminhos, prepara o índice e monta retrievers, reranker, skills e engine.
+- `src/llm.py`: configuração do provedor ativo e factory usada pelo aplicativo. Não há troca automática de provedores após erro de crédito ou 429.
+- `src/ingestion.py`, `processing.py`, `indexing.py`, `index_sync.py`, `index_manifest.py`: extração, nós determinísticos, índice e sincronização incremental.
+- `src/text_retriever.py`: busca híbrida e diversificação; tabelas, séries e imagens têm retrievers próprios.
+- `src/calculations.py`: operações limitadas em Decimal a partir de planos JSON. O fluxo atual não executa Python gerado pelo LLM; `safe_exec.py` permanece como utilitário legado.
+- `src/graph_indexing.py`, `graph_retriever.py`, `graph_ontology.py`: grafo estrutural, extração opcional de relações e descoberta opcional de tipos.
+- `src/analysis_engine.py`, `query_service.py`: recuperação, síntese e resultado por consulta, sem compartilhar gráfico entre respostas.
+- `src/evidence.py`, `numerical_validator.py`, `citation_validator.py`: evidências e verificações heurísticas; não tratá-las como prova de correção semântica.
+- `src/load_control.py`, `query_usage.py`: limites por processo e uso reportado pelo provedor.
+- `src/api.py`, `api_models.py`, `api_security.py`, `metrics.py`: HTTP, contratos, segurança e observabilidade.
 
-## Arquivos-chave
+## Convenções
 
-- `main.py` — entrypoint: servidor FastAPI (porta padrão 8000; compose usa 8080),
-  `--cli` para loop interativo, `--graph` habilita o grafo. Monta `sys.path`
-  (raiz + `src/` + `.agents/`).
-- `src/startup.py` — `initialize(base_dir, data_dir=None, use_graph=False)`:
-  1. LLMs via `llm` (`make_llm` + `require_api_key`; interp usa `RAG_INTERP_MODEL`)
-  2. resolve `data/` (`index_manifest.resolve_data_dir`) e `chroma_db` (`resolve_db_dir`)
-  3. baixa/valida o índice portátil (`ensure_principal_index`, `scripts.index_artifact`)
-  4. `sync_standard_index` → detecta mudanças (mtime) e (re)indexa + BM25
-  5. monta retrievers híbridos + `LLMRerank` + `DomainSkillRegistry` + `AnalysisEngine`
-- `src/api.py` — FastAPI: `POST /query` (schema `{"question"}`), `GET /health`,
-  `GET /app` (frontend estático). Chama `interpret_query` → `engine.answer` →
-  `validate_numbers`.
-- `src/query_interpreter.py` — `interpret_query(question, llm)` devolve
-  `{sources, rewritten_query, is_labor_market}`. É onde o LLM decide fontes.
-- `src/analysis_engine.py` — roda retrievers **em paralelo** e sintetiza a
-  resposta final com o LLM (`self._llm.complete`; grafo opcional via `--graph`).
-- `src/text_retriever.py` — `build_hybrid_retriever` (VectorIndex + BM25),
-  `TextRetriever` com rerank.
-- `src/tables_retriever.py` — extrai dados de tabelas (pandas) dos boletins.
-- `src/timeseries_retriever.py` — extrai/análise de séries temporais (pandas).
-- `src/numerical_validator.py` — `validate_numbers(answer, source_nodes)`;
-  checa números citados contra as fontes (usa execução segura).
-- `src/graph_indexing.py`, `src/graph_retriever.py` — grafo de conhecimento
-  (habilitado via `--graph`; não ativo no compose por padrão).
-- `src/processing.py` — `process_documents(docs)` → nós (`type=text|table`).
-  ⚠️ já corrigido: precisa `import os` no topo (erro `NameError: os` histórico).
-- `src/indexing.py` — `create_or_load_index`, `setup_embeddings` (bge-m3),
-  `load_nodes_cache` (bm25_nodes.pkl).
-- `src/ingestion.py` — `load_documents(data_dir)` — lê os PDFs.
-- `src/labor_market_skill.py` — carrega `.agents/skills/labor_market_analysis`.
-- `src/safe_exec.py` — execução segura para análise pandas.
-- `src/logger.py` — `get_logger`/`setup_logging`.
+Preserve alterações locais existentes. Use a factory do aplicativo para chamadas LLM. Ao alterar o contrato da resposta, mantenha API e documentação alinhadas. Nas skills de domínio, preserve os marcadores `rag-context` e as seções consumidas pelo código: esse conteúdo pode ser injetado na síntese em produção.
 
-## Mudanças comuns
+Não edite manualmente `chroma_db/`, `graph_store/` ou `__pycache__/`. Mudanças de processamento exigem atenção ao fingerprint do pipeline e à compatibilidade do manifesto. A promoção da coleção Chroma ocorre em etapas; não é uma transação atômica conjunta com o cache BM25.
 
-- **Ajustar prompt/rerank:** `query_interpreter.py` (interpretação) e
-  `analysis_engine.py` (síntese). Modelos vêm da factory — não hard-code.
-- **Mudar retrieval:** `text/tables/timeseries_retriever.py` (shared files →
-  aplique nas 4 variantes, exceto orquestrador).
-- **Adicionar fonte nova:** siga o padrão dos retrievers + registre no
-  `query_interpreter` (devolver a fonte) + passe ao `engine.answer`.
+## Dependências e execução
 
-## Armadilhas / não alterar
+As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks `.txt` têm hashes e alvo Windows x64/Python 3.11; `scripts/lock_dependencies.ps1` permite regenerá-los deliberadamente. Consulte [README.md](README.md) para instalação e execução.
 
-- **`src/*` compartilhado** com agentic/raptor/selfrag (veja `RAGs/AGENTS.md`).
-- **`chroma_db/`, `graph_store/`, `__pycache__/`** — gerados; não editar.
-- `main.py` default é porta 8000, mas o **compose manda 8080** — não troque a
-  porta no compose por engano.
-- `SafeExec`/`numerical_validator` — altere com cuidado (segurança).
+Respeite instruções explícitas de não executar testes, servidor, avaliações ou validadores. A presença de uma suíte não demonstra que ela passou. O roteiro de avaliação em `scripts/evaluate_retrieval.py` exige gabaritos revisados; exemplos em `evaluation/` não são resultados experimentais.
 
-## Comandos
-
-```powershell
-python RAGs/rag_principal/main.py --cli                  # CLI local
-python -m py_compile RAGs/rag_principal/src/*.py          # checa sintaxe
-docker compose -f docker/docker-compose.yml logs -f rag-principal
-```
+Veja [docs/CONFIABILIDADE.md](docs/CONFIABILIDADE.md) para limites de validação, cálculos, carga, custo e avaliação.

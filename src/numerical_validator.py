@@ -1,4 +1,4 @@
-﻿"""
+"""
 Validação numérica de respostas RAG.
 
 Pipeline:
@@ -6,29 +6,22 @@ Pipeline:
 """
 import re
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation
 from typing import Optional
+from evidence import contextual_support, local_claim
 
 # ── Regex para números em PT-BR ───────────────────────────────────────────────
 # Captura: 1.234,56 | 1.234 | 4,2 | 42 | com % opcional
-# Exclui inteiros de 1 dígito (muito comuns, sem valor estatístico)
+# Inclui inteiros de um dígito e verifica cada ocorrência contextual.
 _NUM_RE = re.compile(
     r"(?<!\w)"
     r"([-−]?"
     r"(?:"
     r"\d{1,3}(?:\.\d{3})+(?:,\d+)?"   # 1.234 ou 1.234,56
     r"|\d+,\d+"                         # 4,2
-    r"|\d{2,}"                          # inteiro ≥ 2 dígitos
+    r"|\d+"                             # inclui valores de um dígito
     r")"
     r"(?:\s*%)?)"
     r"(?!\w)"
-)
-
-_NUM_ATOM = (
-    r"[-−]?(?:\d{1,3}(?:\.\d{3})+(?:,\d+)?|\d+,\d+|\d{2,})(?:\s*%)?"
-)
-_EQUATION_RE = re.compile(
-    rf"({_NUM_ATOM})\s*([+\-−×x*/÷])\s*({_NUM_ATOM})\s*=\s*({_NUM_ATOM})"
 )
 
 # ── Dataclass de resultado ────────────────────────────────────────────────────
@@ -43,6 +36,8 @@ class NumberCheck:
     response_start: Optional[int] = None
     response_end: Optional[int] = None
     source_index: Optional[int] = None
+    value_found: bool = False
+    context_issues: tuple[str, ...] = ()
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -56,42 +51,9 @@ def _normalize(s: str) -> str:
     elif "," in s:
         # 4,2 → 4.2
         s = s.replace(",", ".")
+    elif re.fullmatch(r"-?\d{1,3}(?:\.\d{3})+", s):
+        s = s.replace(".", "")
     return s
-
-
-def _normalized_numbers(text: str) -> set[str]:
-    return {_normalize(match.group(1)) for match in _NUM_RE.finditer(text)}
-
-
-def _derived_results(response_text: str, source_texts: list[str]) -> set[str]:
-    """Aceita apenas resultados de equações explícitas cujos operandos estão nas fontes."""
-    source_numbers = set().union(*(_normalized_numbers(text) for text in source_texts))
-    derived: set[str] = set()
-    for match in _EQUATION_RE.finditer(response_text):
-        left_raw, operator, right_raw, result_raw = match.groups()
-        if _normalize(left_raw) not in source_numbers or _normalize(right_raw) not in source_numbers:
-            continue
-        try:
-            left = Decimal(_normalize(left_raw))
-            right = Decimal(_normalize(right_raw))
-            expected = Decimal(_normalize(result_raw))
-            if operator == "+":
-                calculated = left + right
-            elif operator in {"-", "−"}:
-                calculated = left - right
-            elif operator in {"×", "x", "*"}:
-                calculated = left * right
-            elif right != 0:
-                calculated = left / right
-            else:
-                continue
-        except (InvalidOperation, ZeroDivisionError):
-            continue
-        decimals = max(0, -expected.as_tuple().exponent)
-        tolerance = Decimal("0.5") * (Decimal(10) ** -decimals)
-        if abs(calculated - expected) <= tolerance:
-            derived.add(_normalize(result_raw))
-    return derived
 
 
 def _find_snippet(needle: str, haystack: str, ctx: int = 60) -> str:
@@ -123,90 +85,39 @@ def _source_snippet(needle: str, source_text: str, source_node) -> str:
 # ── Validação principal ───────────────────────────────────────────────────────
 
 def validate_numbers(response_text: str, source_nodes) -> list[NumberCheck]:
-    """
-    Extrai todos os números da resposta e verifica se existem nos chunks de origem.
-    Tenta primeiro match verbatim, depois match normalizado (diferenças de formatação).
-    """
+    """Valida cada ocorrência; coincidência numérica isolada não é confirmação."""
+    results = []
     source_texts = [n.get_content() for n in source_nodes]
-    derived_results = _derived_results(response_text, source_texts)
-
-    seen: set[str] = set()
-    results: list[NumberCheck] = []
-
-    for m in _NUM_RE.finditer(response_text):
-        raw = m.group(1).strip()
-        if raw in seen:
-            continue
-        seen.add(raw)
-
-        resp_snippet = _find_snippet(raw, response_text, ctx=140)
-        response_position = {
-            "response_start": m.start(1),
-            "response_end": m.end(1),
-        }
-
-        # 1. Match verbatim
-        verbatim_source = next(
-            (
-                (source_index, node_text)
-                for source_index, node_text in enumerate(source_texts)
-                if raw in node_text
-            ),
-            None,
-        )
-        if verbatim_source is not None:
-            source_index, node_text = verbatim_source
-            results.append(NumberCheck(
-                value=raw,
-                verified=True,
-                source_snippet=_source_snippet(
-                    raw, node_text, source_nodes[source_index]
-                ),
-                response_snippet=resp_snippet,
-                source_index=source_index,
-                **response_position,
-            ))
-            continue
-
-        # 2. Match normalizado (trata diferenças de formatação PT-BR vs EN)
-        norm = _normalize(raw)
-        found = False
-        for source_index, node_text in enumerate(source_texts):
-            for cm in _NUM_RE.finditer(node_text):
-                if _normalize(cm.group(1).strip()) == norm:
-                    results.append(NumberCheck(
-                        value=raw,
-                        verified=True,
-                        source_snippet=_source_snippet(
-                            cm.group(1), node_text, source_nodes[source_index]
-                        ),
-                        response_snippet=resp_snippet,
-                        source_index=source_index,
-                        **response_position,
-                    ))
-                    found = True
-                    break
-            if found:
-                break
-
-        if not found and norm in derived_results:
-            results.append(NumberCheck(
-                value=raw,
-                verified=True,
-                response_snippet=resp_snippet,
-                derived=True,
-                **response_position,
-            ))
-        elif not found:
-            results.append(NumberCheck(
-                value=raw,
-                verified=False,
-                response_snippet=resp_snippet,
-                **response_position,
-            ))
-
+    for match in _NUM_RE.finditer(response_text):
+        raw = match.group(1).strip()
+        claim = local_claim(response_text, match.start(1))
+        candidates = []
+        for index, text in enumerate(source_texts):
+            for source_match in _NUM_RE.finditer(text):
+                if _normalize(source_match.group(1)) != _normalize(raw):
+                    continue
+                excerpt = local_claim(text, source_match.start(1))
+                supported, issues = contextual_support(claim, excerpt)
+                if ('%' in raw) != ('%' in source_match.group(1)):
+                    supported = False
+                    issues.append('unit: percentual e valor absoluto divergentes')
+                observations = list(_NUM_RE.finditer(excerpt))
+                non_years = [m for m in observations if not re.fullmatch(r'(19|20)\d{2}', m.group(1))]
+                if len(non_years) > 1:
+                    supported = False
+                    issues.append('associação: múltiplos valores no mesmo trecho')
+                candidates.append((supported, issues, index, excerpt))
+        best = min(candidates, key=lambda item: (not item[0], len(item[1]))) if candidates else None
+        results.append(NumberCheck(
+            value=raw, verified=bool(best and best[0]),
+            source_snippet=best[3][:1000] if best else None,
+            response_snippet=claim[:1000],
+            response_start=match.start(1), response_end=match.end(1),
+            source_index=best[2] if best else None,
+            value_found=bool(best),
+            context_issues=tuple(best[1] if best else ['valor ausente das fontes']),
+        ))
     return results
-
 
 def format_validation_report(checks: list[NumberCheck]) -> str:
     """Formata o relatório de validação para exibição no console."""
@@ -219,12 +130,12 @@ def format_validation_report(checks: list[NumberCheck]) -> str:
     lines = [f"  Verificados nos documentos: {len(verified)}/{len(checks)}"]
 
     if unverified:
-        lines.append("  ⚠️  Não encontrados nos documentos originais:")
+        lines.append("  ⚠️  Sem confirmação contextual suficiente:")
         for c in unverified:
             lines.append(f"    • {c.value}")
             if c.response_snippet:
                 lines.append(f"      Contexto na resposta: {c.response_snippet}")
     else:
-        lines.append("  ✅ Todos os números foram verificados nos documentos.")
+        lines.append("  Correspondência contextual heurística encontrada para todos os números.")
 
     return "\n".join(lines)

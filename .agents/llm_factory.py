@@ -3,16 +3,16 @@ LLM Factory — cria clientes e modelos compatíveis com llama-index de forma au
 
 Funcionalidades principais:
 - Lê RAG_LLM_PROVIDER do ambiente (.env) e prioriza o provedor correspondente.
-- Fallback de chaves: OPENAI_API_KEY → OPENAI_API_KEY_2 → MARITACA_API_KEY → OPENROUTER_API_KEY.
+- Fallback de chaves: OPENAI_API_KEY → OPENAI_API_KEY_2 → OPENROUTER_API_KEY.
 - Detecta 429/credit_balance_exhausted e passa para a próxima chave automaticamente.
 - Retorna LLMs llama-index Sync para query, enriquecimento e indexação.
 - Retorna AsyncOpenAI para engines assíncronos.
 - Usado por todos os módulos RAG para manter o sistema resiliente sem loops por falta de créditos.
 
 Variáveis de ambiente:
-    RAG_LLM_PROVIDER:     "maritaca", "openai", "openrouter", "auto". Padrão "auto".
-    RAG_LLM_MODEL:        modelo principal (ex.: "sabia-4" na Maritaca, "gpt-4o-mini" na OpenAI).
-    RAG_INTERP_MODEL:     modelo leve (interpreter/rerank/enriquecimento) (ex.: "sabiazinho-4").
+    RAG_LLM_PROVIDER:     "openai", "openrouter", "auto". Padrão "auto".
+    RAG_LLM_MODEL:        modelo principal (ex.: "gpt-4o-mini" na OpenAI).
+    RAG_INTERP_MODEL:     modelo leve (interpreter/rerank/enriquecimento) (ex.: "gpt-4o-mini").
     RAG_INGEST_LLM_ENRICHMENT: 0|1. Controla enriquecimento de metadados em processing.py.
 
 Estrutura do diretório: .agents/ (copiado para cada RAG no Dockerfile).
@@ -30,7 +30,6 @@ from llama_index.llms.openai.utils import O1_MODELS
 
 # Provedores disponíveis (conforme usado no .env)
 PROVIDERS = {
-    "maritaca": {"name": "Maritaca", "prefix": "maritaca"},
     "openai": {"name": "OpenAI", "prefix": "openai"},
     "openrouter": {"name": "OpenRouter", "prefix": "openrouter"},
     "auto": {"name": "Auto", "prefix": "auto"},
@@ -38,12 +37,11 @@ PROVIDERS = {
 
 # Mapeamento de provedor -> API URL (endpoints OpenAI-compatíveis)
 PROVIDER_URLS = {
-    "maritaca": "https://chat.maritaca.ai/api",
     "openai": "https://api.openai.com/v1",
     "openrouter": "https://openrouter.ai/api/v1",
 }
 
-# Contexto padrão para modelos não cadastrados no registry do llama-index (ex.: sabia-4).
+# Contexto padrão para modelos não cadastrados no registry do llama-index.
 DEFAULT_CONTEXT_WINDOW = 8000
 
 
@@ -56,7 +54,7 @@ class _OpenAICompat(OpenAI):
     OpenAI() do llama-index com `metadata` próprio.
 
     O `metadata` da classe base chama `openai_modelname_to_contextsize(self.model)`,
-    que falha com modelos fora do registry OpenAI (ex.: sabia-4 da Maritaca).
+    que falha com modelos fora do registry OpenAI.
     Este subclass fornece um contexto fixo e is_chat_model=True, contornando o
     registry sem instalar integrações adicionais.
     """
@@ -93,7 +91,7 @@ class LLMFactory:
     def _determine_urls(self) -> List[str]:
         """Retorna a lista de URLs de API candidatas com base no provedor fornecido."""
         if self._provider == "auto":
-            return [PROVIDER_URLS[p] for p in ["openai", "maritaca", "openrouter"] if p in PROVIDER_URLS]
+            return [PROVIDER_URLS[p] for p in ["openai", "openrouter"] if p in PROVIDER_URLS]
         return [PROVIDER_URLS[self._provider]]
 
     def _load_keys(self) -> List[Tuple[str, str, str]]:
@@ -101,8 +99,6 @@ class LLMFactory:
         candidates = []
         if os.getenv("OPENROUTER_API_KEY"):
             candidates.append(("openrouter", PROVIDER_URLS["openrouter"], os.getenv("OPENROUTER_API_KEY")))
-        if os.getenv("MARITACA_API_KEY"):
-            candidates.append(("maritaca", PROVIDER_URLS["maritaca"], os.getenv("MARITACA_API_KEY")))
         if os.getenv("OPENAI_API_KEY_2"):
             candidates.append(("openai", PROVIDER_URLS["openai"], os.getenv("OPENAI_API_KEY_2")))
         if os.getenv("OPENAI_API_KEY"):
@@ -145,11 +141,6 @@ class LLMFactory:
 
     def _resolve_model(self, provider: str, requested: Optional[str]) -> str:
         requested = self._strip_provider_prefix(requested)
-        if provider == "maritaca":
-            if not requested or self._is_openai_name(requested):
-                light = (requested or "").lower().endswith(("mini", "nano", "small", "flash"))
-                return os.getenv("RAG_INTERP_MODEL", "sabiazinho-4") if light else os.getenv("RAG_LLM_MODEL", "sabia-4")
-            return requested
         # openai / openrouter — só aceitam nomes OpenAI válidos
         if not requested or not self._is_openai_name(requested):
             env_model = os.getenv("RAG_LLM_MODEL", "")
@@ -167,15 +158,13 @@ class LLMFactory:
                 continue
             m = self._resolve_model(provider, model)
             try:
-                if provider == "maritaca":
+                if provider == "openai":
+                    llm = OpenAI(model=m, api_key=key, temperature=temperature, timeout=timeout)
+                else:
                     llm = _OpenAICompat(
                         model=m, api_key=key, api_base=url,
                         temperature=temperature, timeout=timeout,
                     )
-                elif provider == "openrouter":
-                    llm = OpenAI(model=m, api_key=key, api_base=url, temperature=temperature, timeout=timeout)
-                else:
-                    llm = OpenAI(model=m, api_key=key, temperature=temperature, timeout=timeout)
                 self._reset_failures(key)
                 return llm
             except Exception:

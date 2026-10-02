@@ -1,4 +1,4 @@
-﻿"""
+"""
 TimeSeries Retriever — recupera chunks de séries temporais (mensal/trimestral)
 e os estrutura via pandas para o Analysis Engine.
 
@@ -9,12 +9,13 @@ import re
 import pandas as pd
 
 from logger import get_logger
+from calculations import calculate
+from query_results import SeriesResult
 from runtime import limit_context
 from text_retriever import rerank_candidate_limit, structured_top_n
 from structured_output import (
     StructuredOutputError,
     parse_json_object,
-    result_text,
     tabular_payload,
 )
 
@@ -88,6 +89,8 @@ Regras:
 - Ordene os dados cronologicamente quando possível.
 - Use nomes de colunas em português (ex: "Período", "Valor", "Variação").
 - Não inclua código, comentários ou campos adicionais.
+- Preserve indicador, período, região e unidade explicitados na fonte em colunas
+  ou rótulos; não complete dimensões ausentes por inferência.
 
 Trechos:
 {context}
@@ -107,20 +110,6 @@ Trechos:
 Pergunta: {question}
 """
 
-_ANALYZE_PROMPT = """\
-Você tem uma série temporal estruturada abaixo. Analise-a usando exclusivamente esses dados.
-Retorne SOMENTE JSON válido no formato {{"resultado": "texto final"}}.
-Regras:
-- Não inclua código ou explicações fora do campo `resultado`.
-- Calcule variações, tendências e estatísticas relevantes para a pergunta.
-- Formate números com separador de milhar e 2 casas decimais.
-
-Pergunta: {question}
-
-Série temporal disponível:
-{data_preview}
-"""
-
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
 def _is_temporal_table(node) -> bool:
@@ -138,16 +127,15 @@ class TimeSeriesRetriever:
     Recupera chunks de séries temporais e extrai dados estruturados via pandas.
 
     Fluxo: pool tabular top-K → filtra séries temporais → rerank → extração + análise
-    Retorna (structured_data: str, nodes: list) ou None se sem dados temporais relevantes.
+    Retorna SeriesResult com texto, fontes e gráfico, ou None sem dados temporais.
     """
 
     def __init__(self, retriever, reranker, llm):
         self._retriever = retriever
         self._reranker = reranker
         self._llm = llm
-        self._last_chart_payload: dict | None = None
 
-    def retrieve(self, question: str) -> tuple[str, list] | None:
+    def retrieve(self, question: str) -> SeriesResult | None:
         nodes = self._retriever.retrieve(question)
 
         ts_nodes = [n for n in nodes if _is_temporal_table(n)]
@@ -179,28 +167,26 @@ class TimeSeriesRetriever:
                 "Contexto sem rotulos temporais reconheciveis — revertendo para narrativa",
                 extra={"event": "ts_no_period_labels"},
             )
-            return None, reranked
+            return SeriesResult(None, reranked)
 
-        structured_result = self._extract_and_analyze(question, context)
-        # _extract_and_analyze agora retorna (texto, payload)
+        structured_result = self._extract_and_analyze(question, context, reranked)
+        # Resultado local: texto, gráfico e trilha de cálculo.
         if isinstance(structured_result, tuple):
-            structured, chart_payload = structured_result
+            structured, chart_payload, calculations = structured_result
         else:
-            structured, chart_payload = structured_result, None
-        # guarda payload para o engine montar o chart (acessível via retriever._last_chart_payload)
-        self._last_chart_payload = chart_payload
+            structured, chart_payload, calculations = structured_result, None, []
         if structured is None:
             # DataFrame inválido na extração — narrativa como fallback
             log.warning(
                 "Extracao retornou estrutura invalida — revertendo para narrativa",
                 extra={"event": "ts_extraction_fallback"},
             )
-            return None, reranked
-        return structured, reranked
+            return SeriesResult(None, reranked)
+        return SeriesResult(structured, reranked, chart_payload, calculations)
 
-    def _extract_and_analyze(self, question: str, context: str) -> tuple[str, dict | None]:
+    def _extract_and_analyze(self, question: str, context: str, nodes=()) -> tuple[str | None, dict | None, list]:
         # Fase 1: extração estruturada em JSON (nenhum código do LLM é executado)
-        # Retorna (texto_analisado, payload_para_grafico)
+        # Retorna (texto_analisado, payload_para_grafico, cálculos).
         payload_for_chart: dict | None = None
 
         def _try_extract(prompt: str) -> tuple:
@@ -224,10 +210,10 @@ class TimeSeriesRetriever:
                     df, data, payload_for_chart = _try_extract(_RETRY_EXTRACT_PROMPT.format(context=context, question=question))
                 except StructuredOutputError as exc2:
                     log.warning("Extracao estruturada de serie temporal falhou (retry): %s", exc2)
-                    return None, None
+                    return None, None, []
             else:
                 log.warning("Extracao estruturada de serie temporal falhou: %s", exc)
-                return None, None
+                return None, None, []
 
         if df is not None:
             if not _df_is_valid_timeseries(df):
@@ -237,21 +223,9 @@ class TimeSeriesRetriever:
                     list(df.columns), df.shape,
                     extra={"event": "ts_invalid_df"},
                 )
-                return None, None  # retrieve() usará fallback narrativo
-            data_preview = df.to_string(max_rows=40)
-            # para gráfico, usa payload colunar original
-        elif data is not None:
-            data_preview = str(data)
-            # payload_for_chart já contém {"data": {...}}
-        else:
-            return "[Sem dados de série temporal extraídos]", None
+                return None, None, []  # retrieve() usará fallback narrativo
+        elif data is None:
+            return "[Sem dados de série temporal extraídos]", None, []
 
-        # Fase 2: análise pelo LLM com saída JSON estrita, sem execução de Python
-        analyze_resp = self._llm.complete(
-            _ANALYZE_PROMPT.format(question=question, data_preview=data_preview)
-        )
-        try:
-            return result_text(parse_json_object(analyze_resp.text)), payload_for_chart
-        except StructuredOutputError as exc:
-            log.warning("Analise estruturada de serie temporal falhou: %s", exc)
-            return data_preview, payload_for_chart
+        text, calculations = calculate(question, df, data, self._llm, nodes)
+        return text, payload_for_chart, calculations

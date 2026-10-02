@@ -28,7 +28,7 @@ def _pipeline_fingerprint() -> str:
         os.getenv("RAG_RAPTOR_MAX_LEVELS", "3"),
         os.getenv("RAG_RAPTOR_MIN_CLUSTER", "4"),
         os.getenv("RAG_INGEST_LLM_ENRICHMENT", "0"),
-        "v2",
+        "v3-full-content-node-ids",
     ]
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
 

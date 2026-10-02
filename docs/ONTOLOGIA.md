@@ -1,99 +1,35 @@
-# Ontologia — o dicionário do grafo de conhecimento
+# Ontologia — vocabulário orientador do grafo
 
-> Parte da série: [RAG](RAG.md) · [Grafos](GRAFOS.md) · [Ontologia](ONTOLOGIA.md).
-> Código: `src/graph_ontology.py`, usado por `src/graph_indexing.py`.
+A ontologia fornece categorias sugeridas ao extrator de relações. Funciona como a legenda de um mapa, mas não constitui uma garantia formal de que toda entidade será classificada corretamente. Código: `src/graph_ontology.py` e `src/graph_indexing.py`; veja [Grafos](GRAFOS.md).
 
-## 1. O que é ontologia, sem jargão
+## Tipos fixos
 
-**Ontologia** é a lista oficial de **categorias que o sistema sabe reconhecer**. Se o
-grafo é o mapa da biblioteca ([GRAFOS.md](GRAFOS.md)), a ontologia é a **legenda** do
-mapa: ela diz quais tipos de ponto existem (cidade, rio, estrada...) — e tudo que não
-está na legenda, o cartógrafo simplesmente não desenha.
+| Tipo | Uso pretendido |
+|---|---|
+| `Indicador` | PIB, taxas e medidas |
+| `Setor` | Ramos de atividade |
+| `Região` | Recortes geográficos |
+| `Período` | Datas e intervalos |
+| `FonteDados` | Instituições e bases estatísticas |
+| `Tabela` | Tabelas documentais |
+| `Grafico` | Gráficos documentais |
+| `Pagina` | Página de origem |
+| `Documento` | Arquivo de origem |
 
-No projeto: quando o extrator com IA lê um chunk, ele só cria nós das categorias
-permitidas (`allowed_entity_types`). Mencionou um município mas `Municipio` não está no
-dicionário? Vira texto solto — presente no vetor, invisível para a navegação por relações.
+A lista alimenta `allowed_entity_types` do `DynamicLLMPathExtractor`. Ela orienta a extração; ausência de `Municipio` não torna municípios necessariamente invisíveis: o modelo pode representá-los como `Região`. A proveniência documental deve ser conferida nos nós recuperados, sem presumir que qualquer tripla prove um fato.
 
-## 2. Os 9 tipos fixos: o essencial dos boletins Seade
+## Descoberta opcional
 
-Definidos em `_FIXED_TYPES` (`src/graph_ontology.py:19`), escolhidos para o domínio
-econômico dos boletins SP Economia:
+`RAG_ONTOLOGY_DISCOVER=1` habilita a descoberta durante a inicialização do grafo. O sistema amostra até seis trechos, priorizando texto narrativo, e pede ao LLM até quatro categorias adicionais em JSON. Essa amostra não garante representar todo o corpus.
 
-| Tipo | O que captura | Exemplo |
-|---|---|---|
-| `Indicador` | métricas e índices | PIB, desemprego, saldo de empregos, IPCA |
-| `Setor` | ramos de atividade | indústria de transformação, comércio, construção |
-| `Região` | recortes geográficos | Estado de SP, RMSP, interior paulista |
-| `Período` | recortes de tempo | 2022, 1T2023, "primeiro trimestre de 2022" |
-| `FonteDados` | quem mede/divulga | CAGED, PNAD Contínua, RAIS, SEADE |
-| `Tabela` | tabela extraída do PDF | tabela da página 4 do boletim de junho/2022 |
-| `Grafico` | gráfico rasterizado | gráfico de barras da página 7 |
-| `Pagina` | página (`arquivo#página`) | `SpEconomia-...pdf#p4` |
-| `Documento` | o boletim inteiro | `SpEconomia-junho-2022-...pdf` |
+O prompt solicita PascalCase sem acentos. A implementação mantém caracteres alfanuméricos, coloca a primeira letra em maiúscula, elimina nomes repetidos e restringe o tamanho a 3–20 caracteres. Ela não remove acentos nem converte todas as palavras para PascalCase.
 
-Os cinco primeiros formam o vocabulário analítico (o que os economistas cruzam:
-indicador × setor × região × período × fonte); os quatro últimos ancoram cada fato no
-documento — é por eles que uma tripla sempre pode ser rastreada até a fonte citável.
+O cache fica em `<raiz>/graph_store/ontology.json`, inclusive quando outro diretório é configurado para o grafo por `RAG_GRAPH_DIR`. Com cache válido, não há nova chamada; sem cache ou com reconstrução forçada, há uma tentativa de descoberta. JSON inválido ou falha do LLM costuma resultar em lista vazia cacheada; falhas ao gravar o cache ainda podem propagar.
 
-## 3. A descoberta dinâmica: o dicionário que aprende (opt-in)
+## Limites e revisão
 
-Nove categorias não cobrem tudo — e cada corpus tem seus temas recorrentes. Com
-`RAG_ONTOLOGY_DISCOVER=1`, o sistema deixa o LLM **propor até 4 categorias novas** a
-partir do próprio corpus. O processo (`discover_entity_types`):
+Categorias novas podem introduzir ruído ou sobreposição. Compare extração com e sem descoberta e audite os resultados antes de atribuir ganho à ontologia. Ela não ranqueia fontes nem garante correção semântica das relações.
 
-1. **Amostra estratégica** — até 6 chunks em posições espalhadas (início, meio, fim:
-   índices `[0, 1, mid-1, mid, -2, -1]`), para representar o corpus inteiro sem ler tudo.
-2. **Pergunta ao LLM** — o prompt (`_ONTOLOGY_PROMPT`) se apresenta como "especialista
-   em ontologia econômica dos boletins SEADE", lista os tipos já existentes (proibido
-   repetir) e pede até 4 adicionais, com exemplos úteis (`Empresa`, `Municipio`,
-   `PoliticaPublica`, `Produto`, `CadeiaProdutiva`) e proibição de genéricos
-   (`Conceito`, `Dado`, `Outro`). Resposta exigida em JSON puro.
-3. **Higieniza** — normaliza para PascalCase sem acento/espaço, descarta repetidos e
-   nomes fora do tamanho 3–20, corta em 4.
-4. **Cacheia** — salva em `graph_store/ontology.json`; nas próximas vezes usa o cache
-   (só redescobre com `force` em rebuild). Custo total: **1 chamada LLM por reindexação**.
-5. **Falha fechada** — qualquer erro (JSON inválido, timeout, sem amostra) resulta em
-   `[]`: o sistema usa só os fixos. A ontologia nunca quebra a indexação.
+`ontology.json` é gerado: inspecione-o, mas ajuste prompt/configuração e regenere pelo fluxo de indexação em vez de editar o cache manualmente. Quando todas as opções de grafo estão desligadas, a descoberta isolada não o inicializa.
 
-## 4. Como a ontologia alimenta a extração e a busca
-
-O encadeamento, de ponta a ponta:
-
-```
-ontology.json (+ 9 fixos)
-  → allowed_entity_types do DynamicLLMPathExtractor
-    → triplas extraídas por chunk (máx. 6)
-      → nós navegáveis em graph_store.json
-        → LLMSynonymRetriever caminha path_depth=2
-          → chunks conectados entram no contexto do LLM
-```
-
-O efeito prático, com exemplo: suponha que `Municipio` foi descoberto. O chunk *"o
-emprego em Campinas cresceu 3% em 2023"* gera `[Emprego] —APLICA_SE_A→ [Campinas]`.
-Pergunta: *"onde o emprego mais cresceu no interior?"* — o retriever chega a
-`[Campinas]` pelo caminho e traz o chunk, mesmo que "Campinas" nunca apareça na
-pergunta. Sem `Municipio` no dicionário, essa ponte não existiria: restaria torcer
-para a busca vetorial achar o trecho por similaridade.
-
-Note a divisão de trabalho: a ontologia **não decide relevância** — ela decide
-**endereçabilidade**. O que é relevante quem decide é o retriever caminhando; a
-ontologia só garante que os conceitos existam como endereço no mapa.
-
-## 5. Quando ativar (e quando não)
-
-- **Ative** (`RAG_ONTOLOGY_DISCOVER=1`) quando o corpus tem temas recorrentes fora dos
-  9 fixos — ex.: boletins que citam empresas, municípios ou políticas específicas — e
-  as perguntas giram em torno deles.
-- **Deixe desligado** (padrão) se as perguntas são as clássicas indicador × setor ×
-  região × período: os fixos bastam, e cada tipo extra é mais extração, mais nós e
-  mais caminhos — ou seja, mais ruído potencial.
-- **Audite** o `ontology.json` após a primeira descoberta: tipos ruins (genéricos ou
-  sobrepostos aos fixos) devem ser removidos do cache antes do rebuild.
-
-## 6. Resumo em 5 linhas
-
-1. Ontologia = as categorias que o extrator pode reconhecer (a legenda do mapa).
-2. 9 tipos fixos cobrem o núcleo econômico + a âncora documental.
-3. A descoberta dinâmica aprende até 4 tipos do próprio corpus (1 chamada LLM, com cache).
-4. Só o que está no dicionário vira nó navegável — o resto fica texto solto.
-5. Ela não ranqueia nada: torna conceitos *endereçáveis* para o retriever caminhar.
+A descoberta e sua contribuição experimental ainda não foram executadas nesta atualização. Veja [CONFIABILIDADE.md](CONFIABILIDADE.md).

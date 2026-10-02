@@ -21,6 +21,8 @@ class ValidationInfo(BaseModel):
     verified: int = Field(ge=0)
     total: int = Field(ge=0)
     unverified: list[str]
+    method: str = "contextual_heuristic"
+    requires_review: bool = False
 
 
 class CitationValidationInfo(BaseModel):
@@ -54,3 +56,6 @@ class QueryResponse(BaseModel):
     rag_type: str
     rag_label: str
     timeseries_chart: dict | None = Field(default=None)
+    claim_evidence: list[dict] = Field(default_factory=list)
+    calculations: list[dict] = Field(default_factory=list)
+    usage: dict = Field(default_factory=dict)

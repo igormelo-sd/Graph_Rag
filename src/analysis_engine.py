@@ -15,6 +15,7 @@ from domain_skills import build_domain_prompt_block
 from logger import get_logger
 from runtime import limit_context, request_timeout_seconds
 from provenance import format_source_context, source_labels
+from query_results import AnswerResult, SeriesResult
 
 log = get_logger(__name__)
 
@@ -32,7 +33,7 @@ def _hyde_enabled() -> bool:
 
 
 def _graph_struct_enabled() -> bool:
-    return os.getenv("RAG_GRAPH_STRUCT", "0").strip().lower() in {"1", "true", "yes", "on"}
+    return os.getenv("RAG_GRAPH_STRUCT", "1").strip().lower() in {"1", "true", "yes", "on"}
 
 # ── Prompt de síntese ─────────────────────────────────────────────────────────
 
@@ -70,9 +71,10 @@ narrativo, prevaleça o contexto narrativo.
 7. EVIDÊNCIA PARCIAL — Responda apenas o que está sustentado. Para cada ponto sem \
 suporte suficiente, use somente a mensagem definida no item 6.
 
-8. CÁLCULOS — Se a pergunta pede diferença, variação ou comparação e os dois valores \
-estão sustentados no contexto, calcule e mostre a conta \
-(ex: 3,4% − 2,8% = 0,6 p.p.).
+8. CÁLCULOS — Reproduza apenas operações da seção Cálculo Python, com a fórmula.
+Não faça contas novas. Se não houver cálculo disponível, apresente os valores
+originais e informe que o cálculo solicitado não foi validado. A aritmética
+correta não garante que os operandos selecionados respondam à pergunta.
 
 """ + ANALYST_WRITING_GUIDE + """
 {skill_block}
@@ -150,7 +152,6 @@ class AnalysisEngine:
         self._domain_skills = domain_skills
         self._labor_skill = labor_market_skill
         self._graph = graph_retriever
-        self._last_chart_payload: dict | None = None
 
     async def answer(
         self,
@@ -159,10 +160,10 @@ class AnalysisEngine:
         rewritten_query: str,
         is_labor_market: bool = False,
         rewritten_queries: list[str] | None = None,
-    ) -> tuple[str, list]:
+    ) -> AnswerResult:
         """
-        Executa os retrievers necessários em paralelo e retorna
-        (resposta_texto, all_source_nodes).
+        Executa os retrievers em paralelo e retorna texto, fontes e gráfico
+        em um AnswerResult isolado por chamada (desempacotável em texto/fontes).
         Suporta deep search com múltiplas rewritten_queries e HyDE opcional.
         """
         # Deep search: usa lista de queries alternativas se habilitado
@@ -246,7 +247,7 @@ class AnalysisEngine:
         # Costura: traz NEXT_CHUNK/SAME_PAGE vizinhos quando contexto foi partido entre chunks
         if _graph_struct_enabled() and self._graph is not None and text_nodes:
             try:
-                neighbors = self._graph.retrieve_neighbors(text_nodes)
+                neighbors = await asyncio.to_thread(self._graph.retrieve_neighbors, text_nodes)
                 if neighbors:
                     combined = _dedup_nodes(text_nodes + neighbors)
                     # limita vizinhos a orçamento: não duplica mais que 30% do top_n
@@ -256,9 +257,11 @@ class AnalysisEngine:
                 log.warning("Costura grafo falhou: %s", exc)
 
         tables_data: str | None = None
+        calculations = []
         tables_nodes: list = []
         for k, v in result_map.items():
             if k.startswith("tables") and v is not None:
+                calculations.extend(getattr(v, "calculations", []))
                 td, tn = v
                 if td:
                     tables_data = (tables_data + "\n\n" + td) if tables_data else td
@@ -267,10 +270,17 @@ class AnalysisEngine:
         tables_nodes = _dedup_nodes(tables_nodes)
 
         ts_data: str | None = None
+        timeseries_chart = None
         ts_nodes: list = []
         for k, v in result_map.items():
             if k.startswith("ts") and v is not None:
-                if isinstance(v, tuple) and len(v) == 2:
+                calculations.extend(getattr(v, "calculations", []))
+                if isinstance(v, SeriesResult):
+                    if v.data:
+                        ts_data = v.data
+                        timeseries_chart = v.chart
+                    ts_nodes.extend(v.nodes)
+                elif isinstance(v, tuple) and len(v) == 2:
                     td, tn = v
                     if td:
                         ts_data = td  # usa último estruturado válido
@@ -279,8 +289,6 @@ class AnalysisEngine:
                 elif isinstance(v, list):
                     ts_nodes.extend(v)
         ts_nodes = _dedup_nodes(ts_nodes)
-        # guarda payload para gráfico (API)
-        self._last_chart_payload = getattr(self._ts, "_last_chart_payload", None)
 
         image_nodes: list = []
         for k, v in result_map.items():
@@ -314,7 +322,7 @@ class AnalysisEngine:
         )
 
         if not context_block.strip():
-            return REFUSAL_TEXT, []
+            return AnswerResult(REFUSAL_TEXT, [])
 
         skill_block = build_domain_prompt_block(
             self._domain_skills,
@@ -323,7 +331,8 @@ class AnalysisEngine:
             legacy_labor_skill=self._labor_skill,
         )
 
-        response = self._llm.complete(
+        response = await asyncio.to_thread(
+            self._llm.complete,
             _SYNTHESIS_PROMPT.format(
                 skill_block=skill_block,
                 context_block=context_block,
@@ -331,4 +340,4 @@ class AnalysisEngine:
             )
         )
 
-        return sanitize_answer(response.text, question=question), all_source_nodes
+        return AnswerResult(sanitize_answer(response.text, question=question), all_source_nodes, timeseries_chart, calculations)

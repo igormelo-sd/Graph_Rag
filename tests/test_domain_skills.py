@@ -3,15 +3,15 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from domain_skills import DomainSkillRegistry, build_domain_prompt_block
-from rag_principal.src.analysis_engine import AnalysisEngine
+from analysis_engine import AnalysisEngine
 
 
-REPO_ROOT = Path(__file__).resolve().parents[2]
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _registry(monkeypatch):
     monkeypatch.setenv("RAG_MAX_DOMAIN_SKILLS", "2")
-    return DomainSkillRegistry(str(REPO_ROOT / "rag_principal"))
+    return DomainSkillRegistry(str(REPO_ROOT))
 
 
 def test_registry_discovers_all_domain_skills(monkeypatch):

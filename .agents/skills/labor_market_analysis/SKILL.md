@@ -362,15 +362,15 @@ plot_serie_temporal(df_pnadc, 'data', 'taxa_desocupacao',
 
 <!--
   ATENÇÃO: as duas seções abaixo (Checklist de Interpretação e Glossário de
-  Indicadores-Chave) são extraídas por rag_core/labor_market_skill.py e
+  Indicadores-Chave) compõem o bloco rag-context lido por src/domain_skills.py e
   injetadas VERBATIM no prompt de síntese das engines RAG. Qualquer texto
   adicionado aqui vira instrução de produção — editar com cuidado e manter
-  os títulos exatos das seções (o regex depende deles).
+  os marcadores e títulos das seções consumidos pelos leitores.
 -->
 <!-- rag-context:start -->
 ### Checklist de Interpretação
 
-Ao redigir a análise, o agente **deve** responder:
+Ao redigir a análise, examine os pontos pertinentes à pergunta e responda somente quando houver evidência nos documentos. Não invente médias históricas, recortes ou mecanismos ausentes:
 
 1. **Nível e tendência**: O indicador está acima ou abaixo da média histórica? Qual é a tendência recente?
 2. **Ciclo econômico**: A variação está associada a algum ciclo de crescimento ou recessão **que os documentos mencionem**?
@@ -379,7 +379,7 @@ Ao redigir a análise, o agente **deve** responder:
 
 A análise **não** deve conter, salvo pedido explícito do usuário:
 
-- ressalvas sobre limitações metodológicas das fontes (ex.: o que a PNADC ou o CAGED não captura);
+- ressalvas genéricas sem relação com a pergunta. Inclua, porém, limitações de cobertura, unidade, período ou comparabilidade necessárias à interpretação, quando sustentadas pelas fontes;
 - implicações ou recomendações de política pública (seguro-desemprego, requalificação, monitoramento etc.);
 - seções acessórias como "Limitações da fonte" ou "Implicações de política".
 

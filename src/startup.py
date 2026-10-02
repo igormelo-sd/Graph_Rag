@@ -38,6 +38,7 @@ from graph_indexing import build_or_load_graph
 from graph_retriever import GraphRetriever
 from analysis_engine import AnalysisEngine
 from domain_skills import DomainSkillRegistry
+from load_control import LimitedReranker
 
 log = get_logger(__name__)
 
@@ -57,7 +58,7 @@ def ensure_principal_index(db_path: str) -> None:
     Não força mais RAG_INDEX_READ_ONLY: download e modo de operação são
     decisões independentes (RAG_INDEX_AUTO_DOWNLOAD vs RAG_INDEX_READ_ONLY).
     """
-    if not _env_enabled("RAG_INDEX_AUTO_DOWNLOAD"):
+    if not _env_enabled("RAG_INDEX_AUTO_DOWNLOAD", "0"):
         return
     repo = os.getenv("RAG_INDEX_REPO", DEFAULT_RELEASE_REPO)
     tag = os.getenv("RAG_INDEX_TAG", DEFAULT_RELEASE_TAG)
@@ -169,6 +170,7 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
         log.info("Reranking por LLM desativado; usando ranking hibrido Vector+BM25")
 
     # 6. Quatro retrievers especializados
+    reranker = LimitedReranker(reranker)
     text_ret   = TextRetriever(text_retriever, reranker)
     tables_ret = TablesRetriever(table_retriever, reranker, llm)
     ts_ret     = TimeSeriesRetriever(table_retriever, reranker, llm)
@@ -186,12 +188,14 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
     graph_ret = None
     _graph_embed = os.getenv("RAG_GRAPH_EMBED", "0").strip().lower() in {"1", "true", "yes", "on"}
     _graph_struct = os.getenv("RAG_GRAPH_STRUCT", "1").strip().lower() in {"1", "true", "yes", "on"}
+    use_graph = use_graph or graph_enabled_by_env()
     if use_graph or _graph_embed or _graph_struct:
         log.info("[6] Inicializando grafo de conhecimento%s", " (2º embedding)" if _graph_embed else "")
         all_nodes = load_nodes_cache(db_path)
         force_rebuild = bool(changed)
         graph_index = build_or_load_graph(
-            all_nodes, base_dir, llm, force_rebuild=force_rebuild
+            all_nodes, base_dir, llm, force_rebuild=force_rebuild,
+            use_llm=use_graph,
         )
         graph_ret = GraphRetriever(graph_index, interp_llm)
         log.info("[6] Grafo pronto")
