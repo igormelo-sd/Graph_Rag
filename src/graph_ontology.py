@@ -1,142 +1,84 @@
-"""
-graph_ontology — descoberta dinâmica de tipos de entidade (port do kg-web-platform ontology.py).
-
-Amostra ≤6 chunks estratégicos (índices [0,1,mid-1,mid,-2,-1]) → LLM propõe até 4 tipos
-adicionais além dos 9 fixos. Resultado cacheado em graph_store/ontology.json (TTL: muda
-quando base muda). Custo: 1 chamada LLM por reindexação; desabilitado por padrão
-(RAG_ONTOLOGY_DISCOVER=0) — P2 opt-in local, sem exfiltração além do LLM já usado.
-"""
+"""Descoberta propõe extensões; só tipos explicitamente revisados entram no modelo."""
 from __future__ import annotations
-
+import hashlib
 import json
 import os
 from pathlib import Path
-
+from collections import defaultdict
+from domain_ontology import CLASSES, fingerprint, approved_extensions, fold
 from logger import get_logger
+from structured_output import parse_json_object
 
 log = get_logger(__name__)
+_FIXED_TYPES = set(CLASSES)
 
-_FIXED_TYPES = {
-    "Indicador", "Setor", "Região", "Período", "FonteDados",
-    "Tabela", "Grafico", "Pagina", "Documento",
-}
 
-_ONTOLOGY_PROMPT = """\
-Você é especialista em ontologia econômica para boletins da Fundação SEADE (Estado de SP).
+def _ontology_path(base_dir):
+    return Path(os.getenv("RAG_GRAPH_DIR") or Path(base_dir) / "graph_store") / "ontology.json"
 
-Tipos já existentes (NÃO repita): {fixed}
 
-Amostra de trechos do corpus (até 6):
-{sample}
+def ontology_enabled():
+    return os.getenv("RAG_ONTOLOGY_DISCOVER", "0").lower() in {"1", "true", "yes", "on"}
 
-Tarefa: proponha até 4 tipos de entidade ADICIONAIS que aparecem recorrentemente no corpus
-e não estão cobertos pelos fixos. Exemplos úteis: Empresa, Município, PolíticaPublica, Produto,
-CadeiaProdutiva, ModalLogistico. Evite tipos genéricos (Conceito, Dado, Outro).
 
-Retorne APENAS JSON válido, sem markdown:
-{{"entity_types": [{{"name": "Empresa", "description": "empresas citadas"}}, ...]}}
-Se nada relevante, retorne {{"entity_types": []}}.
-Nome: PascalCase, 3-20 chars, sem acento, sem espaços.
-"""
+def _sample_chunks(nodes, k=12):
+    groups = defaultdict(list)
+    for node in nodes:
+        md = getattr(node, "metadata", {}) or {}
+        groups[(str(md.get("source_file", "")), str(md.get("type", "text")))].append(node)
+    selected = []
+    # Rodízio entre documentos e modalidades; não apenas início/meio/fim do corpus.
+    for position in range(k):
+        for key in sorted(groups):
+            group = groups[key]
+            if position < len(group):
+                node = group[position]
+                selected.append({"file": key[0], "type": key[1], "page": node.metadata.get("page"), "text": node.text[:800]})
+                if len(selected) == k:
+                    return selected
+    return selected
 
-def _ontology_path(base_dir: str) -> Path:
-    return Path(base_dir) / "graph_store" / "ontology.json"
 
-def _load_cached(base_dir: str) -> list[str] | None:
-    p = _ontology_path(base_dir)
-    if not p.exists():
-        return None
-    try:
-        data = json.loads(p.read_text(encoding="utf-8"))
-        types = [t.strip() for t in data.get("entity_types", []) if isinstance(t, str) and t.strip()]
-        return [t for t in types if t not in _FIXED_TYPES][:4]
-    except Exception:
-        return None
-
-def _save_cached(base_dir: str, types: list[str], raw: dict | None = None) -> None:
-    p = _ontology_path(base_dir)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    payload = {"entity_types": types}
-    if raw:
-        payload["_raw"] = raw
-    p.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
-
-def _sample_chunks(nodes: list, k: int = 6) -> list:
-    if not nodes:
-        return []
-    # filtra só texto narrativo, como graph_indexing faz
-    text_nodes = [n for n in nodes if getattr(n, "metadata", {}).get("type", "text") == "text"]
-    pool = text_nodes or nodes
-    n = len(pool)
-    if n <= k:
-        idx = list(range(n))
-    else:
-        mid = n // 2
-        idx = [0, 1, mid - 1, mid, n - 2, n - 1]
-        # dedup preservando ordem
-        seen = set()
-        idx = [i for i in idx if not (i in seen or seen.add(i))][:k]
-    samples = []
-    for i in idx:
-        try:
-            txt = getattr(pool[i], "text", "") or getattr(getattr(pool[i], "node", None), "text", "") or str(pool[i])[:800]
-        except Exception:
-            txt = ""
-        samples.append(txt[:500].replace("\n", " ").strip())
-    return [s for s in samples if s]
-
-def discover_entity_types(nodes: list, llm, base_dir: str, force: bool = False) -> list[str]:
-    """
-    Retorna lista de tipos adicionais (0-4). Usa cache em disco; chama LLM só se force ou cache ausente.
-    Falha → [] (usa só fixos). Nunca levanta.
-    """
-    if not force:
-        cached = _load_cached(base_dir)
-        if cached is not None:
-            log.info("[Ontology] Cache hit: %s", cached)
-            return cached
-
+def discover_entity_types(nodes, llm, base_dir, force=False):
     samples = _sample_chunks(nodes)
-    if not samples:
-        log.info("[Ontology] Sem amostras — usando só tipos fixos")
-        _save_cached(base_dir, [])
-        return []
-
-    fixed_str = ", ".join(sorted(_FIXED_TYPES))
-    sample_str = "\n".join(f"- {s}" for s in samples)
-    prompt = _ONTOLOGY_PROMPT.format(fixed=fixed_str, sample=sample_str)
-
+    corpus_hash = hashlib.sha256("\n".join(str(n.node_id) for n in nodes).encode()).hexdigest()
+    signature = {"schema_hash": fingerprint(), "corpus_hash": corpus_hash, "discovery_version": 2}
+    path = _ontology_path(base_dir)
     try:
-        resp = llm.complete(prompt)
-        text = (resp.text or "").strip()
-        # extrai JSON (robusto a cercas markdown)
-        start = text.find("{")
-        end = text.rfind("}")
-        if start == -1 or end == -1:
-            raise ValueError("sem JSON")
-        data = json.loads(text[start:end + 1])
-        raw_types = data.get("entity_types", [])
-        cleaned: list[str] = []
-        for item in raw_types:
-            name = (item.get("name") if isinstance(item, dict) else str(item)).strip()
-            # normaliza PascalCase sem acento/espaço
-            name = "".join(ch for ch in name if ch.isalnum())
-            if not name:
+        if not force and path.exists():
+            cached = json.loads(path.read_text(encoding="utf-8"))
+            if cached.get("signature") == signature:
+                return list(approved_extensions())
+        if not samples:
+            return list(approved_extensions())
+        prompt = (
+            "Proponha até quatro tipos adicionais para este modelo econômico. Não repita tipos existentes. "
+            'Retorne JSON {"entity_types":[{"name":"NomeAscii","description":"definição",'
+            '"parent":"tipo existente","evidence":"trecho literal de uma amostra"}]}. '
+            "Esta saída é uma proposta para revisão, não alteração automática do modelo.\nModelo: "
+            + json.dumps(CLASSES, ensure_ascii=False) + "\nAmostras: " + json.dumps(samples, ensure_ascii=False)
+        )
+        raw = parse_json_object(llm.complete(prompt).text)
+        proposals = []
+        import re
+        for item in raw.get("entity_types", [])[:4]:
+            if not isinstance(item, dict):
                 continue
-            name = name[0].upper() + name[1:]
-            if name in _FIXED_TYPES or name in cleaned:
-                continue
-            if 3 <= len(name) <= 20:
-                cleaned.append(name)
-            if len(cleaned) >= 4:
-                break
-        log.info("[Ontology] Descobertos: %s", cleaned)
-        _save_cached(base_dir, cleaned, raw=data)
-        return cleaned
+            name = item.get("name", "")
+            description = item.get("description", "")
+            evidence = item.get("evidence", "")
+            if (isinstance(name, str) and re.fullmatch(r"[A-Z][A-Za-z]{2,39}", name)
+                    and name not in CLASSES and isinstance(description, str) and description.strip()
+                    and item.get("parent") in CLASSES and isinstance(evidence, str) and len(evidence) >= 8
+                    and any(evidence in sample["text"] for sample in samples)):
+                proposals.append({"name": name, "description": description[:1000], "parent": item["parent"],
+                                  "evidence": evidence, "reviewed": False})
+        payload = {"signature": signature, "entity_types": proposals, "status": "proposed_only", "samples": samples}
+        path.parent.mkdir(parents=True, exist_ok=True)
+        temporary = path.with_suffix(".tmp")
+        temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        temporary.replace(path)
     except Exception as exc:
-        log.warning("[Ontology] falha (%s) — usando só fixos", exc)
-        _save_cached(base_dir, [])
-        return []
-
-def ontology_enabled() -> bool:
-    return os.getenv("RAG_ONTOLOGY_DISCOVER", "0").strip().lower() in {"1", "true", "yes", "on"}
+        # Não grava falha como descoberta vazia válida; permite tentar novamente.
+        log.warning("Descoberta ontológica não concluída: %s", exc)
+    return list(approved_extensions())

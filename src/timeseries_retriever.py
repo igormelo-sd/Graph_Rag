@@ -6,6 +6,7 @@ e os estrutura via pandas para o Analysis Engine.
 análise de tendências, crescimento e evolução de indicadores econômicos.
 """
 import re
+from domain_ontology import expand_query, filter_candidates, prompt_block
 import pandas as pd
 
 from logger import get_logger
@@ -136,7 +137,7 @@ class TimeSeriesRetriever:
         self._llm = llm
 
     def retrieve(self, question: str) -> SeriesResult | None:
-        nodes = self._retriever.retrieve(question)
+        nodes = filter_candidates(self._retriever.retrieve(expand_query(question)), question)
 
         ts_nodes = [n for n in nodes if _is_temporal_table(n)]
         if not ts_nodes:
@@ -159,7 +160,10 @@ class TimeSeriesRetriever:
             reranked = ts_nodes[:_FALLBACK_TOP_N]
         reranked = list(reranked[:structured_top_n()])
 
-        context = limit_context("\n\n---\n\n".join(n.get_content() for n in reranked))
+        from rag_selection import pack_context
+        context, reranked = pack_context(reranked, question)
+        if not reranked:
+            return None
 
         # Pré-filtro: contexto sem rótulo temporal → não vale chamar o LLM de extração
         if not _context_has_temporal_labels(context):
@@ -188,6 +192,18 @@ class TimeSeriesRetriever:
         # Fase 1: extração estruturada em JSON (nenhum código do LLM é executado)
         # Retorna (texto_analisado, payload_para_grafico, cálculos).
         payload_for_chart: dict | None = None
+        from rag_selection import literal_table_payload
+        literal = literal_table_payload(nodes)
+        if literal:
+            try:
+                df, data = tabular_payload(literal)
+            except StructuredOutputError:
+                return None, None, []
+            if df is not None and _df_is_valid_timeseries(df):
+                text, calculations = calculate(question, df, data, self._llm, nodes)
+                return text, literal, calculations
+            # Estrutura literal inadequada para série: não reescrever valores via LLM.
+            return None, None, []
 
         def _try_extract(prompt: str) -> tuple:
             resp = self._llm.complete(prompt)
@@ -200,14 +216,14 @@ class TimeSeriesRetriever:
             return df, data, p
 
         try:
-            df, data, payload_for_chart = _try_extract(_EXTRACT_PROMPT.format(context=context, question=question))
+            df, data, payload_for_chart = _try_extract(prompt_block(question) + _EXTRACT_PROMPT.format(context=context, question=question))
         except StructuredOutputError as exc:
             # Reparo: LLM devolveu {"data": {}} vazio — tenta colunar
             msg = str(exc)
             if "O campo 'data' deve ser um objeto não vazio" in msg:
                 log.warning("Extracao data vazio — tentando fallback colunar", extra={"event": "ts_retry_columns"})
                 try:
-                    df, data, payload_for_chart = _try_extract(_RETRY_EXTRACT_PROMPT.format(context=context, question=question))
+                    df, data, payload_for_chart = _try_extract(prompt_block(question) + _RETRY_EXTRACT_PROMPT.format(context=context, question=question))
                 except StructuredOutputError as exc2:
                     log.warning("Extracao estruturada de serie temporal falhou (retry): %s", exc2)
                     return None, None, []

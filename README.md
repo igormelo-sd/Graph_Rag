@@ -30,6 +30,16 @@ Pergunta → interpret_query (LLM leve) → AnalysisEngine (retrievers em parale
 Embeddings 100% locais: `BAAI/bge-m3` (1024 dim) via `src/indexing.py:setup_embeddings`.
 Rerank padrão: cross-encoder local `BAAI/bge-reranker-v2-m3` (`RAG_BGE_RERANK=1`), com fallback para `LLMRerank` ou `ScoreReranker`.
 
+## Ontologia de domínio
+
+O modelo compartilhado atua na ingestão, busca, interpretação, cálculos e evidências, além do grafo. Distingue estado e município, períodos, unidades e natureza das medidas. Observações candidatas mantêm proveniência; relações LLM exigem tipos compatíveis e citação literal.
+
+A API inclui `ontology` com dimensões da pergunta, observações e auditorias disponíveis. `RAG_ONTOLOGY_ENABLE=1` habilita observações, prompts e filtros. Novas classes descobertas são propostas; só entram após revisão em `config/ontology_extensions.json` (ou `RAG_ONTOLOGY_EXTENSIONS`). Veja [Ontologia](docs/ONTOLOGIA.md).
+
+Observações por célula preservam cabeçalho, linha, título/notas e datas de publicação separadas. A recuperação percorre arestas documentais e registra os caminhos. A API também retorna `clarification` para ambiguidades e `knowledge` para cobertura/divergências; `ontology.comparisons` contém o grafo dos cálculos, isolado por consulta. Veja [Estatísticas e grafos](docs/ESTATISTICAS_GRAFO.md) para limites, hierarquias cadastradas e revisão pendente.
+
+O esquema altera o fingerprint: índices anteriores precisam de reconstrução na próxima preparação autorizada. Nenhum índice foi reconstruído e nenhum teste, compilação, avaliação ou servidor foi executado nesta atualização.
+
 ## Estrutura
 
 ```
@@ -68,6 +78,7 @@ python -m pytest tests/ -q
 | Método | Rota | Descrição |
 |---|---|---|
 | `POST` | `/query` | `{"question": "..."}` → `{answer, sources, validation, ...}` |
+| `GET` | `/knowledge` | Cobertura e divergências candidatas do corpus; `question` opcional; sem LLM |
 | `GET` | `/health` | Engine + Chroma + BM25 + embedding (`ok`/`degraded`/`starting`) |
 | `GET` | `/metrics` | Métricas Prometheus |
 | `GET` | `/docs` | Swagger interativo |
@@ -125,3 +136,8 @@ As alterações atuais foram feitas sem executar testes, avaliações ou o servi
 ## Licença
 
 MIT — ver `LICENSE`.
+
+### Seleção final de evidências
+
+A recuperação usa fusão global, cobertura dos recortes pedidos, blocos completos de contexto e reutilização de células literais. Veja [Melhorias do RAG](docs/MELHORIAS_RAG.md) para configuração, limites e verificação pendente. A alteração do splitter exige reconstrução dos índices na próxima execução autorizada; nenhum teste ou reconstrução foi executado nesta etapa.
+

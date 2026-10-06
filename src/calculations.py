@@ -6,6 +6,9 @@ import re
 from numerical_validator import _NUM_RE, _normalize
 from structured_output import parse_json_object, StructuredOutputError
 from evidence import facets
+from domain_ontology import comparison_issues, node_observations, prompt_block
+from statistical_observations import numeric_literal, DATE_LABEL
+from knowledge_analytics import hierarchy_scope
 
 _PLAN = """Selecione uma operação e as células dos dados que respondem à pergunta.
 Não calcule valores e não invente operandos. Retorne apenas JSON:
@@ -52,7 +55,7 @@ def calculate(question, df, data, llm, nodes):
     if not rows:
         return "[Sem dados estruturados]", []
     try:
-        plan = parse_json_object(llm.complete(_PLAN.format(data=preview, question=question)).text)
+        plan = parse_json_object(llm.complete(prompt_block(question) + _PLAN.format(data=preview, question=question)).text)
         operation = plan.get("operation")
         if operation == "none":
             return preview, []
@@ -64,6 +67,7 @@ def calculate(question, df, data, llm, nodes):
         if operation in {"difference", "percent_change", "percentage_points"} and len(refs) != 2:
             raise ValueError("Operação exige dois operandos")
         values, evidence, seen = [], [], set()
+        observations = [obs for node in nodes for obs in node_observations(node)]
         for ref in refs:
             row_index, column = ref["row"], ref["column"]
             if type(row_index) is not int or not 0 <= row_index < len(rows):
@@ -72,10 +76,13 @@ def calculate(question, df, data, llm, nodes):
                 raise ValueError("Célula repetida")
             seen.add((row_index, column))
             value = _decimal(rows[row_index][column])
-            label = " | ".join(str(v) for key, v in rows[row_index].items() if key != column)
+            label = " | ".join(str(v) for key, v in rows[row_index].items() if key != column
+                               and (DATE_LABEL.search(str(key)) or not numeric_literal(v)))
+            cell_dimensions = facets(column + " " + label + " " + str(rows[row_index][column]))
             matches = []
             for node in nodes:
-                text = node.get_content()
+                inner = getattr(node, "node", node)
+                text = getattr(inner, "text", "") or node.get_content()
                 for match in _NUM_RE.finditer(text):
                     if Decimal(_normalize(match.group(1))) == value:
                         # Apenas aponta a ocorrência original, sem tratar a
@@ -88,19 +95,54 @@ def calculate(question, df, data, llm, nodes):
                         })
             if not matches:
                 raise ValueError("Operando ausente das fontes")
+            candidates = [obs for obs in observations if _decimal(obs["value"]) == value
+                          and any(source["node_id"] == obs["provenance"]["node_id"] for source in matches)
+                          and all(not expected or expected.issubset(set(obs["dimensions"].get(key, [])))
+                                  for key, expected in cell_dimensions.items())]
+            signatures = {json.dumps(obs["dimensions"], sort_keys=True) for obs in candidates}
+            # Cabeçalhos anuais podem ocupar colunas diferentes; a compatibilidade vem das dimensões.
+            if candidates and len(signatures) == 1:
+                cell_dimensions = {key: set(items) for key, items in candidates[0]["dimensions"].items()}
+                matches = [{"node_id": obs["provenance"]["node_id"], "file": obs["provenance"]["file"],
+                            "page": obs["provenance"]["page"], "excerpt": obs["provenance"]["excerpt"],
+                            "observation_id": obs["id"], "bound_dimensions": obs["dimensions"],
+                            "cell_provenance": obs["provenance"], "observation_status": obs["status"]} for obs in candidates]
             values.append(value)
             evidence.append({"row": row_index, "column": column, "label": label,
-                             "value": str(value), "sources": matches[:5]})
-        if len({item["column"] for item in evidence}) != 1:
-            raise ValueError("Colunas/unidades diferentes exigem revisão")
-        dimensions = [facets(item["column"] + " " + item["label"] + " " + str(rows[ref["row"]][ref["column"]])) for item, ref in zip(evidence, refs)]
+                             "value": str(value), "sources": matches,
+                             "dimensions": {key: sorted(items) for key, items in cell_dimensions.items()}})
+        dimensions = [{key: set(items) for key, items in item["dimensions"].items()} for item in evidence]
+        wanted = facets(question)
+        scope = hierarchy_scope(question)
+        for key in ("indicator", "region", "unit", "scale", "sector", "source", "basis", "coverage"):
+            expected = scope[key] if scope.get(key + "_requested") else wanted[key]
+            if expected and any(not d[key] or d[key].isdisjoint(expected) for d in dimensions):
+                raise ValueError("Operando fora do recorte solicitado")
+        semantic_issues = comparison_issues(dimensions, operation)
+        if semantic_issues:
+            return preview + "\n[Cálculo não realizado: " + "; ".join(semantic_issues) + "]", []
+        for operand, dimensions_for_operand in zip(evidence, dimensions):
+            operand["dimensions"] = {k: sorted(v) for k, v in dimensions_for_operand.items()}
+            # Exige apoio contextual nos operandos, além da presença do valor.
+            from evidence import contextual_support
+            operand_claim = operand["column"] + " " + operand["label"] + " " + str(rows[operand["row"]][operand["column"]])
+            contextual_sources = [source for source in operand["sources"]
+                                  if source.get("bound_dimensions") == operand["dimensions"]
+                                  or contextual_support(operand_claim, source["excerpt"])[0]]
+            if not contextual_sources:
+                return preview + "\n[Cálculo não realizado: operando sem apoio contextual na fonte]", []
+            operand["sources"] = contextual_sources[:5]
+            operand["observation_candidates"] = [
+                obs["id"] for obs in observations
+                if any(source["node_id"] == obs["provenance"]["node_id"] for source in operand["sources"])
+                and _decimal(obs["value"]) == Decimal(operand["value"])
+                and obs["dimensions"] == operand["dimensions"]
+            ]
         if not dimensions[0]["unit"] or any(d["unit"] != dimensions[0]["unit"] for d in dimensions):
             raise ValueError("Unidades não explícitas ou incompatíveis")
         if any(d["indicator"] != dimensions[0]["indicator"] or d["region"] != dimensions[0]["region"] for d in dimensions):
             raise ValueError("Indicadores ou regiões diferentes exigem revisão")
-        if operation == "percentage_points" and not (
-            "%" in evidence[0]["column"] or all("%" in str(rows[r["row"]][r["column"]]) for r in refs)
-        ):
+        if operation == "percentage_points" and dimensions[0]["unit"] != {"percentual"}:
             raise ValueError("Pontos percentuais exigem valores percentuais explícitos")
         with localcontext() as ctx:
             ctx.prec = 50

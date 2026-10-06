@@ -1,4 +1,4 @@
-﻿import json
+import json
 import os
 import re
 import pandas as pd
@@ -54,9 +54,18 @@ def _markdown_to_df(doc_text: str) -> pd.DataFrame:
     for line in lines[1:]:
         values = [v.strip() for v in line.split("|")[1:-1]]
         if len(values) == len(header):
-            rows.append(dict(zip(header, values)))
+            rows.append(values)
 
-    return pd.DataFrame(rows)
+    # Camelot usa cabeçalhos 0,1,...; preservar a primeira linha literal como cabeçalho.
+    if rows and all(re.fullmatch(r"\d+", c) for c in header):
+        proposed = rows[0]
+        if any(not re.fullmatch(r"[-−]?\d+(?:[.,]\d+)*\s*%?", c) for c in proposed if c):
+            header, rows = proposed, rows[1:]
+
+    if not header or len(set(header)) != len(header) or any(not c for c in header):
+        # Cabeçalho mesclado/duplicado não pode ser convertido para dict sem perder células.
+        return pd.DataFrame()
+    return pd.DataFrame(rows, columns=header)
 
 
 def llm_ingest_enrichment_enabled() -> bool:
@@ -191,6 +200,14 @@ def _chunk_table(table_doc, extra_metadata: dict | None = None) -> list:
     source    = table_doc.metadata.get("source_file", "")
     base_meta = {**table_doc.metadata, **(extra_metadata or {})}
     nodes     = []
+    from document_context import structure_payload, table_identity
+    base_meta.setdefault("table_key", table_identity(base_meta, table_doc.text))
+    title = base_meta.get("table_title", "")
+    notes = json.loads(base_meta.get("table_notes", "[]"))
+
+    def structured_metadata(frame, indices):
+        return {**base_meta, "table_structure": structure_payload(
+            list(frame.columns), frame.astype(str).values.tolist(), base_meta, title, notes, indices)}
 
     if len(df) <= SMALL_TABLE_MAX_ROWS:
         # Abordagem 1: tabela inteira como texto estruturado
@@ -200,16 +217,16 @@ def _chunk_table(table_doc, extra_metadata: dict | None = None) -> list:
         )
         nodes.append(TextNode(
             text=rows_text,
-            metadata={**base_meta, "chunk_strategy": "full_table"},
+            metadata={**structured_metadata(df, list(range(len(df)))), "chunk_strategy": "full_table"},
         ))
     else:
         # Abordagem 2/3: uma linha por chunk
-        for _, row in df.iterrows():
+        for row_index, row in df.iterrows():
             text = _row_to_structured_text(row.to_dict(), source)
             if text.strip():
                 nodes.append(TextNode(
                     text=text,
-                    metadata={**base_meta, "chunk_strategy": "row_per_chunk"},
+                    metadata={**structured_metadata(df.loc[[row_index]], [int(row_index)]), "chunk_strategy": "row_per_chunk"},
                 ))
 
     return nodes
@@ -233,7 +250,11 @@ def _get_text_pipeline(
     splitter = LangchainNodeParser(
         RecursiveCharacterTextSplitter(
             chunk_size=chunk_size,
-            chunk_overlap=chunk_overlap,
+            chunk_overlap=min(chunk_overlap, max(chunk_size - 1, 0)),
+            # Títulos, parágrafos e frases precedem cortes dentro de palavras.
+            separators=[r"\n(?=#{1,6}\s)", r"\n\n+", r"\n", r"(?<=[.!?])\s+(?=[A-ZÀ-Ú])", r"\s+", ""],
+            is_separator_regex=True,
+            keep_separator=True,
         )
     )
     transformations = [splitter]
@@ -323,18 +344,19 @@ def process_documents(documents):
         for n in text_nodes:
             key = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
             _page_total[key] += 1
+        # Pré-computa mapa (source_file, page) → section para propagar em O(1)
+        _section_map: dict[tuple, str] = {
+            (str(d.metadata.get("source_file")), str(d.metadata.get("page"))): d.metadata["section"]
+            for d in text_docs
+            if d.metadata.get("section")
+        }
         for n in text_nodes:
             key = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
             _page_counter[key] += 1
             n.metadata["chunk_id"] = _page_counter[key]
             n.metadata["total_chunks_page"] = _page_total[key]
-            # propaga section do doc origem se ausente
-            if not n.metadata.get("section"):
-                for d in text_docs:
-                    if str(d.metadata.get("source_file")) == str(n.metadata.get("source_file")) and str(d.metadata.get("page")) == str(n.metadata.get("page")):
-                        if d.metadata.get("section"):
-                            n.metadata["section"] = d.metadata["section"]
-                            break
+            if not n.metadata.get("section") and key in _section_map:
+                n.metadata["section"] = _section_map[key]
 
     # --- Tabelas ---
     table_nodes = []
@@ -405,6 +427,11 @@ def process_documents(documents):
 
     all_nodes = text_nodes + table_nodes + image_nodes
     all_nodes = _assign_deterministic_ids(all_nodes)
+    from domain_ontology import annotate_node
+    for node in all_nodes:
+        annotate_node(node)
+        node.excluded_embed_metadata_keys = list(dict.fromkeys(node.excluded_embed_metadata_keys + ["table_structure", "table_notes"]))
+        node.excluded_llm_metadata_keys = list(dict.fromkeys(node.excluded_llm_metadata_keys + ["table_structure", "table_notes"]))
     print(
         f"Normalização concluída. "
         f"{len(text_nodes)} nós de texto + {len(table_nodes)} nós de tabela + {len(image_nodes)} nós de imagem = {len(all_nodes)} total."

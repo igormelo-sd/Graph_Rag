@@ -1,4 +1,4 @@
-﻿"""
+"""
 Startup — inicialização compartilhada do sistema RAG.
 
 Usado tanto pela API (FastAPI lifespan) quanto pelo CLI interativo.
@@ -18,12 +18,23 @@ from index_manifest import (
 )
 from index_sync import sync_standard_index
 from indexing import load_nodes_cache
-from scripts.index_artifact import (
-    DEFAULT_RELEASE_ASSET,
-    DEFAULT_RELEASE_REPO,
-    DEFAULT_RELEASE_TAG,
-    ensure_release_index,
-)
+try:
+    from scripts.index_artifact import (
+        DEFAULT_RELEASE_ASSET,
+        DEFAULT_RELEASE_REPO,
+        DEFAULT_RELEASE_TAG,
+        ensure_release_index,
+    )
+except Exception:  # noqa: BLE001
+    DEFAULT_RELEASE_ASSET = "chroma_db.zip"
+    DEFAULT_RELEASE_REPO = ""
+    DEFAULT_RELEASE_TAG = "latest"
+
+    def ensure_release_index(*_args, **_kwargs):  # type: ignore[misc]
+        raise RuntimeError(
+            "scripts/index_artifact.py não disponível; "
+            "desative RAG_INDEX_AUTO_DOWNLOAD ou adicione o módulo."
+        )
 from text_retriever import (
     build_hybrid_retriever,
     llm_reranking_enabled,
@@ -183,13 +194,13 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
     else:
         log.info("[5] Skills de domínio não encontradas (opcional)")
 
-    # 8. Grafo de conhecimento — sempre ativo (estrutural determinístico custo zero)
-    # P0: RAG_GRAPH_STRUCT=1 por padrão; RAG_GRAPH_EMBED=1 ativa 2º embedding; --graph força LLM extraction
+    # 8. Grafo estrutural por padrão; extração, descoberta e embedding independentes.
     graph_ret = None
     _graph_embed = os.getenv("RAG_GRAPH_EMBED", "0").strip().lower() in {"1", "true", "yes", "on"}
     _graph_struct = os.getenv("RAG_GRAPH_STRUCT", "1").strip().lower() in {"1", "true", "yes", "on"}
     use_graph = use_graph or graph_enabled_by_env()
-    if use_graph or _graph_embed or _graph_struct:
+    from graph_ontology import ontology_enabled
+    if use_graph or _graph_embed or _graph_struct or ontology_enabled():
         log.info("[6] Inicializando grafo de conhecimento%s", " (2º embedding)" if _graph_embed else "")
         all_nodes = load_nodes_cache(db_path)
         force_rebuild = bool(changed)
@@ -197,7 +208,7 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
             all_nodes, base_dir, llm, force_rebuild=force_rebuild,
             use_llm=use_graph,
         )
-        graph_ret = GraphRetriever(graph_index, interp_llm)
+        graph_ret = GraphRetriever(graph_index, interp_llm, use_llm=use_graph)
         log.info("[6] Grafo pronto")
     else:
         log.info("[6] Grafo desativado (use --graph no CLI ou RAG_USE_GRAPH=1)")
@@ -208,6 +219,8 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
         domain_skills=domain_skills,
         graph_retriever=graph_ret,
         images_retriever=images_ret,
+        knowledge_nodes=bm25_nodes,
+        final_reranker=reranker,
     )
 
     log.info("Sistema pronto")

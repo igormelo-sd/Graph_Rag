@@ -34,7 +34,7 @@ Um grafo é um mapa de entidades ligadas por relações. Há opções distintas:
 | `RAG_GRAPH_EMBED=1` | Vetoriza também nós do grafo |
 | `RAG_ONTOLOGY_DISCOVER=1` | Propõe tipos adicionais durante a inicialização do grafo |
 
-A costura de contexto busca chunks anterior e posterior da mesma página no cache BM25. A engine acrescenta até seis vizinhos sem repetição; não calcula uma cota de 30% nem percorre as arestas persistidas nessa rotina.
+A costura percorre arestas do grafo para recuperar títulos, notas, explicações e trechos narrativos adjacentes. A engine acrescenta até seis chunks sem repetição, priorizando notas, com profundidade dois por padrão. O vínculo tabela/nota baseado em geometria fica marcado como candidato para revisão; proximidade não garante significado.
 
 Exemplo hipotético: o trecho recuperado contém apenas a continuação de uma frase. Anexar o anterior pode recuperar seu sujeito. Isso pode ajudar, mas não garante uma resposta correta.
 
@@ -63,3 +63,8 @@ A aplicação limita consultas simultâneas, fila, chamadas LLM e rerank por pro
 As alterações foram feitas sem executar testes, avaliações ou o servidor. O roteiro de comparação entre busca híbrida, estrutural e grafo LLM está preparado, mas depende de gabaritos revisados e execução futura. Exemplos didáticos não são resultados medidos.
 
 Veja [README](README.md), [Detalhes técnicos](docs/PYTHON.md) e [Confiabilidade](docs/CONFIABILIDADE.md).
+
+## Seleção de evidências após as buscas
+
+As listas recuperadas são fundidas por RRF e reranqueadas contra a pergunta original. A seleção prioriza cobertura dos recortes; lacunas permitem uma única busca textual complementar. O contexto mantém blocos completos com fontes, títulos e notas, e pode expandir vizinhos narrativos na mesma página/seção. Tabelas compatíveis reutilizam células literais antes de recorrer à extração pelo LLM. Consulte [o fluxo e suas limitações](docs/MELHORIAS_RAG.md). As mudanças ainda não foram executadas ou avaliadas.
+

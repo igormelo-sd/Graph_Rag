@@ -11,6 +11,8 @@ Leia também [.agents/AGENTS.md](.agents/AGENTS.md) ao alterar skills. Este é u
 - `src/text_retriever.py`: busca híbrida e diversificação; tabelas, séries e imagens têm retrievers próprios.
 - `src/calculations.py`: operações limitadas em Decimal a partir de planos JSON. O fluxo atual não executa Python gerado pelo LLM; `safe_exec.py` permanece como utilitário legado.
 - `src/graph_indexing.py`, `graph_retriever.py`, `graph_ontology.py`: grafo estrutural, extração opcional de relações e descoberta opcional de tipos.
+- `src/domain_ontology.py`, `ontology_extractor.py`: conceitos compartilhados, observações candidatas, dimensões e relações tipadas com apoio literal; extensões em `config/ontology_extensions.json` exigem revisão humana.
+- `src/statistical_observations.py`, `document_context.py`, `relation_semantics.py`, `knowledge_analytics.py`: células e contexto literal, qualificadores de relações, divergências candidatas, cobertura, esclarecimento e grafos de derivação por consulta. Não promover cálculos ou divergências a fatos do corpus.
 - `src/analysis_engine.py`, `query_service.py`: recuperação, síntese e resultado por consulta, sem compartilhar gráfico entre respostas.
 - `src/evidence.py`, `numerical_validator.py`, `citation_validator.py`: evidências e verificações heurísticas; não tratá-las como prova de correção semântica.
 - `src/load_control.py`, `query_usage.py`: limites por processo e uso reportado pelo provedor.
@@ -29,3 +31,6 @@ As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks 
 Respeite instruções explícitas de não executar testes, servidor, avaliações ou validadores. A presença de uma suíte não demonstra que ela passou. O roteiro de avaliação em `scripts/evaluate_retrieval.py` exige gabaritos revisados; exemplos em `evaluation/` não são resultados experimentais.
 
 Veja [docs/CONFIABILIDADE.md](docs/CONFIABILIDADE.md) para limites de validação, cálculos, carga, custo e avaliação.
+
+A seleção global está em src/rag_selection.py: RRF, cobertura candidata, contexto indivisível e células literais. Preserve fontes junto aos resultados derivados. Não descreva retrieval_coverage como prova de suficiência ou compatibilidade metodológica. Alterações no splitter devem atualizar o fingerprint. Consulte docs/MELHORIAS_RAG.md.
+

@@ -12,7 +12,7 @@ ou múltiplas observações ambíguas permanecem para revisão. Inteiros de um d
 também são examinados; números inteiros com separador de milhar são normalizados.
 
 `validation.method=contextual_heuristic` identifica uma heurística conservadora,
-não uma prova semântica. O vocabulário reconhecido fica em `src/evidence.py`.
+não uma prova semântica. O vocabulário compartilhado fica em `src/domain_ontology.py`. Escala, setor, fonte, natureza, base e cobertura também são conferidos quando reconhecidos; São Paulo sem qualificação mantém ambiguidade.
 Dimensões não reconhecidas, afirmações qualitativas e contexto distribuído entre
 várias linhas podem gerar revisão mesmo quando a resposta está correta.
 `validation.requires_review` sinaliza essas situações; o texto não é apagado.
@@ -46,6 +46,12 @@ na validação numérica; consulte a trilha de cálculo separadamente.
 
 ## Controle de carga
 
+O contrato ontológico acrescenta verificações de natureza da medida, escala, setor, fonte, base e cobertura. Operandos precisam de indicador, território, unidade e natureza únicos; períodos comparados devem ser distintos, de mesma granularidade e estar em ordem base/final. Soma de taxas, estoques e variações exige revisão. Apoio contextual na fonte continua obrigatório. Esses critérios conservadores podem recusar contas legítimas quando os documentos omitem dimensões.
+
+O campo `ontology` expõe dimensões da pergunta, observações candidatas com proveniência e auditorias de extração disponíveis nos nós recuperados. Não é certificado de verdade documental. O hash do modelo invalida índices antigos; esta atualização não executou sua reconstrução. Os casos em `evaluation/ontology_cases.example.jsonl` ainda exigem gabarito documental e revisão.
+
+Observações por célula preservam cabeçalhos, linhas e notas; associação geométrica de contexto requer revisão. Relações positivas negadas são rejeitadas por padrões, e associação não é prova causal. `ontology.comparisons` descreve os cálculos sem gravá-los como fatos; `ontology.retrieval_paths` expõe caminhos documentais. Divergências entre fontes ficam para revisão, sem prioridade automática de narrativa sobre tabela. `clarification` solicita o recorte de São Paulo quando ambíguo; `knowledge` e `GET /knowledge` descrevem candidatos disponíveis e lacunas solicitadas. O cadastro territorial/setorial é limitado, e ausência no índice não comprova ausência nos documentos. Veja [ESTATISTICAS_GRAFO.md](ESTATISTICAS_GRAFO.md).
+
 | Configuração | Padrão | Função |
 |---|---:|---|
 | `RAG_QUERY_CONCURRENCY` | 2 | Consultas ativas por processo |
@@ -77,7 +83,7 @@ médias apropriadas; o campo `cost_method` identifica essa aproximação.
 `scripts/evaluate_retrieval.py` prepara a comparação híbrido, estrutural e grafo
 extraído por LLM em processos separados. Mantém as mesmas perguntas e fontes
 base; desativa HyDE/deep search e não usa reescrita variável. O modo estrutural
-expande vizinhos; o modo LLM também consulta relações. O índice fica somente
+expande vizinhos e consulta observações locais; o modo LLM também consulta relações por sinônimos. Cada modo tem uma variante `_no_ontology`, totalizando seis condições. Essa desativação é parcial: contratos de extração e evidência permanecem. `competency_match` mede reconhecimento de dimensões da pergunta, sem avaliar correção da resposta. O índice fica somente
 leitura e os caches de grafo ficam no diretório de saída.
 
 1. Reconstrua o índice com o pipeline atual antes da avaliação, quando autorizado.
@@ -116,3 +122,8 @@ com os parâmetros do script; não presuma que o lock Windows cobre Linux.
 As bibliotecas foram resolvidas, mas não instaladas no ambiente do aplicativo.
 Os arquivos de pesos dos modelos e ferramentas externas de OCR não são cobertos
 pelo lock Python.
+
+## Cobertura e orçamento documental
+
+O diagnóstico em knowledge.retrieval_coverage é uma checagem conservadora sobre candidatos recuperados, sem garantia semântica. O orçamento omite blocos inteiros que não cabem, podendo deixar lacunas; não prova ausência no corpus. Fontes, cálculos e gráficos retornados são limitados às evidências incluídas. Veja [Melhorias do RAG](MELHORIAS_RAG.md). Verificação em execução permanece pendente.
+

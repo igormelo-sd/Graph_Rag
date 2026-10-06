@@ -9,6 +9,7 @@ import re
 
 from logger import get_logger
 from calculations import calculate
+from domain_ontology import expand_query, filter_candidates, prompt_block
 from query_results import SeriesResult
 from runtime import limit_context
 from text_retriever import rerank_candidate_limit, structured_top_n
@@ -82,7 +83,7 @@ class TablesRetriever:
         self._llm = llm
 
     def retrieve(self, question: str) -> SeriesResult | None:
-        nodes = self._retriever.retrieve(question)
+        nodes = filter_candidates(self._retriever.retrieve(expand_query(question)), question)
 
         table_nodes = [n for n in nodes if _is_static_table(n)]
         if not table_nodes:
@@ -105,14 +106,25 @@ class TablesRetriever:
             reranked = table_nodes[:_FALLBACK_TOP_N]
         reranked = list(reranked[:structured_top_n()])
 
-        context = limit_context("\n\n---\n\n".join(n.get_content() for n in reranked))
+        from rag_selection import pack_context
+        context, reranked = pack_context(reranked, question)
+        if not reranked:
+            return None
         structured, calculations = self._extract_and_calculate(question, context, reranked)
         return SeriesResult(structured, reranked, calculations=calculations)
 
     def _extract_and_calculate(self, question: str, context: str, nodes=()) -> tuple[str, list]:
+        from rag_selection import literal_table_payload
+        literal = literal_table_payload(nodes)
+        if literal:
+            try:
+                df, data = tabular_payload(literal)
+                return calculate(question, df, data, self._llm, nodes)
+            except StructuredOutputError:
+                return "[Estrutura literal acima dos limites aceitos; consultar fontes originais]", []
         # Fase 1: extração estruturada em JSON (nenhum código do LLM é executado)
         extract_resp = self._llm.complete(
-            _EXTRACT_PROMPT.format(context=context, question=question)
+            prompt_block(question) + _EXTRACT_PROMPT.format(context=context, question=question)
         )
         try:
             payload = parse_json_object(extract_resp.text)

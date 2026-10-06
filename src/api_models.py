@@ -59,3 +59,6 @@ class QueryResponse(BaseModel):
     claim_evidence: list[dict] = Field(default_factory=list)
     calculations: list[dict] = Field(default_factory=list)
     usage: dict = Field(default_factory=dict)
+    ontology: dict = Field(default_factory=dict)
+    clarification: dict | None = None
+    knowledge: dict = Field(default_factory=dict)

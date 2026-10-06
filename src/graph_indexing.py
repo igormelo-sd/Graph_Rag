@@ -1,4 +1,4 @@
-﻿"""
+"""
 Graph Indexing — constrói um PropertyGraphIndex de conhecimento sobre os
 chunks de texto usando extração de entidades e relações via LLM.
 
@@ -15,7 +15,8 @@ import json
 from llama_index.core import PropertyGraphIndex
 from llama_index.core.graph_stores import SimplePropertyGraphStore
 from llama_index.core.graph_stores.simple_labelled import LabelledPropertyGraph
-from llama_index.core.indices.property_graph import DynamicLLMPathExtractor
+from ontology_extractor import OntologyPathExtractor
+from domain_ontology import fingerprint, enabled as domain_enabled
 
 from logger import get_logger
 
@@ -32,33 +33,6 @@ log = get_logger(__name__)
 
 _GRAPH_DIR = "graph_store"
 _GRAPH_FILE = "graph_store.json"
-
-_ENTITY_TYPES = [
-    "Indicador",   # ex: taxa de desocupação, PIB, IPCA, saldo de empregos
-    "Setor",       # ex: indústria de transformação, comércio, construção civil
-    "Região",      # ex: Estado de SP, RMSP, interior paulista
-    "Período",     # ex: 1T2023, 2024, primeiro trimestre de 2022
-    "FonteDados",  # ex: CAGED, PNAD Contínua, RAIS, IBGE, SEADE
-    "Tabela",      # tabela extraída de PDF/página
-    "Grafico",     # gráfico rasterizado
-    "Pagina",      # página do documento (source_file#page)
-    "Documento",   # arquivo boletim (SpEconomia-YYYY-MM.pdf)
-]
-
-_RELATION_TYPES = [
-    "CRESCEU_EM",    # indicador cresceu em determinado período/região/setor
-    "RECUOU_EM",     # indicador recuou em determinado período/região/setor
-    "PERTENCE_A",    # indicador/dado pertence a setor ou categoria
-    "APLICA_SE_A",   # dado se aplica a uma região geográfica
-    "MEDIDO_POR",    # indicador é medido/divulgado por uma fonte de dados
-    "RELACIONA_COM", # indicador se relaciona com outro indicador ou setor
-    "CONTIDA_EM",    # Tabela/Grafico/Chunk contida em Pagina
-    "PERTENCE_A_DOC",# Pagina pertence a Documento
-    "DESCRITA_EM",   # Tabela/Grafico descrita em Texto vizinho (determinística)
-    "NEXT_CHUNK",    # Chunk → próximo Chunk na mesma página (costura split)
-    "SAME_PAGE",     # Chunk ↔ Chunk mesma página (clique)
-]
-
 
 def _save_graph_store(graph_store: SimplePropertyGraphStore, path: str) -> None:
     """Persiste o grafo em UTF-8 (contorna limite do cp1252 no Windows)."""
@@ -82,79 +56,106 @@ def _graph_struct_enabled() -> bool:
     return os.getenv("RAG_GRAPH_STRUCT", "1").strip().lower() in {"1", "true", "yes", "on"}
 
 
-def _inject_structural_triplets(graph_store: SimplePropertyGraphStore, all_nodes: list) -> None:
-    """Injeta arestas estruturais CONTIDA_EM/NEXT_CHUNK/SAME_PAGE sem LLM (custo zero).
+def _inject_structural_triplets(graph_store, all_nodes):
+    """Estrutura tipada com IDs dos chunks e texto recuperável."""
+    from collections import defaultdict
+    from llama_index.core.graph_stores.types import EntityNode, Relation
+    graph_store.upsert_llama_nodes(all_nodes)
+    by_page = defaultdict(list)
+    for node in all_nodes:
+        md = node.metadata
+        by_page[(str(md.get("source_file", "")), str(md.get("page", "")))].append(node)
+    for (source, page), nodes in by_page.items():
+        if not source or not page:
+            continue
+        doc = EntityNode(name=f"Documento:{source}", label="Documento")
+        pag = EntityNode(name=f"Pagina:{source}#p{page}", label="Pagina")
+        graph_store.upsert_nodes([doc, pag])
+        graph_store.upsert_relations([Relation(label="PERTENCE_A_DOC", source_id=pag.id, target_id=doc.id)])
+        # Tipos separados podem ter chunk_id repetido. Não ligar por uma ordem falsa.
+        text_nodes = sorted([n for n in nodes if n.metadata.get("type", "text") == "text"], key=lambda n: int(n.metadata.get("chunk_id") or 0))
+        for node in nodes:
+            graph_store.upsert_relations([Relation(label="CONTIDA_EM", source_id=node.node_id, target_id=pag.id)])
+        for first, second in zip(text_nodes, text_nodes[1:]):
+            if int(second.metadata.get("chunk_id") or 0) != int(first.metadata.get("chunk_id") or 0) + 1:
+                continue
+            graph_store.upsert_relations([
+                Relation(label="NEXT_CHUNK", source_id=first.node_id, target_id=second.node_id),
+                Relation(label="SAME_PAGE", source_id=first.node_id, target_id=second.node_id),
+                Relation(label="SAME_PAGE", source_id=second.node_id, target_id=first.node_id),
+            ])
+    _inject_document_context(graph_store, all_nodes)
 
-    Usa metadata já garantida por processing.py: source_file, page, chunk_id, type.
-    """
-    if not all_nodes:
+
+def _inject_document_context(graph_store, all_nodes):
+    from document_context import context_links
+    from llama_index.core.graph_stores.types import EntityNode, Relation, TRIPLET_SOURCE_KEY
+    tables = {}
+    for node in all_nodes:
+        key = node.metadata.get("table_key")
+        if node.metadata.get("type") != "table" or not key:
+            continue
+        table = tables.setdefault(key, EntityNode(name=key, label="Tabela", properties={"canonical_id": key}))
+        graph_store.upsert_nodes([table])
+        graph_store.upsert_relations([Relation(label="REPRESENTADA_EM", source_id=table.id, target_id=node.node_id,
+                                              properties={TRIPLET_SOURCE_KEY: node.node_id, "method": "table_chunk_identity"})])
+    for source, target, relation, properties in context_links(all_nodes):
+        table = tables.get(source.metadata.get("table_key"))
+        if table is not None:
+            graph_store.upsert_relations([Relation(label=relation, source_id=table.id, target_id=target.node_id,
+                                                  properties={**properties, TRIPLET_SOURCE_KEY: target.node_id})])
+
+
+def _inject_domain_triplets(graph_store, all_nodes):
+    from llama_index.core.graph_stores.types import EntityNode, Relation, TRIPLET_SOURCE_KEY
+    from domain_ontology import enabled, node_observations, validate_relation, TERRITORIES, INDICATORS, SECTOR_PARENTS, SECTOR_LABELS
+    if not enabled():
         return
-    try:
-        from collections import defaultdict
-
-        # Agrupa por (source_file, page) para cadeia NEXT_CHUNK e clique SAME_PAGE
-        by_page: dict[tuple, list] = defaultdict(list)
-        for n in all_nodes:
-            md = getattr(n, "metadata", {}) or {}
-            key = (str(md.get("source_file") or ""), str(md.get("page") or ""))
-            by_page[key].append(n)
-        # Usa LabelledPropertyGraph.add_triplet com EntityNode/Relation
-        from llama_index.core.graph_stores.simple_labelled import EntityNode, Relation
-        import hashlib
-
-        def _add_triplet(subj: str, rel: str, obj: str):
-            try:
-                # ids determinísticos estáveis
-                subj_id = hashlib.md5(subj.encode()).hexdigest()[:12]
-                obj_id = hashlib.md5(obj.encode()).hexdigest()[:12]
-                rel_id = hashlib.md5(f"{subj}::{rel}::{obj}".encode()).hexdigest()[:12]
-                subj_node = EntityNode(id=subj_id, name=subj, label=subj.split(":")[0] if ":" in subj else "Entidade", properties={})
-                obj_node = EntityNode(id=obj_id, name=obj, label=obj.split(":")[0] if ":" in obj else "Entidade", properties={})
-                relation = Relation(id=rel_id, label=rel, source_id=subj_id, target_id=obj_id, properties={})
-                graph_store.graph.add_triplet((subj_node, relation, obj_node))
-            except Exception:
-                pass
-
-        for (src_file, page), nodes in by_page.items():
-            # ordena por chunk_id para NEXT_CHUNK
-            try:
-                nodes_sorted = sorted(nodes, key=lambda n: int((getattr(n, "metadata", {}) or {}).get("chunk_id") or 0))
-            except Exception:
-                nodes_sorted = nodes
-            pagina_id = f"{src_file}#p{page}"
-            doc_id = src_file
-            # Pagina -> Documento
-            _add_triplet(pagina_id, "PERTENCE_A_DOC", doc_id)
-            for idx, n in enumerate(nodes_sorted):
-                md = getattr(n, "metadata", {}) or {}
-                node_label = f"{md.get('type','text')}:{md.get('chunk_id','?')}@{pagina_id}"
-                # Chunk/Tabela/Grafico -> Pagina
-                _add_triplet(node_label, "CONTIDA_EM", pagina_id)
-                # NEXT_CHUNK cadeia
-                if idx + 1 < len(nodes_sorted):
-                    nxt = nodes_sorted[idx + 1]
-                    nxt_label = f"{nxt.metadata.get('type','text')}:{nxt.metadata.get('chunk_id','?')}@{pagina_id}"
-                    _add_triplet(node_label, "NEXT_CHUNK", nxt_label)
-                # SAME_PAGE clique (todos com todos na mesma página, até 3 para não explodir)
-                # só liga aos 2 vizinhos mais próximos para manter path_depth=2 barato
-                for j in (idx - 1, idx + 1):
-                    if 0 <= j < len(nodes_sorted) and j != idx:
-                        other = nodes_sorted[j]
-                        other_label = f"{other.metadata.get('type','text')}:{other.metadata.get('chunk_id','?')}@{pagina_id}"
-                        _add_triplet(node_label, "SAME_PAGE", other_label)
-                # DESCRITA_EM determinística: Tabela/Grafico -> Texto vizinho mesma página (janela ±1)
-                if md.get("type") in {"table", "image"}:
-                    for j in (idx - 1, idx + 1):
-                        if 0 <= j < len(nodes_sorted):
-                            other = nodes_sorted[j]
-                            if other.metadata.get("type") == "text":
-                                other_label = f"text:{other.metadata.get('chunk_id','?')}@{pagina_id}"
-                                _add_triplet(node_label, "DESCRITA_EM", other_label)
-                    # LLM secundário quando RAG_GRAPH_DESCRITA_LLM=1 é tratado em startup (não aqui)
-        log.info("[Graph] Injetadas arestas estruturais NEXT_CHUNK/CONTIDA_EM para %d páginas", len(by_page))
-    except Exception as exc:
-        log.warning("[Graph] Falha ao injetar estruturais: %s", exc)
-
+    graph_store.upsert_llama_nodes(all_nodes)
+    # Cadastro completo da hierarquia; um pai não precisa ter valor observado para existir.
+    for key, definition in TERRITORIES.items():
+        territory = EntityNode(name=f"{definition['type']}:{definition['name']}", label=definition["type"], properties={"canonical_id": key})
+        graph_store.upsert_nodes([territory])
+        if definition["parent"]:
+            parent = TERRITORIES[definition["parent"]]
+            parent_node = EntityNode(name=f"{parent['type']}:{parent['name']}", label=parent["type"], properties={"canonical_id": definition["parent"]})
+            graph_store.upsert_nodes([parent_node])
+            graph_store.upsert_relations([Relation(label="PARTE_DE", source_id=territory.id, target_id=parent_node.id,
+                                                  properties={"method": "registered_territory_hierarchy"})])
+    for child, parent in SECTOR_PARENTS.items():
+        first = EntityNode(name=f"Setor:{SECTOR_LABELS[child]}", label="Setor", properties={"canonical_id": child})
+        second = EntityNode(name=f"Setor:{SECTOR_LABELS[parent]}", label="Setor", properties={"canonical_id": parent})
+        graph_store.upsert_nodes([first, second])
+        graph_store.upsert_relations([Relation(label="PARTE_DE", source_id=first.id, target_id=second.id,
+                                              properties={"method": "registered_sector_hierarchy"})])
+    for node in all_nodes:
+        for observation in node_observations(node):
+            obs = EntityNode(name=observation["id"], label="ObservacaoEstatistica", properties={
+                "value": observation["value"], "dimensions_json": json.dumps(observation["dimensions"], ensure_ascii=False),
+                "provenance_json": json.dumps(observation["provenance"], ensure_ascii=False),
+                "publication_periods_json": json.dumps(observation.get("publication_periods", [])),
+                "issues_json": json.dumps(observation.get("issues", []), ensure_ascii=False),
+                "status": observation["status"], TRIPLET_SOURCE_KEY: node.node_id,
+            })
+            graph_store.upsert_nodes([obs])
+            graph_store.upsert_relations([Relation(label="SUSTENTADA_POR", source_id=obs.id, target_id=node.node_id,
+                                                  properties={TRIPLET_SOURCE_KEY: node.node_id})])
+            for dimension, relation, typ in [("indicator", "OBSERVACAO_DE", "Indicador"), ("period", "REFERENTE_A", "Período"),
+                                              ("region", "APLICA_SE_A", "Territorio"), ("unit", "EXPRESSA_EM", "Unidade"),
+                                              ("sector", "NO_SETOR", "Setor"), ("source", "MEDIDO_POR", "FonteDados")]:
+                values = observation["dimensions"][dimension]
+                # Uma relação singular não afirma que todas as combinações são fatos.
+                if len(values) != 1:
+                    continue
+                value = values[0]
+                definition = TERRITORIES.get(value) if dimension == "region" else None
+                actual_type = definition["type"] if definition else typ
+                name = definition["name"] if definition else INDICATORS[value][1] if dimension == "indicator" else SECTOR_LABELS[value] if dimension == "sector" else value
+                entity = EntityNode(name=f"{actual_type}:{name}", label=actual_type, properties={"canonical_id": value})
+                if validate_relation("ObservacaoEstatistica", relation, actual_type):
+                    graph_store.upsert_nodes([entity])
+                    graph_store.upsert_relations([Relation(label=relation, source_id=obs.id, target_id=entity.id,
+                                                          properties={TRIPLET_SOURCE_KEY: node.node_id})])
 
 def export_graph_image(graph_store: SimplePropertyGraphStore, output_path: str) -> None:
     """Exporta o grafo como PNG usando networkx + matplotlib."""
@@ -162,7 +163,7 @@ def export_graph_image(graph_store: SimplePropertyGraphStore, output_path: str) 
         log.warning("[Graph] networkx/matplotlib não instalados — imagem não gerada")
         return
 
-    triplets = graph_store.graph.triplets
+    triplets = graph_store.graph.get_triplets()
     if not triplets:
         log.warning("[Graph] Grafo vazio — imagem não gerada")
         return
@@ -170,7 +171,7 @@ def export_graph_image(graph_store: SimplePropertyGraphStore, output_path: str) 
     G = nx.DiGraph()
     # triplets é set[str,str,str] ou get_triplets() → [(EntityNode,Relation,EntityNode)]
     # tenta resolver nomes via graph.nodes/relations
-    for triplet in triplets:
+    for triplet in triplets[:300]:
         if isinstance(triplet, (list, tuple)) and len(triplet) == 3 and all(hasattr(x, "name") or hasattr(x, "label") for x in triplet):
             src = getattr(triplet[0], "name", str(triplet[0]))
             rel = getattr(triplet[1], "label", str(triplet[1]))
@@ -196,7 +197,7 @@ def export_graph_image(graph_store: SimplePropertyGraphStore, output_path: str) 
     edge_labels = nx.get_edge_attributes(G, "label")
     nx.draw_networkx_edge_labels(G, pos, edge_labels=edge_labels, font_size=5, ax=ax)
     ax.axis("off")
-    ax.set_title(f"Knowledge Graph — {G.number_of_nodes()} nós, {G.number_of_edges()} arestas", fontsize=12)
+    ax.set_title(f"Knowledge Graph — amostra de até 300 relações ({len(triplets)} no grafo)", fontsize=12)
 
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     fig.savefig(output_path, dpi=150, bbox_inches="tight")
@@ -234,10 +235,13 @@ def build_or_load_graph(
     config_path = os.path.join(graph_dir, "graph_config.json")
     from graph_ontology import ontology_enabled
     graph_config = {
-        "llm": bool(use_llm or _graph_embed_enabled() or ontology_enabled()),
+        "llm": bool(use_llm),
         "embed": _graph_embed_enabled(),
         "struct": _graph_struct_enabled(),
         "ontology": ontology_enabled(),
+        "domain_enabled": domain_enabled(),
+        "ontology_hash": fingerprint(),
+        "graph_pipeline": "typed-observations-context-v2",
     }
     try:
         with open(config_path, encoding="utf-8") as f:
@@ -266,6 +270,8 @@ def build_or_load_graph(
                         _save_graph_store(graph_store, graph_path)
                     except Exception:
                         pass
+                _inject_domain_triplets(graph_store, text_nodes)
+                _save_graph_store(graph_store, graph_path)
                 return PropertyGraphIndex.from_existing(
                     property_graph_store=graph_store,
                     embed_kg_nodes=_graph_embed_enabled(),
@@ -291,16 +297,15 @@ def build_or_load_graph(
 
     # Fast-path P0: quando só estrutural está ativo (custo zero), não chama LLM
     _need_llm_graph = graph_config["llm"]
-    try:
-        from graph_ontology import ontology_enabled
-        if ontology_enabled():
-            _need_llm_graph = True
-    except Exception:
-        pass
+    if ontology_enabled():
+        from graph_ontology import discover_entity_types
+        discover_entity_types(text_nodes, llm, base_dir, force=force_rebuild)
     if not _need_llm_graph:
         log.info("[Graph] Modo estrutural apenas (sem LLM) — injetando triplets determinísticos")
         graph_store = SimplePropertyGraphStore()
-        _inject_structural_triplets(graph_store, text_nodes)
+        if _graph_struct_enabled():
+            _inject_structural_triplets(graph_store, text_nodes)
+        _inject_domain_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
         save_config()
         log.info("[Graph] Grafo estrutural salvo em %s (%d triplets)", graph_path, len(graph_store.graph.triplets))
@@ -310,29 +315,10 @@ def build_or_load_graph(
             pass
         return PropertyGraphIndex.from_existing(
             property_graph_store=graph_store,
-            embed_kg_nodes=False,
+            embed_kg_nodes=_graph_embed_enabled(),
         )
 
-    # P2: ontologia dinâmica opcional (RAG_ONTOLOGY_DISCOVER=1) — port kg ontology.py
-    try:
-        from graph_ontology import discover_entity_types, ontology_enabled
-        if ontology_enabled():
-            extra = discover_entity_types(narrative_nodes, llm, base_dir, force=force_rebuild)
-            allowed_entities = list(_ENTITY_TYPES) + extra
-            if extra:
-                log.info("[Graph] Entidades estendidas via ontologia: %s", allowed_entities)
-        else:
-            allowed_entities = list(_ENTITY_TYPES)
-    except Exception as exc:
-        log.warning("[Graph] Ontologia desabilitada/falhou (%s) — usando fixos", exc)
-        allowed_entities = list(_ENTITY_TYPES)
-
-    extractor = DynamicLLMPathExtractor(
-        llm=llm,
-        max_triplets_per_chunk=6,
-        allowed_entity_types=allowed_entities,
-        allowed_relation_types=_RELATION_TYPES,
-    )
+    extractor = OntologyPathExtractor(llm=llm, max_triplets=6)
 
     graph_store = SimplePropertyGraphStore()
     try:
@@ -345,6 +331,7 @@ def build_or_load_graph(
         )
         if _graph_struct_enabled():
             _inject_structural_triplets(graph_store, text_nodes)
+        _inject_domain_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
         save_config()
         log.info("[Graph] Grafo salvo em %s", graph_path)
@@ -361,6 +348,7 @@ def build_or_load_graph(
                 try:
                     fallback_store = SimplePropertyGraphStore()
                     _inject_structural_triplets(fallback_store, text_nodes)
+                    _inject_domain_triplets(fallback_store, text_nodes)
                     _save_graph_store(fallback_store, graph_path)
                     log.info("[Graph] Fallback estrutural salvo (%d triplets)", len(fallback_store.graph.triplets))
                     return PropertyGraphIndex.from_existing(

@@ -1,4 +1,4 @@
-﻿"""
+"""
 Text Retriever — retrieval híbrido (Vector + BM25) para chunks de texto narrativo.
 
 Expõe também build_hybrid_retriever(), usado pelos outros retrievers.
@@ -15,6 +15,7 @@ import Stemmer
 from logger import get_logger
 from llm import provider_name
 from runtime import bounded_int
+from domain_ontology import expand_query, filter_candidates, preserve_query
 
 log = get_logger(__name__)
 _FALLBACK_TOP_N = 5
@@ -33,6 +34,9 @@ def retrieval_top_k() -> int:
 
 
 def query_fusion_queries() -> int:
+    # A engine já decompõe perguntas no modo aprofundado.
+    if os.getenv("RAG_DEEP_SEARCH", "0").lower() in {"1", "true", "yes", "on"}:
+        return 1
     return bounded_int("RAG_QUERY_FUSION_QUERIES", 2, 1, 4)
 
 
@@ -78,6 +82,32 @@ class ScoreReranker:
     def postprocess_nodes(self, nodes, query_str: str | None = None):
         del query_str
         return list(nodes[:self.top_n])
+
+
+class ProtectedFusionRetriever:
+    """Expansões passam pelos mesmos controles da consulta principal."""
+
+    def __init__(self, retriever, llm):
+        self._retriever, self._llm = retriever, llm
+
+    def retrieve(self, question):
+        queries = [question]
+        count = query_fusion_queries()
+        if count > 1 and self._llm is not None:
+            try:
+                response = self._llm.complete(_QUERY_GEN_PROMPT.format(num_queries=count - 1, query=question))
+                for line in response.text.splitlines():
+                    clean = re.sub(r"^\s*(?:[-*]|\d+[.)])\s*", "", line).strip()
+                    if clean:
+                        candidate = preserve_query(question, clean)
+                        if candidate not in queries:
+                            queries.append(candidate)
+                    if len(queries) >= count:
+                        break
+            except Exception as exc:
+                log.warning("Expansão indisponível; preservando pergunta: %s", exc)
+        from rag_selection import fuse
+        return fuse([self._retriever.retrieve(q) for q in queries], question)[:retrieval_top_k()]
 
 
 def _sanitize(text: str) -> str:
@@ -162,15 +192,16 @@ def build_hybrid_retriever(index, bm25_nodes, *, node_type: str | None = None, l
             language="portuguese",
             stemmer=Stemmer.Stemmer("portuguese"),
         )
-        return QueryFusionRetriever(
+        fused = QueryFusionRetriever(
             retrievers=[vector_retriever, bm25_retriever],
             llm=llm,
             query_gen_prompt=_QUERY_GEN_PROMPT,
             similarity_top_k=top_k,
-            num_queries=query_fusion_queries(),
+            num_queries=1,
             mode="reciprocal_rerank",
             use_async=False,
         )
+        return ProtectedFusionRetriever(fused, llm)
 
     return vector_retriever
 
@@ -189,16 +220,26 @@ class TextRetriever:
 
     def retrieve(self, question: str) -> list:
         """Retorna nodes de texto reranqueados. Lista vazia se sem resultados."""
-        nodes = self._retriever.retrieve(question)
+        nodes = filter_candidates(self._retriever.retrieve(expand_query(question)), question)
 
         # Filtra apenas chunks narrativos (não tabelas)
         text_nodes = [n for n in nodes if n.metadata.get("type") != "table"]
         if not text_nodes:
             return []
 
-        # Sanitiza conteúdo antes do reranker (evita erro 400 na API)
+        # Sanitiza conteúdo antes do reranker sem mutar o nó original (está no cache BM25)
+        from llama_index.core.schema import NodeWithScore
+        sanitized_nodes = []
         for n in text_nodes:
-            n.node.text = _sanitize(n.node.text)
+            clean_text = _sanitize(n.node.text)
+            if clean_text == n.node.text:
+                sanitized_nodes.append(n)
+            else:
+                import copy as _copy
+                new_node = _copy.copy(n.node)
+                new_node.text = clean_text
+                sanitized_nodes.append(NodeWithScore(node=new_node, score=n.score))
+        text_nodes = sanitized_nodes
 
         try:
             reranked = self._reranker.postprocess_nodes(
@@ -220,6 +261,8 @@ class TextRetriever:
                 "Reranker retornou vazio — usando fallback top-%d", text_top_n(),
                 extra={"fallback": True},
             )
-            return _diversify_by_document(text_nodes, text_top_n())
+            from rag_selection import select_coverage
+            return select_coverage(text_nodes, question, text_top_n())
 
-        return _diversify_by_document(reranked, text_top_n())
+        from rag_selection import select_coverage
+        return select_coverage(reranked, question, text_top_n())

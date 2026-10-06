@@ -8,39 +8,7 @@ def fold(text: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", text.lower()) if unicodedata.category(c) != "Mn")
 
 
-_INDICATORS = {
-    "desocupacao": r"desocupacao|desemprego",
-    "ocupacao": r"(?<!des)ocupacao|pessoal ocupado|ocupados",
-    "pib": r"\bpib\b|produto interno bruto",
-    "exportacao": r"exporta\w*", "importacao": r"importa\w*",
-    "saldo": r"saldo", "rendimento": r"rendimento|salario|renda",
-    "producao": r"producao", "emprego": r"emprego\w*|postos de trabalho",
-    "inflacao": r"inflacao|ipca", "participacao": r"participacao",
-}
-_REGIONS = {
-    "sp": r"sao paulo|paulista|\bsp\b",
-    "brasil": r"brasil|brasileir\w*|nacional",
-    "rmsp": r"rmsp|regiao metropolitana de sao paulo",
-    "interior": r"interior", "capital": r"capital|municipio de sao paulo",
-}
-_UNITS = {
-    "percentual": r"%|por cento|percentual",
-    "pp": r"p\.\s*p\.|pontos? percentuais?",
-    "real": r"r\$|reais", "dolar": r"us\$|dolares",
-    "mil": r"\bmil\b|milhares", "milhao": r"milhao|milhoes",
-    "bilhao": r"bilhao|bilhoes", "pessoa": r"pessoas|trabalhadores|habitantes",
-    "tonelada": r"toneladas?",
-}
-
-
-def facets(text: str) -> dict[str, set[str]]:
-    text = fold(text)
-    return {
-        "indicator": {key for key, pattern in _INDICATORS.items() if re.search(pattern, text)},
-        "region": {key for key, pattern in _REGIONS.items() if re.search(pattern, text)},
-        "period": set(re.findall(r"\b(?:19|20)\d{2}\b|\b[1-4][ºo°]?\s*trimestre\b|\b(?:janeiro|fevereiro|marco|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\b", text)),
-        "unit": {key for key, pattern in _UNITS.items() if re.search(pattern, text)},
-    }
+from domain_ontology import facets, node_observations, query_constraints
 
 
 def claim_spans(text: str):
@@ -73,6 +41,10 @@ def contextual_support(claim: str, excerpt: str) -> tuple[bool, list[str]]:
         elif wanted[dimension] != found[dimension]:
             issues.append(f"{dimension}: sem correspondência no trecho")
     # Facetas coincidentes não bastam se o assunto lexical não coincide.
+    for dimension in ("scale", "sector", "source", "kind", "basis", "coverage"):
+        if wanted[dimension] and wanted[dimension] != found[dimension]:
+            issues.append(f"{dimension}: sem correspondência no trecho")
+    issues.extend(query_constraints(claim)["ambiguities"])
     words = set(re.findall(r"[a-z]{5,}", fold(claim))) - {"percentual", "paulista", "estado", "registrou", "atingiu", "apresentou"}
     if words and not words.intersection(re.findall(r"[a-z]{5,}", fold(excerpt))):
         issues.append("assunto: sem correspondência lexical")
@@ -102,12 +74,14 @@ def build_claim_evidence(answer, nodes, checks, calculations=()):
                 "node_id": str(getattr(getattr(node, "node", node), "node_id", "")),
                 "file": source_file(node), "page": source_page(node),
                 "excerpts": snippets or [node.get_content()[:1000]],
+                "observation_candidates": [obs["id"] for obs in node_observations(node)],
             })
         records.append({
             "claim": claim, "start": start, "end": end,
             "status": "context_match" if numbers and all(c.verified for c in numbers) else "requires_review",
             "method": "contextual_heuristic" if numbers else "lexical_candidates",
             "sources": candidates,
+            "dimensions": query_constraints(claim),
             "calculation_candidates": [
                 index for index, calculation in enumerate(calculations)
                 if str(calculation.get("result", "")).strip()

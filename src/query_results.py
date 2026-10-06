@@ -21,6 +21,9 @@ class AnswerResult:
     nodes: list
     chart: dict | None = None
     calculations: list[dict] = field(default_factory=list)
+    clarification: dict | None = None
+    knowledge: dict = field(default_factory=dict)
+    retrieval_paths: list[dict] = field(default_factory=list)
 
     def __iter__(self):
         yield self.answer

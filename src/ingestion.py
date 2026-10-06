@@ -299,6 +299,7 @@ def extract_pdf_tables(pdf_path: Path, source_file: str | None = None) -> list:
     """Extrai tabelas de PDF via Camelot (lattice → stream como fallback)."""
     source_file = source_file or pdf_path.name
     tables = []
+    context_pdf = None
     try:
         result = camelot.read_pdf(str(pdf_path), pages="all", flavor="lattice")
         if result.n == 0:
@@ -308,6 +309,14 @@ def extract_pdf_tables(pdf_path: Path, source_file: str | None = None) -> list:
             df = table.df
             if df.empty:
                 continue
+            context = {}
+            try:
+                from document_context import pdf_table_context
+                if context_pdf is None:
+                    context_pdf = fitz.open(str(pdf_path))
+                context = pdf_table_context(context_pdf[int(table.page) - 1], getattr(table, "_bbox", None))
+            except Exception as exc:
+                print(f"  Aviso: contexto da tabela não disponível em {source_file} p.{table.page}: {exc}")
             tables.append({
                 "table_id": str(uuid.uuid4()),
                 "source_file": source_file,
@@ -317,9 +326,13 @@ def extract_pdf_tables(pdf_path: Path, source_file: str | None = None) -> list:
                 "rows": df.shape[0],
                 "cols": df.shape[1],
                 "type": "table",
+                "context": context,
             })
     except Exception as e:
         print(f"  Aviso: falha ao extrair tabelas de {pdf_path.name}: {e}")
+    finally:
+        if context_pdf is not None:
+            context_pdf.close()
     return tables
 
 
@@ -399,6 +412,9 @@ def to_llama_documents(text_chunks: list, tables: list, images: list | None = No
             },
         ))
     for table in tables:
+        from document_context import table_identity
+        context = table.get("context") or {}
+        table_key = table_identity(table, table["markdown"])
         docs.append(Document(
             text=f"Tabela extraída de {table['source_file']} (página/aba: {table['page']}):\n\n{table['markdown']}",
             metadata={
@@ -408,6 +424,12 @@ def to_llama_documents(text_chunks: list, tables: list, images: list | None = No
                 "table_id": table["table_id"],
                 "rows": table["rows"],
                 "cols": table["cols"],
+                "table_key": table_key,
+                "table_index": table.get("table_index", 0),
+                "table_title": context.get("title", ""),
+                "table_notes": json.dumps(context.get("notes", []), ensure_ascii=False),
+                "table_context_association": context.get("association", "literal_in_table"),
+                "table_context_requires_review": bool(context.get("requires_review", False)),
             },
         ))
     for img in (images or []):

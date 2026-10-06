@@ -23,6 +23,7 @@ from runtime import request_timeout_seconds
 from load_control import request_slot
 from evidence import build_claim_evidence
 from query_usage import usage_scope
+from domain_ontology import ontology_report
 
 _SOURCE_EXCERPT_MAX_CHARS = 4_000
 log = get_logger(__name__)
@@ -170,7 +171,7 @@ async def _execute_engine_query(
             verified=verified,
             total=len(checks),
             unverified=unverified,
-            requires_review=bool(unverified) or any(item["status"] == "requires_review" for item in claim_evidence),
+            requires_review=bool(getattr(result, "clarification", None)) or bool(unverified) or any(item["status"] == "requires_review" for item in claim_evidence),
         ),
         citation_validation=CitationValidationInfo(
             verified=len(citation_checks) - len(unverified_citations),
@@ -183,6 +184,9 @@ async def _execute_engine_query(
         timeseries_chart=timeseries_chart,
         calculations=calculations,
         claim_evidence=claim_evidence,
+        ontology=ontology_report(question, source_nodes, calculations, getattr(result, "retrieval_paths", [])),
+        clarification=getattr(result, "clarification", None),
+        knowledge=getattr(result, "knowledge", {}),
     )
     diagnostics = QueryDiagnostics(
         sources=interp["sources"],

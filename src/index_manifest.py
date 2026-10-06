@@ -17,7 +17,10 @@ _MANIFEST_NAME = "indexed_manifest.json"
 
 def _pipeline_fingerprint() -> str:
     """Hash de versão do pipeline (chunk/embedding/visão/RAPTOR) para invalidar índice quando config muda."""
+    from domain_ontology import fingerprint
+    # Ativação em consulta não muda os embeddings: metadados ontológicos são excluídos.
     parts = [
+        fingerprint(),
         os.getenv("RAG_CHUNK_SIZE", "1024"),
         os.getenv("RAG_CHUNK_OVERLAP", "200"),
         os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3"),
@@ -28,7 +31,7 @@ def _pipeline_fingerprint() -> str:
         os.getenv("RAG_RAPTOR_MAX_LEVELS", "3"),
         os.getenv("RAG_RAPTOR_MIN_CLUSTER", "4"),
         os.getenv("RAG_INGEST_LLM_ENRICHMENT", "0"),
-        "v3-full-content-node-ids",
+        "v4-section-sentence-boundaries",
     ]
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
 

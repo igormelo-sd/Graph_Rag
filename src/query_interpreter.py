@@ -6,7 +6,8 @@ Query Interpreter — analisa a pergunta e determina:
 """
 import json
 import os
-from src.labor_market_skill import is_labor_market_query
+from domain_ontology import prompt_block, query_constraints, preserve_query, enabled as ontology_enabled
+from labor_market_skill import is_labor_market_query
 
 INTERPRET_PROMPT = """\
 Você é um roteador de consultas para um sistema RAG de dados econômicos do Estado de São Paulo.
@@ -64,11 +65,17 @@ def interpret_query(question: str, llm) -> dict:
     Interpreta a query e retorna:
         {"sources": [...], "rewritten_query": "...", "rewritten_queries": [...]}
 
-    Sempre retorna ao menos "text" em sources como fallback seguro.
+    Retorna ao menos "text", exceto quando pede esclarecimento antes da busca.
     Quando RAG_DEEP_SEARCH=1, também retorna alternativas para deep search.
     """
+    from knowledge_analytics import clarification_request, hierarchy_scope
+    clarification = clarification_request(question)
+    if clarification:
+        return {"sources": [], "rewritten_query": question, "rewritten_queries": [question],
+                "is_labor_market": is_labor_market_query(question), "ontology": query_constraints(question),
+                "clarification": clarification}
     prompt = DEEP_INTERPRET_PROMPT.format(question=question) if _deep_search_enabled() else INTERPRET_PROMPT.format(question=question)
-    raw = llm.complete(prompt).text.strip()
+    raw = llm.complete(prompt_block(question) + prompt).text.strip()
 
     # Remove markdown code fences, se presentes
     raw = raw.strip("` \n")
@@ -83,15 +90,21 @@ def interpret_query(question: str, llm) -> dict:
             sources = [s for s in sources if s != "image"]
         if "text" not in sources:
             sources = ["text"] + sources
+        dimensions = query_constraints(question)["dimensions"]
+        if ontology_enabled() and (all(dimensions[key] for key in ("indicator", "region", "period")) or hierarchy_scope(question)["requested"]) and "graph" not in sources:
+            sources.append("graph")
         rewritten = result.get("rewritten_query", question) or question
+        rewritten = preserve_query(question, rewritten) if isinstance(rewritten, str) else question
         alt = result.get("rewritten_queries") if isinstance(result.get("rewritten_queries"), list) else []
         # filtra strings válidas e limita a 3
         alt = [str(q).strip() for q in alt if isinstance(q, str) and str(q).strip()][:3]
+        alt = list(dict.fromkeys(preserve_query(question, q) for q in alt))
         return {
             "sources": sources or ["text"],
             "rewritten_query": rewritten,
             "rewritten_queries": [rewritten] + alt if alt else [rewritten],
             "is_labor_market": is_labor_market_query(question),
+            "ontology": query_constraints(question),
         }
     except (json.JSONDecodeError, AttributeError):
         return {
@@ -99,4 +112,5 @@ def interpret_query(question: str, llm) -> dict:
             "rewritten_query": question,
             "rewritten_queries": [question],
             "is_labor_market": is_labor_market_query(question),
+            "ontology": query_constraints(question),
         }

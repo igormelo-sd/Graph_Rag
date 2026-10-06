@@ -1,4 +1,4 @@
-﻿"""
+"""
 Entry point do RAG Estatístico SP.
 
 Modos de uso:
@@ -86,7 +86,7 @@ def _run_cli(_use_graph: bool = False) -> None:
             print("\nReferências:")
             for i, node in enumerate(source_nodes):
                 fname = node.metadata.get("source_file") or node.metadata.get("file_name", "?")
-                score = round((node.score or 0) / 10.0, 2)
+                score = round(node.score or 0, 4)
                 print(f"  [{i+1}] {fname} (relevância: {score:.2f})")
 
         except Exception as exc:

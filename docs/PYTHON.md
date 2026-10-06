@@ -36,9 +36,9 @@ Tabelas e séries recuperam células e pedem planos JSON. `calculations.py` calc
 
 ## Orquestração, grafo e skills
 
-`query_interpreter.py` escolhe fontes e reescrita. `analysis_engine.py` recupera fontes em paralelo, deduplica, anexa até seis vizinhos e sintetiza o contexto. A expansão de vizinhos consulta metadados no cache BM25; não percorre as arestas armazenadas do grafo.
+`query_interpreter.py` escolhe fontes e reescrita, ou retorna pedido de esclarecimento territorial sem LLM. `analysis_engine.py` recupera fontes em paralelo e percorre arestas de contexto por `GraphRetriever.retrieve_context`, acrescentando até seis chunks e priorizando notas/títulos. Não expande páginas inteiras. `knowledge_analytics.py` mantém a análise do corpus por processo e retorna relatórios isolados por chamada.
 
-`--graph` ou `RAG_USE_GRAPH=1` ativa extração por LLM; `RAG_GRAPH_EMBED=1` habilita embedding dos nós do grafo, sem equivaler à extração. A construção estrutural padrão não usa LLM, mas a consulta direta por `LLMSynonymRetriever` pode usá-lo. Consulte [GRAFOS.md](GRAFOS.md).
+`--graph` ou `RAG_USE_GRAPH=1` ativa extração por LLM; `RAG_GRAPH_EMBED=1` habilita embedding dos nós do grafo, sem equivaler à extração. Observações são consultadas localmente por dimensões; `LLMSynonymRetriever` é usado somente com a opção de grafo LLM. Não há uma rota vetorial dedicada para o grafo. Consulte [GRAFOS.md](GRAFOS.md).
 
 `DomainSkillRegistry` lê as configurações `rag-routing.json` e injeta somente o bloco entre marcadores `rag-context` do `SKILL.md` correspondente. Scripts e referências auxiliares não são executados automaticamente.
 
@@ -48,11 +48,11 @@ Tabelas e séries recuperam células e pedem planos JSON. `calculations.py` calc
 
 `numerical_validator.py` verifica cada ocorrência de número com contexto de indicador, período, região e unidade. `verified` é uma correspondência heurística. `claim_evidence` fornece candidatos documentais; `calculations` distingue correção aritmética de revisão semântica; `usage` registra tokens disponíveis. Custo ausente é `null`, não zero.
 
-`POST /query` retorna resposta, fontes, validação, evidências, cálculos, uso e gráfico opcional. `/health`, `/metrics` e `/docs` expõem estado, métricas e contrato. Autenticação, rate limit e CORS dependem de configuração. Os limites de consultas, fila, LLM e rerank são por processo. Sobrecarga pode retornar 503 com `Retry-After`; timeout HTTP não interrompe necessariamente trabalho já iniciado em uma thread.
+`POST /query` retorna resposta, fontes, validação, evidências, cálculos, uso, gráfico opcional, `ontology` (dimensões, observações, auditorias, caminhos e grafo de derivação), `knowledge` e `clarification`. `GET /knowledge?question=...` consulta cobertura/divergências sem LLM. `domain_ontology.py` compartilha conceitos; `ontology_extractor.py` valida relações e `relation_semantics.py` preserva qualificadores. `/health`, `/metrics` e `/docs` expõem estado, métricas e contrato. Autenticação, rate limit e CORS dependem de configuração. Sobrecarga pode retornar 503 com `Retry-After`; timeout não interrompe necessariamente trabalho já iniciado em uma thread.
 
 ## Avaliação e estado de verificação
 
-`scripts/evaluate_retrieval.py` prepara três modos: híbrido, estrutural e grafo LLM, com fontes base comuns e processos separados. Registra recall documental, correspondência textual de fragmentos, latência, erros e custo disponível; inicialização é contabilizada separadamente. Fragment-match não mede correção semântica.
+`scripts/evaluate_retrieval.py` prepara seis modos: híbrido, estrutural e grafo LLM, cada um com ativação ou desativação parcial da ontologia, com fontes base comuns e processos separados. Registra recall documental, correspondência textual de fragmentos, latência, erros e custo disponível; inicialização é contabilizada separadamente. Fragment-match não mede correção semântica.
 
 `evaluation/cases.example.jsonl` contém rascunhos; o gabarito precisa ser conferido nos PDFs. As suítes em `tests/` incluem contratos, configuração, processamento, validadores e cálculos. Nenhum teste, avaliação ou servidor foi executado durante estas alterações.
 

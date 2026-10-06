@@ -16,7 +16,7 @@ import time
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / "src")]
-MODES = ("hybrid", "structural", "llm_graph")
+MODES = ("hybrid", "structural", "llm_graph", "hybrid_no_ontology", "structural_no_ontology", "llm_graph_no_ontology")
 
 
 def load_cases(path, allow_unscored):
@@ -26,7 +26,12 @@ def load_cases(path, allow_unscored):
     for case in cases:
         if not case.get("question"):
             raise ValueError("Pergunta ausente")
-        if not allow_unscored and (not case.get("gold_reviewed") or not case.get("expected_sources") or not case.get("expected_answer_contains")):
+        dimensions = case.get("expected_dimensions", {})
+        if not isinstance(dimensions, dict) or any(not isinstance(values, list) or not values or any(not isinstance(value, str) for value in values) for values in dimensions.values()):
+            raise ValueError("expected_dimensions exige listas não vazias de identificadores")
+        if "expected_clarification" in case and type(case["expected_clarification"]) is not bool:
+            raise ValueError("expected_clarification deve ser booleano")
+        if not allow_unscored and (not case.get("gold_reviewed") or (not case.get("expected_sources") and case.get("expected_clarification") is not True) or not case.get("expected_answer_contains")):
             raise ValueError("Prepare e revise o gabarito antes de avaliar, ou use --allow-unscored")
     return cases
 
@@ -35,8 +40,11 @@ async def worker(args, cases):
     from dotenv import load_dotenv
     load_dotenv(ROOT / ".env")
     # Sobrescreve flags do .env para manter a ablação controlada.
-    os.environ.update({"RAG_USE_GRAPH": str(int(args.mode == "llm_graph")),
-                       "RAG_GRAPH_STRUCT": str(int(args.mode != "hybrid")),
+    base_mode = args.mode.removesuffix("_no_ontology")
+    ontology_active = not args.mode.endswith("_no_ontology")
+    os.environ.update({"RAG_ONTOLOGY_ENABLE": str(int(ontology_active)),
+                       "RAG_USE_GRAPH": str(int(base_mode == "llm_graph")),
+                       "RAG_GRAPH_STRUCT": str(int(base_mode != "hybrid")),
                        "RAG_GRAPH_EMBED": "0", "RAG_ONTOLOGY_DISCOVER": "0",
                        "RAG_DEEP_SEARCH": "0", "RAG_HYDE": "0",
                        "RAG_INDEX_AUTO_DOWNLOAD": "0", "RAG_INDEX_READ_ONLY": "1",
@@ -46,12 +54,12 @@ async def worker(args, cases):
     from query_usage import usage_scope
     started = time.perf_counter()
     with usage_scope() as startup_usage:
-        engine, llm = initialize(str(ROOT), use_graph=args.mode == "llm_graph")
+        engine, llm = initialize(str(ROOT), use_graph=base_mode == "llm_graph")
     startup_seconds = time.perf_counter() - started
-    # Mesmas fontes e reescritas nos três modos; interpretação não é variável experimental.
+    # Mesmas fontes base e reescritas; interpretação não é variável experimental.
     def fixed_interpreter(question, _llm):
         sources = ["text", "tables", "timeseries"]
-        if args.mode == "llm_graph":
+        if base_mode != "hybrid":
             sources.append("graph")
         return {"sources": sources, "rewritten_query": question, "is_labor_market": False}
     target = args.output / f"{args.mode}.jsonl"
@@ -71,6 +79,15 @@ async def worker(args, cases):
                     reviewed = bool(case.get("gold_reviewed"))
                     fragments = case.get("expected_answer_contains", [])
                     record.update({"response": response.model_dump(),
+                                   "ontology_candidate_count": response.ontology.get("candidate_count"),
+                                   "divergence_candidate_count": len(response.knowledge.get("divergences", [])),
+                                   "clarification_requested": bool(response.clarification),
+                                   "clarification_match": bool(response.clarification) == case["expected_clarification"] if reviewed and "expected_clarification" in case else None,
+                                   "retrieval_path_count": len(response.ontology.get("retrieval_paths", [])),
+                                   "competency_match": all(
+                                       set(values).issubset(set(response.ontology.get("query", {}).get("dimensions", {}).get(key, [])))
+                                       for key, values in case.get("expected_dimensions", {}).items()
+                                   ) if reviewed and case.get("expected_dimensions") else None,
                                    "source_recall": len(actual & expected) / len(expected) if reviewed and expected else None,
                                    "answer_fragment_match": sum(part.casefold() in response.answer.casefold() for part in fragments) / len(fragments) if reviewed and fragments else None,
                                    "cost_usd": response.usage.get("cost_usd"), "error": None})
@@ -100,10 +117,12 @@ def main():
     # Preserve resultados anteriores; o usuário escolhe outro diretório por execução.
     if any((args.output / f"{mode}.jsonl").exists() for mode in MODES):
         parser.error("O diretório já contém resultados; escolha outro --output")
-    manifest = {"cases_sha256": hashlib.sha256(args.cases.read_bytes()).hexdigest(),
+    from domain_ontology import fingerprint, SCHEMA_VERSION
+    manifest = {"ontology_hash": fingerprint(), "ontology_version": SCHEMA_VERSION,
+                "cases_sha256": hashlib.sha256(args.cases.read_bytes()).hexdigest(),
                 "requirements_sha256": hashlib.sha256((ROOT / "requirements.txt").read_bytes()).hexdigest(),
                 "python": sys.version, "repeats": args.repeats, "modes": MODES,
-                "notes": "Correspondência de fragmentos é proxy, não acurácia semântica; custo exclui construção do grafo."}
+                "notes": "Correspondência de fragmentos é proxy, não acurácia semântica; custo exclui construção do grafo. _no_ontology desativa anotação, observações, prompts e filtros; contratos de extração e evidência permanecem. competency_match mede reconhecimento de dimensões da pergunta, não qualidade da resposta."}
     (args.output / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")
     summaries = []
     for mode in MODES:
@@ -116,7 +135,7 @@ def main():
         summary = {"mode": mode, "errors": sum(bool(r.get("error")) for r in records),
                    "startup_seconds": records[0]["startup_seconds"],
                    "startup_usage": records[0]["startup_usage"]}
-        for metric in ("latency_seconds", "source_recall", "answer_fragment_match", "cost_usd"):
+        for metric in ("latency_seconds", "source_recall", "answer_fragment_match", "cost_usd", "ontology_candidate_count", "competency_match", "divergence_candidate_count", "clarification_requested", "clarification_match", "retrieval_path_count"):
             values = [record[metric] for record in records if not record.get("error") and record.get(metric) is not None]
             summary[metric + "_mean"] = statistics.mean(values) if values else None
             summary[metric + "_samples"] = len(values)

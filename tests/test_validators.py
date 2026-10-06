@@ -111,7 +111,7 @@ def test_citacao_tabular_preserva_linha_estruturada_completa():
 
 
 def test_mesmo_valor_em_afirmacoes_diferentes_e_validado_separadamente():
-    source = "A desocupação em São Paulo foi 7,9% em 2023."
+    source = "A desocupação no Estado de São Paulo foi 7,9% em 2023."
     answer = source + " A desocupação no Brasil foi 7,9% em 2024."
     rates = [c for c in validate_numbers(answer, [_node(source)]) if c.value == "7,9%"]
     assert len(rates) == 2

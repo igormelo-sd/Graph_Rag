@@ -9,10 +9,11 @@ Endpoints:
 import os
 import sys
 import time
+import asyncio
 from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
-from fastapi import Depends, FastAPI, HTTPException
+from fastapi import Depends, FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import PlainTextResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -212,6 +213,26 @@ async def query(
         ) from exc
 
     return response
+
+
+@app.get("/knowledge")
+async def knowledge(
+    question: str = Query(default="", max_length=4_000),
+    _rl: None = Depends(enforce_rate_limit),
+    _auth: None = Depends(require_api_key),
+):
+    """Cobertura do corpus indexado, hierarquia e divergências candidatas, sem LLM."""
+    if _engine is None:
+        raise HTTPException(status_code=503, detail="Sistema ainda não inicializado.")
+    from load_control import request_slot
+    try:
+        async with request_slot():
+            from runtime import request_timeout_seconds
+            return await asyncio.wait_for(asyncio.to_thread(_engine.knowledge_report, question.strip()), timeout=request_timeout_seconds())
+    except CapacityExceeded as exc:
+        raise HTTPException(status_code=503, detail="Sistema ocupado. Tente novamente em instantes.", headers={"Retry-After": "5"}) from exc
+    except TimeoutError as exc:
+        raise HTTPException(status_code=504, detail="Tempo limite ao consultar a cobertura.") from exc
 
 
 _frontend_path = _frontend_dir()
