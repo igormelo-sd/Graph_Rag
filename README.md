@@ -58,13 +58,81 @@ tests/          # suítes pytest; execução pendente
 
 ## Como rodar
 
+### Inicializacao rapida no Windows
+
+Depois de instalar as dependencias e configurar `.env`, execute `start.bat` com duplo clique ou no PowerShell:
+
 ```powershell
-pip install --require-hashes -r requirements.txt   # uma vez (.venv recomendado)
-# edite .env e preencha OPENAI_API_KEY
-python main.py --cli               # loop interativo; o primeiro boot prepara o índice
-python main.py --port 8080         # servidor FastAPI
-python main.py --cli --graph       # CLI com grafo via extração LLM
+.\start.bat
 ```
+
+O inicializador usa o Python de `.venv`, abre o chat no terminal e deixa o bootstrap conferir o indice e o manifesto. Se nao houver embeddings, eles serao criados antes do chat; se existirem, serao reutilizados, sincronizando arquivos novos, alterados ou removidos. Digite `sair` para encerrar. Em caso de erro, a janela permanece aberta para leitura. O script nao instala dependencias automaticamente e pode baixar os modelos locais no primeiro uso.
+
+O `start.bat` habilita sincronizacao (`RAG_INDEX_READ_ONLY=0`) e desabilita download de indice pronto (`RAG_INDEX_AUTO_DOWNLOAD=0`) para trabalhar com o corpus local. A pasta padrao e `data`; `RAG_DATA_DIR`, se configurada, tem precedencia. Variaveis ja presentes no ambiente prevalecem sobre `.env`.
+
+O `.env` local foi organizado com OpenRouter ativo e `openrouter/free` para os modelos de resposta, interpretacao e explicacao. Esse roteador usa modelos gratuitos disponiveis, sujeitos aos limites do servico, e o modelo escolhido pode variar entre chamadas. As chaves NVIDIA e Gemini foram preservadas, mas nao sao consumidas pela factory atual; `CODEX_MODEL` tambem nao configura o modelo do RAG. Embeddings e reranking BGE permanecem locais. Nao ha fallback automatico entre provedores.
+
+Referencia: [roteador gratuito do OpenRouter](https://openrouter.ai/openrouter/free).
+
+O inicializador e a configuracao ainda nao foram executados ou testados.
+
+### Instalacao e comandos individuais
+
+No PowerShell, na raiz do Graph_Rag, prepare o ambiente uma vez:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --require-hashes -r requirements.txt
+```
+
+Configure o provedor de linguagem no `.env` (por exemplo, `OPENAI_API_KEY` para OpenAI). Ele é necessário para consultas; o índice padrão usa embeddings locais. Modelos ainda ausentes podem ser baixados na primeira execução.
+
+Escolha explicitamente a pasta do corpus e permita sua sincronização:
+
+```powershell
+$env:RAG_DATA_DIR = "$PWD\data"
+$env:RAG_INDEX_READ_ONLY = "0"
+```
+
+Para gerar/atualizar somente embeddings e o índice lexical BM25, sem chat ou servidor:
+
+```powershell
+.\.venv\Scripts\python.exe main.py --index-only
+```
+
+Esse comando não constrói o grafo. Para o caminho padrão local, mantenha `RAG_INGEST_LLM_ENRICHMENT=0` e `RAG_RAPTOR_ENABLE=0`. O corpus é sincronizado: fontes removidas deixam de integrar o índice e fontes alteradas são reprocessadas. Mudanças na versão do processamento também provocam reindexação; não é necessário apagar manualmente o banco.
+
+Para consultar pelo terminal (digite `sair` para encerrar):
+
+```powershell
+.\.venv\Scripts\python.exe main.py --cli
+```
+
+Para iniciar a API, com documentação em http://localhost:8080/docs:
+
+```powershell
+.\.venv\Scripts\python.exe main.py --host 127.0.0.1 --port 8080
+```
+
+CLI e API também sincronizam o índice ao iniciar. A porta padrão sem `--port` é 8000.
+
+Para extração de relações por LLM e embeddings do grafo:
+
+```powershell
+$env:RAG_GRAPH_EMBED = "1"
+.\.venv\Scripts\python.exe main.py --cli --graph
+```
+
+`--graph` ativa extração de relações pelo provedor configurado e pode consumir API. `RAG_GRAPH_EMBED` controla separadamente a vetorização do grafo. `--index-only` não aceita `--cli` ou `--graph`.
+
+### Preparação dos arquivos
+
+- Formatos: PDF, CSV, XLSX, XLS e TXT, incluindo subpastas de `data`.
+- CSV: BOM UTF-16, UTF-8 e fallback Windows-1252; separador detectado entre ponto e vírgula, vírgula e tabulação. Códigos, zeros iniciais e vírgulas decimais são preservados como texto. Linhas inconsistentes interrompem a ingestão em vez de omitir a fonte silenciosamente.
+- XLSX: expande somente mesclagens declaradas, preserva títulos e combina linhas de cabeçalho anteriores aos dados. A identificação da primeira linha de dados é heurística e marcada para revisão (`table_context_requires_review`); não garante interpretação correta de qualquer layout. XLS usa leitura sem cabeçalho inicial e a mesma heurística, sem expansão de mesclagens.
+- Excel usa valores armazenados; não recalcula fórmulas. Células sem resultados salvos precisam ser recalculadas e salvas no aplicativo de origem.
+- `data_fonte/fontes.json` documenta a origem. JSON e Markdown não são indexados; os links desse catálogo ainda não são incorporados automaticamente às citações.
+- As alterações de leitura e o comando `--index-only` ainda não foram executados ou testados, conforme orientação do usuário.
 
 Cheques rápidos (quando autorizados; instale antes `pip install --require-hashes -r requirements-dev.txt`):
 

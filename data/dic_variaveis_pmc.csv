@@ -1,0 +1,6 @@
+id_variavel;descricao;fonte;serie_disponivel
+date;Data de referência dos dados da pesquisa;Instituto Brasileiro de Geografia e Estatística – IBGE;jan.2000-até data atual do painel
+uf;Brasil e SP;Instituto Brasileiro de Geografia e Estatística – IBGE;Não se aplica
+indice_atividade_comercio_sem_ajuste;Índice de base fixa das atividades de comércio pesquisadas pela PMC (sem ajuste sazonal);"Instituto Brasileiro de Geografia e Estatística – IBGE; Fundação Sistema Estadual de Análise de Dados – Seade";jan.2000-até data atual do painel
+indice_atividade_comercio_com_ajuste_sazonal;Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal);Instituto Brasileiro de Geografia e Estatística – IBGE;jan.2000-até data atual do painel
+segmentacao;corresponde aos setores de atividade econômica do comérecio pesquisadas pela PMC;Instituto Brasileiro de Geografia e Estatística – IBGE;Não se aplica

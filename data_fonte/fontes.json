@@ -1,0 +1,187 @@
+[
+  {
+    "url": "https://ftp.ibge.gov.br/Industrias_Extrativas_e_de_Transformacao/Pesquisa_Industrial_Mensal_Producao_Fisica/Fasciculos/Fasciculo_Indicadores_IBGE_Regional/2025/pim-pf-regional_202512.pdf",
+    "name": "pim-pf-regional_202512.pdf"
+  },
+  {
+    "url": "https://ftp.ibge.gov.br/Industrias_Extrativas_e_de_Transformacao/Pesquisa_Industrial_Mensal_Producao_Fisica/Fasciculos/Fasciculo_Indicadores_IBGE_Brasil/2025/pim-pf-br_202512caderno.pdf",
+    "name": "pim-pf-br_202512caderno.pdf"
+  },
+  {
+    "url": "https://ftp.ibge.gov.br/Comercio_e_Servicos/Pesquisa_Mensal_de_Comercio/Fasciculo_Indicadores_IBGE/2025/pmc_202512caderno.pdf",
+    "name": "pmc_202512caderno.pdf"
+  },
+  {
+    "url": "https://ftp.ibge.gov.br/Contas_Nacionais/Contas_Nacionais_Trimestrais/Fasciculo_Indicadores_IBGE/2025/pib-vol-val_202504caderno.pdf",
+    "name": "pib-vol-val_202504caderno.pdf"
+  },
+  {
+    "url": "https://biblioteca.ibge.gov.br/visualizacao/livros/liv102132_notas_tecnicas.pdf",
+    "name": "contas_regionais_2022_notas_tecnicas.pdf"
+  },
+  {
+    "name": "01-2026-tabelas-pib-regional-site.xlsx",
+    "url": "https://repositorio.seade.gov.br/dataset/db6eec6f-08ac-496f-9f1a-488b440994c2/resource/da156119-13f4-4cb0-9b08-feddfbc9b634/download/01-2026-tabelas-pib-regional-site.xlsx",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-regional",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-regional/resource/da156119-13f4-4cb0-9b08-feddfbc9b634",
+    "resource_title": "PIB Regional - Tabelas ",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "base-pim_spbrasil (1).csv",
+    "url": "https://repositorio.seade.gov.br/dataset/776ad736-4dbf-483b-ac0f-d216849075bd/resource/a6494757-d7a9-49ea-a2b6-3b4ea37ad53a/download/base-pim_spbrasil.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/seade-setorial",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/seade-setorial/resource/a6494757-d7a9-49ea-a2b6-3b4ea37ad53a",
+    "resource_title": "Pesquisa Industrial Mensal - Produção Física (PIM-PF)",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local.",
+    "published_filename": "base-pim_spbrasil.csv",
+    "note": "O sufixo (1) existe apenas no nome local. O catálogo também lista outro recurso com o mesmo nome de arquivo, rotulado como dicionário; aqui foi usada a página da base PIM-PF."
+  },
+  {
+    "name": "base-pmc_spbrasil.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/776ad736-4dbf-483b-ac0f-d216849075bd/resource/b400f6c1-8a44-4de5-9879-ead7a88a6ce8/download/base-pmc_spbrasil.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/seade-setorial",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/seade-setorial/resource/b400f6c1-8a44-4de5-9879-ead7a88a6ce8",
+    "resource_title": "Pesquisa Mensal do Comércio (PMC)",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "base-pms_spbrasil.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/776ad736-4dbf-483b-ac0f-d216849075bd/resource/541260e1-484b-48be-a618-bbaff65cd545/download/base-pms_spbrasil.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/seade-setorial",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/seade-setorial/resource/541260e1-484b-48be-a618-bbaff65cd545",
+    "resource_title": "Pesquisa Mensal dos Serviços (PMS)",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "cnae20.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/14fa28d1-5424-48ef-8736-bb64d5ee6116/resource/b2eef400-0788-4fa3-ab7d-4effd74c1dae/download/cnae20.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/codigos-cnae",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/codigos-cnae/resource/b2eef400-0788-4fa3-ab7d-4effd74c1dae",
+    "resource_title": "CNAE 2.0",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "codigos_municipios_regioes.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/1617c335-f5ab-426c-b175-280d4e41ec1c/resource/1871ac05-7b7f-4c13-9b4a-23c7d41fd988/download/codigos_municipios_regioes.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/nomes-codigos-municipios-esp",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/nomes-codigos-municipios-esp/resource/1871ac05-7b7f-4c13-9b4a-23c7d41fd988",
+    "resource_title": "Municípios do ESP",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "dic_variaveis_pmc.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/776ad736-4dbf-483b-ac0f-d216849075bd/resource/b5515189-d7f1-4b2d-b02c-5dfdaeda15a7/download/dic_variaveis_pmc.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/seade-setorial",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/seade-setorial/resource/b5515189-d7f1-4b2d-b02c-5dfdaeda15a7",
+    "resource_title": "Dicionário — Pesquisa Mensal do Comércio (PMC)",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "dic_variaveis_pms.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/776ad736-4dbf-483b-ac0f-d216849075bd/resource/33ace8a7-0ed8-450f-98d2-4c32e3521fad/download/dic_variaveis_pms.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/seade-setorial",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/seade-setorial/resource/33ace8a7-0ed8-450f-98d2-4c32e3521fad",
+    "resource_title": "Dicionário — Pesquisa Mensal dos Serviços (PMS)",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "dicvar_cnae20.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/14fa28d1-5424-48ef-8736-bb64d5ee6116/resource/c9bfd2ad-8d74-49cb-ba91-17c99303aeee/download/dicvar_cnae20.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/codigos-cnae",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/codigos-cnae/resource/c9bfd2ad-8d74-49cb-ba91-17c99303aeee",
+    "resource_title": "Dicionário — CNAE 2.0",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "dicvar_codigos_municipios_regioes.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/1617c335-f5ab-426c-b175-280d4e41ec1c/resource/af9d7eae-d979-45cf-916f-b61fdfa6ee86/download/dicvar_codigos_municipios_regioes.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/nomes-codigos-municipios-esp",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/nomes-codigos-municipios-esp/resource/af9d7eae-d979-45cf-916f-b61fdfa6ee86",
+    "resource_title": "Dicionário — Municípios do ESP",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "dicvar_pib_municipal_2002_2020.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/1bd90672-72a8-47cb-a34d-ab9eb703735d/resource/98377da6-a1b5-4146-bff9-2d7e7ed37509/download/dicvar_pib_municipal_2002_2020.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021/resource/98377da6-a1b5-4146-bff9-2d7e7ed37509",
+    "resource_title": "Dicionário — PIB Municipal - 2002 a 2020",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "pib_mensal_trimestral_metodologia.pdf",
+    "url": "https://repositorio.seade.gov.br/dataset/90ae5a90-7638-409c-be21-c3049daa4a55/resource/80a0e084-3200-41e2-938e-92f77157da54/download/pib_mensal_trimestral_metodologia.pdf",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-mensal",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-mensal/resource/80a0e084-3200-41e2-938e-92f77157da54",
+    "resource_title": "Anexo metodológico — PIB mensal",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local.",
+    "alternative_resource_urls": [
+      "https://repositorio.seade.gov.br/dataset/c2e666e8-7fae-48c6-983f-b21b9f28e622/resource/ae383926-1616-460b-a8a9-c6a2bc13916c/download/pib_mensal_trimestral_metodologia.pdf"
+    ]
+  },
+  {
+    "name": "pib_municipal_2002_2020.csv",
+    "url": "https://repositorio.seade.gov.br/dataset/1bd90672-72a8-47cb-a34d-ab9eb703735d/resource/39d1a47a-ad3b-4c93-981d-1fecf507a50d/download/pib_municipal_2002_2020.csv",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021/resource/39d1a47a-ad3b-4c93-981d-1fecf507a50d",
+    "resource_title": "PIB Municipal - 2002 a 2020",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "pib_municipal_ed2019.pdf",
+    "url": "https://repositorio.seade.gov.br/dataset/1bd90672-72a8-47cb-a34d-ab9eb703735d/resource/87ec18fa-4195-4763-9222-f65e52ac5390/download/pib_municipal_ed2019.pdf",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-municipal-ate-2021/resource/87ec18fa-4195-4763-9222-f65e52ac5390",
+    "resource_title": "PIB Municipal  - 2002 a 2016",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "tabelas-pib-anual-2023.xlsx",
+    "url": "https://repositorio.seade.gov.br/dataset/5d499216-d441-4336-b4cb-92cd660a0cb8/resource/b4ba3d08-0b7d-4fb8-a507-6cc1bf86193f/download/tabelas-pib-anual-2023.xlsx",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-anual",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-anual/resource/b4ba3d08-0b7d-4fb8-a507-6cc1bf86193f",
+    "resource_title": "PIB - 2002 a 2023",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  },
+  {
+    "name": "tabelas-relatorio-2-trim2026-site.xlsx",
+    "url": "https://repositorio.seade.gov.br/dataset/c2e666e8-7fae-48c6-983f-b21b9f28e622/resource/2333d4a3-1e1d-411a-b104-b8f58012f226/download/tabelas-relatorio-2-trim2026-site.xlsx",
+    "repository": "Fundação Seade — Repositório de Dados",
+    "dataset_url": "https://repositorio.seade.gov.br/dataset/pib-trimestral",
+    "resource_url": "https://repositorio.seade.gov.br/dataset/pib-trimestral/resource/2333d4a3-1e1d-411a-b104-b8f58012f226",
+    "resource_title": "PIB trimestral - 2002 a 2025",
+    "verified_at": "2026-10-07",
+    "verification": "Correspondência do nome com recurso listado na API oficial do catálogo. Conteúdo remoto não comparado byte a byte com o arquivo local."
+  }
+]

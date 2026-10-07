@@ -97,13 +97,26 @@ def _run_cli(_use_graph: bool = False) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="RAG Estatístico SP")
+    parser.add_argument("--index-only", action="store_true", help="Sincroniza embeddings e BM25 sem iniciar chat/servidor")
     parser.add_argument("--cli",   action="store_true", help="Loop interativo (sem servidor HTTP)")
     parser.add_argument("--graph", action="store_true", help="Habilita GraphRetriever como 4ª fonte")
     parser.add_argument("--host",  default="0.0.0.0",   help="Host do servidor (padrão: 0.0.0.0)")
     parser.add_argument("--port",  type=int, default=8000, help="Porta do servidor (padrão: 8000)")
     args = parser.parse_args()
 
-    if args.cli:
+    if args.index_only:
+        if args.cli or args.graph:
+            parser.error("--index-only não pode ser combinado com --cli ou --graph")
+        from dotenv import load_dotenv
+        from logger import setup_logging, get_logger
+        from index_manifest import resolve_data_dir, resolve_db_dir
+        from index_sync import sync_standard_index
+        load_dotenv()
+        setup_logging()
+        sync_standard_index(resolve_data_dir(str(_RAG_ROOT)),
+                            resolve_db_dir(str(_RAG_ROOT)), get_logger(__name__))
+        print("Sincronização do índice concluída.")
+    elif args.cli:
         _run_cli(_use_graph=args.graph)
     else:
         if args.graph:

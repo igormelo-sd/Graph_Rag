@@ -336,44 +336,116 @@ def extract_pdf_tables(pdf_path: Path, source_file: str | None = None) -> list:
     return tables
 
 
-def extract_spreadsheet(file_path: Path, source_file: str | None = None) -> list:
-    """Extrai tabelas de CSV/XLSX/XLS via pandas. Cada aba vira uma tabela."""
-    source_file = source_file or file_path.name
-    tables = []
-    try:
-        if file_path.suffix.lower() == ".csv":
-            df = None
-            for sep in [",", ";", "\t"]:
-                try:
-                    candidate = pd.read_csv(file_path, sep=sep)
-                    if candidate.shape[1] > 1:
-                        df = candidate
-                        break
-                except Exception:
-                    continue
-            if df is None:
-                df = pd.read_csv(file_path)
-            sheets = {"Planilha": df}
-        else:
-            xl = pd.ExcelFile(file_path)
-            sheets = {name: xl.parse(name) for name in xl.sheet_names}
+def _read_csv_literal(file_path: Path):
+    """Preserva códigos, zeros iniciais, decimais e valores como NA."""
+    import csv
+    import io
 
-        for sheet_name, df in sheets.items():
-            df = df.dropna(how="all").dropna(axis=1, how="all")
-            if df.empty:
-                continue
-            tables.append({
-                "table_id": str(uuid.uuid4()),
-                "source_file": source_file,
-                "page": sheet_name,
-                "table_index": 0,
-                "markdown": df.to_markdown(index=False),
-                "rows": df.shape[0],
-                "cols": df.shape[1],
-                "type": "table",
-            })
-    except Exception as e:
-        print(f"  Aviso: erro ao ler {file_path.name}: {e}")
+    raw = file_path.read_bytes()
+    if raw.startswith((b"\xff\xfe", b"\xfe\xff")):
+        text = raw.decode("utf-16")
+    else:
+        try:
+            text = raw.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            text = raw.decode("cp1252")
+    if not text.strip():
+        return pd.DataFrame()
+    sample = text[:65536]
+    try:
+        separator = csv.Sniffer().sniff(sample, delimiters=";,\t").delimiter
+    except csv.Error:
+        # Um arquivo de coluna única continua sendo uma tabela válida.
+        separator = ";" if ";" in sample.splitlines()[0] else ","
+    rows = list(csv.reader(io.StringIO(text), delimiter=separator))
+    rows = [row for row in rows if any(cell.strip() for cell in row)]
+    if not rows:
+        return pd.DataFrame()
+    width = len(rows[0])
+    if any(len(row) != width for row in rows):
+        raise ValueError("CSV com quantidade inconsistente de colunas")
+    headers = [f"{value.strip() or 'Coluna'} [coluna {i + 1}]"
+               for i, value in enumerate(rows[0])]
+    return pd.DataFrame(rows[1:], columns=headers)
+
+
+def _spreadsheet_frame(raw):
+    """Combina cabeçalhos literais anteriores à primeira linha numérica.
+
+    A identificação é heurística; marca a associação para revisão.
+    Não preenche células vazias de dados.
+    """
+    from numbers import Number
+
+    raw = raw.dropna(how="all").dropna(axis=1, how="all").fillna("")
+    if raw.empty:
+        return raw, {}
+    start = None
+    for i, row in enumerate(raw.values.tolist()):
+        present = [v for v in row if str(v).strip()]
+        numbers = [v for v in present if isinstance(v, Number) and not isinstance(v, bool)]
+        # Linhas compostas somente de anos são parte do cabeçalho.
+        if numbers and all(1900 <= v <= 2100 and float(v).is_integer() for v in numbers):
+            continue
+        if len(numbers) >= max(1, len(present) // 2) and i > 0:
+            start = i
+            break
+    if start is None:
+        start = 1
+    prefix = raw.iloc[:start]
+    title = " | ".join(str(row[0]) for row in prefix.values.tolist()
+                       if str(row[0]).strip())
+    headers = []
+    for j in range(len(raw.columns)):
+        parts = list(dict.fromkeys(str(v).strip() for v in prefix.iloc[:, j]
+                                  if str(v).strip()))
+        headers.append(" / ".join(parts or ["Coluna"]) + f" [coluna {j + 1}]")
+    frame = raw.iloc[start:].copy()
+    frame.columns = headers
+    return frame, {"title": title, "notes": [],
+                   "association": "spreadsheet_header_heuristic", "requires_review": True}
+
+
+def extract_spreadsheet(file_path: Path, source_file: str | None = None) -> list:
+    """Extrai valores literais; erros interrompem a ingestão da fonte."""
+    source_file = source_file or file_path.name
+    sheets = {}
+    if file_path.suffix.lower() == ".csv":
+        sheets["Planilha"] = (_read_csv_literal(file_path), {})
+    elif file_path.suffix.lower() == ".xlsx":
+        from openpyxl import load_workbook
+        workbook = load_workbook(file_path, data_only=True)
+        try:
+            for sheet in workbook:
+                rows = [list(row) for row in sheet.iter_rows(values_only=True)]
+                # Expandir apenas mesclagens declaradas na planilha original.
+                for area in sheet.merged_cells.ranges:
+                    value = sheet.cell(area.min_row, area.min_col).value
+                    for row in range(area.min_row - 1, area.max_row):
+                        for col in range(area.min_col - 1, area.max_col):
+                            rows[row][col] = value
+                sheets[sheet.title] = _spreadsheet_frame(pd.DataFrame(rows))
+        finally:
+            workbook.close()
+    else:
+        with pd.ExcelFile(file_path) as workbook:
+            for name in workbook.sheet_names:
+                sheets[name] = _spreadsheet_frame(workbook.parse(name, header=None))
+
+    tables = []
+    for sheet_name, (df, context) in sheets.items():
+        if df.empty:
+            continue
+        # O parser downstream usa pipes e linhas como delimitadores Markdown.
+        literal = df.map(lambda v: str(v).replace("|", "&#124;").replace("\r", " ").replace("\n", " "))
+        literal.columns = [str(c).replace("|", "&#124;").replace("\n", " ") for c in df.columns]
+        tables.append({
+            "table_id": str(uuid.uuid4()), "source_file": source_file,
+            "page": sheet_name, "table_index": 0,
+            "markdown": literal.to_markdown(index=False, disable_numparse=True),
+            "rows": len(df), "cols": len(df.columns), "type": "table",
+            "context": context,
+        })
     return tables
 
 

@@ -32,6 +32,7 @@ def _pipeline_fingerprint() -> str:
         os.getenv("RAG_RAPTOR_MIN_CLUSTER", "4"),
         os.getenv("RAG_INGEST_LLM_ENRICHMENT", "0"),
         "v4-section-sentence-boundaries",
+        "v5-spreadsheet-literal-encoding-merged-headers",
     ]
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
 
