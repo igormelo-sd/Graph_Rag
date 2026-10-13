@@ -1,0 +1,165 @@
+{
+  "files": [
+    {
+      "file_name": "01-2026-tabelas-pib-regional-site.xlsx",
+      "file_type": "xlsx",
+      "text_chunks": 0,
+      "tables": 193,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.205439"
+    },
+    {
+      "file_name": "base-pim_spbrasil.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.344783"
+    },
+    {
+      "file_name": "base-pmc_spbrasil.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.483912"
+    },
+    {
+      "file_name": "base-pms_spbrasil.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.527670"
+    },
+    {
+      "file_name": "cnae20.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.551434"
+    },
+    {
+      "file_name": "codigos_municipios_regioes.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:01.578132"
+    },
+    {
+      "file_name": "contas_regionais_2022_notas_tecnicas.pdf",
+      "file_type": "pdf",
+      "text_chunks": 22,
+      "tables": 24,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.258173"
+    },
+    {
+      "file_name": "dic_variaveis_pmc.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.261631"
+    },
+    {
+      "file_name": "dic_variaveis_pms.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.263775"
+    },
+    {
+      "file_name": "dicvar_cnae20.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.266902"
+    },
+    {
+      "file_name": "dicvar_codigos_municipios_regioes.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.269676"
+    },
+    {
+      "file_name": "dicvar_pib_municipal_2002_2020.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:08.272080"
+    },
+    {
+      "file_name": "pib-vol-val_202504caderno.pdf",
+      "file_type": "pdf",
+      "text_chunks": 39,
+      "tables": 19,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:32.513975"
+    },
+    {
+      "file_name": "pib_mensal_trimestral_metodologia.pdf",
+      "file_type": "pdf",
+      "text_chunks": 20,
+      "tables": 2,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:36.307200"
+    },
+    {
+      "file_name": "pib_municipal_2002_2020.csv",
+      "file_type": "csv",
+      "text_chunks": 0,
+      "tables": 1,
+      "images": 0,
+      "processed_at": "2026-10-09T13:10:37.801451"
+    },
+    {
+      "file_name": "pim-pf-br_202512caderno.pdf",
+      "file_type": "pdf",
+      "text_chunks": 39,
+      "tables": 24,
+      "images": 0,
+      "processed_at": "2026-10-09T13:11:00.584938"
+    },
+    {
+      "file_name": "pim-pf-regional_202512.pdf",
+      "file_type": "pdf",
+      "text_chunks": 74,
+      "tables": 63,
+      "images": 0,
+      "processed_at": "2026-10-09T13:11:24.920906"
+    },
+    {
+      "file_name": "pmc_202512caderno.pdf",
+      "file_type": "pdf",
+      "text_chunks": 59,
+      "tables": 44,
+      "images": 0,
+      "processed_at": "2026-10-09T13:11:38.655434"
+    },
+    {
+      "file_name": "tabelas-pib-anual-2023.xlsx",
+      "file_type": "xlsx",
+      "text_chunks": 0,
+      "tables": 31,
+      "images": 0,
+      "processed_at": "2026-10-09T13:11:39.270759"
+    },
+    {
+      "file_name": "tabelas-relatorio-2-trim2026-site.xlsx",
+      "file_type": "xlsx",
+      "text_chunks": 0,
+      "tables": 8,
+      "images": 0,
+      "processed_at": "2026-10-09T13:11:39.445667"
+    }
+  ],
+  "generated_at": "2026-10-09T13:11:39.557472"
+}

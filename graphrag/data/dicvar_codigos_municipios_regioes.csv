@@ -1,0 +1,12 @@
+variavel;tipo;descricao;ano;fonte
+cod_ibge;número;Código oficial de 7 dígitos definido pelo IBGE para município;2025;Instituto Brasileiro de Geografia e Estatística – IBGE 
+municipio;texto;Nome do Município;2024;Instituto Brasileiro de Geografia e Estatística – IBGE 
+area_km;número;Área em quilometros quadrados;2024;Instituto Brasileiro de Geografia e Estatística – IBGE 
+cod_ra;número;Código da Região Administrativa;2025;Fundação Sistema Estadual de Análise de Dados – Seade
+ra;texto;Nome da Região Administrativa ;2025;Fundação Sistema Estadual de Análise de Dados – Seade
+cod_rm;número;Código da Região Metropolitana;2025;Fundação Sistema Estadual de Análise de Dados – Seade
+rm;texto;Nome da Região Metropolitana;2025;Fundação Sistema Estadual de Análise de Dados – Seade
+cod_drs;número;Código do Departamento Regional de Saúde;2025;Secretaria de Estado da Saúde – SES
+drs;texto;Nome do Departamento Regional de Saúde;2025;Secretaria de Estado da Saúde – SES
+cod_r_saude;número;Código da Região de Saúde;2025;Secretaria de Estado da Saúde – SES
+r_saude;texto;Nome da Região de Saúde;2025;Secretaria de Estado da Saúde – SES

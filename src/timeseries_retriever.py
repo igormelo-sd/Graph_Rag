@@ -5,6 +5,7 @@ e os estrutura via pandas para o Analysis Engine.
 "Temporal" = tabelas com granularidade sequencial ao longo do tempo, adequadas para
 análise de tendências, crescimento e evolução de indicadores econômicos.
 """
+import copy as _copy
 import re
 from domain_ontology import expand_query, filter_candidates, prompt_block
 import pandas as pd
@@ -143,9 +144,18 @@ class TimeSeriesRetriever:
         if not ts_nodes:
             return None
 
-        # Sanitiza antes do reranker
+        # Sanitiza antes do reranker — copia o nó para não mutar o cache BM25 compartilhado
+        from llama_index.core.schema import NodeWithScore
+        sanitized = []
         for n in ts_nodes:
-            n.node.text = _sanitize(n.node.text)
+            clean = _sanitize(n.node.text)
+            if clean == n.node.text:
+                sanitized.append(n)
+            else:
+                new_node = _copy.copy(n.node)
+                new_node.text = clean
+                sanitized.append(NodeWithScore(node=new_node, score=n.score))
+        ts_nodes = sanitized
 
         try:
             reranked = self._reranker.postprocess_nodes(

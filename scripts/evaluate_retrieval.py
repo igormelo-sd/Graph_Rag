@@ -15,7 +15,7 @@ import sys
 import time
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path[:0] = [str(ROOT), str(ROOT / "src")]
+sys.path[:0] = [str(ROOT), str(ROOT / "src"), str(ROOT.parent)]
 MODES = ("hybrid", "structural", "llm_graph", "hybrid_no_ontology", "structural_no_ontology", "llm_graph_no_ontology")
 
 

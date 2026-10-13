@@ -1,4 +1,4 @@
-﻿"""
+"""
 safe_exec — helper legado para execução restrita de expressões pandas.
 
 Três camadas de proteção:

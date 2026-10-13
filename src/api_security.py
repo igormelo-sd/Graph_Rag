@@ -1,4 +1,4 @@
-﻿"""
+"""
 api_security.py — proteções HTTP compartilhadas, sem dependências extras.
 
 Ambos são **opt-in** via variáveis de ambiente, preservando compatibilidade:

@@ -1,4 +1,4 @@
-﻿"""Snapshot compartilhado dos documentos usados na indexação.
+"""Snapshot compartilhado dos documentos usados na indexação.
 
 O snapshot usa caminhos relativos, tamanho e ``mtime_ns``. Assim, mudanças em
 subdiretórios e arquivos removidos também invalidam o índice, sem ler o conteúdo
@@ -24,7 +24,13 @@ def _pipeline_fingerprint() -> str:
         os.getenv("RAG_CHUNK_SIZE", "1024"),
         os.getenv("RAG_CHUNK_OVERLAP", "200"),
         os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3"),
+        os.getenv("RAG_EMBED_PROVIDER", "huggingface"),
+        os.getenv("RAG_EMBED_MODEL_REVISION", ""),
+        os.getenv("RAG_EMBED_MAX_LENGTH", "8192"),
+        os.getenv("RAG_EMBED_NORMALIZE", "1"),
+        "embeddinggemma-search-v1-segments-2000-weighted",
         os.getenv("RAG_SMALL_TABLE_MAX_ROWS", "10"),
+        os.getenv("RAG_TABLE_MAX_ROWS_PER_TABLE", "1000"),
         os.getenv("RAG_VISION", "0"),
         os.getenv("RAG_VISION_MODEL", "qwen2.5vl:7b"),
         os.getenv("RAG_RAPTOR_ENABLE", "0"),
@@ -33,6 +39,7 @@ def _pipeline_fingerprint() -> str:
         os.getenv("RAG_INGEST_LLM_ENRICHMENT", "0"),
         "v4-section-sentence-boundaries",
         "v5-spreadsheet-literal-encoding-merged-headers",
+        "v6-giant-table-row-cap",
     ]
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
 
@@ -155,6 +162,8 @@ def save_manifest(db_path: str, snapshot: dict) -> None:
             "chunk_size": os.getenv("RAG_CHUNK_SIZE", "1024"),
             "chunk_overlap": os.getenv("RAG_CHUNK_OVERLAP", "200"),
             "embed_model": os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3"),
+            "embed_provider": os.getenv("RAG_EMBED_PROVIDER", "huggingface"),
+            "embed_revision": os.getenv("RAG_EMBED_MODEL_REVISION", ""),
             "embed_dim": snapshot.get("__embed_dim") if isinstance(snapshot, dict) else None,
             "vision": os.getenv("RAG_VISION", "0"),
             "raptor": os.getenv("RAG_RAPTOR_ENABLE", "0"),

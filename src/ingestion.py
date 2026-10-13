@@ -1,4 +1,4 @@
-﻿import os
+import os
 import json
 import uuid
 from pathlib import Path
@@ -13,7 +13,7 @@ if _TESS_BIN not in os.environ.get("PATH", "") and os.path.exists(_TESS_BIN):
     os.environ["PATH"] = _TESS_BIN + os.pathsep + os.environ.get("PATH", "")
 os.environ.setdefault("TESSDATA_PREFIX", r"C:\Program Files\Tesseract-OCR\tessdata")
 
-import fitz  # pymupdf
+import pymupdf as fitz  # namespace atual; 'import fitz' emite DeprecationWarning
 import camelot
 import pandas as pd
 from llama_index.core import Document

@@ -4,8 +4,8 @@ debug_embedding.py — Diagnóstico completo do pipeline de embedding.
 Executa cada etapa isoladamente e reporta o estado: OK, AVISO ou ERRO.
 Não altera nada no índice; apenas lê e mede.
 
-Uso (dentro de RAGs/rag_principal/src ou com sys.path configurado):
-    python debug_embedding.py [--pdf <arquivo.pdf>] [--fix-manifest]
+Uso (a partir da pasta da implementação):
+    python src/debug_embedding.py [--pdf <arquivo.pdf>] [--fix-manifest]
 
 Flags:
   --pdf <arquivo.pdf>   Testa ingestão de um PDF específico (relativo a data/)
@@ -23,11 +23,9 @@ from pathlib import Path
 
 # ── Path bootstrap ────────────────────────────────────────────────────────────
 _HERE = Path(__file__).resolve().parent
-_BASE = _HERE.parent  # RAGs/rag_principal/
+_BASE = _HERE.parent  # pasta da implementação
 
-sys.path.insert(0, str(_HERE))                              # src/
-sys.path.insert(0, str(_BASE.parent.parent / ".agents"))   # .agents/
-sys.path.insert(0, str(_BASE.parent.parent))
+sys.path[:0] = [str(_HERE), str(_BASE), str(_BASE.parent)]
 
 # ── Cores ANSI ────────────────────────────────────────────────────────────────
 _OK   = "[OK]     "

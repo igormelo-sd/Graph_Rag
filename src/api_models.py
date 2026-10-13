@@ -1,4 +1,4 @@
-﻿"""Contratos HTTP compartilhados pelas engines RAG."""
+"""Contratos HTTP compartilhados pelas engines RAG."""
 from __future__ import annotations
 
 from pydantic import BaseModel, Field

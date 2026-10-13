@@ -148,6 +148,7 @@ def test_cache_incremental_substitui_alterados_e_remove_excluidos():
 
 def test_sincronizacao_incremental_carrega_apenas_arquivo_novo(tmp_path, monkeypatch):
     import index_sync as sync
+    monkeypatch.setattr(sync, "setup_embeddings", lambda: None)
 
     data_dir = tmp_path / "data"
     data_dir.mkdir()
@@ -208,6 +209,7 @@ def test_sincronizacao_incremental_carrega_apenas_arquivo_novo(tmp_path, monkeyp
 
 def test_sincronizacao_incremental_remove_fonte_sem_reler_corpus(tmp_path, monkeypatch):
     import index_sync as sync
+    monkeypatch.setattr(sync, "setup_embeddings", lambda: None)
 
     data_dir = tmp_path / "data"
     data_dir.mkdir()
@@ -268,6 +270,7 @@ def test_sincronizacao_incremental_remove_fonte_sem_reler_corpus(tmp_path, monke
 
 def test_indice_portatil_inicia_sem_corpus_e_sem_reindexar(tmp_path, monkeypatch):
     import index_sync as sync
+    monkeypatch.setattr(sync, "setup_embeddings", lambda: None)
 
     data_dir = tmp_path / "data"
     data_dir.mkdir()

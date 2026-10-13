@@ -3,3 +3,17 @@
 # Credenciais locais
 .env
 data/pib_municipal_ed2019.pdf
+
+# Ambientes e artefatos gerados
+.venv/
+__pycache__/
+.pytest_cache/
+*.py[cod]
+.env.*
+!.env.example
+chroma_db/
+graph_store/
+rag_simples/indice/
+comparacao/artefatos/
+
+.cache/

@@ -1,4 +1,4 @@
-﻿"""Descoberta e roteamento de skills de domínio para prompts RAG."""
+"""Descoberta e roteamento de skills de domínio para prompts RAG."""
 from __future__ import annotations
 
 import json

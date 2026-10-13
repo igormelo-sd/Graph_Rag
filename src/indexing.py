@@ -1,15 +1,17 @@
 import os
 import pickle
+import time
 import chromadb
 from llama_index.core import VectorStoreIndex, StorageContext
 from llama_index.vector_stores.chroma import ChromaVectorStore
-from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core import Settings
 from logger import get_logger
 
 log = get_logger(__name__)
 
 _NODES_CACHE_NAME = "bm25_nodes.pkl"
+_EMBED_INSTANCE = None
+_EMBED_IDENTITY = None
 
 def _nodes_cache_path(db_path: str) -> str:
     return os.path.join(db_path, _NODES_CACHE_NAME)
@@ -65,6 +67,7 @@ def _embed_config() -> dict:
     """Config formal do embedding local (bge-m3), com batch/device/normalização explícitos."""
     from runtime import bounded_int
     return {
+        "provider": os.getenv("RAG_EMBED_PROVIDER", "huggingface").strip().lower(),
         "model": os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3").strip() or "BAAI/bge-m3",
         "batch_size": bounded_int("RAG_EMBED_BATCH_SIZE", 16, 1, 128),
         "device": os.getenv("RAG_EMBED_DEVICE", "auto").strip().lower() or "auto",
@@ -74,21 +77,59 @@ def _embed_config() -> dict:
     }
 
 
+
+def _insert_nodes_in_batches(index, nodes):
+    """Persiste blocos em lotes e registra o avanço da vetorização."""
+    batch_size = _embed_config()["write_batch"]
+    total = len(nodes)
+    started = time.monotonic()
+    for start in range(0, total, batch_size):
+        batch = nodes[start:start + batch_size]
+        index.insert_nodes(batch)
+        completed = start + len(batch)
+        rate = completed / max(time.monotonic() - started, 0.001)
+        log.info(
+            "Embeddings: %d/%d blocos (%.1f%%), %.2f blocos/s, restante estimado %.1f min",
+            completed, total, 100 * completed / total, rate,
+            (total - completed) / rate / 60,
+        )
+
+
 def setup_embeddings():
-    """
-    Configura Embeddings Locais (HuggingFace) para não enviar dados sensíveis p/ nuvem na vetorização.
-    Modelo default BAAI/bge-m3; parametrizável via RAG_EMBED_MODEL para tuning.
-    """
+    """Seleciona um modelo local, compartilhado entre indexação e consulta."""
+    global _EMBED_INSTANCE, _EMBED_IDENTITY
     cfg = _embed_config()
-    print(f"Configurando modelo de embeddings local ({cfg['model']}, batch={cfg['batch_size']}, device={cfg['device']}) ...")
-    kwargs: dict = {"model_name": cfg["model"], "embed_batch_size": cfg["batch_size"], "max_length": cfg["max_length"]}
-    if cfg["device"] in {"cpu", "cuda"}:
-        kwargs["device"] = cfg["device"]
-    if not cfg["normalize"]:
-        kwargs["normalize_embeddings"] = False
-    embed_model = HuggingFaceEmbedding(**kwargs)
-    Settings.embed_model = embed_model
-    return embed_model
+    if cfg["provider"] == "ollama":
+        from pathlib import Path
+        from ollama_embeddings import CachedOllamaEmbedding, resolve_model_digest
+        url = os.getenv("RAG_OLLAMA_EMBED_URL", "http://127.0.0.1:11434").rstrip("/")
+        digest = resolve_model_digest(url, cfg["model"])
+        os.environ["RAG_EMBED_MODEL_REVISION"] = digest
+        cache_path = os.getenv("RAG_EMBED_CACHE_PATH", str(Path(__file__).resolve().parents[1] / ".cache" / "embeddings.sqlite3"))
+        identity = (cfg["provider"], cfg["model"], digest, url, cache_path, cfg["batch_size"])
+        if identity != _EMBED_IDENTITY:
+            model = CachedOllamaEmbedding(
+                model_name=cfg["model"], model_digest=digest, base_url=url,
+                cache_path=cache_path, embed_batch_size=cfg["batch_size"],
+            )
+            model.get_text_embedding("validação de dimensão")
+            _EMBED_INSTANCE, _EMBED_IDENTITY = model, identity
+    elif cfg["provider"] == "huggingface":
+        os.environ.pop("RAG_EMBED_MODEL_REVISION", None)
+        identity = tuple(sorted(cfg.items()))
+        if identity != _EMBED_IDENTITY:
+            from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+            kwargs = {"model_name": cfg["model"], "embed_batch_size": cfg["batch_size"],
+                      "max_length": cfg["max_length"], "normalize": cfg["normalize"]}
+            if cfg["device"] in {"cpu", "cuda"}:
+                kwargs["device"] = cfg["device"]
+            _EMBED_INSTANCE = HuggingFaceEmbedding(**kwargs)
+            _EMBED_IDENTITY = identity
+    else:
+        raise ValueError("RAG_EMBED_PROVIDER deve ser huggingface ou ollama.")
+    Settings.embed_model = _EMBED_INSTANCE
+    log.info("Embeddings locais: provider=%s, model=%s, batch=%d", cfg["provider"], cfg["model"], cfg["batch_size"])
+    return _EMBED_INSTANCE
 
 
 def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas") -> None:
@@ -112,6 +153,10 @@ def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas
             f"Modelo de embedding incompatível: índice usa '{got_model}', runtime pede '{want_model}'. "
             f"Faça full rebuild (apague {db_path} ou ajuste RAG_EMBED_MODEL)."
         )
+    if pipe.get("embed_provider", "huggingface") != os.getenv("RAG_EMBED_PROVIDER", "huggingface"):
+        raise RuntimeError("Provedor de embeddings incompatível com o índice; reconstrua-o.")
+    if pipe.get("embed_revision", "") != os.getenv("RAG_EMBED_MODEL_REVISION", ""):
+        raise RuntimeError("Revisão do modelo incompatível com o índice; reconstrua-o.")
     want_dim = pipe.get("embed_dim")
     if want_dim is None:
         return
@@ -153,7 +198,11 @@ def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatist
         vector_store = ChromaVectorStore(chroma_collection=staging_col)
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
 
-        index = VectorStoreIndex(nodes, storage_context=storage_context)
+        index = VectorStoreIndex(
+            [], storage_context=storage_context,
+            insert_batch_size=_embed_config()["write_batch"], show_progress=True,
+        )
+        _insert_nodes_in_batches(index, nodes)
 
         # Validação rigorosa antes da promoção
         stg_count = staging_col.count()
@@ -196,7 +245,10 @@ def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatist
         chroma_collection = db.get_or_create_collection(collection_name, metadata=_cosine)
         vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
-        index = VectorStoreIndex.from_vector_store(vector_store, storage_context=storage_context)
+        index = VectorStoreIndex.from_vector_store(
+            vector_store, storage_context=storage_context,
+            insert_batch_size=_embed_config()["write_batch"], show_progress=True,
+        )
     else:
         print("Carregando conhecimento a partir do banco de dados vetorial já populado...")
         chroma_collection = db.get_or_create_collection(collection_name, metadata=_cosine)
@@ -228,13 +280,14 @@ def update_index_incrementally(
     index = VectorStoreIndex.from_vector_store(
         vector_store,
         storage_context=storage_context,
+        insert_batch_size=_embed_config()["write_batch"], show_progress=True,
     )
 
     old_ids = set(stale_ids)
     new_nodes = [node for node in nodes if node.node_id not in old_ids]
     if new_nodes:
         print(f"Indexando incrementalmente {len(new_nodes)} bloco(s) novo(s)/alterado(s)...")
-        index.insert_nodes(new_nodes)
+        _insert_nodes_in_batches(index, new_nodes)
 
     replacement_ids = {node.node_id for node in nodes}
     # IDs determinísticos podem ser compartilhados com trechos preservados.
@@ -267,9 +320,12 @@ def append_nodes_to_index(nodes, db_path="./chroma_db", collection_name="estatis
     collection = db.get_or_create_collection(collection_name, metadata={"hnsw:space": "cosine"})
     vector_store = ChromaVectorStore(chroma_collection=collection)
     storage_context = StorageContext.from_defaults(vector_store=vector_store)
-    index = VectorStoreIndex.from_vector_store(vector_store, storage_context=storage_context)
+    index = VectorStoreIndex.from_vector_store(
+        vector_store, storage_context=storage_context,
+        insert_batch_size=_embed_config()["write_batch"], show_progress=True,
+    )
     print(f"Inserindo {len(nodes)} nó(s) adicional(is) na coleção '{collection_name}'...")
-    index.insert_nodes(list(nodes))
+    _insert_nodes_in_batches(index, list(nodes))
     cached_nodes = load_nodes_cache(db_path)
     merged = list(cached_nodes or []) + list(nodes)
     save_nodes_cache(merged, db_path=db_path)

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Análise Setorial e Regional"
+  short_description: "Compara setores e regiões de São Paulo"
+  default_prompt: "Use $sectoral-regional-analysis para comparar setores e regiões paulistas."

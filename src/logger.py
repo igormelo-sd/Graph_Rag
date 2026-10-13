@@ -1,4 +1,4 @@
-﻿"""
+"""
 logger — configuração central de logging para o RAG Estatístico SP.
 
 Variáveis de ambiente:

@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "corpus": "graphrag/data",
+  "provider": "openai",
+  "llm_model": "gpt-4o-mini",
+  "embedding_model": "BAAI/bge-m3",
+  "embedding_device": "cpu",
+  "embedding_batch_size": 16,
+  "embedding_max_length": 8192,
+  "chunk_size": 1024,
+  "chunk_overlap": 200,
+  "parent_size": 3200,
+  "top_k": 5,
+  "context_tokens": 12000,
+  "max_output_tokens": 1200,
+  "temperature": 0.0,
+  "entity_context_limit": 8,
+  "entity_context_depth": 1,
+  "graph_context_limit": 6,
+  "graph_context_depth": 2,
+  "community_summary_chars": 1800
+}

@@ -1,4 +1,4 @@
-﻿"""
+"""
 API — FastAPI app do RAG Estatístico SP (RAG Principal).
 
 Endpoints:

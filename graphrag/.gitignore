@@ -1,0 +1,11 @@
+/Guardar
+
+# Credenciais locais
+.env
+.venv/
+__pycache__/
+.pytest_cache/
+chroma_db/
+graph_store/
+.test-*/
+data/pib_municipal_ed2019.pdf

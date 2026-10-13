@@ -93,6 +93,8 @@ A evolução seguinte acrescenta associação por célula/cabeçalho, contexto d
 
 As referências abaixo são fontes conceituais e técnicas; não demonstram resultados do Graph_Rag. Adapte a apresentação bibliográfica às normas da instituição.
 
+- **EDGE, Darren et al. (2024; versão 2, 2025).** *From Local to Global: A Graph RAG Approach to Query-Focused Summarization*. arXiv:2404.16130. [Artigo no arXiv](https://arxiv.org/abs/2404.16130) · [PDF](https://arxiv.org/pdf/2404.16130) · [DOI](https://doi.org/10.48550/arXiv.2404.16130). Acesso em: 8 out. 2026. Fundamentação para comparar RAG tradicional com recuperação por grafo e síntese global a partir de resumos de comunidades. A implementação local deve ser avaliada separadamente; a presença de um grafo não demonstra equivalência ao método do artigo.
+
 - **VASWANI, Ashish et al. (2017).** *Attention Is All You Need*. [Artigo no arXiv](https://arxiv.org/abs/1706.03762) · [PDF](https://arxiv.org/pdf/1706.03762). Fundamentação da arquitetura Transformer e dos mecanismos de atenção.
 - **GRUBER, Thomas R. (1993).** *A Translation Approach to Portable Ontology Specifications*. Knowledge Acquisition, v. 5, n. 2, p. 199–220. [Página do autor](https://tomgruber.org/writing/ontolingua-kaj-1993/) · [PDF](https://tomgruber.org/writing/ontolingua-kaj-1993.pdf). Definição clássica de ontologia e compartilhamento de conhecimento entre sistemas.
 - **GRUBER, Tom (2009).** *Ontology*. In: LIU, Ling; ÖZSU, M. Tamer (org.). Encyclopedia of Database Systems. Springer. [Verbete em PDF](https://tomgruber.org/writing/definition-of-ontology.pdf). Nível semântico, significado e diferentes graus de formalização.

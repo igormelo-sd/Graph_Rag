@@ -1,4 +1,4 @@
-﻿"""Fluxo HTTP comum das engines, sem acoplar suas estratégias de recuperação."""
+"""Fluxo HTTP comum das engines, sem acoplar suas estratégias de recuperação."""
 from __future__ import annotations
 
 import asyncio

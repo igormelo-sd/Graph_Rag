@@ -73,3 +73,13 @@ def test_relacoes_auditadas_sao_consultadas_localmente_por_alias(monkeypatch):
     paths = json.loads(result[0].metadata["graph_paths"])
     assert paths[0]["relation"] == "ASSOCIADO_A"
     assert paths[0]["modality"] == "asserted"
+
+
+def test_isolated_node_returns_no_context_instead_of_unfiltered_store(monkeypatch):
+    monkeypatch.setenv("RAG_ONTOLOGY_ENABLE", "0")
+    node = text_node("isolated", "Texto sem relações adicionais.")
+    retriever = graph([node])
+    assert retriever.retrieve_context([NodeWithScore(node=node)]) == []
+    assert retriever._get_source_nodes([]) == []
+    if hasattr(retriever, "retrieve_entity_context"):
+        assert retriever.retrieve_entity_context([NodeWithScore(node=node)], "tema") == []

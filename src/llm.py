@@ -1,4 +1,4 @@
-﻿"""
+"""
 rag_core/llm.py — fábrica única de LLM (OpenAI ou provedores compatíveis).
 
 Todo o projeto fala com a API no formato OpenAI. Este módulo concentra a

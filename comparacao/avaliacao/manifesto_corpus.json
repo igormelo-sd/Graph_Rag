@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "corpus": "graphrag/data",
+  "arquivos": [
+    {
+      "arquivo": "01-2026-tabelas-pib-regional-site.xlsx",
+      "sha256": "267cacd8174f6c30a44dd3e7443c41478d360ba8f38ace5b4638ac4c43b6f165",
+      "bytes": 1874336,
+      "tipo": "xlsx"
+    },
+    {
+      "arquivo": "base-pim_spbrasil.csv",
+      "sha256": "e8f8d804b3554a5fe3457cfd996dc1d0f7b9a31c963bd8256d7a58a392a8f214",
+      "bytes": 1488128,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "base-pmc_spbrasil.csv",
+      "sha256": "c80305c95d6e14f8e420d654fcd817213b322353ca6eb27fa61d67e26d4a2c32",
+      "bytes": 1572926,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "base-pms_spbrasil.csv",
+      "sha256": "c89d58f49c2fd572c113dd7610687e645cbc3a10345ae5f6af055ad5cf8797de",
+      "bytes": 439430,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "cnae20.csv",
+      "sha256": "d5408cf6331715a14ffea8e0448263f04f9df4dfd71580e3fb9e77eb444ba3d5",
+      "bytes": 140552,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "codigos_municipios_regioes.csv",
+      "sha256": "ab34b73a4622990b032b441bfbfcf35c709885bc78ec02c537ecdb3fd88fe305",
+      "bytes": 69434,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "contas_regionais_2022_notas_tecnicas.pdf",
+      "sha256": "b50967d9d8e001af99c209bd09af861bd8cb683ea530fa81f81f002744bb2bae",
+      "bytes": 294508,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "dic_variaveis_pmc.csv",
+      "sha256": "c18a42127b4254db0229bad219c733ac60c72b788e94157a91a8e4f8287f8ff5",
+      "bytes": 927,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "dic_variaveis_pms.csv",
+      "sha256": "35dd54eade139522d8ab88cb63fc49b030104898c729dbfdcb2a19d4f3866026",
+      "bytes": 926,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "dicvar_cnae20.csv",
+      "sha256": "9662074f73eb1508fd47823a81ba67df89631f21c1b1a30da281c8d3ec051bae",
+      "bytes": 1368,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "dicvar_codigos_municipios_regioes.csv",
+      "sha256": "fd7e53279c9c6a91a6f23220c09e373e6692d2f3f1383ea92ac91ed79f3ad7ed",
+      "bytes": 1143,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "dicvar_pib_municipal_2002_2020.csv",
+      "sha256": "2cc2f46e26fc986fc47454ba993a6b8025513db0fb9339185ec715f78e44d701",
+      "bytes": 3138,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "pib-vol-val_202504caderno.pdf",
+      "sha256": "b37510cf0883fce0a915eb28f206a53c4f725be6778507139f2a785cf0a4eb6d",
+      "bytes": 2563589,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "pib_mensal_trimestral_metodologia.pdf",
+      "sha256": "d1fb6937037cbe82b712a8ef2dbb4d2b8187922fa353762db448a20e8bd2710b",
+      "bytes": 964780,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "pib_municipal_2002_2020.csv",
+      "sha256": "4865c397e7627c4d546e1bff7019c0dff146c700b2fd2e4c8f930b9f4cd2ae79",
+      "bytes": 5254528,
+      "tipo": "csv"
+    },
+    {
+      "arquivo": "pim-pf-br_202512caderno.pdf",
+      "sha256": "21d9b9209edd6a31eb3fb9a5757b67a73bbc145880ef7c1d824790e493ad8041",
+      "bytes": 1504958,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "pim-pf-regional_202512.pdf",
+      "sha256": "0ee1895ff553d9804e9dd9a3b812333d8c399698f52ae045f0274c2a7747bf5b",
+      "bytes": 2546350,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "pmc_202512caderno.pdf",
+      "sha256": "7a5e7076fd9fbbc7a24e9b6acac62d30fad5a72d5a58d12420d7c715760ae823",
+      "bytes": 814928,
+      "tipo": "pdf"
+    },
+    {
+      "arquivo": "tabelas-pib-anual-2023.xlsx",
+      "sha256": "af2012ea55bb99c77f5ab0d089ced5d38bfa7805f0501316945325b14e1164b3",
+      "bytes": 308382,
+      "tipo": "xlsx"
+    },
+    {
+      "arquivo": "tabelas-relatorio-2-trim2026-site.xlsx",
+      "sha256": "6aec5232ebb23b43d711a25746008387ce77d3a6d19557c933f166e767389f71",
+      "bytes": 183134,
+      "tipo": "xlsx"
+    }
+  ],
+  "perguntas": {
+    "teste": {
+      "factual": 25,
+      "numerica": 25,
+      "integracao": 20,
+      "sintese": 15,
+      "limites": 15
+    },
+    "desenvolvimento": {
+      "factual": 5,
+      "numerica": 5,
+      "integracao": 4,
+      "sintese": 3,
+      "limites": 3
+    }
+  },
+  "revisao_humana": "pendente",
+  "arquivo_adicional_fora_do_experimento": "data/pib_municipal_ed2019.pdf"
+}

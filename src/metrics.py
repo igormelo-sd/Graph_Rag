@@ -1,4 +1,4 @@
-﻿"""Métricas locais de baixa cardinalidade, exportadas no formato Prometheus."""
+"""Métricas locais de baixa cardinalidade, exportadas no formato Prometheus."""
 from __future__ import annotations
 
 import os

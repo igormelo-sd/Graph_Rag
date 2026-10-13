@@ -1,4 +1,4 @@
-﻿"""
+"""
 Guia de escrita compartilhado pelos prompts de síntese das quatro engines.
 
 As regras de fidelidade (grounding) continuam em cada engine, porque dependem

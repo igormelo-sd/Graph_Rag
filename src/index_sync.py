@@ -1,7 +1,11 @@
-﻿"""Sincronização incremental dos índices vetorial e lexical padrão."""
+"""Sincronização incremental dos índices vetorial e lexical padrão."""
 from __future__ import annotations
 
 import os
+import hashlib
+import json
+import pickle
+from pathlib import Path
 
 import chromadb
 
@@ -13,6 +17,7 @@ from index_manifest import (
 )
 from indexing import (
     create_or_load_index,
+    setup_embeddings,
     load_nodes_cache,
     update_index_incrementally,
 )
@@ -40,8 +45,36 @@ def index_read_only_enabled() -> bool:
     }
 
 
+
+def _full_build_nodes(data_dir, db_path, snapshot, log):
+    """Reutiliza processamento completo somente para o mesmo corpus e pipeline."""
+    stamp = hashlib.sha256(json.dumps(snapshot, sort_keys=True).encode()).hexdigest()
+    path = Path(db_path).resolve().parent / ".cache" / "processed_nodes.pkl"
+    if path.exists():
+        try:
+            with path.open("rb") as stream:
+                cached = pickle.load(stream)
+            if cached.get("stamp") == stamp and cached.get("nodes"):
+                log.info("Retomando %d nós do processamento salvo", len(cached["nodes"]))
+                return cached["nodes"]
+        except (OSError, EOFError, pickle.UnpicklingError, AttributeError):
+            pass
+    nodes = process_documents(load_documents(data_dir))
+    if not nodes:
+        raise RuntimeError("Processamento não produziu nós; índice anterior preservado.")
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".tmp")
+    with temporary.open("wb") as stream:
+        pickle.dump({"stamp": stamp, "nodes": nodes}, stream)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.replace(temporary, path)
+    return nodes
+
+
 def sync_standard_index(data_dir: str, db_path: str, log, collection_name="estatisticas"):
     """Atualiza somente fontes alteradas; reconstrói quando cache base falta."""
+    setup_embeddings()  # Preflight e revisão do modelo antes de processar PDFs.
     snapshot = data_snapshot(data_dir)
     manifest = load_manifest(db_path)
     changed = detect_changes(snapshot, manifest)
@@ -124,14 +157,7 @@ def sync_standard_index(data_dir: str, db_path: str, log, collection_name="estat
         else:
             log.info("[1] Banco vazio; indexando corpus completo")
 
-        docs = load_documents(data_dir)
-        if not docs:
-            raise RuntimeError(
-                f"Nenhum documento encontrado em '{data_dir}'; índice anterior preservado."
-            )
-        nodes = process_documents(docs)
-        if not nodes:
-            raise RuntimeError("Processamento não produziu nós; índice anterior preservado.")
+        nodes = _full_build_nodes(data_dir, db_path, snapshot, log)
 
         index = create_or_load_index(
             nodes,

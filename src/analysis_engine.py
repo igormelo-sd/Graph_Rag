@@ -289,21 +289,12 @@ class AnalysisEngine:
         timeseries_chart = None
         ts_nodes: list = []
         for k, v in result_map.items():
-            if k.startswith("ts") and v is not None:
-                calculations.extend(getattr(v, "calculations", []))
-                if isinstance(v, SeriesResult):
-                    if v.data:
-                        ts_data = v.data
-                        timeseries_chart = v.chart
-                    ts_nodes.extend(v.nodes)
-                elif isinstance(v, tuple) and len(v) == 2:
-                    td, tn = v
-                    if td:
-                        ts_data = td  # usa último estruturado válido
-                    if isinstance(tn, list):
-                        ts_nodes.extend(tn)
-                elif isinstance(v, list):
-                    ts_nodes.extend(v)
+            if k.startswith("ts") and isinstance(v, SeriesResult):
+                calculations.extend(v.calculations)
+                if v.data:
+                    ts_data = v.data
+                    timeseries_chart = v.chart
+                ts_nodes.extend(v.nodes)
         ts_nodes = _dedup_nodes(ts_nodes)
 
         image_nodes: list = []

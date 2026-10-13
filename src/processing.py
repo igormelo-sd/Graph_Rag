@@ -11,12 +11,21 @@ from llama_index.core.ingestion import IngestionPipeline
 from llama_index.core.schema import TextNode
 from llm import interp_model, llm_concurrency, make_llm, provider_name
 from runtime import bounded_int
+from rag_app.provenance import assign_page_metadata
 
 
 # Tabelas com até este número de linhas são indexadas como um único chunk.
 # Acima disso cada linha vira um chunk independente (série histórica).
 # Parametrizável via RAG_SMALL_TABLE_MAX_ROWS (1..100) para tuning por embedding.
 SMALL_TABLE_MAX_ROWS = bounded_int("RAG_SMALL_TABLE_MAX_ROWS", 10, 1, 100)
+
+# Teto da expansão linha-a-linha: tabelas gigantes (CSVs de microdados com
+# dezenas de milhares de linhas) indexam no máximo estas primeiras linhas.
+# Sem teto, um CSV de 85 mil linhas gera 85 mil embeddings e inviabiliza o
+# boot em CPU. O conteúdo completo permanece em tables.parquet para cálculos;
+# aqui vai uma amostra determinística (primeiras N linhas) com proveniência
+# (table_total_rows/table_truncated) nos chunks. Via RAG_TABLE_MAX_ROWS_PER_TABLE.
+LARGE_TABLE_MAX_ROWS = bounded_int("RAG_TABLE_MAX_ROWS_PER_TABLE", 1000, 100, 20000)
 
 _ENRICH_PROMPT = """\
 Analise a tabela abaixo e retorne APENAS um JSON válido, sem blocos markdown, com os campos:
@@ -220,13 +229,20 @@ def _chunk_table(table_doc, extra_metadata: dict | None = None) -> list:
             metadata={**structured_metadata(df, list(range(len(df)))), "chunk_strategy": "full_table"},
         ))
     else:
-        # Abordagem 2/3: uma linha por chunk
+        # Abordagem 2/3: uma linha por chunk, com teto para tabelas gigantes.
+        total_rows = len(df)
+        truncated = total_rows > LARGE_TABLE_MAX_ROWS
+        if truncated:
+            df = df.head(LARGE_TABLE_MAX_ROWS)
         for row_index, row in df.iterrows():
             text = _row_to_structured_text(row.to_dict(), source)
             if text.strip():
+                meta = structured_metadata(df.loc[[row_index]], [int(row_index)])
+                if truncated:
+                    meta = {**meta, "table_total_rows": total_rows, "table_truncated": True}
                 nodes.append(TextNode(
                     text=text,
-                    metadata={**structured_metadata(df.loc[[row_index]], [int(row_index)]), "chunk_strategy": "row_per_chunk"},
+                    metadata={**meta, "chunk_strategy": "row_per_chunk"},
                 ))
 
     return nodes
@@ -338,25 +354,7 @@ def process_documents(documents):
         ).run(documents=text_docs)
         # Proveniência: chunk_id sequencial por (source_file, page) para grafo 2º embedding
         # + preserva deterministicamente section herdada do doc pai quando pipeline não propagou
-        from collections import defaultdict
-        _page_counter: dict[tuple, int] = defaultdict(int)
-        _page_total: dict[tuple, int] = defaultdict(int)
-        for n in text_nodes:
-            key = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-            _page_total[key] += 1
-        # Pré-computa mapa (source_file, page) → section para propagar em O(1)
-        _section_map: dict[tuple, str] = {
-            (str(d.metadata.get("source_file")), str(d.metadata.get("page"))): d.metadata["section"]
-            for d in text_docs
-            if d.metadata.get("section")
-        }
-        for n in text_nodes:
-            key = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-            _page_counter[key] += 1
-            n.metadata["chunk_id"] = _page_counter[key]
-            n.metadata["total_chunks_page"] = _page_total[key]
-            if not n.metadata.get("section") and key in _section_map:
-                n.metadata["section"] = _section_map[key]
+        assign_page_metadata(text_nodes, text_docs)
 
     # --- Tabelas ---
     table_nodes = []
@@ -389,20 +387,12 @@ def process_documents(documents):
             source    = doc.metadata.get("source_file", "?")
             page      = doc.metadata.get("page", "?")
             descricao = extra_meta.get("table_descricao", "")
-            print(f"    {source} p.{page} -> {len(nodes)} chunk(s) [{strategy}] | {descricao[:60]}")
+            cap_info = ""
+            if nodes and nodes[0].metadata.get("table_truncated"):
+                cap_info = f" [cap {len(nodes)}/{nodes[0].metadata.get('table_total_rows')}]"
+            print(f"    {source} p.{page} -> {len(nodes)} chunk(s) [{strategy}]{cap_info} | {descricao[:60]}")
         # Proveniência tabelas: chunk_id por página
-        if table_nodes:
-            from collections import defaultdict as _dd2
-            _tc: dict = _dd2(int)
-            _tt: dict = _dd2(int)
-            for n in table_nodes:
-                k = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-                _tt[k] += 1
-            for n in table_nodes:
-                k = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-                _tc[k] += 1
-                n.metadata["chunk_id"] = _tc[k]
-                n.metadata["total_chunks_page"] = _tt[k]
+        assign_page_metadata(table_nodes)
 
     # --- Imagens (gráficos rasterizados) ---
     image_nodes = []
@@ -412,18 +402,7 @@ def process_documents(documents):
             node = TextNode(text=doc.text, metadata=dict(doc.metadata))
             node.metadata["chunk_strategy"] = "image_single"
             image_nodes.append(node)
-        if image_nodes:
-            from collections import defaultdict as _dd3
-            _ic: dict = _dd3(int)
-            _it: dict = _dd3(int)
-            for n in image_nodes:
-                k = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-                _it[k] += 1
-            for n in image_nodes:
-                k = (str(n.metadata.get("source_file") or ""), str(n.metadata.get("page") or ""))
-                _ic[k] += 1
-                n.metadata["chunk_id"] = _ic[k]
-                n.metadata["total_chunks_page"] = _it[k]
+        assign_page_metadata(image_nodes)
 
     all_nodes = text_nodes + table_nodes + image_nodes
     all_nodes = _assign_deterministic_ids(all_nodes)

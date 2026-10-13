@@ -1,4 +1,4 @@
-﻿"""Validação determinística das citações explícitas geradas pelas engines."""
+"""Validação determinística das citações explícitas geradas pelas engines."""
 from __future__ import annotations
 
 import os

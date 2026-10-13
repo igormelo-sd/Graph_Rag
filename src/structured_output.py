@@ -1,4 +1,4 @@
-﻿"""Validação de saídas JSON tabulares produzidas por LLMs.
+"""Validação de saídas JSON tabulares produzidas por LLMs.
 
 Este módulo substitui a antiga execução de Python gerado pelo modelo nos
 retrievers de tabelas e séries temporais. A saída aceita é deliberadamente

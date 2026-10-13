@@ -1,0 +1,5 @@
+.env
+artefatos/
+__pycache__/
+.pytest_cache/
+.test-*/

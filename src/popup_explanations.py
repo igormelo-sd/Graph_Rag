@@ -1,4 +1,4 @@
-﻿"""Explicações curtas e verificáveis para popups de citações numéricas."""
+"""Explicações curtas e verificáveis para popups de citações numéricas."""
 from __future__ import annotations
 
 import asyncio

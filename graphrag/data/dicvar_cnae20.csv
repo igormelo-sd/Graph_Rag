@@ -1,0 +1,9 @@
+variaveis;tipo;descricao;fonte
+cod_secao;texto;Código das categorias de Seção da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+denom_secao;texto;Descrição das categorias de Seção da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+cod_divisao;texto;Código das categorias de Divisão da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+denom_divisao;texto;Descrição das categorias de Divisão da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+cod_grupo;texto;Código das categorias de Grupo da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+denom_grupo;texto;Descrição das categorias de Grupo da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+cod_classe;texto;Código das categorias de Classe da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."
+denom_classe;texto;Descrição das categorias de Classe da CNAE versão 2.0;"Resoluções Concla 01/2006 de 04/09/2006; 02/2006 de 15/12/2006 e 01/2007 de 16/05/2007. IBGE."

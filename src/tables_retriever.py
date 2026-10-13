@@ -5,6 +5,7 @@ estrutura via pandas para o Analysis Engine.
 "Estática" = tabela com valores pontuais, rankings ou comparações entre categorias
 (ex: emprego por setor, PIB por região). Distingue-se de TimeSeries pela granularidade.
 """
+import copy as _copy
 import re
 
 from logger import get_logger
@@ -89,9 +90,18 @@ class TablesRetriever:
         if not table_nodes:
             return None
 
-        # Sanitiza antes do reranker
+        # Sanitiza antes do reranker — copia o nó para não mutar o cache BM25 compartilhado
+        from llama_index.core.schema import NodeWithScore
+        sanitized = []
         for n in table_nodes:
-            n.node.text = _sanitize(n.node.text)
+            clean = _sanitize(n.node.text)
+            if clean == n.node.text:
+                sanitized.append(n)
+            else:
+                new_node = _copy.copy(n.node)
+                new_node.text = clean
+                sanitized.append(NodeWithScore(node=new_node, score=n.score))
+        table_nodes = sanitized
 
         try:
             reranked = self._reranker.postprocess_nodes(

@@ -202,10 +202,10 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
     from graph_ontology import ontology_enabled
     if use_graph or _graph_embed or _graph_struct or ontology_enabled():
         log.info("[6] Inicializando grafo de conhecimento%s", " (2º embedding)" if _graph_embed else "")
-        all_nodes = load_nodes_cache(db_path)
+        # Reutiliza bm25_nodes já carregados (etapa [4]) — mesma lista, sem I/O extra.
         force_rebuild = bool(changed)
         graph_index = build_or_load_graph(
-            all_nodes, base_dir, llm, force_rebuild=force_rebuild,
+            bm25_nodes, base_dir, llm, force_rebuild=force_rebuild,
             use_llm=use_graph,
         )
         graph_ret = GraphRetriever(graph_index, interp_llm, use_llm=use_graph)

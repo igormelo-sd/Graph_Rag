@@ -1,4 +1,4 @@
-﻿"""Política compartilhada para o texto visível das respostas RAG."""
+"""Política compartilhada para o texto visível das respostas RAG."""
 from __future__ import annotations
 
 import re

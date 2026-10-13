@@ -1,4 +1,4 @@
-﻿"""
+"""
 Graph Retriever — recupera nós de texto via travessia do grafo de conhecimento.
 
 Consulta observações por dimensões e hierarquia, percorre contexto documental
@@ -26,6 +26,17 @@ class GraphRetriever:
     """
     Recuperação local e LLM opcional, com índices de dimensões e arestas por processo.
     """
+
+
+    def _get_source_nodes(self, identities):
+        """Lista vazia significa ausência de fontes, nunca consulta sem filtro."""
+        identities = list(identities)
+        if not identities:
+            return []
+        allowed = set(identities)
+        return [node for node in self._store.get_llama_nodes(identities)
+                if node.node_id in allowed]
+
 
     def __init__(self, graph_index, llm, use_llm=True):
         self._store = graph_index.property_graph_store
@@ -145,7 +156,7 @@ class GraphRetriever:
                     paths[source].extend(extended)
                 other = relation.target_id if relation.source_id == current else relation.source_id
                 pending.append((other, depth + 1, extended))
-        return [self._with_paths(node, paths[node.node_id], 0.45) for node in self._store.get_llama_nodes(sources)]
+        return [self._with_paths(node, paths[node.node_id], 0.45) for node in self._get_source_nodes(sources)]
 
     def _retrieve_observations(self, question):
         """Consulta dimensões explícitas do grafo e recupera os chunks de origem."""
@@ -175,7 +186,7 @@ class GraphRetriever:
                     source_ids.append(source)
                 paths[source].append({"source": observation_id, "relation": relation.label, "target": source})
                 paths[source].extend(self._hierarchy_paths(observation_id, scope, wanted))
-        return [self._with_paths(n, paths[n.node_id], 0.5) for n in self._store.get_llama_nodes(source_ids)]
+        return [self._with_paths(n, paths[n.node_id], 0.5) for n in self._get_source_nodes(source_ids)]
 
     def _hierarchy_paths(self, observation_id, scope, wanted):
         paths = []
@@ -244,7 +255,7 @@ class GraphRetriever:
                     pending.append((target, depth + 1, extended))
         if not paths:
             return []
-        candidates = self._store.get_llama_nodes([target for target in paths if target in self._chunk_ids])
+        candidates = self._get_source_nodes([target for target in paths if target in self._chunk_ids])
         candidates = sorted(candidates, key=lambda n: (min(allowed[s["relation"]] for s in paths[n.node_id]), len(paths[n.node_id]), n.node_id))
         return [self._with_paths(n, paths[n.node_id], 0.45) for n in candidates[:max_nodes] if n.node_id not in original]
 

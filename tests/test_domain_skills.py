@@ -104,7 +104,8 @@ def test_analysis_engine_injects_registry_context():
             self.prompt = prompt
             return SimpleNamespace(text="Resposta.")
 
-    node = SimpleNamespace(metadata={"source_file": "fonte.pdf", "page": 1})
+    node = SimpleNamespace(metadata={"source_file": "fonte.pdf", "page": 1},
+                           get_content=lambda: "Indicador: 10")
     llm = LLM()
     engine = AnalysisEngine(
         Retriever([]),

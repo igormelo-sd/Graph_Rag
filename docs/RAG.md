@@ -53,6 +53,9 @@ impreciso. Por isso tudo é cortado em **chunks**:
 - **Tabelas pequenas** (até 10 linhas, `RAG_SMALL_TABLE_MAX_ROWS`): 1 chunk só.
 - **Tabelas grandes** (séries históricas): cada linha vira 1 chunk no formato
   `Coluna: valor` — ex.: `Ano: 2023 / Variação: +4,1% / Fonte: boletim.pdf`.
+  Teto de 1000 linhas por tabela (`RAG_TABLE_MAX_ROWS_PER_TABLE`): acima disso
+  indexam-se as primeiras 1000 linhas com `table_truncated: true`; o conteúdo
+  completo segue em `tables.parquet`.
 - **Gráficos**: 1 chunk cada, com o texto extraído por visão.
 - Todo chunk ganha etiquetas: `source_file`, `page`, `chunk_id`, `type`
   (`text` / `table` / `image`), seção — e um id determinístico (sha256), para

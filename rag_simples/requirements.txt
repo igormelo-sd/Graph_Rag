@@ -1,0 +1,7 @@
+openai>=1.30,<3
+python-dotenv>=1.0,<2
+pypdf>=5,<7
+llama-index-core
+llama-index-llms-openai
+llama-index-embeddings-huggingface
+sentence-transformers

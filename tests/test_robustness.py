@@ -42,12 +42,12 @@ def test_servico_compartilhado_preserva_contrato_http(monkeypatch):
     node = SimpleNamespace(
         metadata={"source_file": "boletim.pdf", "page": 2},
         score=0.9,
-        get_content=lambda: "A desocupação foi 7,9% em São Paulo em 2023.",
+        get_content=lambda: "A desocupação foi 7,9% no estado de São Paulo em 2023.",
     )
 
     class Engine:
         async def answer(self, **_kwargs):
-            return "A desocupação foi 7,9% em São Paulo em 2023 (Fonte: boletim.pdf, p. 2).", [node]
+            return "A desocupação foi 7,9% no estado de São Paulo em 2023 (Fonte: boletim.pdf, p. 2).", [node]
 
     def interpreter(question, _llm):
         return {"sources": ["text"], "rewritten_query": question, "is_labor_market": False}
@@ -69,13 +69,13 @@ def test_servico_compartilhado_preserva_contrato_http(monkeypatch):
     ))
     assert response.sources[0].file == "boletim.pdf"
     assert response.sources[0].page == 2
-    assert response.sources[0].excerpt == "A desocupação foi 7,9% em São Paulo em 2023."
+    assert response.sources[0].excerpt == "A desocupação foi 7,9% no estado de São Paulo em 2023."
     assert response.numeric_citations[0].value == "7,9%"
     assert response.numeric_citations[0].file == "boletim.pdf"
     assert response.numeric_citations[0].page == 2
     assert response.numeric_citations[0].snippet
     assert "A desocupação foi 7,9%" in response.numeric_citations[0].claim
     assert response.numeric_citations[0].explanation == "A taxa informada foi de 7,9%."
-    assert response.answer == "A desocupação foi 7,9% em São Paulo em 2023."
+    assert response.answer == "A desocupação foi 7,9% no estado de São Paulo em 2023."
     assert response.validation.verified == 2
     assert diagnostics.chunks == 1

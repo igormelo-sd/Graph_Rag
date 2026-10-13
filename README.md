@@ -1,5 +1,7 @@
 # Graph_Rag — RAG Estatístico SP (Principal / Híbrido)
 
+Organização do código e execução de todas as suítes: [guia de manutenção](docs/REFATORACAO.md).
+
 Sistema de perguntas e respostas sobre a economia do Estado de São Paulo, a partir dos
 boletins **SP Economia (Seade)** em `data/` (10 PDFs). Retrieval **híbrido
 (Vector + BM25)** sobre texto, mais retrievers de **tabelas**, **séries temporais**,
@@ -209,3 +211,22 @@ MIT — ver `LICENSE`.
 
 A recuperação usa fusão global, cobertura dos recortes pedidos, blocos completos de contexto e reutilização de células literais. Veja [Melhorias do RAG](docs/MELHORIAS_RAG.md) para configuração, limites e verificação pendente. A alteração do splitter exige reconstrução dos índices na próxima execução autorizada; nenhum teste ou reconstrução foi executado nesta etapa.
 
+
+### Embeddings pelo Ollama
+
+Para indexação local com aceleração disponível no Ollama, baixe `embeddinggemma:300m` e configure:
+
+```dotenv
+RAG_EMBED_PROVIDER=ollama
+RAG_EMBED_MODEL=embeddinggemma:300m
+RAG_EMBED_BATCH_SIZE=16
+RAG_OLLAMA_EMBED_URL=http://127.0.0.1:11434
+```
+
+O `start.bat` continua usando a mesma sincronização. Para gerar apenas os índices, execute `.venv\Scripts\python.exe main.py --index-only`. O Ollama deve estar em execução; o aplicativo verifica o modelo antes de extrair os PDFs. A configuração anterior continua disponível com `RAG_EMBED_PROVIDER=huggingface` e `RAG_EMBED_MODEL=BAAI/bge-m3`.
+
+O cache `.cache/embeddings.sqlite3` salva cada lote de inferência. As chaves incluem conteúdo, tipo de entrada (consulta/documento), modelo, digest e política de segmentação. Na retomada, a coleção temporária é reconstruída usando os vetores já calculados; os cálculos concluídos permanecem no cache. O checkpoint `.cache/processed_nodes.pkl` evita repetir a extração e o processamento quando o corpus e o pipeline são os mesmos. Esses arquivos locais podem conter informações do corpus e não devem ser versionados.
+
+Entradas longas são divididas em segmentos de até 2.000 caracteres. A API recebe `truncate=false`; se um segmento ainda exceder o limite de tokens, é dividido novamente. Todos os segmentos contribuem para uma média ponderada normalizada. O texto original permanece no índice. Essa agregação pode diluir a relevância de entradas com vários assuntos; a qualidade deve ser avaliada com perguntas revisadas do corpus.
+
+A troca de provedor, modelo ou digest exige reconstruir os vetores. Consultas usam o mesmo modelo e os prompts de recuperação apropriados. O cache BM25 e o manifesto são atualizados após concluir e validar a coleção nova.
