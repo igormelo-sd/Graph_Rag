@@ -1,4 +1,4 @@
-﻿"""Normalização mínima de proveniência para todas as APIs RAG."""
+"""Normalização mínima de proveniência para todas as APIs RAG."""
 from __future__ import annotations
 
 import math
@@ -53,24 +53,67 @@ def source_labels(nodes: list) -> str:
     return "\n".join(f"[{label}]" for label in labels)
 
 
+def _item_source_and_page(item) -> tuple[str, str]:
+    metadata = getattr(item, "metadata", {}) or {}
+    src = (
+        metadata.get("source_files")
+        or metadata.get("source_file")
+        or metadata.get("file_name")
+        or ""
+    )
+    page = metadata.get("page")
+    page_str = "" if page is None else str(page)
+    return str(src), page_str
+
+
 def assign_page_metadata(nodes, documents=()):
     """Numera nós dentro de cada fonte/página e propaga seções literais."""
     from collections import Counter
 
-    def key(node):
-        metadata = node.metadata
-        return str(metadata.get("source_file") or ""), str(metadata.get("page") or "")
-
-    totals = Counter(key(node) for node in nodes)
+    totals = Counter(_item_source_and_page(node) for node in nodes)
     counters = Counter()
     sections = {
-        (str(doc.metadata.get("source_file")), str(doc.metadata.get("page"))): doc.metadata["section"]
-        for doc in documents if doc.metadata.get("section")
+        _item_source_and_page(doc): (getattr(doc, "metadata", {}) or {})["section"]
+        for doc in documents
+        if (getattr(doc, "metadata", {}) or {}).get("section")
     }
     for node in nodes:
-        identity = key(node)
+        identity = _item_source_and_page(node)
         counters[identity] += 1
-        node.metadata["chunk_id"] = counters[identity]
-        node.metadata["total_chunks_page"] = totals[identity]
-        if not node.metadata.get("section") and identity in sections:
-            node.metadata["section"] = sections[identity]
+        meta = getattr(node, "metadata", None)
+        if meta is None:
+            node.metadata = meta = {}
+        meta["chunk_id"] = counters[identity]
+        meta["total_chunks_page"] = totals[identity]
+        if not meta.get("section") and identity in sections:
+            meta["section"] = sections[identity]
+
+
+def sanitize_text(text: str) -> str:
+    """Remove caracteres de controle inválidos que podem quebrar o JSON da API."""
+    if not text:
+        return ""
+    import re
+    return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+
+
+def sanitize_nodes(nodes: list) -> list:
+    """Sanitiza nós antes do reranker sem mutar o nó original no cache compartilhado."""
+    from copy import copy
+    from llama_index.core.schema import NodeWithScore
+
+    sanitized = []
+    for n in nodes:
+        node_obj = getattr(n, "node", n)
+        text = getattr(node_obj, "text", "")
+        clean = sanitize_text(text)
+        if clean == text:
+            sanitized.append(n)
+        else:
+            new_node = copy(node_obj)
+            new_node.text = clean
+            if hasattr(n, "score"):
+                sanitized.append(NodeWithScore(node=new_node, score=n.score))
+            else:
+                sanitized.append(new_node)
+    return sanitized

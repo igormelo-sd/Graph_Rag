@@ -11,6 +11,8 @@ from logger import get_logger
 log = get_logger(__name__)
 
 _NODES_CACHE_NAME = "bm25_nodes.pkl"
+_EMBED_INSTANCE = None
+_EMBED_IDENTITY = None
 
 def _nodes_cache_path(db_path: str) -> str:
     return os.path.join(db_path, _NODES_CACHE_NAME)
@@ -63,9 +65,10 @@ def _delete_ids(collection, ids, batch_size=1000):
         collection.delete(ids=ids[start:start + batch_size])
 
 def _embed_config() -> dict:
-    """Config formal do embedding local (bge-m3), com batch/device/normalização explícitos."""
+    """Config formal do embedding local (bge-m3 ou ollama), com batch/device/normalização explícitos."""
     from runtime import bounded_int
     return {
+        "provider": os.getenv("RAG_EMBED_PROVIDER", "huggingface").strip().lower(),
         "model": os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3").strip() or "BAAI/bge-m3",
         "batch_size": bounded_int("RAG_EMBED_BATCH_SIZE", 16, 1, 128),
         "device": os.getenv("RAG_EMBED_DEVICE", "auto").strip().lower() or "auto",
@@ -95,19 +98,40 @@ def _insert_nodes_in_batches(index, nodes):
 
 
 def setup_embeddings():
-    """
-    Configura Embeddings Locais (HuggingFace) para não enviar dados sensíveis p/ nuvem na vetorização.
-    Modelo default BAAI/bge-m3; parametrizável via RAG_EMBED_MODEL para tuning.
-    """
+    """Seleciona um modelo local, compartilhado entre indexação e consulta."""
+    global _EMBED_INSTANCE, _EMBED_IDENTITY
     cfg = _embed_config()
-    print(f"Configurando modelo de embeddings local ({cfg['model']}, batch={cfg['batch_size']}, device={cfg['device']}) ...")
-    kwargs: dict = {"model_name": cfg["model"], "embed_batch_size": cfg["batch_size"], "max_length": cfg["max_length"],
-                   "normalize": cfg["normalize"]}
-    if cfg["device"] in {"cpu", "cuda"}:
-        kwargs["device"] = cfg["device"]
-    embed_model = HuggingFaceEmbedding(**kwargs)
-    Settings.embed_model = embed_model
-    return embed_model
+    if cfg["provider"] == "ollama":
+        from pathlib import Path
+        from ollama_embeddings import CachedOllamaEmbedding, resolve_model_digest
+        url = os.getenv("RAG_OLLAMA_EMBED_URL", "http://127.0.0.1:11434").rstrip("/")
+        digest = resolve_model_digest(url, cfg["model"])
+        os.environ["RAG_EMBED_MODEL_REVISION"] = digest
+        cache_path = os.getenv("RAG_EMBED_CACHE_PATH", str(Path(__file__).resolve().parents[1] / ".cache" / "embeddings.sqlite3"))
+        identity = (cfg["provider"], cfg["model"], digest, url, cache_path, cfg["batch_size"])
+        if identity != _EMBED_IDENTITY:
+            model = CachedOllamaEmbedding(
+                model_name=cfg["model"], model_digest=digest, base_url=url,
+                cache_path=cache_path, embed_batch_size=cfg["batch_size"],
+            )
+            model.get_text_embedding("validação de dimensão")
+            _EMBED_INSTANCE, _EMBED_IDENTITY = model, identity
+    elif cfg["provider"] == "huggingface":
+        os.environ.pop("RAG_EMBED_MODEL_REVISION", None)
+        identity = tuple(sorted(cfg.items()))
+        if identity != _EMBED_IDENTITY:
+            from llama_index.embeddings.huggingface import HuggingFaceEmbedding
+            kwargs = {"model_name": cfg["model"], "embed_batch_size": cfg["batch_size"],
+                      "max_length": cfg["max_length"], "normalize": cfg["normalize"]}
+            if cfg["device"] in {"cpu", "cuda"}:
+                kwargs["device"] = cfg["device"]
+            _EMBED_INSTANCE = HuggingFaceEmbedding(**kwargs)
+            _EMBED_IDENTITY = identity
+    else:
+        raise ValueError("RAG_EMBED_PROVIDER deve ser huggingface ou ollama.")
+    Settings.embed_model = _EMBED_INSTANCE
+    log.info("Embeddings locais: provider=%s, model=%s, batch=%d", cfg["provider"], cfg["model"], cfg["batch_size"])
+    return _EMBED_INSTANCE
 
 
 def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas") -> None:
@@ -131,6 +155,10 @@ def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas
             f"Modelo de embedding incompatível: índice usa '{got_model}', runtime pede '{want_model}'. "
             f"Faça full rebuild (apague {db_path} ou ajuste RAG_EMBED_MODEL)."
         )
+    if pipe.get("embed_provider", "huggingface") != os.getenv("RAG_EMBED_PROVIDER", "huggingface"):
+        raise RuntimeError("Provedor de embeddings incompatível com o índice; reconstrua-o.")
+    if pipe.get("embed_revision", "") != os.getenv("RAG_EMBED_MODEL_REVISION", ""):
+        raise RuntimeError("Revisão do modelo incompatível com o índice; reconstrua-o.")
     want_dim = pipe.get("embed_dim")
     if want_dim is None:
         return

@@ -14,6 +14,7 @@ import Stemmer
 
 from logger import get_logger
 from llm import provider_name
+from provenance import sanitize_nodes, sanitize_text
 from runtime import bounded_int
 from domain_ontology import expand_query, filter_candidates, preserve_query
 
@@ -110,9 +111,7 @@ class ProtectedFusionRetriever:
         return fuse([self._retriever.retrieve(q) for q in queries], question)[:retrieval_top_k()]
 
 
-def _sanitize(text: str) -> str:
-    """Remove caracteres de controle inválidos que podem quebrar o JSON da API."""
-    return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
+_sanitize = sanitize_text
 
 
 def _nodes_by_type(nodes, node_type: str | None) -> list:
@@ -228,18 +227,7 @@ class TextRetriever:
             return []
 
         # Sanitiza conteúdo antes do reranker sem mutar o nó original (está no cache BM25)
-        from llama_index.core.schema import NodeWithScore
-        sanitized_nodes = []
-        for n in text_nodes:
-            clean_text = _sanitize(n.node.text)
-            if clean_text == n.node.text:
-                sanitized_nodes.append(n)
-            else:
-                import copy as _copy
-                new_node = _copy.copy(n.node)
-                new_node.text = clean_text
-                sanitized_nodes.append(NodeWithScore(node=new_node, score=n.score))
-        text_nodes = sanitized_nodes
+        text_nodes = sanitize_nodes(text_nodes)
 
         try:
             reranked = self._reranker.postprocess_nodes(

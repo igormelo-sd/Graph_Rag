@@ -12,6 +12,7 @@ import pandas as pd
 
 from logger import get_logger
 from calculations import calculate
+from provenance import sanitize_nodes
 from query_results import SeriesResult
 from runtime import limit_context
 from text_retriever import rerank_candidate_limit, structured_top_n
@@ -24,9 +25,6 @@ from structured_output import (
 log = get_logger(__name__)
 _FALLBACK_TOP_N = 3
 
-def _sanitize(text: str) -> str:
-    """Remove caracteres de controle inválidos que podem quebrar o JSON da API."""
-    return re.sub(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]", "", text)
 
 
 # Marcadores temporais reconhecíveis em português — sinal positivo de série válida
@@ -145,17 +143,7 @@ class TimeSeriesRetriever:
             return None
 
         # Sanitiza antes do reranker — copia o nó para não mutar o cache BM25 compartilhado
-        from llama_index.core.schema import NodeWithScore
-        sanitized = []
-        for n in ts_nodes:
-            clean = _sanitize(n.node.text)
-            if clean == n.node.text:
-                sanitized.append(n)
-            else:
-                new_node = _copy.copy(n.node)
-                new_node.text = clean
-                sanitized.append(NodeWithScore(node=new_node, score=n.score))
-        ts_nodes = sanitized
+        ts_nodes = sanitize_nodes(ts_nodes)
 
         try:
             reranked = self._reranker.postprocess_nodes(

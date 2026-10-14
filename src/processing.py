@@ -11,7 +11,7 @@ from llama_index.core.ingestion import IngestionPipeline
 from llama_index.core.schema import TextNode
 from llm import interp_model, llm_concurrency, make_llm, provider_name
 from runtime import bounded_int
-from rag_app.provenance import assign_page_metadata
+from provenance import assign_page_metadata
 
 
 # Tabelas com até este número de linhas são indexadas como um único chunk.
@@ -212,7 +212,17 @@ def _chunk_table(table_doc, extra_metadata: dict | None = None) -> list:
     from document_context import structure_payload, table_identity
     base_meta.setdefault("table_key", table_identity(base_meta, table_doc.text))
     title = base_meta.get("table_title", "")
-    notes = json.loads(base_meta.get("table_notes", "[]"))
+    raw_notes = base_meta.get("table_notes", "[]")
+    if isinstance(raw_notes, list):
+        notes = raw_notes
+    elif isinstance(raw_notes, str):
+        try:
+            parsed = json.loads(raw_notes)
+            notes = parsed if isinstance(parsed, list) else [str(parsed)]
+        except (json.JSONDecodeError, ValueError):
+            notes = [raw_notes] if raw_notes.strip() else []
+    else:
+        notes = []
 
     def structured_metadata(frame, indices):
         return {**base_meta, "table_structure": structure_payload(
@@ -234,10 +244,14 @@ def _chunk_table(table_doc, extra_metadata: dict | None = None) -> list:
         truncated = total_rows > LARGE_TABLE_MAX_ROWS
         if truncated:
             df = df.head(LARGE_TABLE_MAX_ROWS)
-        for row_index, row in df.iterrows():
+        for i, (row_index, row) in enumerate(df.iterrows()):
             text = _row_to_structured_text(row.to_dict(), source)
             if text.strip():
-                meta = structured_metadata(df.loc[[row_index]], [int(row_index)])
+                try:
+                    row_idx = int(row_index)
+                except (ValueError, TypeError):
+                    row_idx = int(i)
+                meta = structured_metadata(df.loc[[row_index]], [row_idx])
                 if truncated:
                     meta = {**meta, "table_total_rows": total_rows, "table_truncated": True}
                 nodes.append(TextNode(

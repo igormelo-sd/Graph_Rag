@@ -61,7 +61,7 @@ def main(base_dir: Path, argv: list[str] | None = None, *, extended: bool = Fals
         load_dotenv(base_dir.parent / "comparacao" / ".env", override=True)
         print(json.dumps(compare(comparison, "graphrag"), ensure_ascii=False, indent=2))
         return
-    load_dotenv(base_dir / ".env")
+    load_dotenv(base_dir / ".env", override=True)
     if extended:
         from comparacao.common import apply_profile
         apply_profile()

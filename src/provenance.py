@@ -7,10 +7,12 @@ from rag_app.provenance import (
     format_source_context,
     source_labels,
     assign_page_metadata,
+    sanitize_text,
+    sanitize_nodes,
 )
 
 __all__ = [
     'source_file', 'source_page', 'relevance_score',
     'source_label', 'format_source_context', 'source_labels',
-    'assign_page_metadata',
+    'assign_page_metadata', 'sanitize_text', 'sanitize_nodes',
 ]

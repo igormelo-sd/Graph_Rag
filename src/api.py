@@ -11,6 +11,11 @@ import sys
 import time
 import asyncio
 from contextlib import asynccontextmanager
+from pathlib import Path
+
+_SRC_DIR = Path(__file__).resolve().parent
+if str(_SRC_DIR) not in sys.path:
+    sys.path.insert(0, str(_SRC_DIR))
 
 from dotenv import load_dotenv
 from fastapi import Depends, FastAPI, HTTPException, Query

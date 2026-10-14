@@ -1,4 +1,4 @@
-﻿from llama_index.core import Document
+from llama_index.core import Document
 from llama_index.core.llms import MockLLM
 
 from processing import (
@@ -63,3 +63,61 @@ def test_cabecalho_duplicado_nao_descarta_celulas_silenciosamente():
     document = Document(text=text, metadata={"type": "table", "source_file": "fonte.pdf", "page": 1})
     nodes = _chunk_table(document)
     assert len(nodes) == 1 and nodes[0].text == text
+
+
+def test_chunk_table_handles_various_table_notes_formats():
+    from processing import _chunk_table
+    text = "| Indicador | 2022 |\n|---|---|\n| PIB | 100 |"
+
+    # Caso 1: table_notes como lista Python
+    doc1 = Document(text=text, metadata={"type": "table", "source_file": "f1.csv", "page": 1, "table_notes": ["Nota em lista"]})
+    nodes1 = _chunk_table(doc1)
+    assert len(nodes1) == 1
+
+    # Caso 2: table_notes como string não-JSON
+    doc2 = Document(text=text, metadata={"type": "table", "source_file": "f2.csv", "page": 1, "table_notes": "Nota de rodapé textual"})
+    nodes2 = _chunk_table(doc2)
+    assert len(nodes2) == 1
+
+    # Caso 3: table_notes como JSON válido
+    doc3 = Document(text=text, metadata={"type": "table", "source_file": "f3.csv", "page": 1, "table_notes": '["Nota JSON"]'})
+    nodes3 = _chunk_table(doc3)
+    assert len(nodes3) == 1
+
+
+def test_sanitize_nodes_does_not_mutate_cached_node():
+    from llama_index.core.schema import TextNode, NodeWithScore
+    from provenance import sanitize_nodes, sanitize_text
+
+    raw_text = "Texto com caractere nulo \x00 e controle \x1b final"
+    original_node = TextNode(text=raw_text)
+    node_with_score = NodeWithScore(node=original_node, score=0.85)
+
+    sanitized = sanitize_nodes([node_with_score])
+    assert len(sanitized) == 1
+    # Nó retornado foi limpo
+    assert "\x00" not in sanitized[0].node.text
+    assert "\x1b" not in sanitized[0].node.text
+    assert sanitized[0].score == 0.85
+    # Nó original no cache NÃO foi mutado
+    assert original_node.text == raw_text
+    assert original_node is not sanitized[0].node
+
+
+def test_assign_page_metadata_handles_none_and_file_name_symmetrically():
+    from types import SimpleNamespace
+    from provenance import assign_page_metadata
+
+    # Documento e nó com source_file ausente (None)
+    doc_none = SimpleNamespace(metadata={"section": "Introdução"})
+    node_none = SimpleNamespace(metadata={})
+    assign_page_metadata([node_none], [doc_none])
+    assert node_none.metadata["chunk_id"] == 1
+    assert node_none.metadata["total_chunks_page"] == 1
+    assert node_none.metadata["section"] == "Introdução"
+
+    # Documento e nó identificados por file_name em vez de source_file
+    doc_fname = SimpleNamespace(metadata={"file_name": "relatorio.pdf", "page": 3, "section": "Setores"})
+    node_fname = SimpleNamespace(metadata={"file_name": "relatorio.pdf", "page": 3})
+    assign_page_metadata([node_fname], [doc_fname])
+    assert node_fname.metadata["section"] == "Setores"
