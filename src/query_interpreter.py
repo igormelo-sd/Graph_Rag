@@ -6,6 +6,7 @@ Query Interpreter — analisa a pergunta e determina:
 """
 import json
 import os
+from rag_app.query_routing import minimum_sources
 from domain_ontology import prompt_block, query_constraints, preserve_query, enabled as ontology_enabled
 from labor_market_skill import is_labor_market_query
 
@@ -75,7 +76,8 @@ def interpret_query(question: str, llm) -> dict:
                 "is_labor_market": is_labor_market_query(question), "ontology": query_constraints(question),
                 "clarification": clarification}
     prompt = DEEP_INTERPRET_PROMPT.format(question=question) if _deep_search_enabled() else INTERPRET_PROMPT.format(question=question)
-    raw = llm.complete(prompt_block(question) + prompt).text.strip()
+    response = llm.complete(prompt_block(question) + prompt)
+    raw = response.text.strip() if isinstance(response.text, str) else ""
 
     # Remove markdown code fences, se presentes
     raw = raw.strip("` \n")
@@ -84,7 +86,11 @@ def interpret_query(question: str, llm) -> dict:
 
     try:
         result = json.loads(raw)
-        sources = [s for s in result.get("sources", []) if s in _VALID_SOURCES]
+        if not isinstance(result, dict):
+            raise ValueError("O roteador deve retornar um objeto JSON")
+        proposed = result.get("sources", [])
+        sources = [s for s in proposed if isinstance(s, str) and s in _VALID_SOURCES] if isinstance(proposed, list) else []
+        sources = minimum_sources(question, sources)
         # Visão off → remove image para não quebrar retrieval sem índice
         if os.getenv("RAG_VISION", "0").strip().lower() not in {"1", "true", "yes", "on"}:
             sources = [s for s in sources if s != "image"]
@@ -106,9 +112,9 @@ def interpret_query(question: str, llm) -> dict:
             "is_labor_market": is_labor_market_query(question),
             "ontology": query_constraints(question),
         }
-    except (json.JSONDecodeError, AttributeError):
+    except (ValueError, AttributeError, TypeError):
         return {
-            "sources": ["text"],
+            "sources": minimum_sources(question),
             "rewritten_query": question,
             "rewritten_queries": [question],
             "is_labor_market": is_labor_market_query(question),

@@ -16,6 +16,7 @@ from logger import get_logger
 from runtime import limit_context, request_timeout_seconds
 from provenance import format_source_context, source_labels
 from query_results import AnswerResult, SeriesResult
+from rag_app.model_output import response_text
 from domain_ontology import prompt_block
 from rag_selection import fuse, pack_context, sufficiency
 
@@ -70,10 +71,14 @@ o valor extraído incorretamente. Se duas fontes originais apresentarem valores 
 divergentes para os mesmos recortes, sinalize a divergência; não escolha um valor \
 por preferência entre narrativa e tabela, nem presuma revisão ou metodologia.
 
-6. AUSÊNCIA DE DADOS — Se a informação não está no contexto, responda exatamente:
+6. AUSÊNCIA DE DADOS — Se nenhuma parte da pergunta puder ser respondida com o contexto, responda exatamente:
    '""" + REFUSAL_TEXT + """'
 
-7. EVIDÊNCIA PARCIAL — Responda apenas o que está sustentado. Para cada ponto sem \
+7. EVIDÊNCIA PARCIAL — Responda as partes sustentadas, mesmo se outras estiverem ausentes.
+Em perguntas amplas, apresente um panorama dos recortes disponíveis, identificando
+território e período de cada resultado. Não exija que as fontes cubram toda a economia
+nem presuma que os períodos disponíveis sejam os mais recentes.
+Para cada ponto sem \
 suporte suficiente, use somente a mensagem definida no item 6.
 
 8. CÁLCULOS — Reproduza apenas operações da seção Cálculo Python, com a fórmula.
@@ -448,5 +453,5 @@ class AnalysisEngine:
             )
         )
 
-        return AnswerResult(sanitize_answer(response.text, question=question), all_source_nodes, timeseries_chart, calculations,
+        return AnswerResult(sanitize_answer(response_text(response), question=question), all_source_nodes, timeseries_chart, calculations,
                             knowledge=knowledge, retrieval_paths=retrieval_paths)

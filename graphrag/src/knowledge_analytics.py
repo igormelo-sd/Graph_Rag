@@ -51,12 +51,13 @@ def hierarchy_scope(question):
 
 
 def clarification_request(question, available_regions=()):
+    from rag_app.query_routing import period_clarification
     from domain_ontology import query_constraints
     if not enabled():
-        return None
+        return period_clarification(question)
     constraints = query_constraints(question)
     if not constraints["ambiguities"] or not constraints["dimensions"]["indicator"]:
-        return None
+        return period_clarification(question)
     options = [{"id": key, "label": TERRITORIES[key]["name"], "has_indexed_observations": key in available_regions}
                for key in ("estado_sp", "municipio_sp", "rmsp", "interior_sp")]
     return {"required": True, "dimension": "region", "reason": "ambiguous_sao_paulo",

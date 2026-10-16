@@ -83,3 +83,30 @@ def test_ollama_limits_local_concurrency(monkeypatch):
 
     monkeypatch.setenv("RAG_LLM_CONCURRENCY", "2")
     assert llm.llm_concurrency(default=8) == 2
+
+
+
+def test_factory_rejects_empty_completion_without_network(monkeypatch):
+    import pytest
+    from types import SimpleNamespace
+    from llama_index.llms.openai import OpenAI
+    from rag_app.model_output import EmptyModelResponse
+    monkeypatch.setenv("RAG_LLM_PROVIDER", "openai")
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.setattr(OpenAI, "complete", lambda *a, **k: SimpleNamespace(text=""))
+    model = llm.make_llm(model="gpt-4o-mini")
+    with pytest.raises(EmptyModelResponse):
+        model.complete("teste")
+
+
+def test_factory_preserves_valid_completion_and_output_limit(monkeypatch):
+    from types import SimpleNamespace
+    from llama_index.llms.openai import OpenAI
+    monkeypatch.setenv("RAG_LLM_PROVIDER", "openai")
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    monkeypatch.setenv("RAG_MAX_OUTPUT_TOKENS", "4096")
+    response = SimpleNamespace(text="Resposta com suporte documental.")
+    monkeypatch.setattr(OpenAI, "complete", lambda *a, **k: response)
+    model = llm.make_llm(model="gpt-4o-mini")
+    assert model.max_tokens == 4096
+    assert model.complete("teste") is response

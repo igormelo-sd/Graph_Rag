@@ -154,12 +154,14 @@ def make_llm(
     from llama_index.llms.openai import OpenAI
     from load_control import resource_slot
     from query_usage import tracked_call
+    from rag_app.model_output import response_text
 
     class LimitedOpenAI(OpenAI):
         def complete(self, *args, **kwargs):
             with resource_slot("LLM"), tracked_call() as record:
                 result = super().complete(*args, **kwargs)
                 record(result)
+                response_text(result)
                 return result
 
         def chat(self, *args, **kwargs):

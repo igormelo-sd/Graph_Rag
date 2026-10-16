@@ -79,3 +79,39 @@ def test_servico_compartilhado_preserva_contrato_http(monkeypatch):
     assert response.answer == "A desocupação foi 7,9% no estado de São Paulo em 2023."
     assert response.validation.verified == 2
     assert diagnostics.chunks == 1
+
+
+
+def test_resposta_vazia_do_modelo_nao_vira_ausencia_de_dados(monkeypatch):
+    from rag_app.model_output import EmptyModelResponse
+    import pytest
+    monkeypatch.setenv("RAG_ONTOLOGY_ENABLE", "0")
+    source = SimpleNamespace(metadata={"source_file": "boletim.pdf", "page": 1},
+                             get_content=lambda: "A indústria paulista recuou em dezembro de 2025.")
+    engine = AnalysisEngine(
+        _Retriever(result=[source]), _Retriever(result=None), _Retriever(result=None),
+        SimpleNamespace(complete=lambda _: SimpleNamespace(text="   ")),
+    )
+    with pytest.raises(EmptyModelResponse, match="resposta vazia"):
+        asyncio.run(engine.answer(question="Me fale sobre a economia do Estado de São Paulo",
+                                  sources=["text"], rewritten_query="economia paulista"))
+
+
+
+def test_api_reports_empty_provider_output_as_502(monkeypatch):
+    import os
+    import pytest
+    from fastapi import HTTPException
+    from rag_app.model_output import EmptyModelResponse
+    # Importar a API não deve mudar o ambiente dos outros testes.
+    monkeypatch.setattr(os, "environ", dict(os.environ))
+    import api
+    monkeypatch.setattr(api, "_engine", object())
+    monkeypatch.setattr(api, "_interp_llm", object())
+    async def empty(**kwargs):
+        raise EmptyModelResponse("O modelo retornou uma resposta vazia.")
+    monkeypatch.setattr(api, "execute_engine_query", empty)
+    with pytest.raises(HTTPException) as error:
+        asyncio.run(api.query(api.QueryRequest(question="Economia paulista")))
+    assert error.value.status_code == 502
+    assert "resposta vazia" in error.value.detail

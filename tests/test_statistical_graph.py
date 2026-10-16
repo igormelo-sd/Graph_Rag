@@ -175,3 +175,22 @@ def test_divulgacao_nao_vira_periodo_de_referencia():
 def test_sem_carteira_nao_nega_relacao_com_fonte():
     attributes = relation_attributes("MEDIDO_POR", "O emprego sem carteira é medido pela PNAD em 2023.", {}, "a")
     assert attributes["polarity"] == "affirmed"
+
+
+@pytest.mark.parametrize("raw", ['{"sources":["text"]}', 'texto inválido', '[]', '{"sources":null}', '{"sources":[{},"text"]}'])
+def test_pib_pontual_mantem_tabelas_mesmo_com_roteador_incompleto(monkeypatch, raw):
+    from query_interpreter import interpret_query
+    monkeypatch.setenv("RAG_ONTOLOGY_ENABLE", "0")
+    llm = SimpleNamespace(complete=lambda _: SimpleNamespace(text=raw))
+    result = interpret_query("Qual é o PIB do município de Campinas em 2020?", llm)
+    assert "tables" in result["sources"]
+
+
+def test_pib_sem_ano_pede_periodo_antes_de_consultar_modelo(monkeypatch):
+    from query_interpreter import interpret_query
+    monkeypatch.setenv("RAG_ONTOLOGY_ENABLE", "0")
+    def forbidden(_):
+        raise AssertionError("Pergunta sem ano deve pedir esclarecimento antes do LLM")
+    result = interpret_query("Qual é o pib de campinas?", SimpleNamespace(complete=forbidden))
+    assert result["sources"] == []
+    assert result["clarification"]["dimension"] == "period"

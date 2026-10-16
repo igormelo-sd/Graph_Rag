@@ -38,6 +38,7 @@ from metrics import MetricsMiddleware, render_prometheus
 from query_interpreter import interpret_query
 from startup import initialize
 from load_control import CapacityExceeded
+from rag_app.model_output import EmptyModelResponse
 
 RAG_TYPE = "principal"
 RAG_LABEL = "RAG Principal"
@@ -201,6 +202,9 @@ async def query(
                 extra={"question": question[:120], "unverified": diagnostics.unverified},
             )
 
+    except EmptyModelResponse as exc:
+        log.warning("Provedor retornou resposta vazia")
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
     except CapacityExceeded as exc:
         raise HTTPException(status_code=503, detail="Sistema ocupado. Tente novamente em instantes.", headers={"Retry-After": "5"}) from exc
     except TimeoutError as exc:
@@ -234,6 +238,9 @@ async def knowledge(
         async with request_slot():
             from runtime import request_timeout_seconds
             return await asyncio.wait_for(asyncio.to_thread(_engine.knowledge_report, question.strip()), timeout=request_timeout_seconds())
+    except EmptyModelResponse as exc:
+        log.warning("Provedor retornou resposta vazia")
+        raise HTTPException(status_code=502, detail=str(exc)) from exc
     except CapacityExceeded as exc:
         raise HTTPException(status_code=503, detail="Sistema ocupado. Tente novamente em instantes.", headers={"Retry-After": "5"}) from exc
     except TimeoutError as exc:

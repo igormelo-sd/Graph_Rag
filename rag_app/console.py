@@ -32,6 +32,9 @@ def run_cli(base_dir: Path, use_graph: bool = False) -> None:
 
         try:
             interp = interpret_query(pergunta, interp_llm)
+            if interp.get("clarification", {}).get("required"):
+                print(f"Resposta:\n{interp['clarification']['question']}\n")
+                continue
             print(f"  Fontes: {interp['sources']}")
             print(f"  Query reescrita: {interp['rewritten_query']}\n")
             print("Buscando e analisando...\n")
@@ -42,6 +45,7 @@ def run_cli(base_dir: Path, use_graph: bool = False) -> None:
                     sources=interp["sources"],
                     rewritten_query=interp["rewritten_query"],
                     is_labor_market=interp.get("is_labor_market", False),
+                    rewritten_queries=interp.get("rewritten_queries"),
                 )
             )
 

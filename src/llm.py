@@ -154,12 +154,14 @@ def make_llm(
     from llama_index.llms.openai import OpenAI
     from load_control import resource_slot
     from query_usage import tracked_call
+    from rag_app.model_output import response_text
 
     class LimitedOpenAI(OpenAI):
         def complete(self, *args, **kwargs):
             with resource_slot("LLM"), tracked_call() as record:
                 result = super().complete(*args, **kwargs)
                 record(result)
+                response_text(result)
                 return result
 
         def chat(self, *args, **kwargs):
@@ -179,6 +181,8 @@ def make_llm(
 
     cfg = _cfg()
     mdl = model or (cfg["interp_model"] if interp else cfg["main_model"])
+    configured_limit = os.getenv("RAG_MAX_OUTPUT_TOKENS")
+    output_limit = max(1, int(configured_limit)) if configured_limit is not None else None
 
     if cfg["base_url"]:
         # Provedor compatível (OpenRouter/Ollama): registra o modelo e aponta a base URL.
@@ -189,6 +193,7 @@ def make_llm(
             api_key=cfg["api_key"],
             temperature=temperature,
             timeout=timeout,
+            max_tokens=output_limit,
         )
 
-    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout)
+    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout, max_tokens=output_limit)

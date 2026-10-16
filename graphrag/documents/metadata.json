@@ -6,7 +6,7 @@
       "text_chunks": 0,
       "tables": 193,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:24.984507"
+      "processed_at": "2026-10-16T13:07:29.553505"
     },
     {
       "file_name": "base-pim_spbrasil.csv",
@@ -14,7 +14,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:25.105381"
+      "processed_at": "2026-10-16T13:07:29.749702"
     },
     {
       "file_name": "base-pmc_spbrasil.csv",
@@ -22,7 +22,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:25.237099"
+      "processed_at": "2026-10-16T13:07:29.975741"
     },
     {
       "file_name": "base-pms_spbrasil.csv",
@@ -30,7 +30,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:25.278587"
+      "processed_at": "2026-10-16T13:07:30.080338"
     },
     {
       "file_name": "cnae20.csv",
@@ -38,7 +38,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:25.299520"
+      "processed_at": "2026-10-16T13:07:30.114760"
     },
     {
       "file_name": "codigos_municipios_regioes.csv",
@@ -46,7 +46,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:25.325363"
+      "processed_at": "2026-10-16T13:07:30.148559"
     },
     {
       "file_name": "contas_regionais_2022_notas_tecnicas.pdf",
@@ -54,7 +54,7 @@
       "text_chunks": 22,
       "tables": 24,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.081585"
+      "processed_at": "2026-10-16T13:07:36.791230"
     },
     {
       "file_name": "dic_variaveis_pmc.csv",
@@ -62,7 +62,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.083994"
+      "processed_at": "2026-10-16T13:07:36.794307"
     },
     {
       "file_name": "dic_variaveis_pms.csv",
@@ -70,7 +70,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.085586"
+      "processed_at": "2026-10-16T13:07:36.796737"
     },
     {
       "file_name": "dicvar_cnae20.csv",
@@ -78,7 +78,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.087591"
+      "processed_at": "2026-10-16T13:07:36.800370"
     },
     {
       "file_name": "dicvar_codigos_municipios_regioes.csv",
@@ -86,7 +86,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.090858"
+      "processed_at": "2026-10-16T13:07:36.805190"
     },
     {
       "file_name": "dicvar_pib_municipal_2002_2020.csv",
@@ -94,7 +94,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:30.092868"
+      "processed_at": "2026-10-16T13:07:36.810244"
     },
     {
       "file_name": "pib-vol-val_202504caderno.pdf",
@@ -102,7 +102,7 @@
       "text_chunks": 39,
       "tables": 19,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:51.499430"
+      "processed_at": "2026-10-16T13:08:07.340174"
     },
     {
       "file_name": "pib_mensal_trimestral_metodologia.pdf",
@@ -110,7 +110,7 @@
       "text_chunks": 20,
       "tables": 2,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:55.496161"
+      "processed_at": "2026-10-16T13:08:13.324150"
     },
     {
       "file_name": "pib_municipal_2002_2020.csv",
@@ -118,7 +118,7 @@
       "text_chunks": 0,
       "tables": 1,
       "images": 0,
-      "processed_at": "2026-10-14T13:38:57.003902"
+      "processed_at": "2026-10-16T13:08:16.002837"
     },
     {
       "file_name": "pim-pf-br_202512caderno.pdf",
@@ -126,7 +126,7 @@
       "text_chunks": 39,
       "tables": 24,
       "images": 0,
-      "processed_at": "2026-10-14T13:39:22.963872"
+      "processed_at": "2026-10-16T13:08:51.372422"
     },
     {
       "file_name": "pim-pf-regional_202512.pdf",
@@ -134,7 +134,7 @@
       "text_chunks": 74,
       "tables": 63,
       "images": 0,
-      "processed_at": "2026-10-14T13:39:50.333668"
+      "processed_at": "2026-10-16T13:09:31.819266"
     },
     {
       "file_name": "pmc_202512caderno.pdf",
@@ -142,7 +142,7 @@
       "text_chunks": 59,
       "tables": 44,
       "images": 0,
-      "processed_at": "2026-10-14T13:40:04.239293"
+      "processed_at": "2026-10-16T13:09:50.150182"
     },
     {
       "file_name": "tabelas-pib-anual-2023.xlsx",
@@ -150,7 +150,7 @@
       "text_chunks": 0,
       "tables": 31,
       "images": 0,
-      "processed_at": "2026-10-14T13:40:04.536368"
+      "processed_at": "2026-10-16T13:09:50.661505"
     },
     {
       "file_name": "tabelas-relatorio-2-trim2026-site.xlsx",
@@ -158,8 +158,8 @@
       "text_chunks": 0,
       "tables": 8,
       "images": 0,
-      "processed_at": "2026-10-14T13:40:04.716038"
+      "processed_at": "2026-10-16T13:09:50.970929"
     }
   ],
-  "generated_at": "2026-10-14T13:40:04.813458"
+  "generated_at": "2026-10-16T13:09:51.098787"
 }
