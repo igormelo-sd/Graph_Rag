@@ -43,9 +43,9 @@ def _save_graph_store(graph_store: SimplePropertyGraphStore, path: str) -> None:
 
 def _load_graph_store(path: str) -> SimplePropertyGraphStore:
     """Carrega o grafo de um JSON salvo em UTF-8."""
-    with open(path, "r", encoding="utf-8") as f:
-        graph = LabelledPropertyGraph.model_validate_json(f.read())
-    return SimplePropertyGraphStore(graph=graph)
+    # O loader público restaura EntityNode/ChunkNode antes de validar o grafo.
+    # Validar diretamente tenta instanciar a base abstrata LabelledNode.
+    return SimplePropertyGraphStore.from_persist_path(path)
 
 
 def _graph_embed_enabled() -> bool:
@@ -298,15 +298,9 @@ def build_or_load_graph(
                 image_path = os.path.join(graph_dir, "graph_store.png")
                 if not os.path.exists(image_path):
                     export_graph_image(graph_store, image_path)
-                if _graph_struct_enabled():
-                    # injeta estruturais mesmo em cache (idempotente, dedup via triplets)
-                    try:
-                        _inject_structural_triplets(graph_store, text_nodes)
-                        _save_graph_store(graph_store, graph_path)
-                    except Exception:
-                        pass
-                _inject_domain_triplets(graph_store, text_nodes)
-                _save_graph_store(graph_store, graph_path)
+                # Corpus/pipeline e configuração já foram conferidos acima.
+                # Mudanças chegam por force_rebuild; cache válido não reinjeta
+                # todas as observações nem regrava centenas de MB a cada boot.
                 return PropertyGraphIndex.from_existing(
                     property_graph_store=graph_store,
                     embed_kg_nodes=_graph_embed_enabled(),

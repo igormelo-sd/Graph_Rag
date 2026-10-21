@@ -34,7 +34,7 @@ from logger import get_logger, setup_logging
 from api_models import QueryRequest, QueryResponse
 from query_service import execute_engine_query
 from metrics import MetricsMiddleware, render_prometheus
-from query_interpreter import interpret_query
+from query_interpreter import ainterpret_query as interpret_query
 from startup import initialize
 from load_control import CapacityExceeded
 from rag_app.model_output import EmptyModelResponse

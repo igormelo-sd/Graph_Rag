@@ -51,8 +51,11 @@ def hierarchy_scope(question):
 
 
 def clarification_request(question, available_regions=()):
-    from rag_app.query_routing import period_clarification
+    from rag_app.query_routing import period_clarification, services_growth_clarification
     from domain_ontology import query_constraints
+    services = services_growth_clarification(question)
+    if services:
+        return services
     if not enabled():
         return period_clarification(question)
     constraints = query_constraints(question)

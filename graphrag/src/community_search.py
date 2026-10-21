@@ -112,10 +112,19 @@ class CommunitySearch:
         )
         if len(prompt) > context_token_budget() * 4:
             raise ValueError("Pergunta ou contexto excede o orçamento da busca global.")
-        text = str(self.llm.complete(prompt).text or "").strip()
-        if not text or len(text) > self.summary_size:
-            raise ValueError("Resumo vazio ou maior que o limite. Cache global não foi promovido.")
-        return text
+        from rag_app.model_output import response_text
+        for attempt in range(2):
+            if cancel_event is not None and cancel_event.is_set():
+                raise RuntimeError("Busca global cancelada.")
+            # Refaça a síntese a partir das fontes, sem cortar uma frase ou citação.
+            instruction = (f"\nA síntese anterior excedeu o limite. Seja mais conciso: no máximo {self.summary_size // 2} caracteres."
+                           if attempt else "")
+            if len(prompt + instruction) > context_token_budget() * 4:
+                raise ValueError("Pergunta ou contexto excede o orçamento da busca global.")
+            text = response_text(self.llm.complete(prompt + instruction)).strip()
+            if len(text) <= self.summary_size:
+                return text
+        raise ValueError("Resumo maior que o limite após uma revisão. Cache global não foi promovido.")
 
     def _batches(self, blocks, task):
         budget = context_token_budget() * 4 - len(task) - 1000

@@ -28,7 +28,7 @@ Fontes disponíveis:
 Regras de seleção:
 - Inclua "text" para qualquer pergunta que precise de contexto narrativo ou analítico
 - Inclua "tables" se a pergunta busca valores específicos, rankings ou comparações pontuais
-- Inclua "timeseries" se a pergunta envolve evolução, tendência, crescimento, variação temporal ou sequência de períodos
+- Inclua "timeseries" para evolução, tendência, sequência de períodos ou gráfico; para uma taxa pontual publicada, prefira "text" e "tables"
 - Inclua "image" se RAG_VISION=1 e a pergunta pode depender de gráfico/figura sem tabela textual correspondente (ex: distribuição, mapa, pizza)
 - Inclua "graph" se a pergunta envolve relações entre múltiplos indicadores, comparações entre setores/regiões, causalidade ou correlação entre variáveis econômicas
 - Inclua "global" somente para uma visão geral dos documentos/boletins, nunca para buscar um valor pontual
@@ -63,7 +63,7 @@ def _deep_search_enabled() -> bool:
     return os.getenv("RAG_DEEP_SEARCH", "0").strip().lower() in {"1", "true", "yes", "on"}
 
 
-def interpret_query(question: str, llm) -> dict:
+def _prepare_query(question: str):
     """
     Interpreta a query e retorna:
         {"sources": [...], "rewritten_query": "...", "rewritten_queries": [...]}
@@ -83,7 +83,12 @@ def interpret_query(question: str, llm) -> dict:
                 "is_labor_market": is_labor_market_query(question), "ontology": query_constraints(question),
                 "clarification": clarification}
     prompt = DEEP_INTERPRET_PROMPT.format(question=question) if _deep_search_enabled() else INTERPRET_PROMPT.format(question=question)
-    response = llm.complete(prompt_block(question) + prompt)
+    return prompt_block(question) + prompt
+
+
+def _parse_query(question, response):
+    from knowledge_analytics import hierarchy_scope
+    from community_search import enabled as global_enabled, is_global_question
     raw = response.text.strip() if isinstance(response.text, str) else ""
 
     # Remove markdown code fences, se presentes
@@ -98,7 +103,12 @@ def interpret_query(question: str, llm) -> dict:
         proposed = result.get("sources", [])
         sources = [s for s in proposed if isinstance(s, str) and s in _VALID_SOURCES] if isinstance(proposed, list) else []
         sources = minimum_sources(question, sources)
-        if not global_enabled():
+        from rag_app.query_routing import point_comparison
+        if point_comparison(question):
+            sources = [source for source in sources if source != "timeseries"]
+            if "tables" not in sources:
+                sources.append("tables")
+        if not global_enabled() or not is_global_question(question):
             sources = [source for source in sources if source != "global"]
         # Visão off → remove image para não quebrar retrieval sem índice
         if os.getenv("RAG_VISION", "0").strip().lower() not in {"1", "true", "yes", "on"}:
@@ -129,3 +139,18 @@ def interpret_query(question: str, llm) -> dict:
             "is_labor_market": is_labor_market_query(question),
             "ontology": query_constraints(question),
         }
+
+
+def interpret_query(question: str, llm) -> dict:
+    prepared = _prepare_query(question)
+    if isinstance(prepared, dict):
+        return prepared
+    return _parse_query(question, llm.complete(prepared))
+
+
+async def ainterpret_query(question: str, llm) -> dict:
+    from rag_app.model_output import acomplete
+    prepared = _prepare_query(question)
+    if isinstance(prepared, dict):
+        return prepared
+    return _parse_query(question, await acomplete(llm, prepared))

@@ -203,7 +203,15 @@ class AnalysisEngine:
         Suporta deep search com múltiplas rewritten_queries e HyDE opcional.
         """
         from community_search import is_global_question
-        if self._global_search is not None and ("global" in sources or is_global_question(question)):
+        from rag_app.model_output import acomplete
+        import time
+        started = time.monotonic()
+        def stage(name):
+            log.info("Etapa da consulta: %s (%.2fs)", name, time.monotonic() - started)
+        clarification = self.clarification(question)
+        if clarification:
+            return AnswerResult(clarification["question"], [], clarification=clarification)
+        if self._global_search is not None and is_global_question(question):
             import threading
             cancel_event = threading.Event()
             try:
@@ -211,9 +219,6 @@ class AnalysisEngine:
             except asyncio.CancelledError:
                 cancel_event.set()  # Impede novas chamadas; uma chamada em curso pode terminar.
                 raise
-        clarification = self.clarification(question)
-        if clarification:
-            return AnswerResult(clarification["question"], [], clarification=clarification)
         # Deep search: usa lista de queries alternativas se habilitado
         queries = [rewritten_query]
         if _deep_search_enabled() and rewritten_queries:
@@ -234,7 +239,7 @@ class AnalysisEngine:
         hyde_query: str | None = None
         if _hyde_enabled() and self._llm is not None:
             try:
-                hyde_resp = await asyncio.to_thread(self._llm.complete, _HYDE_PROMPT.format(question=question))
+                hyde_resp = await acomplete(self._llm, _HYDE_PROMPT.format(question=question))
                 from domain_ontology import preserve_query
                 hyde_query = preserve_query(question, (hyde_resp.text or "").strip()[:800])
                 if hyde_query:
@@ -269,6 +274,7 @@ class AnalysisEngine:
             asyncio.gather(*coros, return_exceptions=True),
             timeout=request_timeout_seconds(),
         )
+        stage("recuperação inicial concluída")
         result_map = {}
         for key, result in zip(keys, results):
             if isinstance(result, BaseException):
@@ -384,7 +390,9 @@ class AnalysisEngine:
                 all_source_nodes = _dedup_nodes(text_nodes + tables_nodes + ts_nodes + image_nodes + graph_nodes)
             except Exception as exc:
                 log.warning("Contexto documental do grafo indisponível: %s", exc)
+        stage("expansão do grafo concluída")
         knowledge = await asyncio.to_thread(self.knowledge_report, question)
+        stage("auditoria do corpus concluída")
 
         # Segunda busca limitada, dirigida somente às lacunas de cobertura candidata.
         coverage_report = sufficiency(question, all_source_nodes)
@@ -412,6 +420,7 @@ class AnalysisEngine:
                 retrieval_lists.append(result[1])
         ranked = await asyncio.to_thread(fuse, retrieval_lists + [repair_nodes, graph_nodes],
                                         question, self._final_reranker)
+        stage("seleção final concluída")
         # Expansão limitada de vizinhos narrativos com mesma página/seção.
         from llama_index.core.schema import NodeWithScore
         from rag_selection import node_key
@@ -482,14 +491,16 @@ class AnalysisEngine:
             skill_block += "\n[Auditoria de candidatos, não fatos] Há valores divergentes no índice: " + json.dumps(conflicts, ensure_ascii=False)
             skill_block += "\nSinalize a divergência se aparecer nas fontes recuperadas; não escolha um valor nem infira revisão/metodologia sem evidência. Não converta hipótese ou associação em causalidade."
 
-        response = await asyncio.to_thread(
-            self._llm.complete,
+        stage("iniciando síntese")
+        response = await acomplete(
+            self._llm,
             _SYNTHESIS_PROMPT.format(
                 skill_block=skill_block,
                 context_block=context_block,
                 question=question,
             )
         )
+        stage("síntese concluída")
 
         return AnswerResult(sanitize_answer(response_text(response), question=question), all_source_nodes, timeseries_chart, calculations,
                             knowledge=knowledge, retrieval_paths=retrieval_paths)

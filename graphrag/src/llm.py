@@ -152,37 +152,87 @@ def make_llm(
     provedor distingue); caso contrário, o modelo de síntese.
     """
     from llama_index.llms.openai import OpenAI
-    from load_control import resource_slot
+    import asyncio
+    from load_control import resource_slot, async_resource_slot, call_timeout, query_loop
     from query_usage import tracked_call
-    from rag_app.model_output import response_text
+    from rag_app.model_output import response_text, EmptyModelResponse
+    from logger import get_logger
+    log = get_logger(__name__)
 
     class LimitedOpenAI(OpenAI):
         def complete(self, *args, **kwargs):
-            with resource_slot("LLM"), tracked_call() as record:
-                result = super().complete(*args, **kwargs)
-                record(result)
-                response_text(result)
-                return result
+            loop = query_loop()
+            if loop is not None:
+                # Retrievers síncronos rodam em workers, mas seu I/O deve poder
+                # ser cancelado e liberar a vaga real do cliente assíncrono.
+                try:
+                    current = asyncio.get_running_loop()
+                except RuntimeError:
+                    current = None
+                if current is loop:
+                    raise RuntimeError("Use acomplete no event loop da consulta.")
+                future = asyncio.run_coroutine_threadsafe(self.acomplete(*args, **kwargs), loop)
+                try:
+                    return future.result(timeout=call_timeout(self.timeout))
+                except TimeoutError:
+                    future.cancel()
+                    raise TimeoutError("Tempo total da chamada ao modelo excedido.") from None
+            # Uma repetição para saída vazia; erros de crédito/429 não são repetidos.
+            for attempt in range(2):
+                with resource_slot("LLM"), tracked_call() as record:
+                    result = super().complete(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
+                    record(result)
+                    log.info("LLM síncrono concluído; caracteres=%d; tentativa=%d", len(result.text or ""), attempt + 1)
+                    try:
+                        response_text(result)
+                        return result
+                    except EmptyModelResponse:
+                        if attempt:
+                            raise
 
         def chat(self, *args, **kwargs):
             with resource_slot("LLM"), tracked_call() as record:
-                result = super().chat(*args, **kwargs)
+                result = super().chat(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
                 record(result)
                 return result
 
         async def achat(self, *args, **kwargs):
-            import asyncio
-            return await asyncio.to_thread(self.chat, *args, **kwargs)
+            async with asyncio.timeout(call_timeout(self.timeout)), async_resource_slot("LLM"):
+                with tracked_call() as record:
+                    result = await super().achat(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
+                    record(result)
+                    return result
 
         async def acomplete(self, *args, **kwargs):
-            # Usa o caminho síncrono limitado sem bloquear o event loop.
-            import asyncio
-            return await asyncio.to_thread(self.complete, *args, **kwargs)
+            async with asyncio.timeout(call_timeout(self.timeout)):
+                return await self._complete_attempts(*args, **kwargs)
+
+        async def _complete_attempts(self, *args, **kwargs):
+            for attempt in range(2):
+                async with async_resource_slot("LLM"):
+                    with tracked_call() as record:
+                        result = await super().acomplete(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
+                        record(result)
+                        log.info("LLM assíncrono concluído; caracteres=%d; tentativa=%d", len(result.text or ""), attempt + 1)
+                        try:
+                            response_text(result)
+                            return result
+                        except EmptyModelResponse:
+                            if attempt:
+                                raise
 
     cfg = _cfg()
     mdl = model or (cfg["interp_model"] if interp else cfg["main_model"])
     temperature = float(os.getenv("RAG_LLM_TEMPERATURE", str(temperature)))
-    output_limit = max(1, int(os.getenv("RAG_MAX_OUTPUT_TOKENS", "1200")))
+    # O roteador pode selecionar modelos que gastam a saída com raciocínio.
+    default_output = "4096" if provider_name() == "openrouter" and mdl == "openrouter/free" else "1200"
+    output_limit = max(1, int(os.getenv("RAG_MAX_OUTPUT_TOKENS", default_output)))
+    additional = {}
+    if provider_name() == "openrouter" and mdl == "openrouter/free":
+        effort = os.getenv("RAG_REASONING_EFFORT", "low")
+        if effort not in {"none", "minimal", "low", "medium", "high", "xhigh", "max"}:
+            raise ValueError("RAG_REASONING_EFFORT inválido")
+        additional = {"extra_body": {"reasoning": {"effort": effort}}}
 
     if cfg["base_url"]:
         # Provedor compatível (OpenRouter/Ollama): registra o modelo e aponta a base URL.
@@ -194,6 +244,8 @@ def make_llm(
             temperature=temperature,
             timeout=timeout,
             max_tokens=output_limit,
+            max_retries=0,
+            additional_kwargs=additional,
         )
 
-    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout, max_tokens=output_limit)
+    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout, max_tokens=output_limit, max_retries=0)

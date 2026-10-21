@@ -110,7 +110,18 @@ class TablesRetriever:
         context, reranked = pack_context(reranked, question)
         if not reranked:
             return None
-        structured, calculations = self._extract_and_calculate(question, context, reranked)
+        from rag_app.query_routing import point_comparison
+        from rag_app.model_output import EmptyModelResponse
+        from domain_ontology import fold
+        if point_comparison(question) and "ajuste sazonal" in fold(question):
+            # Uma taxa publicada pode ser lida da fonte sem gerar uma nova
+            # estrutura JSON ou pedir um plano de cálculo ao modelo.
+            return SeriesResult("[Tabela literal: use taxas publicadas; não calcule valores ausentes.]\n" + context, reranked)
+        try:
+            structured, calculations = self._extract_and_calculate(question, context, reranked)
+        except (EmptyModelResponse, TimeoutError) as exc:
+            log.warning("Extração de tabela indisponível; preservando evidências literais: %s", exc)
+            return SeriesResult("[Extração estruturada indisponível; consultar os trechos literais.]", reranked)
         return SeriesResult(structured, reranked, calculations=calculations)
 
     def _extract_and_calculate(self, question: str, context: str, nodes=()) -> tuple[str, list]:

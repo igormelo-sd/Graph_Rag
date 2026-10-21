@@ -1,7 +1,41 @@
 # Precisão, evidências e operação
 
-Estas alterações foram implementadas sem executar testes, avaliações ou o servidor.
-A resolução de dependências consultou metadados do PyPI; não instalou o aplicativo.
+As seções abaixo descrevem limites do sistema, não garantias de correção.
+Em 21/10/2026, as correções das falhas técnicas da avaliação de desenvolvimento
+passaram em 91 testes locais de geração, cancelamento, roteamento, busca global
+e contratos de resposta. A reexecução das cinco perguntas fica registrada em
+`comparacao/artefatos/resultados/graphrag_correcao_20261021/` na raiz do repositório.
+
+## Falhas de geração e cancelamento
+
+A fábrica repete uma saída vazia uma única vez no mesmo provedor e modelo.
+Uma segunda saída vazia continua sendo erro de geração, nunca ausência documental.
+Erros de transporte, crédito e 429 não são repetidos automaticamente nem provocam
+troca de provedor. Cada tentativa de geração entra na contabilidade de uso.
+O padrão de saída para `openrouter/free` é 4.096 tokens, pois o roteador pode
+selecionar modelos que usam parte desse orçamento para raciocínio.
+`RAG_REASONING_EFFORT=low` limita o esforço de raciocínio nesse roteador; pode ser
+sobrescrito com um esforço aceito pelo provedor. Consulte a [documentação do
+OpenRouter](https://openrouter.ai/docs/guides/best-practices/reasoning-tokens).
+`RAG_MAX_OUTPUT_TOKENS`, quando definido, continua prevalecendo, inclusive no
+perfil controlado de comparação. Isso pode aumentar o consumo de saída.
+
+Interpretação e síntese na API usam o cliente assíncrono. Chamadas síncronas
+dos retrievers delegam I/O a esse cliente enquanto pertencem a uma consulta.
+O timeout total da chamada inclui a repetição e impede que dados recebidos
+periodicamente prolonguem indefinidamente a espera; cancelamento interrompe
+a espera de I/O e libera a vaga local de LLM. A consulta compartilha um prazo
+com as threads de recuperação: novas chamadas e repetições são impedidas após
+seu encerramento. Processamento local já iniciado em threads ainda pode terminar em segundo plano.
+Chamadas síncronas feitas fora do serviço, como no CLI, mantêm sua vaga até
+finalizar e usam o timeout do cliente.
+
+Consultas pontuais não podem ativar a síntese de todas as comunidades apenas
+pela decisão do LLM roteador. Resumos globais acima do limite recebem uma
+tentativa de reescrita a partir das fontes; um resumo ainda inválido não é
+promovido ao cache. Perguntas de crescimento dos serviços sem referência
+temporal pedem território, período, segmento e base de comparação antes de
+acionar recuperação ou LLM.
 
 ## Validação contextual
 
@@ -127,3 +161,14 @@ pelo lock Python.
 
 O diagnóstico em knowledge.retrieval_coverage é uma checagem conservadora sobre candidatos recuperados, sem garantia semântica. O orçamento omite blocos inteiros que não cabem, podendo deixar lacunas; não prova ausência no corpus. Fontes, cálculos e gráficos retornados são limitados às evidências incluídas. Veja [Melhorias do RAG](MELHORIAS_RAG.md). Verificação em execução permanece pendente.
 
+## Leitura de taxas pontuais e cache do grafo
+
+Uma taxa pontual com ajuste sazonal usa os trechos de tabela diretamente, sem
+extração JSON ou cálculo desnecessário. Se uma extração estruturada em outra
+consulta falhar por saída vazia ou prazo, os trechos literais são preservados
+para a síntese; isso não converte falha técnica em ausência de dados.
+
+O carregamento do grafo usa o loader público do LlamaIndex para restaurar
+EntityNode e ChunkNode. Um cache compatível com corpus, pipeline e configuração
+não reinjeta todas as observações em cada inicialização; mudanças continuam
+exigindo reconstrução pelo mecanismo normal.

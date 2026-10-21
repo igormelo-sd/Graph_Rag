@@ -20,7 +20,7 @@ from metrics import record_estimated_usage
 from popup_explanations import generate_popup_explanations
 from provenance import relevance_score, source_file, source_page
 from runtime import request_timeout_seconds
-from load_control import request_slot
+from load_control import request_slot, query_scope
 from evidence import build_claim_evidence
 from query_usage import usage_scope
 from domain_ontology import ontology_report
@@ -55,7 +55,7 @@ async def execute_engine_query(
 ) -> tuple[QueryResponse, QueryDiagnostics]:
     """Aplica o prazo à interpretação, busca, síntese e pós-processamento."""
     async with request_slot():
-        with usage_scope() as usage:
+        with usage_scope() as usage, query_scope(request_timeout_seconds()):
             response, diagnostics = await asyncio.wait_for(
                 _execute_engine_query(**kwargs), timeout=request_timeout_seconds()
             )
@@ -73,7 +73,11 @@ async def _execute_engine_query(
     rag_label: str,
 ) -> tuple[QueryResponse, QueryDiagnostics]:
     """Interpreta, executa, valida e serializa uma consulta de engine."""
-    interp = await asyncio.to_thread(interpreter, question, interp_llm)
+    if inspect.iscoroutinefunction(interpreter):
+        interp = await interpreter(question, interp_llm)
+    else:
+        interp = await asyncio.to_thread(interpreter, question, interp_llm)
+    log.info("Interpretação concluída; fontes: %s", interp["sources"])
     kwargs = dict(
         question=question, sources=interp["sources"],
         rewritten_query=interp["rewritten_query"],
