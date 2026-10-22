@@ -15,6 +15,9 @@ class SourceInfo(BaseModel):
     excerpt: str = Field(default="", max_length=4_000)
     chunk_id: int | None = Field(default=None, ge=1)
     total_chunks_page: int | None = Field(default=None, ge=1)
+    row: int | None = Field(default=None, ge=1)
+    sheet: str | None = None
+    cells: list[str] = Field(default_factory=list)
 
 
 class ValidationInfo(BaseModel):

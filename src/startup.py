@@ -214,6 +214,7 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
         log.info("[6] Grafo desativado (use --graph no CLI ou RAG_USE_GRAPH=1)")
 
     # 9. Analysis Engine
+    from structured_lookup import StructuredLookup
     engine = AnalysisEngine(
         text_ret, tables_ret, ts_ret, llm,
         domain_skills=domain_skills,
@@ -221,6 +222,7 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
         images_retriever=images_ret,
         knowledge_nodes=bm25_nodes,
         final_reranker=reranker,
+        structured_retriever=StructuredLookup(data_dir),
     )
 
     log.info("Sistema pronto")

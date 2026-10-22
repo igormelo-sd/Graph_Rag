@@ -15,7 +15,13 @@ EXPECTED = {
 }
 
 
-def validate():
+def normalized_pdf(text):
+    # Extrações de PDF podem introduzir espaço antes da pontuação, sem mudar
+    # conteúdo; preserva todos os algarismos, sinais, palavras e qualificadores.
+    return re.sub(r'\s+([,;:])', r'\1', ' '.join(text.split()))
+
+
+def validate(splits=None):
     from pypdf import PdfReader
     import openpyxl
     manifest = json.loads((HERE / "manifesto_corpus.json").read_text(encoding="utf-8"))
@@ -29,6 +35,7 @@ def validate():
     source_count = 0
     reports = {}
     for split, expected in EXPECTED.items():
+        if splits is not None and split not in splits: continue
         records = [json.loads(line) for line in (HERE / f"{split}.jsonl").read_text(encoding="utf-8").splitlines()]
         assert Counter(item["categoria"] for item in records) == expected, f"Distribuição incorreta: {split}"
         reports[split] = dict(Counter(item["categoria"] for item in records))
@@ -63,8 +70,11 @@ def validate():
                             text = raw.decode(enc)
                         except UnicodeDecodeError:
                             text = raw.decode("cp1252")
-                        dialect = csv.Sniffer().sniff(text[:10000], delimiters=";,\t")
-                        readers[name] = list(csv.reader(io.StringIO(text), dialect))
+                        try:
+                            separator = csv.Sniffer().sniff(text[:65536], delimiters=";,\t").delimiter
+                        except csv.Error:
+                            separator = csv.Sniffer().sniff(text.splitlines()[0], delimiters=";,\t").delimiter
+                        readers[name] = list(csv.reader(io.StringIO(text), delimiter=separator))
                     else:
                         raise AssertionError(f"Tipo desconhecido: {kind}")
                 reader = readers[name]
@@ -72,7 +82,14 @@ def validate():
                     page = source["pagina_pdf"]
                     assert 1 <= page <= len(reader.pages)
                     text = " ".join((reader.pages[page-1].extract_text() or "").split())
-                    assert source["trecho"] in text, f"Trecho não encontrado: {name}, página {page}"
+                    literal = normalized_pdf(source["trecho"])
+                    if literal not in normalized_pdf(text):
+                        # O fluxo de colunas varia entre extratores; a alternativa
+                        # também deve conter o trecho literal, sem aproximação.
+                        import pymupdf
+                        with pymupdf.open(path) as document:
+                            text = document[page-1].get_text()
+                    assert literal in normalized_pdf(text), f"Trecho não encontrado: {name}, página {page}"
                 elif kind == "csv":
                     line = source["linha"]
                     assert 2 <= line <= len(reader)
@@ -96,4 +113,8 @@ def validate():
 
 
 if __name__ == "__main__":
-    print(json.dumps(validate(), ensure_ascii=False, indent=2))
+    import argparse
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--split', choices=tuple(EXPECTED))
+    args=parser.parse_args()
+    print(json.dumps(validate([args.split] if args.split else None), ensure_ascii=False, indent=2))

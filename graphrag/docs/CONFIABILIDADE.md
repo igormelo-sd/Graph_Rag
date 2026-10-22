@@ -172,3 +172,42 @@ O carregamento do grafo usa o loader público do LlamaIndex para restaurar
 EntityNode e ChunkNode. Um cache compatível com corpus, pipeline e configuração
 não reinjeta todas as observações em cada inicialização; mudanças continuam
 exigindo reconstrução pelo mecanismo normal.
+
+## Busca tabular e respostas de desenvolvimento
+
+O GraphRAG consulta os CSV, XLSX e XLS completos por uma busca literal adicional
+(`structured_lookup.py`), incluindo registros além do corte de ingestão vetorial.
+Códigos CNAE/IBGE, município, ano, trimestre e referências de células ajudam a
+selecionar linhas. Não há execução de SQL ou código gerado pelo modelo. São
+selecionadas até três linhas por arquivo e oito no total; isso não equivale a uma
+agregação ou exportação da tabela inteira. A primeira consulta carrega os arquivos
+tabulares; o cache em memória é invalidado por tamanho e data de modificação.
+Planilhas preservam cabeçalhos, células mescladas e notas literais da mesma aba.
+Fórmulas usam somente os valores salvos no arquivo.
+
+As fontes HTTP incluem `row` (registro lógico CSV, contando o cabeçalho, ou linha
+da planilha), `sheet` e `cells` (endereços originais). Planilhas distintas podem
+trazer revisões diferentes do mesmo período: preservar essas fontes não autoriza
+escolher silenciosamente uma versão. A busca é uma etapa de consulta; não altera
+o splitter, o fingerprint de processamento ou os índices existentes.
+
+A validação narrativa de percentuais também tenta vincular cada ocorrência ao
+território e mês/ano locais, ao indicador, à comparação e à direção do movimento.
+Esse caminho conservador tem método interno `bound_occurrence_context`; anos
+podem herdar o período de uma taxa vinculada na mesma afirmação. A verificação
+continua heurística e não prova correção semântica nem completude. Tabelas mantêm
+a validação anterior. São Paulo sem qualificação continua ambíguo; a denominação
+da série “PIB paulista”, mensal ou trimestral, identifica o estado somente na
+interpretação da pergunta.
+
+Saídas vazias, rótulos isolados como “User Safety: safe”, caracteres corrompidos e
+misturas evidentes de idiomas provocam no máximo uma nova geração na factory,
+preservando contexto e fontes. O detector é heurístico, ignora código, JSON e
+citações literais; pode não reconhecer toda falha de idioma. Persistência da falha
+é erro técnico, não ausência de informação. Créditos e 429 não provocam nova
+tentativa nem troca de provedor. `usage.reported_models` registra as identidades
+reportadas; `model_reporting_complete` indica se todas as chamadas as forneceram.
+
+Veja [a coleta e revisão de desenvolvimento](../../comparacao/avaliacao/README.md)
+para modelo fixo, manifesto e notas por componente. Não há aprovação automática
+dos gabaritos nem avaliação semântica por mera coincidência de palavras.

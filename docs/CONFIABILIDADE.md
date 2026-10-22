@@ -127,3 +127,42 @@ pelo lock Python.
 
 O diagnóstico em knowledge.retrieval_coverage é uma checagem conservadora sobre candidatos recuperados, sem garantia semântica. O orçamento omite blocos inteiros que não cabem, podendo deixar lacunas; não prova ausência no corpus. Fontes, cálculos e gráficos retornados são limitados às evidências incluídas. Veja [Melhorias do RAG](MELHORIAS_RAG.md). Verificação em execução permanece pendente.
 
+## Melhorias comuns de consulta — 22/10/2026
+
+O aplicativo principal também usa a busca literal no corpus tabular completo,
+sem o corte de linhas da ingestão vetorial. `rag_app/structured_lookup.py` é
+comum às duas aplicações; cada startup recebe sua própria pasta documental e
+cada engine mantém seus retrievers. Busca códigos CNAE/IBGE, municípios,
+anos, trimestres, abas e células, com cabeçalhos e notas da mesma aba. Seleciona
+até três linhas por arquivo e oito no total; não exporta nem agrega a tabela
+inteira. Fórmulas de planilhas usam somente valores salvos. O primeiro acesso
+carrega os arquivos; alterações de tamanho/data invalidam o cache por fonte.
+
+As fontes HTTP incluem `row` (registro lógico CSV contando o cabeçalho, ou linha
+da planilha), `sheet` e `cells`. Versões distintas de uma série podem divergir;
+a presença de duas fontes não autoriza escolher silenciosamente uma revisão.
+
+A validação numérica narrativa compartilha o vínculo por ocorrência de taxa,
+território, período, indicador, comparação e direção, incluindo a distinção
+entre município e estado. Continua heurística; tabelas mantêm as verificações
+anteriores. “PIB paulista”, mensal ou trimestral, identifica a série estadual
+na interpretação da pergunta, enquanto São Paulo genérico permanece ambíguo.
+
+O principal detecta saídas inválidas e faz no máximo uma nova geração,
+preservando fontes e solicitando português. Erros de crédito/429 não são
+repetidos, e não há troca automática de modelo ou provedor. As chamadas
+assíncronas usam I/O nativo com limite de concorrência. `usage.reported_models`
+registra identidades reportadas e `model_reporting_complete` indica sua
+disponibilidade em todas as chamadas. Ausência de metadados não vira identidade
+confirmada. O detector de idioma é heurístico e preserva código, JSON e citações.
+
+O coletor de desenvolvimento aceita `--versao principal` ou `--versao graphrag`,
+com modelo fixo e revisão por componente. Ele registra o corpus efetivamente
+resolvido para cada aplicação. Consulte [o roteiro de avaliação](../comparacao/avaliacao/README.md).
+Os gabaritos continuam pendentes de revisão humana.
+
+Essas mudanças atuam na consulta: não mudam splitter ou fingerprint de ingestão.
+O principal conserva sua recuperação híbrida e seu grafo opcional existente.
+Expansão por pais e busca global por comunidades continuam específicas da
+variante GraphRAG. O protocolo controlado de `comparacao/run.py` e a busca
+vetorial mínima de `rag_simples` permanecem distintos das aplicações completas.

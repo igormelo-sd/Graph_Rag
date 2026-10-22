@@ -198,9 +198,10 @@ class CommunitySearch:
             try:
                 temporary.write_text(json.dumps({"fingerprint": self.fingerprint, "summaries": records},
                                                 ensure_ascii=False), encoding="utf-8")
-                temporary.replace(self.cache_path)
-            finally:
-                temporary.unlink(missing_ok=True)
+                os.replace(temporary, self.cache_path)
+            except OSError as exc:
+                exc.add_note(f"Cache temporário preservado em {temporary}")
+                raise
             self._summaries = records
             return records
 

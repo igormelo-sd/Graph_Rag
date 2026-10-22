@@ -9,6 +9,9 @@ class QueryRequest(BaseModel):
 
 
 class SourceInfo(BaseModel):
+    row: int | None = Field(default=None, ge=1)
+    sheet: str | None = None
+    cells: list[str] = Field(default_factory=list)
     file: str = Field(min_length=1)
     score: float = Field(ge=0.0, le=1.0)
     page: str | int | None = None

@@ -98,8 +98,8 @@ def test_manifest_corrompido_forca_reconstrucao(tmp_path):
 
 
 def test_reset_cache_remove_nos_bm25_obsoletos(tmp_path):
-    save_nodes_cache(["obsoleto"], str(tmp_path))
-    assert load_nodes_cache(str(tmp_path)) == ["obsoleto"]
+    save_nodes_cache([TextNode(text="obsoleto")], str(tmp_path))
+    assert [n.text for n in load_nodes_cache(str(tmp_path))] == ["obsoleto"]
     reset_nodes_cache(str(tmp_path))
     assert load_nodes_cache(str(tmp_path)) == []
 

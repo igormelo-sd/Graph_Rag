@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import inspect
+import json
 from dataclasses import dataclass
 
 from answer_policy import sanitize_answer
@@ -36,6 +37,16 @@ def _source_excerpt(node) -> str:
         return content
     marker = "\n\n[Trecho truncado]"
     return content[: _SOURCE_EXCERPT_MAX_CHARS - len(marker)].rstrip() + marker
+
+
+def _source_cells(node):
+    cells = node.metadata.get("cells", [])
+    if isinstance(cells, str):
+        try:
+            cells = json.loads(cells)
+        except (ValueError, TypeError):
+            return []
+    return cells if isinstance(cells, list) and all(isinstance(c, str) for c in cells) else []
 
 
 @dataclass(frozen=True)
@@ -168,6 +179,9 @@ async def _execute_engine_query(
                 excerpt=_source_excerpt(node),
                 chunk_id=_chunk_meta(node)[0],
                 total_chunks_page=_chunk_meta(node)[1],
+                row=node.metadata.get("row"),
+                sheet=node.metadata.get("sheet") or None,
+                cells=_source_cells(node),
             )
             for node in source_nodes
         ],

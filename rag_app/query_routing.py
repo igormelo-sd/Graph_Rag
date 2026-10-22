@@ -23,7 +23,8 @@ def minimum_sources(question: str, sources=()) -> list[str]:
     selected = list(dict.fromkeys(sources))
     if "text" not in selected:
         selected.insert(0, "text")
-    if _pib_value_question(question) and "tables" not in selected:
+    structured = re.search(r'cnae|ibge|municip|cadastro|classifica|planilha|celula', _fold(question))
+    if (_pib_value_question(question) or structured) and "tables" not in selected:
         selected.append("tables")
     return selected
 

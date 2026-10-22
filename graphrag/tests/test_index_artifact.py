@@ -12,7 +12,7 @@ def _fake_db(root: Path) -> Path:
     segment = db / "segmento-uuid"
     segment.mkdir(parents=True)
     (db / "chroma.sqlite3").write_bytes(b"sqlite-portatil")
-    (db / "bm25_nodes.pkl").write_bytes(b"cache-bm25")
+    (db / "bm25_nodes.jsonl").write_bytes(b"cache-bm25")
     (db / "indexed_manifest.json").write_text("{}", encoding="utf-8")
     (segment / "data_level0.bin").write_bytes(b"vetores")
     return db

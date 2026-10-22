@@ -9,6 +9,7 @@ e `rag_simples/` usam os componentes comuns da raiz.
 | `src/` | Implementação principal: recuperação híbrida, API, ingestão e validação |
 | `graphrag/src/` | Variante com expansão de pais e busca global por comunidades |
 | `rag_app/` | Comandos, inicialização, terminal, limites, proveniência, resultados e persistência comuns |
+| `rag_app/structured_lookup.py`, `numeric_binding.py` | Busca tabular completa e vínculo numérico por ocorrência usados pelas duas aplicações |
 | `rag_simples/documents.py` | Leitura dos documentos e divisão em trechos |
 | `rag_simples/vectors.py` | Validação e normalização vetorial |
 | `rag_simples/rag.py` | Orquestração da indexação, busca, resposta e comandos do RAG simples |

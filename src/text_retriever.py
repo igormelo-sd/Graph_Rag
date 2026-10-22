@@ -107,8 +107,9 @@ class ProtectedFusionRetriever:
                         break
             except Exception as exc:
                 log.warning("Expansão indisponível; preservando pergunta: %s", exc)
-        from rag_selection import fuse
-        return fuse([self._retriever.retrieve(q) for q in queries], question)[:retrieval_top_k()]
+        from rag_selection import fuse, select_coverage
+        ranked = fuse([self._retriever.retrieve(q) for q in queries], question)
+        return select_coverage(ranked, question, retrieval_top_k())
 
 
 _sanitize = sanitize_text

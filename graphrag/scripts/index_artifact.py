@@ -21,7 +21,7 @@ DEFAULT_RELEASE_REPO = ""
 DEFAULT_RELEASE_TAG = "index-v1"
 DEFAULT_RELEASE_ASSET = "graph-rag-index.tar.gz"
 INSTALLED_MANIFEST = "artifact_manifest.json"
-_REQUIRED = ("chroma.sqlite3", "bm25_nodes.pkl", "indexed_manifest.json")
+_REQUIRED = ("chroma.sqlite3", "bm25_nodes.jsonl", "indexed_manifest.json")
 
 
 class ArtifactError(RuntimeError):

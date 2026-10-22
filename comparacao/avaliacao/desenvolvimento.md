@@ -105,7 +105,7 @@ Relacione o código IBGE de Adamantina no cadastro territorial ao seu PIB de 201
 
 ## D012 — integracao
 
-A variação de dezembro de 2025 do varejo brasileiro foi igual no conceito restrito e no ampliado?
+A variação de dezembro de 2025 do varejo brasileiro, frente a novembro e com ajuste sazonal, foi igual no conceito restrito e no ampliado?
 
 **Resposta esperada:** Não: -0,4% no varejo e -1,2% no ampliado, ambos contra novembro e com ajuste sazonal.
 

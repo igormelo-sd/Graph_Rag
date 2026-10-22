@@ -15,6 +15,8 @@ from rag_simples.documents import SUPPORTED, Chunk, split_text, read_documents
 from rag_simples.vectors import normalize
 from rag_app.storage import write_json
 
+__all__ = ["SimpleRAG", "split_text"]
+
 
 class SimpleRAG:
     def __init__(self, index_path: Path, embedding_model: str, llm_model: str):
@@ -57,7 +59,7 @@ class SimpleRAG:
             "chunk_size": size,
             "chunk_overlap": overlap,
             "chunks": [asdict(chunk) for chunk in chunks],
-            "vectors": [normalize(v) for v in vectors],
+            "vectors": vectors,  # já normalizados por self.embed()
             "experiment": experiment,
         }
         write_json(self.index_path, payload)
@@ -119,7 +121,7 @@ def main() -> None:
     parser.add_argument("--indice", type=Path, default=ROOT / "indice" / "index.json")
     commands = parser.add_subparsers(dest="command", required=True)
     index = commands.add_parser("indexar", help="Cria ou substitui o índice completo.")
-    index.add_argument("--documentos", type=Path, default=Path(os.environ["RAG_DATA_DIR"]))
+    index.add_argument("--documentos", type=Path, default=Path(os.getenv("RAG_DATA_DIR") or "."))
     index.add_argument("--tamanho", type=int, default=int(os.environ["RAG_CHUNK_SIZE"]))
     index.add_argument("--sobreposicao", type=int, default=int(os.environ["RAG_CHUNK_OVERLAP"]))
     query = commands.add_parser("perguntar", help="Busca trechos e responde à pergunta.")
@@ -134,6 +136,8 @@ def main() -> None:
         from comparacao.run import compare
         print(json.dumps(compare(args.pergunta, "rag_simples"), ensure_ascii=False, indent=2))
         return
+    if args.command == "indexar" and not args.documentos.is_dir():
+        parser.error(f"Diretório de documentos inexistente: {args.documentos}")
     rag = SimpleRAG(args.indice, os.environ["RAG_EMBED_MODEL"], os.environ["RAG_LLM_MODEL"])
     try:
         if args.command == "indexar":

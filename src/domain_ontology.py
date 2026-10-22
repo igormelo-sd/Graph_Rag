@@ -244,6 +244,12 @@ def facets(text):
 def query_constraints(text):
     dimensions = facets(text)
     _, ambiguous = territories(text)
+    # Só a denominação da série estadual resolve o gentílico. Um pedido
+    # genérico sobre São Paulo, a capital ou o interior continua distinto.
+    raw = fold(text)
+    if re.search(r'\b(?:pib|produto interno bruto)(?:\s+mensal|\s+trimestral)?\s+paulista\b', raw) and not dimensions['region']:
+        dimensions['region'] = {'estado_sp'}
+        ambiguous = []
     return {"schema_version": SCHEMA_VERSION, "schema_hash": fingerprint(),
             "dimensions": {k: sorted(v) for k, v in dimensions.items()}, "ambiguities": ambiguous}
 

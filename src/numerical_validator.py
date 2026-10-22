@@ -38,6 +38,8 @@ class NumberCheck:
     source_index: Optional[int] = None
     value_found: bool = False
     context_issues: tuple[str, ...] = ()
+    method: str = "contextual_heuristic"
+    reference_period: str | None = None
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
@@ -106,7 +108,15 @@ def validate_numbers(response_text: str, source_nodes) -> list[NumberCheck]:
                 if len(non_years) > 1:
                     supported = False
                     issues.append('associação: múltiplos valores no mesmo trecho')
-                candidates.append((supported, issues, index, excerpt))
+                method, period = 'contextual_heuristic', None
+                metadata = getattr(source_nodes[index], 'metadata', {}) or {}
+                if not supported and '%' in raw and '%' in source_match.group(1) and metadata.get('type') != 'table':
+                    from numeric_binding import bound_support
+                    bound, bound_issues, bound_excerpt, period = bound_support(
+                        response_text, match.start(1), match.end(1), text, source_match.start(1), source_match.end(1))
+                    if bound:
+                        supported, issues, excerpt, method = True, [], bound_excerpt, 'bound_occurrence_context'
+                candidates.append((supported, issues, index, excerpt, method, period))
         best = min(candidates, key=lambda item: (not item[0], len(item[1]))) if candidates else None
         results.append(NumberCheck(
             value=raw, verified=bool(best and best[0]),
@@ -116,7 +126,21 @@ def validate_numbers(response_text: str, source_nodes) -> list[NumberCheck]:
             source_index=best[2] if best else None,
             value_found=bool(best),
             context_issues=tuple(best[1] if best else ['valor ausente das fontes']),
+            method=best[4] if best else 'contextual_heuristic',
+            reference_period=best[5] if best else None,
         ))
+    # Datas em uma afirmação já vinculada não são novas medidas estatísticas.
+    for check in results:
+        if check.verified or not re.fullmatch(r'(19|20)\d{2}',check.value):
+            continue
+        preceding=[c for c in results if c.verified and '%' in c.value and c.response_end <= check.response_start
+                   and c.response_snippet == check.response_snippet]
+        if preceding:
+            anchor=preceding[-1]
+            if anchor.reference_period and anchor.reference_period.startswith(check.value+'-'):
+                check.verified=True; check.source_index=anchor.source_index
+                check.source_snippet=anchor.source_snippet; check.context_issues=()
+                check.method='period_in_bound_claim'; check.reference_period=anchor.reference_period
     return results
 
 def format_validation_report(checks: list[NumberCheck]) -> str:

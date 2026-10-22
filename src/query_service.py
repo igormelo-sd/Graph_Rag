@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import asyncio
 import inspect
+import json
 from dataclasses import dataclass
 
 from answer_policy import sanitize_answer
@@ -20,7 +21,7 @@ from metrics import record_estimated_usage
 from popup_explanations import generate_popup_explanations
 from provenance import relevance_score, source_file, source_page
 from runtime import request_timeout_seconds
-from load_control import request_slot
+from load_control import request_slot, query_scope
 from evidence import build_claim_evidence
 from query_usage import usage_scope
 from domain_ontology import ontology_report
@@ -36,6 +37,16 @@ def _source_excerpt(node) -> str:
         return content
     marker = "\n\n[Trecho truncado]"
     return content[: _SOURCE_EXCERPT_MAX_CHARS - len(marker)].rstrip() + marker
+
+
+def _source_cells(node):
+    cells = node.metadata.get("cells", [])
+    if isinstance(cells, str):
+        try:
+            cells = json.loads(cells)
+        except (ValueError, TypeError):
+            return []
+    return cells if isinstance(cells, list) and all(isinstance(c, str) for c in cells) else []
 
 
 @dataclass(frozen=True)
@@ -55,7 +66,7 @@ async def execute_engine_query(
 ) -> tuple[QueryResponse, QueryDiagnostics]:
     """Aplica o prazo à interpretação, busca, síntese e pós-processamento."""
     async with request_slot():
-        with usage_scope() as usage:
+        with usage_scope() as usage, query_scope(request_timeout_seconds()):
             response, diagnostics = await asyncio.wait_for(
                 _execute_engine_query(**kwargs), timeout=request_timeout_seconds()
             )
@@ -162,6 +173,9 @@ async def _execute_engine_query(
                 score=relevance_score(node),
                 page=source_page(node),
                 excerpt=_source_excerpt(node),
+                row=node.metadata.get("row"),
+                sheet=node.metadata.get("sheet") or None,
+                cells=_source_cells(node),
                 chunk_id=_chunk_meta(node)[0],
                 total_chunks_page=_chunk_meta(node)[1],
             )

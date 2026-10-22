@@ -7,6 +7,7 @@ Fluxo:
     → contexto unificado → LLM (síntese única) → (resposta, source_nodes)
 """
 import asyncio
+import json
 import os
 
 from answer_policy import REFUSAL_TEXT, sanitize_answer
@@ -156,6 +157,7 @@ class AnalysisEngine:
         knowledge_nodes=None,
         final_reranker=None,
         global_search=None,
+        structured_retriever=None,
     ):
         self._text = text_retriever
         self._tables = tables_retriever
@@ -167,6 +169,7 @@ class AnalysisEngine:
         self._labor_skill = labor_market_skill
         self._graph = graph_retriever
         self._global_search = global_search
+        self._structured = structured_retriever
         from knowledge_analytics import CorpusKnowledge
         self._knowledge = CorpusKnowledge(list(knowledge_nodes or []))
         # Snapshot documental para expansão local, independente de grafo ou memória.
@@ -251,6 +254,9 @@ class AnalysisEngine:
         # Se múltiplas queries, expande cada fonte × query
         keys: list[str] = []
         coros = []
+        if self._structured is not None:
+            keys.append("structured")
+            coros.append(asyncio.to_thread(self._structured.retrieve, question))
         for qi, q in enumerate(queries):
             suffix = "" if len(queries) == 1 else f"@{qi}"
             if "text" in sources:
@@ -295,7 +301,7 @@ class AnalysisEngine:
 
         text_nodes: list = []
         for k, v in result_map.items():
-            if k.startswith("text"):
+            if k.startswith("text") or k == "structured":
                 if isinstance(v, list):
                     text_nodes.extend(v)
         text_nodes = _dedup_nodes(text_nodes)
@@ -345,7 +351,6 @@ class AnalysisEngine:
         retrieval_paths = []
 
         def record_paths(nodes):
-            import json
             for node in nodes:
                 inner = getattr(node, "node", node)
                 raw = (getattr(inner, "metadata", {}) or {}).get("graph_paths")
@@ -420,37 +425,43 @@ class AnalysisEngine:
                 retrieval_lists.append(result[1])
         ranked = await asyncio.to_thread(fuse, retrieval_lists + [repair_nodes, graph_nodes],
                                         question, self._final_reranker)
+        exact = [n for n in result_map.get("structured", [])
+                 if n.metadata.get("retrieval_method") == "structured_exact"]
+        if exact:
+            identities = {n.node_id for n in exact}
+            ranked = exact + [n for n in ranked if n.node_id not in identities]
         stage("seleção final concluída")
         # Expansão limitada de vizinhos narrativos com mesma página/seção.
         from llama_index.core.schema import NodeWithScore
         from rag_selection import node_key
         neighbor_map = {}
-        for node in ranked[:6]:
-            md = getattr(node, "metadata", {}) or {}
-            if md.get("type") != "text":
-                continue
-            try:
-                position = int(md.get("chunk_id", 0))
-            except (ValueError, TypeError):
-                continue
-            neighbors = []
-            for candidate in self._narrative_windows.get((str(md.get("source_file", "")), str(md.get("page", ""))), []):
-                cm = candidate.metadata
+        parent_context = os.getenv("RAG_PARENT_CONTEXT", "1").lower() in {"1", "true", "yes", "on"}
+        if not parent_context:
+            for node in ranked[:6]:
+                md = getattr(node, "metadata", {}) or {}
+                if md.get("type") != "text":
+                    continue
                 try:
-                    adjacent = abs(int(cm.get("chunk_id", 0)) - position) == 1
+                    position = int(md.get("chunk_id", 0))
                 except (ValueError, TypeError):
-                    adjacent = False
-                if adjacent and cm.get("section") == md.get("section"):
-                    neighbors.append(NodeWithScore(node=candidate))
-            neighbor_map[node_key(node)] = neighbors[:2]
+                    continue
+                neighbors = []
+                for candidate in self._narrative_windows.get((str(md.get("source_file", "")), str(md.get("page", ""))), []):
+                    cm = candidate.metadata
+                    try:
+                        adjacent = abs(int(cm.get("chunk_id", 0)) - position) == 1
+                    except (ValueError, TypeError):
+                        adjacent = False
+                    if adjacent and cm.get("section") == md.get("section"):
+                        neighbors.append(NodeWithScore(node=candidate))
+                neighbor_map[node_key(node)] = neighbors[:2]
         bundles = []
         for key, result in result_map.items():
             if isinstance(result, SeriesResult) and result.data:
                 bundles.append((result.data, result.nodes))
-        if os.getenv("RAG_PARENT_CONTEXT", "1").lower() in {"1", "true", "yes", "on"}:
+        if parent_context:
             from parent_context import expand_parents
             ranked = expand_parents(ranked)
-            neighbor_map = {}  # O pai literal já contém o contexto do filho.
             record_paths(ranked)
         context_block, all_source_nodes = pack_context(ranked, question, bundles, neighbor_map)
         # Apenas cálculos cujas fontes chegaram integralmente ao contexto.
@@ -481,11 +492,9 @@ class AnalysisEngine:
         )
         skill_block += prompt_block(question)
         if coverage_report["missing"]:
-            import json
             skill_block += "\n[Cobertura candidata incompleta] " + json.dumps(coverage_report["missing"], ensure_ascii=False)
             skill_block += "\nConfira as fontes literais. Responda somente partes sustentadas; não preencha lacunas nem compare recortes incompatíveis. Esta checagem não prova ausência no corpus."
         if knowledge["divergences"]:
-            import json
             conflicts = [{"dimensions": item["dimensions"], "values": [a["normalized_value"] for a in item["alternatives"]]}
                          for item in knowledge["divergences"][:10]]
             skill_block += "\n[Auditoria de candidatos, não fatos] Há valores divergentes no índice: " + json.dumps(conflicts, ensure_ascii=False)

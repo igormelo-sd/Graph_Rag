@@ -32,7 +32,9 @@ class Usage:
             pass
         return {"llm_calls": len(calls), "pending_llm_calls": active, "reported_input_tokens": incoming,
                 "reported_output_tokens": outgoing, "token_usage_complete": complete,
-                "cost_usd": cost, "cost_method": "configured_blended_rates" if cost is not None else "unavailable"}
+                "cost_usd": cost, "cost_method": "configured_blended_rates" if cost is not None else "unavailable",
+                "reported_models": sorted({c["model"] for c in calls if c.get("model")}),
+                "model_reporting_complete": bool(calls) and not active and all(c.get("model") for c in calls)}
 
 
 @contextmanager
@@ -62,6 +64,7 @@ def tracked_call():
             response = result[0] if result else None
             usage = getattr(response, "usage", None)
             raw = getattr(response, "raw", None)
+            model = raw.get("model") if isinstance(raw, dict) else getattr(raw, "model", None)
             if usage is None and raw is not None:
                 usage = raw.get("usage") if isinstance(raw, dict) else getattr(raw, "usage", None)
             if hasattr(usage, "model_dump"):
@@ -73,4 +76,5 @@ def tracked_call():
                 incoming, outgoing, valid = 0, 0, False
             with collector.lock:
                 collector.active -= 1
-                collector.calls.append({"reported": valid, "input_tokens": max(0, incoming), "output_tokens": max(0, outgoing)})
+                collector.calls.append({"reported": valid, "input_tokens": max(0, incoming), "output_tokens": max(0, outgoing),
+                                        "model": model if isinstance(model, str) and model else None})

@@ -216,7 +216,8 @@ def test_empty_and_oversized_summaries_do_not_create_cache(tmp_path):
     for text in ("", "X" * 201):
         llm = SimpleNamespace(complete=lambda _: SimpleNamespace(text=text))
         search = CommunitySearch(store_for(nodes), nodes, llm, tmp_path / "cache.json")
-        with pytest.raises(ValueError):
+        from rag_app.model_output import EmptyModelResponse
+        with pytest.raises(EmptyModelResponse if not text else ValueError):
             search.summaries()
         assert not search.cache_path.exists()
 
@@ -268,3 +269,17 @@ def test_global_http_contract_keeps_literal_sources_and_diagnostics(tmp_path):
     assert response.sources[0].excerpt == "Indústria paulista."
     assert response.knowledge["global_search"]["all_communities_processed"]
     assert diagnostics.chunks == 1
+
+
+def test_cache_replace_failure_preserves_temporary(tmp_path, monkeypatch):
+    nodes = [node("a", "Indústria paulista.")]
+    search = CommunitySearch(store_for(nodes), nodes, fake_llm(), tmp_path / "cache.json")
+    search.cache_path.write_text("previous", encoding="utf-8")
+    def fail_replace(*args):
+        raise PermissionError("arquivo aberto")
+    monkeypatch.setattr("community_search.os.replace", fail_replace)
+    with pytest.raises(PermissionError):
+        search.summaries()
+    assert search.cache_path.read_text(encoding="utf-8") == "previous"
+    assert len(list(tmp_path.glob("*.tmp"))) == 1
+    assert search._summaries is None

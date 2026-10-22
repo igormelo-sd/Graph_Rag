@@ -204,21 +204,22 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
     global_search = None
     if use_graph or _graph_embed or _graph_struct or ontology_enabled() or global_search_enabled():
         log.info("[6] Inicializando grafo de conhecimento%s", " (2º embedding)" if _graph_embed else "")
-        all_nodes = load_nodes_cache(db_path)
+        # Reutiliza bm25_nodes já carregados (etapa [4]) — mesma lista, sem I/O extra.
         force_rebuild = bool(changed)
         graph_index = build_or_load_graph(
-            all_nodes, base_dir, llm, force_rebuild=force_rebuild,
+            bm25_nodes, base_dir, llm, force_rebuild=force_rebuild,
             use_llm=use_graph,
         )
         graph_ret = GraphRetriever(graph_index, interp_llm, use_llm=use_graph)
         if global_search_enabled():
-            global_search = CommunitySearch(graph_index.property_graph_store, all_nodes, llm,
+            global_search = CommunitySearch(graph_index.property_graph_store, bm25_nodes, llm,
                 Path(os.getenv("RAG_GRAPH_DIR") or Path(base_dir) / "graph_store") / "community_summaries.json")
         log.info("[6] Grafo pronto")
     else:
         log.info("[6] Grafo desativado (use --graph no CLI ou RAG_USE_GRAPH=1)")
 
     # 9. Analysis Engine
+    from structured_lookup import StructuredLookup
     engine = AnalysisEngine(
         text_ret, tables_ret, ts_ret, llm,
         domain_skills=domain_skills,
@@ -227,6 +228,7 @@ def initialize(base_dir: str, data_dir: str | None = None, use_graph: bool = Fal
         knowledge_nodes=bm25_nodes,
         final_reranker=reranker,
         global_search=global_search,
+        structured_retriever=StructuredLookup(data_dir),
     )
 
     log.info("Sistema pronto")

@@ -1,5 +1,6 @@
 import os
-import pickle
+import json
+import uuid
 import time
 import chromadb
 from llama_index.core import VectorStoreIndex, StorageContext
@@ -9,7 +10,7 @@ from logger import get_logger
 
 log = get_logger(__name__)
 
-_NODES_CACHE_NAME = "bm25_nodes.pkl"
+_NODES_CACHE_NAME = "bm25_nodes.jsonl"
 _EMBED_INSTANCE = None
 _EMBED_IDENTITY = None
 
@@ -17,24 +18,43 @@ def _nodes_cache_path(db_path: str) -> str:
     return os.path.join(db_path, _NODES_CACHE_NAME)
 
 def save_nodes_cache(nodes, db_path="./chroma_db"):
+    """Persiste dados de TextNode em JSONL versionado, sem objetos executáveis."""
     os.makedirs(db_path, exist_ok=True)
     path = _nodes_cache_path(db_path)
-    temporary = path + ".tmp"
-    with open(temporary, "wb") as f:
-        pickle.dump(nodes, f)
+    temporary = path + "." + uuid.uuid4().hex + ".tmp"
+    with open(temporary, "w", encoding="utf-8") as f:
+        f.write(json.dumps({"schema_version": 1}) + "\n")
+        for node in nodes:
+            payload = node.to_dict()
+            payload.pop("embedding", None)
+            f.write(json.dumps(payload, ensure_ascii=False) + "\n")
         f.flush()
         os.fsync(f.fileno())
     os.replace(temporary, path)
 
+
 def load_nodes_cache(db_path="./chroma_db"):
+    from llama_index.core.schema import TextNode
     path = _nodes_cache_path(db_path)
-    if os.path.exists(path):
-        try:
-            with open(path, "rb") as f:
-                return pickle.load(f)
-        except (OSError, EOFError, pickle.UnpicklingError):
-            return []
-    return []
+    if not os.path.exists(path):
+        if os.path.exists(os.path.join(db_path, "bm25_nodes.pkl")):
+            log.warning("Cache BM25 legado ignorado por segurança; reconstrua o índice para gerar JSONL.")
+        return []
+    try:
+        with open(path, encoding="utf-8") as f:
+            if json.loads(next(f)) != {"schema_version": 1}:
+                raise ValueError("Versão de cache BM25 incompatível")
+            nodes = []
+            for line in f:
+                payload = json.loads(line)
+                if not isinstance(payload, dict) or not {"id_", "text", "metadata"} <= payload.keys():
+                    raise ValueError("Registro BM25 inválido")
+                nodes.append(TextNode.from_dict(payload))
+            return nodes
+    except (OSError, ValueError, TypeError, StopIteration) as exc:
+        log.warning("Cache BM25 inválido em %s; reconstrua o índice: %s", path, exc)
+        return []
+
 
 def reset_nodes_cache(db_path="./chroma_db"):
     """Remove o cache lexical quando o índice vetorial é reconstruído do zero."""
@@ -135,7 +155,6 @@ def setup_embeddings():
 def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas") -> None:
     """Aborta boot se dimensão/modelo persistido divergir do runtime (evita servir vetores incompatíveis)."""
     from pathlib import Path
-    import json
     manifest_path = Path(db_path) / "indexed_manifest.json"
     if not manifest_path.exists():
         return
@@ -168,8 +187,8 @@ def validate_embedding_compat(db_path: str, collection_name: str = "estatisticas
             )
     except RuntimeError:
         raise
-    except Exception:
-        pass
+    except Exception as exc:
+        log.warning("Não foi possível validar a dimensão do embedding: %s", exc, exc_info=True)
 
 def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatisticas"):
     """
@@ -193,7 +212,7 @@ def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatist
         except Exception:
             pass
 
-        print(f"Indexando {len(nodes)} blocos processados na coleção staging '{staging_name}'...")
+        log.info("Indexando %d blocos processados na coleção staging %s...", len(nodes), staging_name)
         staging_col = db.get_or_create_collection(staging_name, metadata=_cosine)
         vector_store = ChromaVectorStore(chroma_collection=staging_col)
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
@@ -235,11 +254,11 @@ def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatist
             pass
 
         staging_col.modify(name=collection_name)
-        print(f"Coleção '{collection_name}' promovida com sucesso via swap atômico.")
+        log.info("Coleção %s promovida com sucesso via swap atômico.", collection_name)
 
         # Salva cache BM25 somente após promoção bem-sucedida
         save_nodes_cache(nodes, db_path=db_path)
-        print(f"Cache BM25 salvo em {_nodes_cache_path(db_path)}")
+        log.info("Cache BM25 salvo em %s", _nodes_cache_path(db_path))
 
         # Reabre no target oficial
         chroma_collection = db.get_or_create_collection(collection_name, metadata=_cosine)
@@ -250,7 +269,7 @@ def create_or_load_index(nodes, db_path="./chroma_db", collection_name="estatist
             insert_batch_size=_embed_config()["write_batch"], show_progress=True,
         )
     else:
-        print("Carregando conhecimento a partir do banco de dados vetorial já populado...")
+        log.info("Carregando conhecimento a partir do banco de dados vetorial já populado...")
         chroma_collection = db.get_or_create_collection(collection_name, metadata=_cosine)
         vector_store = ChromaVectorStore(chroma_collection=chroma_collection)
         storage_context = StorageContext.from_defaults(vector_store=vector_store)
@@ -286,7 +305,7 @@ def update_index_incrementally(
     old_ids = set(stale_ids)
     new_nodes = [node for node in nodes if node.node_id not in old_ids]
     if new_nodes:
-        print(f"Indexando incrementalmente {len(new_nodes)} bloco(s) novo(s)/alterado(s)...")
+        log.info("Indexando incrementalmente %d bloco(s) novo(s)/alterado(s)...", len(new_nodes))
         _insert_nodes_in_batches(index, new_nodes)
 
     replacement_ids = {node.node_id for node in nodes}
@@ -297,9 +316,9 @@ def update_index_incrementally(
     file_changed = [s for s in (changed_sources or []) if not str(s).startswith("__")]
     merged_nodes = merge_nodes_cache(cached_nodes, file_changed, nodes)
     save_nodes_cache(merged_nodes, db_path=db_path)
-    print(
-        f"Atualização incremental concluída: {len(stale_ids)} bloco(s) antigo(s) "
-        f"removido(s), {len(nodes)} inserido(s)."
+    log.info(
+        "Atualização incremental concluída: %d bloco(s) antigo(s) removido(s), %d inserido(s).",
+        len(stale_ids), len(nodes)
     )
     # P3 FAISS opcional — rebuild incremental (simples: reconstrói do merged)
     try:
@@ -324,7 +343,7 @@ def append_nodes_to_index(nodes, db_path="./chroma_db", collection_name="estatis
         vector_store, storage_context=storage_context,
         insert_batch_size=_embed_config()["write_batch"], show_progress=True,
     )
-    print(f"Inserindo {len(nodes)} nó(s) adicional(is) na coleção '{collection_name}'...")
+    log.info("Inserindo %d nó(s) adicional(is) na coleção %s...", len(nodes), collection_name)
     _insert_nodes_in_batches(index, list(nodes))
     cached_nodes = load_nodes_cache(db_path)
     merged = list(cached_nodes or []) + list(nodes)

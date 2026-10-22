@@ -151,8 +151,8 @@ def sync_standard_index(data_dir: str, db_path: str, log, collection_name="estat
         save_manifest(db_path, snapshot)
         return index, changed
 
-    if changed or not already_indexed:
-        if changed and already_indexed:
+    if changed or not already_indexed or not load_nodes_cache(db_path):
+        if already_indexed:
             log.warning("[1] Cache BM25 ausente; reconstruindo índice completo")
         else:
             log.info("[1] Banco vazio; indexando corpus completo")

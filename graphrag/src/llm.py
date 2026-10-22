@@ -1,4 +1,4 @@
-﻿"""
+"""
 rag_core/llm.py — fábrica única de LLM (OpenAI ou provedores compatíveis).
 
 Todo o projeto fala com a API no formato OpenAI. Este módulo concentra a
@@ -155,7 +155,7 @@ def make_llm(
     import asyncio
     from load_control import resource_slot, async_resource_slot, call_timeout, query_loop
     from query_usage import tracked_call
-    from rag_app.model_output import response_text, EmptyModelResponse
+    from rag_app.model_output import response_text, EmptyModelResponse, InvalidModelResponse
     from logger import get_logger
     log = get_logger(__name__)
 
@@ -182,13 +182,16 @@ def make_llm(
                 with resource_slot("LLM"), tracked_call() as record:
                     result = super().complete(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
                     record(result)
-                    log.info("LLM síncrono concluído; caracteres=%d; tentativa=%d", len(result.text or ""), attempt + 1)
+                    log.info("LLM síncrono concluído; caracteres=%d; tentativa=%d", len(str(getattr(result, 'text', '') or '')), attempt + 1)
                     try:
                         response_text(result)
                         return result
-                    except EmptyModelResponse:
+                    except EmptyModelResponse as exc:
                         if attempt:
                             raise
+                        if isinstance(exc, InvalidModelResponse) and args and isinstance(args[0], str):
+                            args = ("Gere novamente a resposta em português, com frases completas. Não produza rótulos de classificação nem misture idiomas. Preserve fontes e números.\n\n" + args[0], *args[1:])
+            raise EmptyModelResponse("O modelo não produziu resposta utilizável após as tentativas.")  # nunca deve chegar aqui
 
         def chat(self, *args, **kwargs):
             with resource_slot("LLM"), tracked_call() as record:
@@ -213,13 +216,16 @@ def make_llm(
                     with tracked_call() as record:
                         result = await super().acomplete(*args, **{**kwargs, "timeout": call_timeout(self.timeout)})
                         record(result)
-                        log.info("LLM assíncrono concluído; caracteres=%d; tentativa=%d", len(result.text or ""), attempt + 1)
+                        log.info("LLM assíncrono concluído; caracteres=%d; tentativa=%d", len(str(getattr(result, 'text', '') or '')), attempt + 1)
                         try:
                             response_text(result)
                             return result
-                        except EmptyModelResponse:
+                        except EmptyModelResponse as exc:
                             if attempt:
                                 raise
+                            if isinstance(exc, InvalidModelResponse) and args and isinstance(args[0], str):
+                                args = ("Gere novamente a resposta em português, com frases completas. Não produza rótulos de classificação nem misture idiomas. Preserve fontes e números.\n\n" + args[0], *args[1:])
+            raise EmptyModelResponse("O modelo não produziu resposta utilizável após as tentativas.")  # nunca deve chegar aqui
 
     cfg = _cfg()
     mdl = model or (cfg["interp_model"] if interp else cfg["main_model"])

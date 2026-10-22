@@ -7,6 +7,7 @@ Fluxo:
     → contexto unificado → LLM (síntese única) → (resposta, source_nodes)
 """
 import asyncio
+import json
 import os
 
 from answer_policy import REFUSAL_TEXT, sanitize_answer
@@ -155,6 +156,7 @@ class AnalysisEngine:
         images_retriever=None,
         knowledge_nodes=None,
         final_reranker=None,
+        structured_retriever=None,
     ):
         self._text = text_retriever
         self._tables = tables_retriever
@@ -162,6 +164,7 @@ class AnalysisEngine:
         self._images = images_retriever
         self._llm = llm
         self._final_reranker = final_reranker
+        self._structured = structured_retriever
         self._domain_skills = domain_skills
         self._labor_skill = labor_market_skill
         self._graph = graph_retriever
@@ -230,6 +233,9 @@ class AnalysisEngine:
         # Se múltiplas queries, expande cada fonte × query
         keys: list[str] = []
         coros = []
+        if self._structured is not None:
+            keys.append("structured")
+            coros.append(asyncio.to_thread(self._structured.retrieve, question))
         for qi, q in enumerate(queries):
             suffix = "" if len(queries) == 1 else f"@{qi}"
             if "text" in sources:
@@ -273,7 +279,7 @@ class AnalysisEngine:
 
         text_nodes: list = []
         for k, v in result_map.items():
-            if k.startswith("text"):
+            if k.startswith("text") or k == "structured":
                 if isinstance(v, list):
                     text_nodes.extend(v)
         text_nodes = _dedup_nodes(text_nodes)
@@ -314,7 +320,6 @@ class AnalysisEngine:
         retrieval_paths = []
 
         def record_paths(nodes):
-            import json
             for node in nodes:
                 inner = getattr(node, "node", node)
                 raw = (getattr(inner, "metadata", {}) or {}).get("graph_paths")
@@ -379,6 +384,11 @@ class AnalysisEngine:
                 retrieval_lists.append(result[1])
         ranked = await asyncio.to_thread(fuse, retrieval_lists + [repair_nodes, graph_nodes],
                                         question, self._final_reranker)
+        exact = [n for n in result_map.get("structured", [])
+                 if n.metadata.get("retrieval_method") == "structured_exact"]
+        if exact:
+            identities = {n.node_id for n in exact}
+            ranked = exact + [n for n in ranked if n.node_id not in identities]
         # Expansão limitada de vizinhos narrativos com mesma página/seção.
         from llama_index.core.schema import NodeWithScore
         from rag_selection import node_key
@@ -434,18 +444,17 @@ class AnalysisEngine:
         )
         skill_block += prompt_block(question)
         if coverage_report["missing"]:
-            import json
             skill_block += "\n[Cobertura candidata incompleta] " + json.dumps(coverage_report["missing"], ensure_ascii=False)
             skill_block += "\nConfira as fontes literais. Responda somente partes sustentadas; não preencha lacunas nem compare recortes incompatíveis. Esta checagem não prova ausência no corpus."
         if knowledge["divergences"]:
-            import json
             conflicts = [{"dimensions": item["dimensions"], "values": [a["normalized_value"] for a in item["alternatives"]]}
                          for item in knowledge["divergences"][:10]]
             skill_block += "\n[Auditoria de candidatos, não fatos] Há valores divergentes no índice: " + json.dumps(conflicts, ensure_ascii=False)
             skill_block += "\nSinalize a divergência se aparecer nas fontes recuperadas; não escolha um valor nem infira revisão/metodologia sem evidência. Não converta hipótese ou associação em causalidade."
 
-        response = await asyncio.to_thread(
-            self._llm.complete,
+        from rag_app.model_output import acomplete
+        response = await acomplete(
+            self._llm,
             _SYNTHESIS_PROMPT.format(
                 skill_block=skill_block,
                 context_block=context_block,

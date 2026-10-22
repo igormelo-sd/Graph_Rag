@@ -163,7 +163,7 @@ curl -Method Post http://127.0.0.1:8080/query `
 ```
 
 Resposta (`src/api_models.py:QueryResponse`): `answer`, `sources_used`, `rewritten_query`,
-`sources[]` (`file`, `score`, `page`, `excerpt`), `validation`/`citation_validation`
+`sources[]` (`file`, `score`, `page`, `excerpt`, `row?`, `sheet?`, `cells[]`), `validation`/`citation_validation`
 (`verified/total/unverified`), `numeric_citations[]`, `claim_evidence`, `calculations`, `usage`, `rag_type`, `rag_label`, `timeseries_chart?`. A validação numérica informa também `method` e `requires_review`.
 
 ## Configuração (`.env`)

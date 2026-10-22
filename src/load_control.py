@@ -1,8 +1,10 @@
 """Limites locais por processo para requisições, LLM e reranking."""
 import asyncio
 from contextlib import asynccontextmanager, contextmanager
+from contextvars import ContextVar
 from functools import lru_cache
 import threading
+import time
 import weakref
 import os
 
@@ -11,6 +13,41 @@ from runtime import bounded_int, bounded_float
 
 class CapacityExceeded(RuntimeError):
     pass
+
+
+_query = ContextVar("query_deadline", default=None)
+
+
+@contextmanager
+def query_scope(timeout):
+    """Propaga deadline da consulta para threads LLM filhas."""
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = None
+    state = (time.monotonic() + timeout, threading.Event(), loop)
+    token = _query.set(state)
+    try:
+        yield
+    finally:
+        state[1].set()
+        _query.reset(token)
+
+
+def call_timeout(default):
+    """Threads remanescentes não iniciam novas chamadas após o fim da consulta."""
+    state = _query.get()
+    if state is None:
+        return default
+    remaining = state[0] - time.monotonic()
+    if state[1].is_set() or remaining <= 0:
+        raise TimeoutError("Consulta encerrada; chamada ao modelo cancelada.")
+    return min(default, remaining)
+
+
+def query_loop():
+    state = _query.get()
+    return state[2] if state else None
 
 
 @lru_cache(maxsize=2)

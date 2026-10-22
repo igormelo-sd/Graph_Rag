@@ -152,17 +152,30 @@ def make_llm(
     provedor distingue); caso contrário, o modelo de síntese.
     """
     from llama_index.llms.openai import OpenAI
-    from load_control import resource_slot
+    from load_control import resource_slot, async_resource_slot
     from query_usage import tracked_call
-    from rag_app.model_output import response_text
+    from rag_app.model_output import response_text, EmptyModelResponse, InvalidModelResponse
+
+    def repair_args(args, kwargs):
+        instruction = "Gere novamente a resposta em português, com frases completas. Não produza rótulos de classificação nem misture idiomas. Preserve fontes e números.\n\n"
+        if args and isinstance(args[0], str):
+            args = (instruction + args[0], *args[1:])
+        elif isinstance(kwargs.get('prompt'), str):
+            kwargs = {**kwargs, 'prompt': instruction + kwargs['prompt']}
+        return args, kwargs
 
     class LimitedOpenAI(OpenAI):
         def complete(self, *args, **kwargs):
-            with resource_slot("LLM"), tracked_call() as record:
-                result = super().complete(*args, **kwargs)
-                record(result)
-                response_text(result)
-                return result
+            for attempt in range(2):
+                with resource_slot("LLM"), tracked_call() as record:
+                    result = super().complete(*args, **kwargs)
+                    record(result)
+                    try:
+                        response_text(result)
+                        return result
+                    except EmptyModelResponse as exc:
+                        if attempt: raise
+                        if isinstance(exc, InvalidModelResponse): args, kwargs = repair_args(args, kwargs)
 
         def chat(self, *args, **kwargs):
             with resource_slot("LLM"), tracked_call() as record:
@@ -171,15 +184,27 @@ def make_llm(
                 return result
 
         async def achat(self, *args, **kwargs):
-            import asyncio
-            return await asyncio.to_thread(self.chat, *args, **kwargs)
+            async with async_resource_slot("LLM"):
+                with tracked_call() as record:
+                    result = await super().achat(*args, **kwargs)
+                    record(result)
+                    return result
 
         async def acomplete(self, *args, **kwargs):
-            # Usa o caminho síncrono limitado sem bloquear o event loop.
-            import asyncio
-            return await asyncio.to_thread(self.complete, *args, **kwargs)
+            for attempt in range(2):
+                async with async_resource_slot("LLM"):
+                    with tracked_call() as record:
+                        result = await super().acomplete(*args, **kwargs)
+                        record(result)
+                        try:
+                            response_text(result)
+                            return result
+                        except EmptyModelResponse as exc:
+                            if attempt: raise
+                            if isinstance(exc, InvalidModelResponse): args, kwargs = repair_args(args, kwargs)
 
     cfg = _cfg()
+    temperature = float(os.getenv("RAG_LLM_TEMPERATURE", str(temperature)))
     mdl = model or (cfg["interp_model"] if interp else cfg["main_model"])
     configured_limit = os.getenv("RAG_MAX_OUTPUT_TOKENS")
     output_limit = max(1, int(configured_limit)) if configured_limit is not None else None
@@ -194,6 +219,7 @@ def make_llm(
             temperature=temperature,
             timeout=timeout,
             max_tokens=output_limit,
+            max_retries=0,
         )
 
-    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout, max_tokens=output_limit)
+    return LimitedOpenAI(model=mdl, api_key=cfg["api_key"], temperature=temperature, timeout=timeout, max_tokens=output_limit, max_retries=0)
