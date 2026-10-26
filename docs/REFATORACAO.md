@@ -11,11 +11,14 @@ e `rag_simples/` usam os componentes comuns da raiz.
 | `rag_app/` | Comandos, inicialização, terminal, limites, proveniência, resultados e persistência comuns |
 | `rag_app/structured_lookup.py`, `numeric_binding.py` | Busca tabular completa e vínculo numérico por ocorrência usados pelas duas aplicações |
 | `rag_simples/documents.py` | Leitura dos documentos e divisão em trechos |
-| `rag_simples/vectors.py` | Validação e normalização vetorial |
-| `rag_simples/rag.py` | Orquestração da indexação, busca, resposta e comandos do RAG simples |
+| `rag_simples/vectors.py` | Validação, normalização e ranking exato por cosseno |
+| `rag_simples/index_store.py` | Gravação atômica e validação do índice JSON |
+| `rag_simples/rag.py` | Classe `SimpleRAG`: indexação, busca e resposta |
+| `rag_simples/cli.py` | Comandos `indexar`, `perguntar` e `comparar` |
 | `comparacao/profile.py` | Validação do perfil experimental |
 | `comparacao/common.py` | Aplicação do perfil, factories de modelos e contexto compartilhado |
-| `comparacao/run.py` | Preparação e comparação controlada |
+| `comparacao/variants.py` | Estratégias comparadas: `SimpleVariant` (sem grafo) e `GraphVariant` (entidades, vizinhança, pais, comunidades) |
+| `comparacao/run.py` | Preparação, validação do índice experimental e pipeline comum da comparação |
 | `tests_shared/` | Regressões da infraestrutura compartilhada |
 
 ## Execução
@@ -78,6 +81,16 @@ A comparação oferece somente `rag_simples` e `graphrag`, com nomes iguais aos 
 pastas. `graphrag/main.py --comparar "pergunta"` usa automaticamente entidades,
 estrutura, pais e, para perguntas globais, comunidades. Não existe modo reduzido
 nem argumento adicional para selecionar uma versão completa.
+
+Em `comparacao/run.py`, o pipeline é o mesmo para as duas versões: valida o
+índice, carrega modelos, faz a busca vetorial inicial, empacota o contexto e
+sintetiza com o mesmo prompt. A única etapa que muda é `strategy.retrieve()`, em
+`comparacao/variants.py`. Para testar outra estratégia, acrescente uma classe com
+`graph_extraction`, `__init__(nodes, client, settings, artifacts)` e
+`retrieve(question, ranked)` ao `REGISTRY`. O GraphRAG expõe
+`graph_indexing.inject_deterministic_triplets()` e
+`CommunitySearch.consolidate()` para que a comparação não dependa de funções
+privadas.
 
 O índice compartilhado continua compatível. IDs de trechos ausentes ou duplicados
 são rejeitados antes de carregar modelos. Nas respostas globais, os IDs de fontes

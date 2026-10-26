@@ -124,6 +124,67 @@ def test_changed_profile_aborts_before_model_call(prepared):
     llm.complete.assert_not_called()
 
 
+@pytest.fixture
+def question_bank(prepared, monkeypatch, tmp_path):
+    bank = tmp_path / "avaliacao"
+    bank.mkdir()
+    rows = [{"id": "D001", "categoria": "factual", "pergunta": "Indústria paulista em 2023?",
+             "resposta_esperada": "GABARITO-SECRETO"},
+            {"id": "D002", "categoria": "numerica", "pergunta": "O que diz o dado preliminar?",
+             "resposta_esperada": "GABARITO-SECRETO"}]
+    (bank / "desenvolvimento.jsonl").write_text(
+        "\n".join(json.dumps(row, ensure_ascii=False) for row in rows), encoding="utf-8")
+    monkeypatch.setattr(run, "QUESTIONS", bank)
+    return prepared
+
+
+def test_batch_loads_index_and_graph_once_and_sends_only_question(question_bank, monkeypatch):
+    settings, llm, embedder = question_bank
+    loads = Mock(wraps=SimpleRAG.load_index)
+    monkeypatch.setattr(SimpleRAG, "load_index", lambda self: loads(self))
+    graph_class = run.REGISTRY["graphrag"]
+    built = Mock(side_effect=graph_class)
+    built.graph_extraction = graph_class.graph_extraction
+    monkeypatch.setitem(run.REGISTRY, "graphrag", built)
+    result = run.evaluate("desenvolvimento", "lote")
+    assert result["executadas"] == 4 and result["erros"] == []
+    assert loads.call_count == 1
+    assert built.call_count == 1
+    assert embedder.get_query_embedding.call_count == 4
+    assert all("GABARITO-SECRETO" not in call.args[0] and "factual" not in call.args[0]
+               for call in llm.complete.call_args_list)
+    output = run.ARTIFACTS / "resultados" / "lote"
+    manifest = json.loads((output / "manifesto.json").read_text(encoding="utf-8"))
+    assert manifest["profile"] == common.fingerprint(settings)
+    simple = json.loads((output / "D001_rag_simples.json").read_text(encoding="utf-8"))
+    graph = json.loads((output / "D001_graphrag.json").read_text(encoding="utf-8"))
+    assert simple["diagnostics"]["initial_ids"] == graph["diagnostics"]["initial_ids"]
+    assert "resposta_esperada" not in simple and "categoria" not in simple
+
+
+def test_batch_resume_keeps_completed_and_rejects_other_profile(question_bank):
+    settings, llm, _ = question_bank
+    run.evaluate("desenvolvimento", "lote", ["D001"])
+    calls = llm.complete.call_count
+    output = run.ARTIFACTS / "resultados" / "lote"
+    failed = output / "D001_graphrag.json"
+    failed.write_text(json.dumps({"erro": "falha anterior"}), encoding="utf-8")
+    result = run.evaluate("desenvolvimento", "lote", ["D001"])
+    assert result["mantidas"] == 1 and result["executadas"] == 1
+    assert llm.complete.call_count > calls
+    assert "erro" not in json.loads(failed.read_text(encoding="utf-8"))
+    settings["llm_model"] = "modelo-alterado"
+    with pytest.raises(ValueError, match="outro perfil"):
+        run.evaluate("desenvolvimento", "lote", ["D001"])
+
+
+def test_batch_rejects_unknown_ids_and_paths(question_bank):
+    with pytest.raises(ValueError, match="D999"):
+        run.evaluate("desenvolvimento", "lote", ["D999"])
+    with pytest.raises(ValueError, match="nome de uma pasta"):
+        run.evaluate("desenvolvimento", "../fora")
+
+
 def test_context_budget_preserves_whole_chunks():
     results = [{"text": "X" * 1000, "source": "a.pdf", "page": 1},
                {"text": "Trecho curto.", "source": "b.pdf", "page": 2}]

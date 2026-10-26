@@ -205,14 +205,18 @@ class CommunitySearch:
             self._summaries = records
             return records
 
+    def consolidate(self, task, cancel_event=None):
+        """Reduz os resumos de todas as comunidades para uma tarefa; devolve texto e resumos."""
+        records = self.summaries(cancel_event)
+        blocks = [f"[Comunidade {record['id']}]\n{record['summary']}" for record in records]
+        return self._reduce(blocks, task, cancel_event), records
+
     def answer(self, question, cancel_event=None):
         if not self.nodes:
             return AnswerResult("Não há documentos disponíveis para a busca global.", [],
                                 knowledge={"global_search": {"status": "no_evidence"}})
-        records = self.summaries(cancel_event)
-        blocks = [f"[Comunidade {record['id']}]\n{record['summary']}" for record in records]
-        answer = self._reduce(blocks, "Responda à pergunta usando todas as comunidades disponíveis. "
-                              "Informe limitações das fontes. Pergunta: " + question, cancel_event)
+        answer, records = self.consolidate("Responda à pergunta usando todas as comunidades disponíveis. "
+                                           "Informe limitações das fontes. Pergunta: " + question, cancel_event)
         return AnswerResult(answer, [NodeWithScore(node=node) for node in self.nodes.values()],
             knowledge={"global_search": {"status": "summarized", "communities": len(records),
                 "source_chunks": len(self.nodes), "all_communities_processed": True,

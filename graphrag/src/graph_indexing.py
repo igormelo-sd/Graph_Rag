@@ -56,6 +56,13 @@ def _graph_struct_enabled() -> bool:
     return os.getenv("RAG_GRAPH_STRUCT", "1").strip().lower() in {"1", "true", "yes", "on"}
 
 
+def inject_deterministic_triplets(graph_store, text_nodes, structural=None):
+    """Triplets de domínio e, se habilitados, estruturais; nenhum depende de LLM."""
+    if _graph_struct_enabled() if structural is None else structural:
+        _inject_structural_triplets(graph_store, text_nodes)
+    _inject_domain_triplets(graph_store, text_nodes)
+
+
 def _inject_structural_triplets(graph_store, all_nodes):
     """Estrutura tipada com IDs dos chunks e texto recuperável."""
     from collections import defaultdict
@@ -332,9 +339,7 @@ def build_or_load_graph(
     if not _need_llm_graph:
         log.info("[Graph] Modo estrutural apenas (sem LLM) — injetando triplets determinísticos")
         graph_store = SimplePropertyGraphStore()
-        if _graph_struct_enabled():
-            _inject_structural_triplets(graph_store, text_nodes)
-        _inject_domain_triplets(graph_store, text_nodes)
+        inject_deterministic_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
         save_config()
         log.info("[Graph] Grafo estrutural salvo em %s (%d triplets)", graph_path, len(graph_store.graph.triplets))
@@ -358,9 +363,7 @@ def build_or_load_graph(
             embed_kg_nodes=_graph_embed_enabled(),
             show_progress=True,
         )
-        if _graph_struct_enabled():
-            _inject_structural_triplets(graph_store, text_nodes)
-        _inject_domain_triplets(graph_store, text_nodes)
+        inject_deterministic_triplets(graph_store, text_nodes)
         _save_graph_store(graph_store, graph_path)
         save_config()
         log.info("[Graph] Grafo salvo em %s", graph_path)
@@ -376,8 +379,7 @@ def build_or_load_graph(
             if _graph_struct_enabled():
                 try:
                     fallback_store = SimplePropertyGraphStore()
-                    _inject_structural_triplets(fallback_store, text_nodes)
-                    _inject_domain_triplets(fallback_store, text_nodes)
+                    inject_deterministic_triplets(fallback_store, text_nodes, structural=True)
                     _save_graph_store(fallback_store, graph_path)
                     log.info("[Graph] Fallback estrutural salvo (%d triplets)", len(fallback_store.graph.triplets))
                     return PropertyGraphIndex.from_existing(

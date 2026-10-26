@@ -73,14 +73,18 @@ estimadas a partir de uma amostra de consultas reais de usuários.
 6. Avalie com a rubrica, alternando a ordem dos sistemas e ocultando seus nomes
    dos avaliadores. Compare resultados gerais e por categoria.
 
-O executor atual recebe uma pergunta por chamada; o banco não dispara uma
-avaliação nem chamadas de modelos automaticamente. Exemplo:
+`comparacao/run.py avaliar` roda um conjunto inteiro nas duas versões, com
+retomada; `perguntar` continua disponível para uma pergunta avulsa. Veja
+[o README da comparação](../README.md#preparação-e-execução). Exemplo:
 
 ```powershell
-.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao rag_simples
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida minha_rodada
 .\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao graphrag
 .\.venv\Scripts\python.exe comparacao/avaliacao/validar.py
 ```
+
+A avaliação não pontua as respostas: a rubrica continua sendo aplicada por
+revisão humana.
 
 Os gabaritos citam todas as evidências necessárias, mas não impõem igualdade
 literal de texto. Respostas corretas com redação diferente devem ser aceitas.
@@ -139,3 +143,27 @@ Os resultados históricos devem ser identificados pelo hash antigo das perguntas
 O conjunto reservado de teste não foi alterado e a revisão humana continua
 pendente. A integridade documental normaliza somente espaços antes de pontuação
 na extração dos PDFs; não elimina diferenças de conteúdo, sinais ou valores.
+
+Na curadoria assistida de 26/10/2026, somente no conjunto de desenvolvimento:
+
+- Pontos obrigatórios que juntavam várias afirmações foram divididos em itens
+  atômicos (D002, D010–D014, D018, D020), para permitir nota parcial.
+- D016 foi reescrita: a versão anterior perguntava quais "fontes do corpus"
+  distinguem as classificações, e o modelo entendia "fontes" como os trechos
+  recuperados. Agora pergunta pelos níveis da CNAE 2.0 e pelas regionalizações
+  do cadastro, com apoio nos dois dicionários de variáveis.
+- D019 manteve a pergunta ambígua, mas o gabarito deixou de exigir um pedido
+  de esclarecimento, que o prompt da comparação não prevê. A resposta deve
+  apontar a ambiguidade e qualificar território, período e base de qualquer
+  valor apresentado.
+- D020 passou a exigir os números do Rio de Janeiro (2,3% frente a novembro,
+  com ajuste sazonal; 10,3% frente a dezembro de 2024), para que valores errados
+  na resposta sejam detectados.
+- D011 e D018 receberam o campo `limitacao_indexacao` (teto de 1.000 linhas).
+- Cada alteração consta em `historico_curadoria` no próprio registro.
+
+O hash SHA-256 de `desenvolvimento.jsonl` antes desta curadoria era
+`846eca46ca864267a2f22503b9542a0abefa9e4409a7ec370e83faf58b4ee8b8`. Resultados
+coletados antes dela, como `openai_te3small_dev_20261026`, usaram a D016
+anterior e os pontos agrupados; colete-os de novo ou pontue com a versão antiga.
+A revisão humana de todas as perguntas continua pendente.

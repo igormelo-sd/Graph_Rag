@@ -81,7 +81,24 @@ correspondente. Evite roteadores que escolham modelos diferentes a cada chamada.
 
 # Perguntas globais usam comunidades automaticamente no GraphRAG.
 .\.venv\Scripts\python.exe comparacao/run.py perguntar "Quais os temas dos documentos?" --versao graphrag
+
+# Banco de perguntas nas duas versões, numa única sessão.
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida minha_rodada
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida minha_rodada --ids D001,D002
 ```
+
+Cada `perguntar` é um processo novo: carrega o índice e, no GraphRAG, monta o
+grafo sobre todos os trechos, o que leva alguns minutos com o corpus completo.
+`avaliar` faz isso uma vez e reutiliza índice, modelos e grafo para todas as
+perguntas; o grafo é determinístico para o índice e só é lido nas consultas.
+Esse carregamento fica fora de `retrieval_seconds` nos dois comandos e aparece
+em `session_seconds` no manifesto.
+
+`avaliar` envia somente `pergunta`, alterna a ordem das versões por pergunta e
+grava um JSON por execução em `artefatos/resultados/<saida>/`, com
+`manifesto.json` (perfil, corpus, hash do banco e cada execução). Repetir o
+comando com a mesma `--saida` retoma: mantém execuções gravadas sem erro e refaz
+as demais. Retomar com outro perfil, corpus ou banco é recusado.
 
 Os mesmos comandos têm entradas nos aplicativos:
 
