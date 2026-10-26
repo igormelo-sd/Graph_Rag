@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -143,6 +144,12 @@ def main(argv=None):
     args = parser.parse_args(argv)
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).with_name(".env"), override=True)
+    if not os.getenv("OPENAI_API_KEY"):
+        # Somente a chave: as demais variáveis RAG_* da raiz não entram no perfil controlado.
+        from dotenv import dotenv_values
+        key = dotenv_values(ROOT / ".env").get("OPENAI_API_KEY")
+        if key:
+            os.environ["OPENAI_API_KEY"] = key
     try:
         result = prepare() if args.command == "preparar" else compare(args.pergunta, args.versao)
         print(json.dumps(result, ensure_ascii=False, indent=2))

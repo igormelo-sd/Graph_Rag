@@ -60,8 +60,16 @@ def apply_profile(strict=False):
 
 
 def embedding_model(model_name=None):
-    from llama_index.embeddings.huggingface import HuggingFaceEmbedding
     settings = config()
+    if settings["embedding_provider"] == "openai":
+        # API remota: device e max_length não se aplicam; o lote é o mesmo do perfil.
+        from llama_index.embeddings.openai import OpenAIEmbedding
+        if not os.getenv("OPENAI_API_KEY"):
+            raise ValueError("Defina OPENAI_API_KEY para os embeddings da OpenAI.")
+        return OpenAIEmbedding(model=model_name or settings["embedding_model"],
+            embed_batch_size=int(os.getenv("RAG_EMBED_BATCH_SIZE", settings["embedding_batch_size"])),
+            max_retries=10, timeout=120.0)
+    from llama_index.embeddings.huggingface import HuggingFaceEmbedding
     return HuggingFaceEmbedding(model_name=model_name or settings["embedding_model"],
         device=os.getenv("RAG_EMBED_DEVICE", settings["embedding_device"]),
         embed_batch_size=int(os.getenv("RAG_EMBED_BATCH_SIZE", settings["embedding_batch_size"])),

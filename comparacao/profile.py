@@ -20,6 +20,8 @@ def load_profile(path: Path) -> dict:
         raise ValueError("O perfil deve ser um objeto JSON.")
     if type(settings.get("version")) is not int or settings["version"] != 1:
         raise ValueError("Versão desconhecida do perfil de comparação.")
+    # Perfis anteriores não tinham o campo: os embeddings eram locais.
+    settings.setdefault("embedding_provider", "huggingface")
     for key, (minimum, maximum) in INTEGER_LIMITS.items():
         value = settings.get(key)
         if type(value) is not int or value < minimum or (maximum is not None and value > maximum):
@@ -29,6 +31,7 @@ def load_profile(path: Path) -> dict:
         if not isinstance(value, str) or not value.strip():
             raise ValueError(f"Configuração inválida: {key}.")
     for key, allowed in (("provider", ("openai", "openrouter", "ollama")),
+                         ("embedding_provider", ("huggingface", "openai")),
                          ("embedding_device", ("cpu", "cuda"))):
         if settings.get(key) not in allowed:
             raise ValueError(f"Configuração inválida: {key}.")

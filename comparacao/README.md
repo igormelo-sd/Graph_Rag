@@ -9,8 +9,8 @@ recuperação ou endpoint não podem substituir o perfil nessa execução.
 | Parâmetro | Valor comum |
 |---|---|
 | Provedor / modelo de resposta | OpenAI / `gpt-4o-mini` |
-| Embeddings | `BAAI/bge-m3`, locais, CPU, normalizados |
-| Lote / comprimento máximo do embedding | 16 / 8.192 tokens do modelo |
+| Embeddings | OpenAI `text-embedding-3-small` (`embedding_provider: "openai"`), normalizados |
+| Lote do embedding | 128 trechos por requisição |
 | Trechos / sobreposição | 1.024 / 200 caracteres, SentenceSplitter |
 | Busca inicial | Similaridade de cosseno exata, 5 trechos |
 | Contexto de evidências | Até 12.000 tokens estimados por caracteres / 4 |
@@ -20,6 +20,40 @@ recuperação ou endpoint não podem substituir o perfil nessa execução.
 Também são iguais o prompt final, a numeração de fontes e a política de incluir
 trechos inteiros que caibam no orçamento. O limite de contexto é uma estimativa;
 não corresponde a uma contagem exata do tokenizer do modelo.
+
+`embedding_provider` aceita `openai` ou `huggingface`; perfis sem o campo usam
+`huggingface` (local, com `embedding_device` e `embedding_max_length`). Com
+`openai`, os trechos e as perguntas são enviados à API para vetorização, e a
+chave `OPENAI_API_KEY` é lida de `comparacao/.env` ou, na ausência, somente essa
+chave do `.env` da raiz. Os modelos da OpenAI podem mudar sob o mesmo nome;
+registre a data da preparação.
+
+## Limitação: tabelas com mais de 1.000 linhas
+
+A ingestão gera um trecho por linha de tabela, com teto de 1.000 linhas por
+tabela (`RAG_TABLE_MAX_ROWS_PER_TABLE`, padrão do GraphRAG). O teto foi mantido
+na comparação; linhas além dele **não recebem embedding** e não podem ser
+recuperadas por nenhuma das duas versões, pois os comandos controlados não usam
+busca tabular. No corpus atual, ficam truncados:
+
+| Arquivo | Linhas | Indexadas |
+|---|---:|---:|
+| `pib_municipal_2002_2020.csv` | 85.785 | 1.000 |
+| `base-pmc_spbrasil.csv` | 15.582 | 1.000 |
+| `base-pim_spbrasil.csv` | 13.652 | 1.000 |
+| `base-pms_spbrasil.csv` | 4.490 | 1.000 |
+
+Perguntas cujo gabarito cita linhas fora do índice: D011 e D018
+(desenvolvimento); T046–T055, T065, T082, T087, T088, T094 e T095 (teste).
+Analise-as separadamente: um erro nelas mede o teto de ingestão, não a
+diferença entre as estratégias de recuperação. Nas perguntas de ausência de
+informação desse grupo, uma recusa correta pode ocorrer sem que a evidência
+do gabarito tenha sido recuperada.
+
+Na preparação de 26/10/2026, o índice teve 27.091 trechos (1.013 de texto e
+26.078 de tabelas); `01-2026-tabelas-pib-regional-site.xlsx` sozinho gerou
+17.706. Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
+os 5 resultados iniciais.
 
 ## Preparação e execução
 
@@ -32,8 +66,9 @@ python -m venv .venv
 Copy-Item comparacao/.env.example comparacao/.env
 ```
 
-Preencha `OPENAI_API_KEY` em `comparacao/.env`. Os comandos controlados usam esse
-arquivo comum. Modelos de embeddings ausentes são baixados no primeiro uso.
+Preencha `OPENAI_API_KEY` em `comparacao/.env` (ou somente no `.env` da raiz).
+Os comandos controlados usam esse arquivo comum. Com `embedding_provider`
+`huggingface`, modelos de embeddings ausentes são baixados no primeiro uso.
 Para trocar de provedor ou modelo, altere `config.json` e configure a chave
 correspondente. Evite roteadores que escolham modelos diferentes a cada chamada.
 
@@ -104,5 +139,5 @@ Resumos são derivados e suas fontes candidatas não comprovam correção das ci
 
 Os testes simulam os modelos e verificam equivalência da busca inicial, prompt,
 orçamento, expansão, processamento global e rejeição de corpus/perfil alterado.
-Eles não medem qualidade de respostas reais. Índices antigos do RAG simples,
-com embeddings da API, exigem reconstrução para o novo formato local.
+Eles não medem qualidade de respostas reais. Mudanças de provedor ou modelo de
+embedding alteram o perfil e exigem novo `preparar`.

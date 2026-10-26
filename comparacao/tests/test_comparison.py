@@ -170,6 +170,9 @@ def test_preparation_uses_one_shared_ingestion_and_embedding_pass(monkeypatch, t
 
 
 def test_factories_apply_same_embedding_and_generation_parameters(monkeypatch):
+    # A paridade com a indexação do aplicativo vale para o provedor local.
+    local = {**common.config(), "embedding_provider": "huggingface", "embedding_model": "BAAI/bge-m3"}
+    monkeypatch.setattr(common, "config", lambda: local)
     settings = common.apply_profile(strict=True)
     common.graph_modules()
     import indexing
@@ -189,6 +192,22 @@ def test_factories_apply_same_embedding_and_generation_parameters(monkeypatch):
     assert llm.model == settings["llm_model"]
     assert llm.temperature == settings["temperature"]
     assert llm.max_tokens == settings["max_output_tokens"]
+
+
+def test_openai_embedding_uses_profile_model_and_requires_key(monkeypatch):
+    remote = {**common.config(), "embedding_provider": "openai", "embedding_model": "text-embedding-3-small"}
+    monkeypatch.setattr(common, "config", lambda: remote)
+    monkeypatch.delenv("RAG_EMBED_BATCH_SIZE", raising=False)
+    monkeypatch.delenv("OPENAI_API_KEY", raising=False)
+    with pytest.raises(ValueError, match="OPENAI_API_KEY"):
+        common.embedding_model()
+    from llama_index.embeddings import openai
+    factory = Mock(return_value=SimpleNamespace())
+    monkeypatch.setattr(openai, "OpenAIEmbedding", factory)
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+    common.embedding_model()
+    assert factory.call_args.kwargs["model"] == "text-embedding-3-small"
+    assert factory.call_args.kwargs["embed_batch_size"] == remote["embedding_batch_size"]
 
 
 def test_embedding_parameter_changes_invalidate_graph_manifest(monkeypatch):

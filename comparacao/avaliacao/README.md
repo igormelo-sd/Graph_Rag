@@ -37,6 +37,13 @@ obrigatórios, comportamento esperado e referências. Nas referências:
 - `calculo_esperado` identifica resultados calculados ou arredondados, com unidade
   e tolerância; eles não são novos fatos do corpus.
 
+## Limitação de indexação das tabelas
+
+Na comparação controlada, só as primeiras 1.000 linhas de cada tabela recebem
+embedding. As perguntas D011, D018, T046–T055, T065, T082, T087, T088, T094 e
+T095 citam linhas fora desse teto. Veja [a limitação no README da comparação](../README.md#limitação-tabelas-com-mais-de-1000-linhas)
+e reporte esse grupo separadamente.
+
 ## Revisão antes do experimento final
 
 Todas as perguntas têm `revisao_humana.status = "pendente"`. Verifique a pergunta,
