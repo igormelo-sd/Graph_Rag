@@ -19,6 +19,9 @@ e `rag_simples/` usam os componentes comuns da raiz.
 | `comparacao/common.py` | Aplicação do perfil, factories de modelos e contexto compartilhado |
 | `comparacao/variants.py` | Estratégias comparadas: `SimpleVariant` (sem grafo) e `GraphVariant` (entidades, vizinhança, pais, comunidades) |
 | `comparacao/run.py` | Preparação, validação do índice experimental e pipeline comum da comparação |
+| `comparacao/retrieval.py` | Ranking inicial comum: vetorial, BM25, fusão RRF, reranking e diversificação por tabela |
+| `comparacao/footnotes.py` | Linhas de rodapé das planilhas convertidas em notas da tabela no preparo |
+| `comparacao/chunk_repair.py` | Fragmentos curtos anexados ao trecho anterior e tabelas pequenas reunidas no preparo |
 | `tests_shared/` | Regressões da infraestrutura compartilhada |
 
 ## Execução

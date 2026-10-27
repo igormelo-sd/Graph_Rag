@@ -2,17 +2,23 @@
 import argparse
 import hashlib
 import json
-import os
 import sys
 import time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+# Executado como script, a pasta comparacao/ entraria no caminho de importação e
+# comparacao/profile.py esconderia o módulo `profile` da biblioteca padrão (usado
+# pelo torch no reranker). Os módulos daqui são importados como `comparacao.*`.
+_HERE = Path(__file__).resolve().parent
+sys.path[:] = [entry for entry in sys.path if not entry or Path(entry).resolve() != _HERE]
+sys.path.insert(0, str(_HERE.parent))
 from comparacao.common import ROOT, config, apply_profile, fingerprint, graph_modules, pack_results
 from comparacao.variants import REGISTRY
 
 VARIANTS = tuple(REGISTRY)
-PIPELINE = "shared-graph-processing-v1"
+# v2: linhas de rodapé das planilhas viram notas da tabela (comparacao/footnotes.py).
+# v3: fragmentos curtos anexados e tabelas pequenas reunidas (comparacao/chunk_repair.py).
+PIPELINE = "shared-graph-processing-v3"
 
 ARTIFACTS = Path(__file__).with_name("artefatos")
 
@@ -53,7 +59,11 @@ def prepare():
     started = time.perf_counter()
     snapshot = corpus_snapshot(settings)
     documents = load_documents(str((ROOT / settings["corpus"]).resolve()), save_output=False)
-    nodes = process_documents(documents)
+    from comparacao.footnotes import separate_table_footnotes
+    from comparacao.chunk_repair import join_short_fragments, merge_small_tables
+    nodes, footnotes = separate_table_footnotes(process_documents(documents))
+    nodes, fragments = join_short_fragments(nodes, settings["min_text_chars"])
+    nodes, small_tables = merge_small_tables(nodes, settings["small_table_rows"], settings["small_table_chars"])
     if not nodes:
         raise ValueError("Nenhum trecho extraído do corpus.")
     if corpus_snapshot(settings) != snapshot:
@@ -64,7 +74,9 @@ def prepare():
                     dict(node.metadata)) for node in nodes]
     rag = simple_rag(settings)
     count = rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
-    return {"chunks": count, "profile": experiment["profile"], "corpus_files": len(snapshot),
+    return {"chunks": count, "footnote_rows_removed": footnotes, "short_fragments_joined": fragments,
+            "small_tables_merged": small_tables, "profile": experiment["profile"],
+            "corpus_files": len(snapshot),
             "preparation_seconds": round(time.perf_counter() - started, 3), "index": str(rag.index_path)}
 
 
@@ -92,19 +104,33 @@ class Session:
 
     def __init__(self, settings, variants=VARIANTS):
         graph_modules()
-        from comparacao.common import embedding_model
+        from comparacao.common import embedding_model, load_openai_key
+        from comparacao.retrieval import BM25Index, Reranker
+        load_openai_key()
         self.settings = settings
         self.rag = simple_rag(settings)
         self.expected = experiment_signature(settings)
         self.payload = self.rag.load_index()
         self.nodes = load_experiment_nodes(self.rag, self.expected, self.payload)
         self.by_id = {node.node_id: node for node in self.nodes}
+        self.bm25 = BM25Index(self.payload["chunks"]) if settings["retrieval_mode"] == "hybrid" else None
+        self.reranker = Reranker(settings["reranker"]) if settings["reranker"] else None
+        self._initial = {}
         # Modelos carregados antes da cronometragem da recuperação.
         self.rag.client
         self.rag.embedder = embedding_model(settings["embedding_model"])
         # Estratégias (inclusive o grafo) montadas aqui, para o custo ficar na abertura da sessão.
         self._strategies = {variant: REGISTRY[variant](self.nodes, self.rag.client, settings, ARTIFACTS)
                             for variant in variants}
+
+    def initial(self, question):
+        """Ranking inicial e seu tempo, calculados uma vez por pergunta e comuns às versões."""
+        if question not in self._initial:
+            from comparacao.retrieval import initial_ranking
+            started = time.perf_counter()
+            ranking = initial_ranking(question, self.rag, self.payload, self.settings, self.bm25, self.reranker)
+            self._initial[question] = (ranking, time.perf_counter() - started)
+        return self._initial[question]
 
     def strategy(self, variant):
         if variant not in self._strategies:
@@ -121,16 +147,19 @@ def compare(question, variant, session=None):
     settings, rag, expected = session.settings, session.rag, session.expected
     strategy = session.strategy(variant)
 
+    # O ranking inicial é o mesmo para as duas versões; seu tempo entra em ambas.
+    initial, initial_seconds = session.initial(question)
     started = time.perf_counter()
-    initial = rag.search(question, settings["top_k"], session.payload)
     ranked = [NodeWithScore(node=session.by_id[item["metadata"]["node_id"]], score=item["score"])
               for item in initial]
     retrieval = strategy.retrieve(question, ranked)
     context, used = pack_results(retrieval.results, settings["context_tokens"])
     diagnostics = {"mode": variant, "initial_ids": [item.node_id for item in ranked],
+                   "initial_ranks": [item["ranks"] for item in initial],
+                   "initial_ranking_seconds": round(initial_seconds, 3),
                    "profile": expected["profile"], "corpus": expected["corpus"],
                    "graph_extraction": strategy.graph_extraction, **retrieval.diagnostics,
-                   "retrieval_seconds": round(time.perf_counter() - started, 3),
+                   "retrieval_seconds": round(initial_seconds + time.perf_counter() - started, 3),
                    "context_estimated_tokens": (len(context) + 3) // 4}
 
     generation_started = time.perf_counter()
@@ -237,12 +266,8 @@ def main(argv=None):
     args = parser.parse_args(argv)
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).with_name(".env"), override=True)
-    if not os.getenv("OPENAI_API_KEY"):
-        # Somente a chave: as demais variáveis RAG_* da raiz não entram no perfil controlado.
-        from dotenv import dotenv_values
-        key = dotenv_values(ROOT / ".env").get("OPENAI_API_KEY")
-        if key:
-            os.environ["OPENAI_API_KEY"] = key
+    from comparacao.common import load_openai_key
+    load_openai_key()
     try:
         if args.command == "preparar":
             result = prepare()

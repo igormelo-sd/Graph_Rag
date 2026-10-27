@@ -43,6 +43,7 @@ def prepared(monkeypatch, tmp_path):
     (corpus / "fonte.txt").write_text("Indústria paulista em 2023.", encoding="utf-8")
     settings["corpus"] = str(corpus)
     settings["top_k"] = 1
+    settings["reranker"] = ""  # sem modelo real nos testes
     monkeypatch.setattr(common, "config", lambda: settings)
     monkeypatch.setattr(run, "config", lambda: settings)
     artifacts = tmp_path / "artefatos"
@@ -55,7 +56,7 @@ def prepared(monkeypatch, tmp_path):
               Chunk("Indústria paulista em 2023: dado preliminar.", "b.pdf", 1, 1,
                     {"node_id": "b", "source_file": "b.pdf", "page": 1, "type": "text", "chunk_id": 1})]
     experiment = {"profile": common.fingerprint(settings), "corpus": run.corpus_snapshot(settings),
-                  "pipeline": "shared-graph-processing-v1"}
+                  "pipeline": run.PIPELINE}
     rag = SimpleRAG(artifacts / "index.json", settings["embedding_model"], settings["llm_model"])
     rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
     mock_llm = SimpleNamespace(complete=Mock(return_value=SimpleNamespace(text="Resposta com fontes.")))
@@ -150,7 +151,8 @@ def test_batch_loads_index_and_graph_once_and_sends_only_question(question_bank,
     assert result["executadas"] == 4 and result["erros"] == []
     assert loads.call_count == 1
     assert built.call_count == 1
-    assert embedder.get_query_embedding.call_count == 4
+    # Um ranking inicial por pergunta, compartilhado pelas duas versões.
+    assert embedder.get_query_embedding.call_count == 2
     assert all("GABARITO-SECRETO" not in call.args[0] and "factual" not in call.args[0]
                for call in llm.complete.call_args_list)
     output = run.ARTIFACTS / "resultados" / "lote"

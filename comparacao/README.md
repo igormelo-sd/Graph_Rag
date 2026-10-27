@@ -12,7 +12,7 @@ recuperação ou endpoint não podem substituir o perfil nessa execução.
 | Embeddings | OpenAI `text-embedding-3-small` (`embedding_provider: "openai"`), normalizados |
 | Lote do embedding | 128 trechos por requisição |
 | Trechos / sobreposição | 1.024 / 200 caracteres, SentenceSplitter |
-| Busca inicial | Similaridade de cosseno exata, 5 trechos |
+| Busca inicial | Híbrida: cosseno exato + BM25, 50 candidatos de cada, fusão RRF (k=60), reranking dos 30 primeiros com `BAAI/bge-reranker-v2-m3` (local, CPU), no máximo 2 trechos por tabela, 5 trechos |
 | Contexto de evidências | Até 12.000 tokens estimados por caracteres / 4 |
 | Resposta máxima / temperatura | 1.200 tokens / 0 |
 | Corpus | `../graphrag/data` |
@@ -27,6 +27,48 @@ não corresponde a uma contagem exata do tokenizer do modelo.
 chave `OPENAI_API_KEY` é lida de `comparacao/.env` ou, na ausência, somente essa
 chave do `.env` da raiz. Os modelos da OpenAI podem mudar sob o mesmo nome;
 registre a data da preparação.
+
+### Ranking inicial e contexto comuns
+
+As etapas abaixo ocorrem antes de `strategy.retrieve()` ou no prompt final, então
+valem igualmente para as duas versões; o grafo continua sendo a única diferença.
+
+- **Busca híbrida** (`retrieval_mode: "hybrid"`, em `comparacao/retrieval.py`):
+  os `candidate_pool` primeiros da busca vetorial e do BM25 são combinados por
+  Reciprocal Rank Fusion (`rrf_k`). O BM25 tokeniza sem acentos e mantém códigos
+  e números inteiros (`47.32-6`, `3.277,8`), que a busca vetorial não distingue
+  bem. `dense` desativa o BM25. Cada resultado registra `initial_ranks`, a
+  posição do trecho em cada lista.
+- **Reranking** (`reranker`, `rerank_pool`): um cross-encoder local lê pergunta
+  e trecho juntos e reordena os `rerank_pool` primeiros da fusão. Recupera trechos
+  que as duas buscas deixam em posições baixas. O ranking inicial é calculado uma
+  vez por pergunta e compartilhado pelas versões; `initial_ranking_seconds` entra
+  no `retrieval_seconds` de ambas. Texto vazio desativa o reranking.
+- **Diversificação** (`max_per_table`): no máximo N trechos da mesma tabela entre
+  os iniciais, mantendo a ordem; linhas quase idênticas de uma tabela deixavam de
+  ocupar todas as vagas. `0` desativa o limite.
+- **Rodapés de planilha** (`comparacao/footnotes.py`): linhas de linha única que
+  começam com "Fonte", "Nota", "(1)", "(...)" etc. não viram trechos. O texto
+  delas acompanha as demais linhas da tabela em `table_footnotes` e aparece no
+  contexto como "Notas da tabela". Isso altera o preparo (`PIPELINE` v2).
+- **Fragmentos curtos** (`min_text_chars`, `comparacao/chunk_repair.py`): trechos
+  de texto menores que o limite, em geral sobras de quebra de página, também são
+  anexados ao trecho anterior da mesma fonte. O fragmento continua no índice
+  para não romper a sequência usada pelas arestas do grafo.
+- **Tabelas pequenas** (`small_table_rows`, `small_table_chars`): tabelas que o
+  processamento dividiu em uma linha por trecho voltam a ser um trecho único
+  quando têm até N linhas e cabem no limite de caracteres, como os dicionários
+  de variáveis. Esses dois reparos definem o `PIPELINE` v3.
+- **Prompt**: pede território, período, base e unidade para cada número, que só
+  atribua números presentes na mesma fonte, que aponte perguntas ambíguas, que não
+  afirme a cobertura do corpus além das fontes e que cite notas aplicáveis.
+
+Perfis sem esses campos usam `dense`, `candidate_pool = top_k`, sem reranking,
+sem limite por tabela e sem reparos de trechos, ou seja, a busca inicial anterior.
+
+Perguntas sobre uma célula específica de séries longas (por exemplo, D010) não
+são resolvidas por essas etapas: a linha certa fica fora dos candidatos das duas
+buscas, porque centenas de linhas compartilham o mesmo título e cabeçalho.
 
 ## Limitação: tabelas com mais de 1.000 linhas
 
@@ -52,7 +94,8 @@ do gabarito tenha sido recuperada.
 
 Na preparação de 26/10/2026, o índice teve 27.091 trechos (1.013 de texto e
 26.078 de tabelas); `01-2026-tabelas-pib-regional-site.xlsx` sozinho gerou
-17.706. Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
+17.706. Na de 27/10/2026, com os rodapés convertidos em notas, ficaram 26.591
+trechos (500 linhas de rodapé a menos). Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
 os 5 resultados iniciais.
 
 ## Preparação e execução
@@ -129,8 +172,9 @@ por LLM. A extração LLM do aplicativo permanece disponível fora desse fluxo.
 “GraphRAG” identifica aqui a estratégia do experimento; não significa que todas
 as opções da API de produção participem do experimento.
 
-Nos comandos controlados, não participam BM25, reranking, reescrita da pergunta,
-skills, calculadoras, HyDE ou enriquecimento LLM da ingestão. Os chats e a API
+Nos comandos controlados, BM25 e reranking participam apenas da busca inicial
+comum descrita acima. Não participam reescrita da pergunta, skills,
+calculadoras, HyDE ou enriquecimento LLM da ingestão. Os chats e a API
 normais conservam sua arquitetura e permitem configurações locais; **use os
 comandos acima para a comparação experimental**, pois alinhar modelos sozinho
 não torna esses fluxos equivalentes.

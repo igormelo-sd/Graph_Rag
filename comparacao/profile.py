@@ -11,6 +11,9 @@ INTEGER_LIMITS = {
     "entity_context_limit": (1, 40), "entity_context_depth": (0, 2),
     "graph_context_limit": (1, 30), "graph_context_depth": (1, 3),
     "community_summary_chars": (200, 6000),
+    "candidate_pool": (1, 1000), "rrf_k": (1, 1000), "max_per_table": (0, 200),
+    "rerank_pool": (1, 200), "min_text_chars": (0, 2000), "small_table_rows": (0, 200),
+    "small_table_chars": (500, 20000),
 }
 
 
@@ -20,8 +23,19 @@ def load_profile(path: Path) -> dict:
         raise ValueError("O perfil deve ser um objeto JSON.")
     if type(settings.get("version")) is not int or settings["version"] != 1:
         raise ValueError("Versão desconhecida do perfil de comparação.")
-    # Perfis anteriores não tinham o campo: os embeddings eram locais.
+    # Perfis anteriores não tinham estes campos: embeddings locais e só busca vetorial.
     settings.setdefault("embedding_provider", "huggingface")
+    settings.setdefault("retrieval_mode", "dense")
+    settings.setdefault("candidate_pool", settings.get("top_k"))
+    settings.setdefault("rrf_k", 60)
+    settings.setdefault("max_per_table", 0)
+    settings.setdefault("reranker", "")
+    settings.setdefault("rerank_pool", settings.get("top_k"))
+    settings.setdefault("min_text_chars", 0)
+    settings.setdefault("small_table_rows", 0)
+    settings.setdefault("small_table_chars", 6000)
+    if not isinstance(settings["reranker"], str):
+        raise ValueError("Configuração inválida: reranker.")
     for key, (minimum, maximum) in INTEGER_LIMITS.items():
         value = settings.get(key)
         if type(value) is not int or value < minimum or (maximum is not None and value > maximum):
@@ -32,6 +46,7 @@ def load_profile(path: Path) -> dict:
             raise ValueError(f"Configuração inválida: {key}.")
     for key, allowed in (("provider", ("openai", "openrouter", "ollama")),
                          ("embedding_provider", ("huggingface", "openai")),
+                         ("retrieval_mode", ("dense", "hybrid")),
                          ("embedding_device", ("cpu", "cuda"))):
         if settings.get(key) not in allowed:
             raise ValueError(f"Configuração inválida: {key}.")
