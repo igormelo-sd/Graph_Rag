@@ -161,7 +161,8 @@ def validate_relation(subject_type, relation, object_type):
 def territories(text):
     text = fold(text)
     values, ambiguities = set(), []
-    patterns = {"brasil": r"\bbrasil\b|brasileir\w*|nacional",
+    # Limite de palavra: "internacional" não é recorte nacional.
+    patterns = {"brasil": r"\bbrasil\b|\bbrasileir\w*|\bnacional\b",
                 "rmsp": r"\brmsp\b|regiao metropolitana de sao paulo",
                 "interior_sp": r"interior (?:de sao paulo|paulista)",
                 "municipio_sp": r"(?:municipio|cidade|capital) (?:de )?sao paulo|capital paulista",
@@ -237,7 +238,7 @@ def facets(text):
             "sector": sectors,
             "source": {k for k, p in SOURCES.items() if re.search(p, raw)},
             "basis": {k for k, p in {"real": r"\breal\b|deflacionad", "nominal": r"nominal", "dessazonalizado": r"dessazonalizad|ajuste sazonal"}.items() if re.search(p, raw)},
-            "coverage": {k for k, p in {"formal": r"(?<!in)\bforma(?:l|is)\b|com carteira", "informal": r"\binforma(?:l|is)\b|sem carteira", "total": r"total"}.items() if re.search(p, raw)},
+            "coverage": {k for k, p in {"formal": r"(?<!in)\bforma(?:l|is)\b|com carteira", "informal": r"\binforma(?:l|is)\b|sem carteira", "total": r"\btota(?:l|is)\b"}.items() if re.search(p, raw)},
             "kind": {k for k, p in {"estoque": r"estoque", "saldo": r"saldo", "fluxo": r"admissoes|desligamentos|fluxo", "taxa": r"taxa", "variacao": r"variacao|crescimento|recuo|aumento|queda"}.items() if re.search(p, raw)}}
 
 

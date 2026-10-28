@@ -33,12 +33,21 @@ log = get_logger(__name__)
 
 _GRAPH_DIR = "graph_store"
 _GRAPH_FILE = "graph_store.json"
+# Facetas mudam observações e HAS_ENTITY: nova versão força reconstrução do cache.
+_GRAPH_PIPELINE = "typed-observations-entity-links-v4"
 
 def _save_graph_store(graph_store: SimplePropertyGraphStore, path: str) -> None:
     """Persiste o grafo em UTF-8 (contorna limite do cp1252 no Windows)."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    with open(path, "w", encoding="utf-8") as f:
-        f.write(graph_store.graph.model_dump_json())
+    # Arquivo temporário + replace: queda no meio não corrompe o cache anterior.
+    temporary = path + ".tmp"
+    try:
+        with open(temporary, "w", encoding="utf-8") as f:
+            f.write(graph_store.graph.model_dump_json())
+        os.replace(temporary, path)
+    finally:
+        if os.path.exists(temporary):
+            os.remove(temporary)
 
 
 def _load_graph_store(path: str) -> SimplePropertyGraphStore:
@@ -283,7 +292,7 @@ def build_or_load_graph(
         "ontology": ontology_enabled(),
         "domain_enabled": domain_enabled(),
         "ontology_hash": fingerprint(),
-        "graph_pipeline": "typed-observations-entity-links-v3",
+        "graph_pipeline": _GRAPH_PIPELINE,
     }
     try:
         with open(config_path, encoding="utf-8") as f:

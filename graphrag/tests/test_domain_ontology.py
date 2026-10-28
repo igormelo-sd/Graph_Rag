@@ -111,3 +111,10 @@ def test_partes_da_data_nao_viram_valores_observados():
     records = extract_observations("PIB do Estado de São Paulo em 31/01/2023: 100 bilhões de reais.")
     assert [record["value"] for record in records] == ["100"]
     assert records[0]["dimensions"]["period"] == ["2023-01-31"]
+
+
+def test_facetas_exigem_palavra_inteira():
+    assert facets("comércio internacional em 2023")["region"] == set()
+    assert facets("mercado nacional")["region"] == {"brasil"}
+    assert facets("taxa de desocupação totalmente revisada")["coverage"] == set()
+    assert facets("ocupados totais")["coverage"] == {"total"}

@@ -208,7 +208,7 @@ def test_valid_graph_cache_is_not_rebuilt_or_rewritten(tmp_path, monkeypatch):
     monkeypatch.setattr('graph_ontology.ontology_enabled',lambda:False)
     directory=tmp_path/'graph_store'
     directory.mkdir()
-    (directory/'graph_config.json').write_text(json.dumps({'llm':False,'embed':False,'struct':True,'ontology':False,'domain_enabled':True,'ontology_hash':'test-ontology','graph_pipeline':'typed-observations-entity-links-v3'}))
+    (directory/'graph_config.json').write_text(json.dumps({'llm':False,'embed':False,'struct':True,'ontology':False,'domain_enabled':True,'ontology_hash':'test-ontology','graph_pipeline':module._GRAPH_PIPELINE}))
     store=SimplePropertyGraphStore()
     nodes=[EntityNode(name='Fonte'),EntityNode(name='Documento')]
     store.upsert_nodes(nodes)
@@ -266,3 +266,18 @@ def test_published_point_rate_preserves_literal_table_without_llm_extraction(mon
     assert result.nodes == [source]
     assert '2,3%' in result.data
     model.complete.assert_not_called()
+
+
+def test_graph_save_failure_keeps_previous_cache(tmp_path, monkeypatch):
+    from llama_index.core.graph_stores import SimplePropertyGraphStore
+    from llama_index.core.graph_stores.types import EntityNode
+    import graph_indexing as module
+    path=tmp_path/'graph_store.json'
+    path.write_text('anterior',encoding='utf-8')
+    store=SimplePropertyGraphStore()
+    store.upsert_nodes([EntityNode(name='Indústria',label='Setor')])
+    monkeypatch.setattr(type(store.graph),'model_dump_json',Mock(side_effect=RuntimeError('falha')))
+    with pytest.raises(RuntimeError):
+        module._save_graph_store(store,str(path))
+    assert path.read_text(encoding='utf-8')=='anterior'
+    assert not (tmp_path/'graph_store.json.tmp').exists()
