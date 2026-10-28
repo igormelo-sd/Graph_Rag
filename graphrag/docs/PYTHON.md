@@ -22,7 +22,7 @@ O alvo dos locks é Windows x64/Python 3.11. `requirements.in` e `requirements-d
 
 A reconstrução cria uma coleção de staging, verifica-a e promove-a em etapas: exclui a coleção anterior e renomeia a nova. Essa promoção não é uma transação atômica. O cache `bm25_nodes.pkl` é substituído por `os.replace`; Chroma, BM25 e manifesto não compõem uma única transação.
 
-`index_sync.py` identifica fontes alteradas e atualiza o índice preservando IDs ainda presentes. Modelo, dimensão e fingerprint do pipeline são registrados no manifesto. IDs de conteúdo completo exigem reconstrução do índice antigo na próxima sincronização habilitada.
+`index_sync.py` identifica fontes alteradas e atualiza o índice preservando IDs ainda presentes. Modelo, dimensão, fingerprint do pipeline e hash da ontologia são registrados no manifesto; mudança só no hash da ontologia reanota os nós sem novos embeddings. IDs de conteúdo completo exigem reconstrução do índice antigo na próxima sincronização habilitada.
 
 O índice portátil é opcional (`RAG_INDEX_AUTO_DOWNLOAD=0` por padrão), exige repositório explícito e inclui manifesto SHA-256. `scripts/index_artifact.py` exporta/instala esse formato; use artefatos confiáveis, pois BM25 contém pickle. `RAG_INDEX_READ_ONLY=1` evita sincronização depois da preparação inicial.
 

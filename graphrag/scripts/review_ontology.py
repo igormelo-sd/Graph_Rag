@@ -44,7 +44,7 @@ def main():
     temporary = path.with_suffix(".tmp")
     temporary.write_text(raw, encoding="utf-8")
     temporary.replace(path)
-    print(f"Aprovados: {', '.join(args.approve)}. O fingerprint mudou: índice e grafo serão reconstruídos.")
+    print(f"Aprovados: {', '.join(args.approve)}. O hash da ontologia mudou: anotações refeitas e grafo reconstruído, sem novos embeddings.")
 
 
 if __name__ == "__main__":

@@ -43,7 +43,7 @@ Diferença, variação percentual e pontos percentuais exigem períodos distinto
 - Padrões são expressões regulares aplicadas ao texto em minúsculas e sem acentos, e precisam ser escritos assim. Para municípios cujo nome é palavra comum, prefira padrões explícitos como `municipio de salto`. IDs repetidos, pais inexistentes e padrões inválidos interrompem a carga.
 - O arquivo é relido quando muda; `python scripts/export_ontology_skos.py` gera `docs/ontologia.ttl` com classes, relações (`schema:domainIncludes`/`rangeIncludes`) e vocabulários SKOS, só para documentação.
 
-O hash do modelo participa do manifesto e do cache do grafo. Mudanças no esquema/extensões exigem índices compatíveis na próxima preparação autorizada. A flag operacional de ativação não altera o fingerprint do índice documental, pois as anotações são excluídas dos embeddings; a avaliação desativa seu uso em consulta e preserva o mesmo corpus indexado. Esta atualização não reconstruiu índices.
+O hash do modelo fica no manifesto (`pipeline.ontology_hash`), separado do fingerprint dos embeddings, e participa do cache do grafo. Como as anotações são excluídas do texto embutido, uma mudança só no esquema ou nas extensões não recalcula vetores: `reannotate_index` refaz as anotações no cache BM25 e nos metadados da coleção Chroma, e o grafo é reconstruído. Sem cache BM25, ou se a reanotação falhar, o índice é reconstruído por completo. A flag operacional de ativação não altera nenhum dos dois hashes; a avaliação desativa seu uso em consulta e preserva o mesmo corpus indexado.
 
 ## Limites e avaliação pendente
 

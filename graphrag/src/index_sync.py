@@ -9,11 +9,14 @@ from index_manifest import (
     data_snapshot,
     detect_changes,
     load_manifest,
+    ontology_fingerprint,
     save_manifest,
+    stored_pipeline,
 )
 from indexing import (
     create_or_load_index,
     load_nodes_cache,
+    reannotate_index,
     update_index_incrementally,
 )
 from ingestion import load_documents
@@ -91,7 +94,29 @@ def sync_standard_index(data_dir: str, db_path: str, log, collection_name="estat
             f"Nenhum documento encontrado em '{data_dir}'; índice anterior preservado."
         )
 
-    if "__pipeline" in changed:
+    rebuild_all = "__pipeline" in changed
+    stored = stored_pipeline(db_path)
+    if stored.get("ontology_hash") != ontology_fingerprint():
+        # Chamadores reconstroem o grafo quando há qualquer mudança.
+        changed = sorted(set(changed) | {"__ontology"})
+        if not rebuild_all and already_indexed:
+            log.info("[1] Ontologia mudou — reanotando nós sem recalcular embeddings")
+            try:
+                reannotated = reannotate_index(db_path, collection_name)
+            except Exception as exc:
+                log.warning("[1] Reanotação falhou (%s) — forçando full rebuild", exc)
+                reannotated = False
+            if not reannotated:
+                rebuild_all = True
+            elif not [source for source in changed if not source.startswith("__")]:
+                snapshot["__embed_dim"] = stored.get("embed_dim")
+                save_manifest(db_path, snapshot)
+                return (
+                    create_or_load_index([], db_path=db_path, collection_name=collection_name),
+                    changed,
+                )
+
+    if rebuild_all:
         log.warning("[1] Fingerprint do pipeline mudou — forçando full rebuild")
     elif changed and already_indexed and load_nodes_cache(db_path):
         upserts = [s for s in changed if s in snapshot and not s.startswith("__")]

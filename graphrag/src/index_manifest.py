@@ -15,12 +15,17 @@ SUPPORTED_EXTENSIONS = {".pdf", ".csv", ".xlsx", ".xls", ".txt"}
 _MANIFEST_NAME = "indexed_manifest.json"
 
 
+def ontology_fingerprint() -> str:
+    """Hash da ontologia: muda só as anotações, que ficam fora do texto embutido."""
+    from domain_ontology import fingerprint
+    return fingerprint()
+
+
 def _pipeline_fingerprint() -> str:
     """Hash de versão do pipeline (chunk/embedding/visão/RAPTOR) para invalidar índice quando config muda."""
-    from domain_ontology import fingerprint
-    # Ativação em consulta não muda os embeddings: metadados ontológicos são excluídos.
+    # A ontologia fica fora: suas anotações são excluídas dos embeddings e são
+    # refeitas por reannotate_index, comparando pipeline.ontology_hash.
     parts = [
-        fingerprint(),
         os.getenv("RAG_CHUNK_SIZE", "1024"),
         os.getenv("RAG_CHUNK_OVERLAP", "200"),
         os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3"),
@@ -41,6 +46,7 @@ def _pipeline_fingerprint() -> str:
         "v5-spreadsheet-literal-encoding-merged-headers",
         "v6-native-character-sentence-parent-context",
         "v8-giant-table-row-cap",
+        "v9-ontology-hash-separate",
         os.getenv("RAG_PARENT_SIZE", "3200"),
     ]
     return hashlib.sha256("|".join(parts).encode()).hexdigest()[:12]
@@ -120,6 +126,17 @@ def data_snapshot(data_dir: str) -> dict[str, dict]:
     return snapshot
 
 
+def stored_pipeline(db_path: str) -> dict:
+    """Seção ``pipeline`` do manifesto v2; vazio quando ausente ou legado."""
+    try:
+        with (Path(db_path) / _MANIFEST_NAME).open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+    except (OSError, json.JSONDecodeError):
+        return {}
+    pipeline = data.get("pipeline") if isinstance(data, dict) and data.get("schema_version") == 2 else None
+    return pipeline if isinstance(pipeline, dict) else {}
+
+
 def load_manifest(db_path: str) -> dict:
     path = Path(db_path) / _MANIFEST_NAME
     if not path.exists():
@@ -146,7 +163,7 @@ def load_manifest(db_path: str) -> dict:
         return {}
 
 
-def save_manifest(db_path: str, snapshot: dict) -> None:
+def save_manifest(db_path: str, snapshot: dict, ontology_hash: str | None = None) -> None:
     os.makedirs(db_path, exist_ok=True)
     path = Path(db_path) / _MANIFEST_NAME
     temporary = path.with_suffix(path.suffix + ".tmp")
@@ -169,6 +186,8 @@ def save_manifest(db_path: str, snapshot: dict) -> None:
             "embed_dim": snapshot.get("__embed_dim") if isinstance(snapshot, dict) else None,
             "vision": os.getenv("RAG_VISION", "0"),
             "raptor": os.getenv("RAG_RAPTOR_ENABLE", "0"),
+            # Anotações gravadas no cache/coleção correspondem a esta ontologia.
+            "ontology_hash": ontology_hash or ontology_fingerprint(),
         },
         "documents": docs,
     }

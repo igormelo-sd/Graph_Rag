@@ -57,6 +57,41 @@ def load_nodes_cache(db_path="./chroma_db"):
         return []
 
 
+def reannotate_index(db_path="./chroma_db", collection_name="estatisticas", batch_size=500):
+    """Refaz as anotações ontológicas do cache BM25 e da coleção sem recalcular embeddings.
+
+    As anotações ficam fora do texto embutido, então os vetores continuam válidos.
+    Retorna False sem cache; o chamador reconstrói o índice completo.
+    """
+    from domain_ontology import annotate_node
+    from llama_index.core.vector_stores.utils import node_to_metadata_dict
+    nodes = load_nodes_cache(db_path)
+    if not nodes:
+        return False
+    for node in nodes:
+        # A auditoria vem do extrator de relações, não da anotação.
+        for key in [key for key in node.metadata if key.startswith("ontology_") and key != "ontology_extraction_audit"]:
+            del node.metadata[key]
+        annotate_node(node)
+    collection = chromadb.PersistentClient(path=db_path).get_collection(collection_name)
+    for start in range(0, len(nodes), batch_size):
+        batch = {node.node_id: node for node in nodes[start:start + batch_size]}
+        current = collection.get(ids=list(batch), include=["metadatas"])
+        if not current["ids"]:
+            continue
+        metadatas = []
+        for identity, previous in zip(current["ids"], current["metadatas"]):
+            # Mesma serialização de ChromaVectorStore.add; None remove chaves antigas.
+            metadata = node_to_metadata_dict(batch[identity], remove_text=True, flat_metadata=True)
+            metadata = {key: "" if value is None else value for key, value in metadata.items()}
+            metadata.update({key: None for key in (previous or {}) if key.startswith("ontology_") and key not in metadata})
+            metadatas.append(metadata)
+        collection.update(ids=current["ids"], metadatas=metadatas)
+    save_nodes_cache(nodes, db_path=db_path)
+    log.info("Anotações ontológicas refeitas em %d nós, sem novos embeddings", len(nodes))
+    return True
+
+
 def reset_nodes_cache(db_path="./chroma_db"):
     """Remove o cache lexical quando o índice vetorial é reconstruído do zero."""
     path = _nodes_cache_path(db_path)
