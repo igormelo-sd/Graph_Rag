@@ -33,9 +33,10 @@ class GraphRetriever:
         identities = list(identities)
         if not identities:
             return []
-        allowed = set(identities)
-        return [node for node in self._store.get_llama_nodes(identities)
-                if node.node_id in allowed]
+        # Preserva a ordem pedida: ela carrega a prioridade calculada pelo chamador.
+        order = {identity: position for position, identity in enumerate(identities)}
+        return sorted((node for node in self._store.get_llama_nodes(identities) if node.node_id in order),
+                      key=lambda node: order[node.node_id])
 
 
     def __init__(self, graph_index, llm, use_llm=True):
@@ -54,6 +55,7 @@ class GraphRetriever:
             self._outgoing[relation.source_id].append(relation)
             self._incoming[relation.target_id].append(relation)
         self._observations = {}
+        self._observation_dimensions = {}
         self._dimensions = defaultdict(lambda: defaultdict(set))
         self._entity_lookup = defaultdict(lambda: defaultdict(set))
         self._entity_names = {}
@@ -71,6 +73,7 @@ class GraphRetriever:
             except (TypeError, ValueError):
                 continue
             self._observations[entity.id] = entity
+            self._observation_dimensions[entity.id] = dimensions
             for key, values in dimensions.items():
                 if len(values) != 1:
                     continue
@@ -128,7 +131,7 @@ class GraphRetriever:
                 seeds |= self._entity_lookup[key].get(value, set())
         normalized = fold(question)
         seeds |= {node_id for node_id, name in self._entity_names.items() if len(name) >= 4 and name in normalized}
-        allowed = {"RELACIONA_COM", "ASSOCIADO_A", "CAUSA", "MEDIDO_POR", "CRESCEU_EM", "RECUOU_EM", "APLICA_SE_A", "NO_SETOR", "PERTENCE_A"}
+        allowed = {"RELACIONA_COM", "ASSOCIADO_A", "CAUSA", "MEDIDO_POR", "CRESCEU_EM", "RECUOU_EM", "APLICA_SE_A", "NO_SETOR"}
         pending = deque((seed, 0, []) for seed in sorted(seeds)[:20])
         visited, sources, paths, edges_seen = set(), [], defaultdict(list), 0
         while pending and edges_seen < 160:
@@ -148,6 +151,7 @@ class GraphRetriever:
                     continue
                 step = {"source": relation.source_id, "relation": relation.label, "target": relation.target_id,
                         "evidence": relation.properties.get("evidence", ""), "modality": relation.properties.get("modality"),
+                        "polarity": relation.properties.get("polarity", "affirmed"),
                         "relation_kind": relation.properties.get("relation_kind"), "semantic_status": "requires_review"}
                 extended = path + [step]
                 if source not in sources and len(sources) < 20:
@@ -162,8 +166,10 @@ class GraphRetriever:
         """Consulta dimensões explícitas do grafo e recupera os chunks de origem."""
         wanted = facets(question)
         scope = hierarchy_scope(question)
-        keys = [k for k in ("indicator", "region", "period", "unit", "scale", "sector", "source", "kind", "basis", "coverage")
-                if wanted[k] or scope.get(k + "_requested")]
+        # Recortes obrigatórios são os mesmos de filter_candidates; os demais só ordenam.
+        required = [k for k in self._REQUIRED if wanted[k] or scope.get(k + "_requested")]
+        preferred = [k for k in self._PREFERRED if wanted[k]]
+        keys = required or preferred
         if not keys:
             return []
         candidates = None
@@ -174,8 +180,8 @@ class GraphRetriever:
                 matched = set().union(*(self._dimensions[key].get(value, set()) for value in wanted[key]))
             candidates = matched if candidates is None else candidates & matched
         source_ids, paths = [], defaultdict(list)
-        for observation_id in sorted(candidates or ()):
-            entity = self._observations[observation_id]
+        ranked = sorted(candidates or (), key=lambda identity: self._observation_rank(identity, wanted, preferred))
+        for observation_id in ranked:
             for relation in self._outgoing.get(observation_id, ()):
                 if relation.label != "SUSTENTADA_POR":
                     continue
@@ -187,6 +193,26 @@ class GraphRetriever:
                 paths[source].append({"source": observation_id, "relation": relation.label, "target": source})
                 paths[source].extend(self._hierarchy_paths(observation_id, scope, wanted))
         return [self._with_paths(n, paths[n.node_id], 0.5) for n in self._get_source_nodes(source_ids)]
+
+    _REQUIRED = ("indicator", "region", "period", "unit", "scale", "sector")
+    _PREFERRED = ("source", "kind", "basis", "coverage")
+
+    def _observation_rank(self, observation_id, wanted, preferred):
+        """Menos conflitos e mais recortes atendidos primeiro; candidatos completos antes dos pendentes."""
+        dimensions = self._observation_dimensions.get(observation_id, {})
+        conflicts = matches = 0
+        for key in preferred:
+            got = set(dimensions.get(key, []))
+            if got & wanted[key]:
+                matches += 1
+            elif got:
+                conflicts += 1
+        entity = self._observations[observation_id]
+        try:
+            issues = len(json.loads(entity.properties.get("issues_json", "[]")))
+        except (TypeError, ValueError):
+            issues = 99
+        return (conflicts, -matches, entity.properties.get("status") != "structured_candidate", issues, observation_id)
 
     def _hierarchy_paths(self, observation_id, scope, wanted):
         paths = []
@@ -298,6 +324,7 @@ class GraphRetriever:
                     pending.append((other, depth + 1, path + [{"source": edge.source_id,
                         "relation": edge.label, "target": edge.target_id,
                         "evidence": edge.properties.get("evidence", ""),
+                        "polarity": edge.properties.get("polarity", "affirmed"),
                         "semantic_status": "requires_review"}]))
         candidates = [self._with_paths(n, paths[n.node_id], 0.4)
                       for n in self._get_source_nodes(sorted(paths)) if n.node_id in self._chunk_ids]

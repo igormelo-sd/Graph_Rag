@@ -129,8 +129,9 @@ def test_grafo_de_calculo_preserva_base_final_formula_e_fontes():
 
 
 def test_negacao_nao_vira_relacao_positiva():
-    with pytest.raises(ValueError, match="Negação"):
-        relation_attributes("CRESCEU_EM", "O emprego não cresceu em 2023.", {}, "a")
+    attributes = relation_attributes("CRESCEU_EM", "O emprego não cresceu em 2023.", {}, "a")
+    assert attributes["polarity"] == "negated"
+    assert attributes["literal_assertion"] is False
 
 
 def test_correlacao_nao_vira_causalidade():

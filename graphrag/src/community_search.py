@@ -39,6 +39,7 @@ def detect_communities(store, nodes):
             mentions[relation.source_id].add(relation.target_id)
             graph.add_node(relation.target_id)
         elif (relation.label in RELATIONS and relation.properties.get("source_node_id") in node_ids
+              and relation.properties.get("polarity") != "negated"
               and relation.source_id not in node_ids and relation.target_id not in node_ids):
             graph.add_edge(relation.source_id, relation.target_id, weight=2)
     # Coocorrência é agrupamento temático, não afirmação de associação ou causa.

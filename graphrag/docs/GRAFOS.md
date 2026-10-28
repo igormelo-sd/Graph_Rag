@@ -24,20 +24,20 @@ A engine usa `GraphRetriever.retrieve_context` para percorrer arestas de context
 
 ## Extração e consulta
 
-`OntologyPathExtractor` processa nós narrativos e solicita até seis relações por chunk. Cada tripla precisa respeitar os tipos e apresentar citação literal com os nomes envolvidos. Auditorias registram aceitação/rejeição; relações aceitas continuam candidatas a revisão.
+`OntologyPathExtractor` processa nós narrativos e solicita até seis relações por chunk. Cada tripla precisa respeitar os tipos e apresentar citação literal com os nomes envolvidos. Auditorias registram aceitação/rejeição; relações aceitas continuam candidatas a revisão. As respostas brutas ficam em `extraction_cache.jsonl`, indexadas por modelo e prompt: uma reconstrução após mudança no corpus só chama o LLM para trechos novos, e a validação é refeita sobre a resposta guardada.
 
-Quando a fonte `graph` é consultada, dimensões reconhecidas podem recuperar localmente os chunks associados a observações, sem chamada ao LLM. Com `--graph`, `LLMSynonymRetriever` também consulta caminhos (`max_keywords=10`, `path_depth=2`). Resultados passam por filtros de conflito explícito e deduplicação.
+Quando a fonte `graph` é consultada, dimensões reconhecidas podem recuperar localmente os chunks associados a observações, sem chamada ao LLM. Indicador, território, período, unidade, escala e setor são obrigatórios, como em `filter_candidates`; fonte, natureza, base e cobertura só ordenam (menos conflitos, mais recortes atendidos, candidatos completos antes dos pendentes). Com `--graph`, `LLMSynonymRetriever` também consulta caminhos (`max_keywords=10`, `path_depth=2`). Resultados passam por filtros de conflito explícito e deduplicação.
 
 Uma busca local por entidades e aliases também percorre relações auditadas com proveniência do extrator, evitando depender somente da correspondência de nomes do retriever LLM. Caminhos são preservados mesmo quando o chunk já veio da busca híbrida.
 
 Perguntas com vários períodos podem recuperar observações individuais de cada período. Perguntas por municípios/regiões e subsetores selecionam descendentes cadastrados e registram os caminhos da hierarquia; não há agregação automática. O cadastro é limitado e não representa todos os municípios ou setores.
 
-As relações LLM preservam modalidade, período mencionado, origem e situação de revisão. Negações reconhecidas bloqueiam relações positivas; associação não é prova causal. `ontology.retrieval_paths` expõe caminhos, e `ontology.comparisons` representa a derivação dos cálculos por consulta, sem persistir resultados como fatos.
+As relações LLM preservam modalidade, período mencionado, origem e situação de revisão. Negações reconhecidas são gravadas com `polarity: negated` e `literal_assertion: false`, nunca como afirmação; os caminhos expõem a polaridade e as comunidades ignoram relações negadas. Associação não é prova causal. `ontology.retrieval_paths` expõe caminhos, e `ontology.comparisons` representa a derivação dos cálculos por consulta, sem persistir resultados como fatos.
 
 Não há `VectorContextRetriever` registrado nesta rota: solicitar embedding não acrescenta uma consulta vetorial dedicada. Observações inseridas depois da construção tampouco recebem garantia de vetorização. O alcance efetivo do embedding precisa de verificação antes de atribuir ganho ao segundo embedding de grafos.
 
 ## Persistência e avaliação
 
-O grafo é salvo em `graph_store/graph_store.json`, ou `RAG_GRAPH_DIR`. Configuração, corpus e hash do modelo invalidam seu cache. Falhas de quota podem acionar construção local; erros de disco, dependências ou configuração não são necessariamente cobertos pelo fallback. A visualização, quando disponível, mostra até 300 relações.
+O grafo é salvo em `graph_store/graph_store.json`, ou `RAG_GRAPH_DIR`, por arquivo temporário e substituição. Configuração, corpus, hash do modelo e `_GRAPH_PIPELINE` invalidam seu cache. `python scripts/graph_audit_report.py` resume rótulos, métodos, polaridade, status das observações e motivos de rejeição da extração, sem chamar o LLM. Falhas de quota podem acionar construção local; erros de disco, dependências ou configuração não são necessariamente cobertos pelo fallback. A visualização, quando disponível, mostra até 300 relações.
 
 O harness prepara híbrido, estrutural e grafo LLM, com variantes de desativação parcial da ontologia. Os modos estrutural e LLM consultam observações; somente LLM consulta sinônimos pelo modelo. Construção e consulta são contabilizadas separadamente. Gabaritos precisam de revisão; nenhuma avaliação foi executada. Veja [CONFIABILIDADE.md](CONFIABILIDADE.md).

@@ -4,17 +4,17 @@ O modelo declarativo de `src/domain_ontology.py` compartilha conceitos e dimens�
 
 ## Conceitos e observações
 
-O vocabulário distingue indicador, observação estatística, comparação, território, região, estado, município, setor, período, unidade, fonte e entidades documentais. Estado, município e região são especializações de território. O cadastro inicial cobre Brasil, Estado de São Paulo, Município de São Paulo, RMSP e Interior paulista; não é um cadastro territorial completo.
+O vocabulário distingue indicador, observação estatística, comparação, território, região, estado, município, setor, período, unidade, fonte e entidades documentais. Estado, município e região são especializações de território. O cadastro inicial cobre Brasil, Estado de São Paulo, Município de São Paulo, RMSP e Interior paulista; não é um cadastro territorial completo. Outros territórios, indicadores e setores entram por extensões revisadas (ver abaixo); nenhum cadastro adicional acompanha o repositório.
 
 Cada observação candidata mantém valor literal, dimensões, arquivo, página, ID do chunk, posição e trecho de origem. A extração local é heurística: indicador, território, período ou unidade ausentes/múltiplos recebem `requires_review`. Mesmo `structured_candidate` não significa fato verificado. São Paulo sem qualificação permanece ambíguo; ano, mês e trimestre recebem representações distintas.
 
 Dimensões e observações são anotadas nos metadados dos nós. Seu JSON é excluído do texto de embeddings e prompts. Aliases reconhecidos alimentam expansão controlada de consultas.
 
-A versão `economic-observations-v2` preserva cabeçalhos, linhas, título/notas literais e proveniência por célula. Datas de publicação são atributos separados. Consultas ambíguas sobre São Paulo pedem esclarecimento antes da síntese. Relações registram modalidade e origem, com controles de negação e causalidade. Cobertura, divergências, hierarquias e grafos de derivação estão descritos em [ESTATISTICAS_GRAFO.md](ESTATISTICAS_GRAFO.md).
+A versão `economic-observations-v2` preserva cabeçalhos, linhas, título/notas literais e proveniência por célula. Datas de publicação são atributos separados. Consultas ambíguas sobre São Paulo pedem esclarecimento antes da síntese. Relações registram modalidade, polaridade e origem, com controles de causalidade. Cobertura, divergências, hierarquias e grafos de derivação estão descritos em [ESTATISTICAS_GRAFO.md](ESTATISTICAS_GRAFO.md).
 
 ## Relações e aplicação no fluxo
 
-`src/ontology_extractor.py` solicita triplas JSON com classes, relação e citação literal. Confere domínio, alcance, formato, nomes e trecho de apoio antes da inserção. Registra aceitação e rejeição em auditoria. Conformidade e presença literal não provam a interpretação semântica do LLM.
+`src/ontology_extractor.py` solicita triplas JSON com classes, relação e citação literal. Confere formato, nomes e trecho de apoio, resolve cada entidade no cadastro (o tipo territorial cadastrado prevalece sobre o rótulo do LLM; períodos viram a forma normalizada, como `2023-Q2`) e só então valida domínio e alcance. `CRESCEU_EM` e `RECUOU_EM` ligam `Indicador` a `Período`; `Comparacao` existe apenas no grafo de cálculo da consulta. Registra aceitação e rejeição em auditoria. Conformidade e presença literal não provam a interpretação semântica do LLM.
 
 | Etapa | Implementação |
 |---|---|
@@ -34,14 +34,21 @@ Diferença, variação percentual e pontos percentuais exigem períodos distinto
 - `RAG_ONTOLOGY_ENABLE=1` é o padrão: habilita anotação, observações, prompts e filtros. Desligá-lo mantém os contratos de extração tipada, proteção da reescrita e validação de evidências/cálculos.
 - `RAG_ONTOLOGY_DISCOVER=1` inicia propostas por LLM, independentemente da extração de relações. Até doze amostras são selecionadas por rodízio entre documentos/modalidades; até quatro classes são propostas com definição, classe pai e trecho literal.
 - Propostas ficam em `ontology.json` dentro de `RAG_GRAPH_DIR`, ou `graph_store/`. O cache considera corpus e modelo. Falhas não viram descoberta vazia válida; nova invocação pode tentar novamente.
-- Somente extensões humanas com `reviewed: true` em `config/ontology_extensions.json` entram no modelo. `RAG_ONTOLOGY_EXTENSIONS` permite outro arquivo. Cada extensão exige nome ASCII, definição e pai existente. Não edite o cache gerado para aprovar propostas.
+- Somente extensões humanas com `reviewed: true` em `config/ontology_extensions.json` entram no modelo. `RAG_ONTOLOGY_EXTENSIONS` permite outro arquivo. Não edite o cache gerado para aprovar propostas; use `python scripts/review_ontology.py` para listar e `--approve Nome` para aprovar.
+- O arquivo aceita quatro listas, todas revisadas item a item:
+  - `entity_types`: `name` ASCII, `description` e `parent` existente;
+  - `indicators`: `id`, `label`, `pattern` e `kind` opcional (`estoque`, `saldo`, `fluxo`, `taxa`, `variacao`);
+  - `sectors`: `id`, `label`, `pattern` e `parent` opcional entre os setores cadastrados;
+  - `territories`: `id`, `name`, `type` (`Estado`, `Municipio`, `Região` ou extensão deles), `parent` cadastrado e `pattern`.
+- Padrões são expressões regulares aplicadas ao texto em minúsculas e sem acentos, e precisam ser escritos assim. Para municípios cujo nome é palavra comum, prefira padrões explícitos como `municipio de salto`. IDs repetidos, pais inexistentes e padrões inválidos interrompem a carga.
+- O arquivo é relido quando muda; `python scripts/export_ontology_skos.py` gera `docs/ontologia.ttl` com classes, relações (`schema:domainIncludes`/`rangeIncludes`) e vocabulários SKOS, só para documentação.
 
 O hash do modelo participa do manifesto e do cache do grafo. Mudanças no esquema/extensões exigem índices compatíveis na próxima preparação autorizada. A flag operacional de ativação não altera o fingerprint do índice documental, pois as anotações são excluídas dos embeddings; a avaliação desativa seu uso em consulta e preserva o mesmo corpus indexado. Esta atualização não reconstruiu índices.
 
 ## Limites e avaliação pendente
 
-Este modelo em Python não implementa OWL, RDF, SHACL ou inferência lógica. Padrões têm cobertura limitada; tabelas complexas, números sem contexto e ambiguidades exigem revisão. Filtros podem remover contexto útil. Nenhum ganho experimental foi demonstrado.
+Este modelo em Python não implementa OWL, SHACL ou inferência lógica; a exportação Turtle é descritiva. Padrões têm cobertura limitada; tabelas complexas, números sem contexto e ambiguidades exigem revisão. Filtros podem remover contexto útil. Nenhum ganho experimental foi demonstrado.
 
 Foram preparados casos em `tests/test_domain_ontology.py` e perguntas em `evaluation/ontology_cases.example.jsonl`. O harness combina três configurações com ativação/desativação parcial do modelo, totalizando seis modos. `competency_match` mede reconhecimento das dimensões da pergunta, não qualidade da resposta. Veja [CONFIABILIDADE.md](CONFIABILIDADE.md).
 
-Nenhum teste, compilação, avaliação ou servidor foi executado nesta atualização.
+Os testes de `tests/test_graph_ontology_improvements.py` cobrem extensões, entidades canônicas, cache de extração e ordenação de observações. Nenhuma avaliação com gabarito foi executada.

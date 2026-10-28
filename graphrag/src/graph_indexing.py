@@ -1,9 +1,10 @@
 """
 Graph Indexing — constrói um PropertyGraphIndex de conhecimento sobre os
-chunks de texto usando extração de entidades e relações via LLM.
+chunks de texto: estrutura documental, observações de domínio e menções são
+determinísticas; relações entre entidades vêm do extrator LLM opcional.
 
-Entidades: Indicador, Setor, Região, Período, FonteDados
-Relações:  CRESCEU_EM, RECUOU_EM, PERTENCE_A, APLICA_SE_A, MEDIDO_POR, RELACIONA_COM
+Tipos e relações permitidos estão em domain_ontology.CLASSES/RELATIONS. As
+respostas do LLM ficam em extraction_cache.jsonl e são revalidadas a cada uso.
 
 O grafo é persistido em {base_dir}/graph_store/ e reutilizado nas execuções
 seguintes. É reconstruído automaticamente quando os documentos mudam
@@ -33,6 +34,7 @@ log = get_logger(__name__)
 
 _GRAPH_DIR = "graph_store"
 _GRAPH_FILE = "graph_store.json"
+_EXTRACTION_CACHE = "extraction_cache.jsonl"
 # Facetas mudam observações e HAS_ENTITY: nova versão força reconstrução do cache.
 _GRAPH_PIPELINE = "typed-observations-entity-links-v4"
 
@@ -361,7 +363,9 @@ def build_or_load_graph(
             embed_kg_nodes=_graph_embed_enabled(),
         )
 
-    extractor = OntologyPathExtractor(llm=llm, max_triplets=6)
+    # Reconstrução após mudança no corpus só chama o LLM para prompts novos.
+    extractor = OntologyPathExtractor(llm=llm, max_triplets=6,
+                                      cache_path=os.path.join(graph_dir, _EXTRACTION_CACHE))
 
     graph_store = SimplePropertyGraphStore()
     try:
