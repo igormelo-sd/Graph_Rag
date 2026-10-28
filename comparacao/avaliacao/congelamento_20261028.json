@@ -1,0 +1,614 @@
+{
+  "schema_version": 1,
+  "data": "2026-10-28",
+  "status": "congelada",
+  "codigo": {
+    "commit": "4b2afd87c5fe9a09681129f0d50db4f71b270586",
+    "observacao": "Árvore de trabalho limpa durante a preparação e as três rodadas."
+  },
+  "perfil": {
+    "arquivo": "comparacao/config.json",
+    "fingerprint": "d68b280c66d8b60111ed758776c1cc5d3426268cba47565fc71a9ef6ea35b160",
+    "config_sha256": "6a4915df7fa2aa39b4490915f6795dd7a605671aaaf931bd2ed5dc0c32ca96d4",
+    "valores": {
+      "version": 1,
+      "corpus": "graphrag/data",
+      "provider": "openai",
+      "llm_model": "gpt-4o-mini",
+      "embedding_provider": "openai",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_device": "cpu",
+      "embedding_batch_size": 128,
+      "embedding_max_length": 8192,
+      "chunk_size": 1024,
+      "chunk_overlap": 200,
+      "parent_size": 3200,
+      "top_k": 5,
+      "retrieval_mode": "hybrid",
+      "candidate_pool": 50,
+      "rrf_k": 60,
+      "max_per_table": 2,
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "rerank_pool": 30,
+      "min_text_chars": 250,
+      "small_table_rows": 30,
+      "small_table_chars": 6000,
+      "context_tokens": 12000,
+      "max_output_tokens": 1200,
+      "temperature": 0.0,
+      "entity_context_limit": 8,
+      "entity_context_depth": 1,
+      "graph_context_limit": 6,
+      "graph_context_depth": 2,
+      "community_summary_chars": 1800
+    }
+  },
+  "pipeline": "shared-graph-processing-v3",
+  "corpus": {
+    "pasta": "graphrag/data",
+    "manifesto": "comparacao/avaliacao/manifesto_corpus.json",
+    "manifesto_sha256": "adf4d7a10de44a9c5e020ea3c75200c86aa8f1134102e27026e70a10be399863",
+    "arquivos": 20
+  },
+  "perguntas": {
+    "arquivo": "comparacao/avaliacao/desenvolvimento.jsonl",
+    "sha256": "4147b379a3251ce91861cd6579ebd6024fa58d91740cb7341c6922f91121986d",
+    "quantidade": 20,
+    "revisao_humana": "pendente"
+  },
+  "indice": {
+    "arquivo": "comparacao/artefatos/index.json",
+    "sha256": "df54c6ed3eeb163aea062b552f4a140a2d8adbcaac15a8bd6d2ba4a78c672de1",
+    "gerado_em": "2026-10-28T14:06",
+    "trechos": 25896,
+    "rodapes_convertidos": 500,
+    "fragmentos_anexados": 39,
+    "tabelas_pequenas_reunidas": 29
+  },
+  "modelos": {
+    "resposta": {
+      "provedor": "openai",
+      "modelo": "gpt-4o-mini",
+      "temperatura": 0.0,
+      "observacao": "Alias do provedor; a identidade reportada pela API não foi registrada nos resultados."
+    },
+    "embeddings": {
+      "provedor": "openai",
+      "modelo": "text-embedding-3-small",
+      "observacao": "Modelo remoto; pode mudar sob o mesmo nome."
+    },
+    "reranker": {
+      "modelo": "BAAI/bge-reranker-v2-m3",
+      "revisao": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "dispositivo": "cpu"
+    }
+  },
+  "ambiente": {
+    "python": "3.13.5",
+    "sistema": "Windows 11",
+    "bibliotecas": {
+      "openai": "1.109.1",
+      "llama-index-core": "0.14.25",
+      "llama-index-embeddings-openai": "0.6.0",
+      "llama-index-llms-openai": "0.7.10",
+      "sentence-transformers": "6.1.0",
+      "transformers": "5.18.0",
+      "torch": "2.14.1",
+      "rank-bm25": "0.2.2"
+    },
+    "observacao": "Os locks do repositório visam Python 3.11; este ambiente local usa 3.13."
+  },
+  "rodadas": {
+    "pastas": [
+      "openai_rerank_dev_20261028_r1",
+      "openai_rerank_dev_20261028_r2",
+      "openai_rerank_dev_20261028_r3"
+    ],
+    "inicio": "2026-10-28T14:06:31",
+    "fim": "2026-10-28T14:35:29",
+    "erros": 0,
+    "execucoes": 120
+  },
+  "marcadores": {
+    "script": "comparacao/avaliacao/marcadores.py",
+    "script_sha256": "2319720f977672a2a69f6cc773f2fbd83b8f522c9ab609a6c8f3cf12cefc8bc4",
+    "resumo": {
+      "rag_simples": {
+        "por_rodada": [
+          22,
+          21,
+          23
+        ],
+        "total_marcadores": 34,
+        "media": 22.0,
+        "perguntas_com_trechos_iguais": 20,
+        "respostas_identicas": 5
+      },
+      "graphrag": {
+        "por_rodada": [
+          25,
+          24,
+          24
+        ],
+        "total_marcadores": 34,
+        "media": 24.33,
+        "perguntas_com_trechos_iguais": 20,
+        "respostas_identicas": 6
+      }
+    },
+    "perguntas": [
+      {
+        "id": "D001",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          0,
+          0,
+          0
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D002",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D003",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D004",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D005",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D006",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D007",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D008",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D009",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D010",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          0,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D011",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D012",
+        "versao": "rag_simples",
+        "marcadores": 3,
+        "por_rodada": [
+          3,
+          3,
+          3
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D013",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D014",
+        "versao": "rag_simples",
+        "marcadores": 3,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D015",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D016",
+        "versao": "rag_simples",
+        "marcadores": 3,
+        "por_rodada": [
+          1,
+          1,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D017",
+        "versao": "rag_simples",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D018",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          0,
+          0,
+          0
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D019",
+        "versao": "rag_simples",
+        "marcadores": 1,
+        "por_rodada": [
+          0,
+          0,
+          0
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D020",
+        "versao": "rag_simples",
+        "marcadores": 3,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D001",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D002",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D003",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D004",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D005",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D006",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D007",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D008",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D009",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D010",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D011",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D012",
+        "versao": "graphrag",
+        "marcadores": 3,
+        "por_rodada": [
+          3,
+          3,
+          3
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D013",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D014",
+        "versao": "graphrag",
+        "marcadores": 3,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D015",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          2,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D016",
+        "versao": "graphrag",
+        "marcadores": 3,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D017",
+        "versao": "graphrag",
+        "marcadores": 2,
+        "por_rodada": [
+          1,
+          1,
+          1
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D018",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          0,
+          0,
+          0
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D019",
+        "versao": "graphrag",
+        "marcadores": 1,
+        "por_rodada": [
+          0,
+          0,
+          0
+        ],
+        "trechos_iniciais_iguais": true
+      },
+      {
+        "id": "D020",
+        "versao": "graphrag",
+        "marcadores": 3,
+        "por_rodada": [
+          3,
+          2,
+          2
+        ],
+        "trechos_iniciais_iguais": true
+      }
+    ],
+    "referencia_anterior": {
+      "descricao": "Busca híbrida sem reranker nem reparos de trechos, 27/10/2026, código anterior do GraphRAG",
+      "rodadas": [
+        "openai_hibrida_dev_20261027",
+        "openai_hibrida_dev_20261027_r2",
+        "openai_hibrida_dev_20261027_r3"
+      ],
+      "resumo": {
+        "rag_simples": {
+          "por_rodada": [
+            20,
+            20,
+            21
+          ],
+          "total_marcadores": 34,
+          "media": 20.33,
+          "perguntas_com_trechos_iguais": 20,
+          "respostas_identicas": 8
+        },
+        "graphrag": {
+          "por_rodada": [
+            23,
+            23,
+            22
+          ],
+          "total_marcadores": 34,
+          "media": 22.67,
+          "perguntas_com_trechos_iguais": 20,
+          "respostas_identicas": 8
+        }
+      }
+    }
+  }
+}

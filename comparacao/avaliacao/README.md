@@ -89,6 +89,44 @@ revisão humana.
 Os gabaritos citam todas as evidências necessárias, mas não impõem igualdade
 literal de texto. Respostas corretas com redação diferente devem ser aceitas.
 
+## Avaliação cega pela rubrica
+
+`cega.py` prepara a revisão dos gabaritos e a avaliação humana das respostas de
+uma rodada do `avaliar`, sem chamadas de modelos:
+
+```powershell
+.\.venv\Scripts\python.exe comparacao/avaliacao/cega.py gerar --rodada openai_rerank_dev_20261028_r1 --saida cega_r1_20261028
+# abra artefatos/avaliacao_cega/cega_r1_20261028/ficha.html no navegador, preencha e exporte o JSON
+.\.venv\Scripts\python.exe comparacao/avaliacao/cega.py pontuar --saida cega_r1_20261028 --preenchida ficha_preenchida_<id>.json
+```
+
+- **Ficha** (`ficha.html`): por pergunta, o gabarito com as fontes literais e a
+  decisão de revisão (aprovado, corrigido ou rejeitado, com observação), e as
+  duas respostas como A e B, em ordem sorteada por pergunta. Cada resposta traz
+  as fontes que ela cita, os pontos obrigatórios (atendido e evidência), as
+  quatro notas 0–2 da [rubrica](rubrica.md) com justificativa e se as evidências
+  necessárias foram recuperadas. O preenchimento é salvo no navegador; use
+  **Exportar JSON** para guardar ou continuar em outra máquina (**Importar**).
+- **Cegamento**: a ficha não contém o nome das versões; a chave A/B e a semente
+  do sorteio ficam em `_chave/chave.json`, que o avaliador não deve abrir. Só as
+  fontes citadas aparecem, para que o número de trechos do contexto, maior no
+  GraphRAG, não revele a versão. O cegamento é parcial: estilo de redação ou o
+  contexto expandido de um trecho ainda podem dar pistas.
+- **Pontuação**: `pontuar` recusa fichas incompletas sem revelar nada. Com a
+  ficha completa, revela as versões e grava `resultado.json` com médias por
+  componente e total 0–8, por categoria, pontos atendidos, recuperação e a
+  diferença por pergunta. Perguntas com gabarito rejeitado ficam fora da conta e
+  são listadas.
+- **Revisão dos gabaritos**: as decisões ficam na ficha e em `resultado.json`,
+  não em `desenvolvimento.jsonl`, para preservar o hash do conjunto congelado.
+  Gabaritos corrigidos valem para a nota daquela pergunta conforme a observação
+  registrada; incorporá-los ao banco exige nova rodada e novo congelamento.
+
+A rodada 1 foi definida para a avaliação antes de qualquer leitura das respostas
+pela rubrica; a variação de conteúdo entre as 3 rodadas foi pequena (ver
+[congelamento](congelamento_20261028.json)). Se houver segunda pessoa avaliadora,
+gere a ficha de novo com outra `--saida` para que as avaliações sejam independentes.
+
 ## Coleta reproduzível da aplicação GraphRAG
 
 `experimento.py` executa as perguntas de desenvolvimento no aplicativo completo.

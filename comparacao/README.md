@@ -96,7 +96,70 @@ Na preparação de 26/10/2026, o índice teve 27.091 trechos (1.013 de texto e
 26.078 de tabelas); `01-2026-tabelas-pib-regional-site.xlsx` sozinho gerou
 17.706. Na de 27/10/2026, com os rodapés convertidos em notas, ficaram 26.591
 trechos (500 linhas de rodapé a menos). Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
-os 5 resultados iniciais.
+os 5 resultados iniciais. Na de 28/10/2026 (`PIPELINE` v3), ficaram 25.896.
+
+## Configuração congelada para o TCC (28/10/2026)
+
+A configuração usada nos resultados do TCC está registrada em
+[avaliacao/congelamento_20261028.json](avaliacao/congelamento_20261028.json):
+commit `4b2afd8`, perfil `d68b280c…` (`config.json` atual), `PIPELINE` v3,
+índice de 25.896 trechos, `gpt-4o-mini` (temperatura 0), `text-embedding-3-small`,
+reranker `BAAI/bge-reranker-v2-m3` (revisão `953dc6f`) e as 20 perguntas de
+desenvolvimento (hash `4147b379…`). Não altere `config.json`, o código de
+`comparacao/`, `rag_simples/`, `rag_app/` e `graphrag/src` nem as perguntas para
+novas rodadas desses resultados. Qualquer mudança exige novo preparo, novas
+rodadas e um novo registro de congelamento.
+
+Para conferir uma rodada nova contra o congelamento, compare `profile`,
+`pipeline` e `questions_sha256` do `manifesto.json` da rodada com o registro, e o
+SHA-256 de `artefatos/index.json` com `indice.sha256`. `artefatos/` não é
+versionado: guarde cópia das pastas de resultados e do índice usados no texto.
+
+### Resultados (3 rodadas, 120 execuções, sem erros)
+
+Contagem de marcadores literais dos pontos obrigatórios nas respostas
+([avaliacao/marcadores.py](avaliacao/marcadores.py)), de um total de 34:
+
+| Versão | Rodadas 1 / 2 / 3 | Média | Referência anterior (27/10) |
+|---|---|---:|---|
+| RAG simples | 22 / 21 / 23 | 22,0 | 20 / 20 / 21 (20,3) |
+| GraphRAG | 25 / 24 / 24 | 24,3 | 23 / 23 / 22 (22,7) |
+
+```powershell
+.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py openai_rerank_dev_20261028_r1 openai_rerank_dev_20261028_r2 openai_rerank_dev_20261028_r3
+```
+
+- Os 5 trechos iniciais foram idênticos nas 3 rodadas, nas 20 perguntas e nas
+  duas versões; a variação vem só da geração. As respostas tiveram texto idêntico
+  nas 3 rodadas em 5 (RAG simples) e 6 (GraphRAG) das 20 perguntas.
+- A vantagem do GraphRAG (+2,3 marcadores na média) vem de D001 e D014, com +1
+  marcador nas 3 rodadas, e de D010 e D020, com +1 em uma rodada. O RAG simples
+  só supera o GraphRAG em D016, em uma rodada. Nas outras 15 perguntas, as
+  versões empatam em todas as rodadas.
+- A referência anterior usou busca híbrida sem reranker nem reparos de trechos e
+  o código do GraphRAG antes dos commits de 28/10 (ontologia e esquema do grafo).
+  Para o GraphRAG, a diferença entre as duas configurações mistura esses efeitos.
+
+Marcadores são uma triagem automática: medem a presença de números e termos, não
+a correção da resposta inteira, o apoio documental ou a qualificação. Os
+resultados para o texto devem vir da rubrica aplicada por revisão humana, cega
+quanto à versão, depois da revisão dos gabaritos; a ficha da rodada 1 é gerada
+por `avaliacao/cega.py` (veja [avaliação cega](avaliacao/README.md#avaliação-cega-pela-rubrica)).
+
+### Limitações conhecidas da configuração congelada
+
+| Perguntas | Limitação | Causa |
+|---|---|---|
+| D010 | Valor errado nas duas versões | A célula da série longa fica fora dos candidatos: centenas de linhas compartilham título e cabeçalho; exigiria busca tabular |
+| D011 | PIB de 2018 não encontrado | A linha está além do teto de 1.000 linhas por tabela |
+| D016 | Só a parte de CNAE é respondida | O dicionário do cadastro territorial, mesmo reunido em um trecho, não entra nos 5 iniciais |
+| D017 | Não aditividade das séries encadeadas omitida | O trecho com a explicação não entra nos 5 iniciais |
+| D018 | Afirmação falsa de cobertura ("dados até 2026") | Geração: o modelo não segue a instrução do prompt |
+| D019 | Ambiguidade não apontada | Geração; a resposta escolhe um recorte sem avisar |
+| Todas | Ajuste feito no próprio conjunto avaliado | As 20 perguntas orientaram as melhorias; os resultados não medem generalização para perguntas novas |
+| Todas | Gabaritos sem revisão humana | `revisao_humana` pendente nas 20 perguntas |
+| Todas | Modelos remotos sob nomes estáveis | `gpt-4o-mini` e `text-embedding-3-small` podem mudar; a identidade reportada pela API não foi registrada |
+| Todas | Ambiente | Python 3.13 local; os locks do repositório visam 3.11 |
 
 ## Preparação e execução
 
