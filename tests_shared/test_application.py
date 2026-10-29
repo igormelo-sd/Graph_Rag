@@ -103,11 +103,12 @@ def test_graph_entry_dispatches_only_graphrag(monkeypatch, capsys):
     assert json.loads(capsys.readouterr().out)["answer"] == "ok"
 
 
-def test_comparison_help_exposes_exactly_two_implementations():
+def test_comparison_help_exposes_frozen_implementations_first():
     from comparacao import run
-    assert run.VARIANTS == ("rag_simples", "graphrag")
+    assert run.FROZEN == ("rag_simples", "graphrag")
+    assert run.VARIANTS[:len(run.FROZEN)] == run.FROZEN
     result = subprocess.run([sys.executable, "-S", str(ROOT / "comparacao/run.py"),
                              "perguntar", "--help"], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
-    assert "{rag_simples,graphrag}" in result.stdout
+    assert "{" + ",".join(run.VARIANTS) + "}" in result.stdout
     assert "grafo_completo" not in result.stdout
