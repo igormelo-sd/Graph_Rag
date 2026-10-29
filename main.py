@@ -1,11 +1,7 @@
-"""Entrada compatível para o RAG Estatístico SP."""
+"""Atalho para a aplicação GraphRAG em graphrag/main.py."""
 from pathlib import Path
-from rag_app.cli import main as run
-
-
-def main(argv=None):
-    run(Path(__file__).resolve().parent, argv, extended=False)
+import runpy
 
 
 if __name__ == "__main__":
-    main()
+    runpy.run_path(str(Path(__file__).resolve().parent / "graphrag" / "main.py"), run_name="__main__")

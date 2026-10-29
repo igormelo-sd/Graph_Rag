@@ -1,15 +1,15 @@
 # Organização e manutenção do repositório
 
-O repositório contém duas implementações com diferenças intencionais, um RAG
-simples e uma comparação experimental. Mantenha a pasta completa: `graphrag/`
+O repositório contém a implementação GraphRAG, um RAG simples e uma comparação
+experimental. A antiga aplicação principal (`src/` e `tests/` da raiz) foi
+removida; o último estado com ela está na tag `tcc-congelamento`. Mantenha a pasta completa: `graphrag/`
 e `rag_simples/` usam os componentes comuns da raiz.
 
 | Pasta | Responsabilidade |
 |---|---|
-| `src/` | Implementação principal: recuperação híbrida, API, ingestão e validação |
-| `graphrag/src/` | Variante com expansão de pais e busca global por comunidades |
+| `graphrag/src/` | Aplicação GraphRAG: recuperação híbrida, API, ingestão, validação, expansão de pais e busca global por comunidades |
 | `rag_app/` | Comandos, inicialização, terminal, limites, proveniência, resultados e persistência comuns |
-| `rag_app/structured_lookup.py`, `numeric_binding.py` | Busca tabular completa e vínculo numérico por ocorrência usados pelas duas aplicações |
+| `rag_app/structured_lookup.py`, `numeric_binding.py` | Busca tabular completa e vínculo numérico por ocorrência usados pela aplicação GraphRAG |
 | `rag_simples/documents.py` | Leitura dos documentos e divisão em trechos |
 | `rag_simples/vectors.py` | Validação, normalização e ranking exato por cosseno |
 | `rag_simples/index_store.py` | Gravação atômica e validação do índice JSON |
@@ -29,13 +29,13 @@ e `rag_simples/` usam os componentes comuns da raiz.
 Os comandos existentes continuam disponíveis a partir da raiz:
 
 ```powershell
-.\.venv\Scripts\python.exe main.py --cli
 .\.venv\Scripts\python.exe graphrag/main.py --cli
 .\.venv\Scripts\python.exe rag_simples/rag.py --help
 .\.venv\Scripts\python.exe comparacao/run.py --help
 ```
 
-Os dois `main.py` delegam para `rag_app.cli`. Os argumentos são validados antes
+`graphrag/main.py` delega para `rag_app.cli`; o `main.py` da raiz é só um
+atalho para ele. Os argumentos são validados antes
 de carregar modelos, credenciais ou índices. `--help` funciona sem carregar as
 dependências de aprendizado de máquina. Cada implementação lê seu próprio
 `.env`, independentemente do diretório corrente.
@@ -52,19 +52,19 @@ comparação reutilize silenciosamente o código da aplicação principal.
 .\.venv\Scripts\python.exe scripts/test_all.py --suite shared --suite comparacao
 ```
 
-O executor roda as cinco suítes em processos separados e retorna erro se qualquer
+O executor roda as quatro suítes em processos separados e retorna erro se qualquer
 uma falhar. Não use coleta conjunta das duas pastas `tests`: elas têm arquivos
 homônimos e importam módulos locais com os mesmos nomes.
 
 As suítes usam modelos simulados e não demonstram qualidade semântica em produção.
 O ambiente utilizado nesta refatoração é Python 3.13; os locks existentes têm
 como alvo Python 3.11/Windows. Foi necessário instalar `langchain-text-splitters`
-1.1.3 no ambiente local para executar os testes da aplicação principal. Os locks
+1.1.3 no ambiente local para executar os testes da antiga aplicação principal. Os locks
 não foram regenerados nesta refatoração.
 
 ## Compatibilidade
 
-- Os módulos `runtime`, `provenance` e `query_results` em ambas as pastas `src`
+- Os módulos `runtime`, `provenance` e `query_results` de `graphrag/src`
   reexportam a implementação comum, preservando os imports dos consumidores.
 - A numeração de trechos por fonte/página foi centralizada sem mudar agrupamento,
   ordem, conteúdo, splitter ou fingerprint do pipeline.
@@ -102,4 +102,4 @@ candidatas se restringem aos nós efetivamente disponíveis na busca por comunid
 A depuração também corrigiu consultas ao armazenamento do grafo com uma lista
 vazia de IDs: a biblioteca tratava essa entrada como busca sem filtro. Agora,
 nenhum ID produz nenhuma fonte, e os resultados são filtrados pelos IDs pedidos.
-O comportamento está coberto por regressões nas duas implementações.
+O comportamento está coberto por regressões em `graphrag/tests`.

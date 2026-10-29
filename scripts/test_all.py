@@ -7,7 +7,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SUITES = {
     "shared": ROOT / "tests_shared",
-    "principal": ROOT / "tests",
     "graphrag": ROOT / "graphrag" / "tests",
     "simples": ROOT / "rag_simples" / "tests",
     "comparacao": ROOT / "comparacao" / "tests",
