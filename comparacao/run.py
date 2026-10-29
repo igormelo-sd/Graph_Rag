@@ -13,7 +13,7 @@ _HERE = Path(__file__).resolve().parent
 sys.path[:] = [entry for entry in sys.path if not entry or Path(entry).resolve() != _HERE]
 sys.path.insert(0, str(_HERE.parent))
 from comparacao.common import ROOT, config, apply_profile, fingerprint, graph_modules, pack_results
-from comparacao.variants import REGISTRY
+from comparacao.variants import FROZEN, REGISTRY
 
 VARIANTS = tuple(REGISTRY)
 # v2: linhas de rodapé das planilhas viram notas da tabela (comparacao/footnotes.py).
@@ -120,8 +120,10 @@ class Session:
         self.rag.client
         self.rag.embedder = embedding_model(settings["embedding_model"])
         # Estratégias (inclusive o grafo) montadas aqui, para o custo ficar na abertura da sessão.
-        self._strategies = {variant: REGISTRY[variant](self.nodes, self.rag.client, settings, ARTIFACTS)
-                            for variant in variants}
+        self._strategies = {}
+        for variant in variants:
+            extra = {"reranker": self.reranker} if getattr(REGISTRY[variant], "uses_reranker", False) is True else {}
+            self._strategies[variant] = REGISTRY[variant](self.nodes, self.rag.client, settings, ARTIFACTS, **extra)
 
     def initial(self, question):
         """Ranking inicial e seu tempo, calculados uma vez por pergunta e comuns às versões."""
@@ -140,7 +142,7 @@ class Session:
 
 def compare(question, variant, session=None):
     if not isinstance(question, str) or not question.strip() or variant not in VARIANTS:
-        raise ValueError("Informe uma pergunta e escolha rag_simples ou graphrag.")
+        raise ValueError(f"Informe uma pergunta e escolha {', '.join(VARIANTS[:-1])} ou {VARIANTS[-1]}.")
     if session is None:
         session = Session(apply_profile(strict=True), (variant,))
     from llama_index.core.schema import NodeWithScore
@@ -180,16 +182,20 @@ def _completed(path):
         return False
 
 
-def evaluate(split, output, ids=None):
+def evaluate(split, output, ids=None, variants=FROZEN):
     """Roda um conjunto de perguntas nas duas versões, numa só sessão, com retomada.
 
-    Envia somente `pergunta`. A ordem das versões alterna por pergunta. Execuções
+    Envia somente `pergunta`. Por padrão roda as versões congeladas; `variants`
+    escolhe outras. A ordem das versões alterna por pergunta. Execuções
     já gravadas sem erro são mantidas; as demais são refeitas. Retomar com outro
     perfil, corpus ou banco de perguntas é recusado.
     """
     from rag_app.storage import write_json
     if split not in SPLITS:
         raise ValueError("Conjunto inválido: use desenvolvimento ou teste.")
+    variants = tuple(dict.fromkeys(variants))
+    if not variants or any(variant not in VARIANTS for variant in variants):
+        raise ValueError(f"Versões inválidas: escolha entre {', '.join(VARIANTS)}.")
     if not output or Path(output).name != output or output in {".", ".."}:
         raise ValueError("Informe em --saida apenas o nome de uma pasta de resultados.")
     source = QUESTIONS / f"{split}.jsonl"
@@ -216,10 +222,11 @@ def evaluate(split, output, ids=None):
     # Gravado antes das execuções: uma interrupção não deixa resultados sem identidade.
     write_json(manifest_path, manifest)
 
-    run_log = {"started": time.strftime("%Y-%m-%dT%H:%M:%S"), "executed": [], "kept": [], "errors": []}
+    run_log = {"started": time.strftime("%Y-%m-%dT%H:%M:%S"), "variants": list(variants),
+               "executed": [], "kept": [], "errors": []}
     session, session_seconds = None, None
     for position, question in enumerate(questions):
-        order = VARIANTS if position % 2 == 0 else VARIANTS[::-1]
+        order = variants if position % 2 == 0 else variants[::-1]
         for variant in order:
             label = f"{question['id']}_{variant}"
             target = directory / f"{label}.json"
@@ -228,7 +235,7 @@ def evaluate(split, output, ids=None):
                 continue
             if session is None:
                 opened = time.perf_counter()
-                session = Session(settings)
+                session = Session(settings, variants)
                 session_seconds = round(time.perf_counter() - opened, 3)
             started = time.perf_counter()
             record = {"id": question["id"], "pergunta": question["pergunta"], "versao": variant}
@@ -263,6 +270,8 @@ def main(argv=None):
     batch.add_argument("--split", choices=SPLITS, required=True)
     batch.add_argument("--saida", required=True, help="Pasta em artefatos/resultados; reutilize para retomar.")
     batch.add_argument("--ids", help="IDs separados por vírgula, por exemplo D001,D002.")
+    batch.add_argument("--versoes", default=",".join(FROZEN),
+                       help=f"Versões separadas por vírgula, entre {', '.join(VARIANTS)}; padrão: as congeladas.")
     args = parser.parse_args(argv)
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).with_name(".env"), override=True)
@@ -273,7 +282,8 @@ def main(argv=None):
             result = prepare()
         elif args.command == "avaliar":
             ids = [item.strip() for item in args.ids.split(",") if item.strip()] if args.ids else None
-            result = evaluate(args.split, args.saida, ids)
+            variants = [item.strip() for item in args.versoes.split(",") if item.strip()]
+            result = evaluate(args.split, args.saida, ids, variants)
         else:
             result = compare(args.pergunta, args.versao)
         print(json.dumps(result, ensure_ascii=False, indent=2))

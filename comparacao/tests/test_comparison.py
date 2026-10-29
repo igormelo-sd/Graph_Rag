@@ -289,7 +289,7 @@ def test_embedding_parameter_changes_invalidate_graph_manifest(monkeypatch):
 def test_removed_variants_fail_before_configuration(monkeypatch, variant):
     profile = Mock(side_effect=AssertionError("Não deve carregar o perfil"))
     monkeypatch.setattr(run, "apply_profile", profile)
-    with pytest.raises(ValueError, match="rag_simples ou graphrag"):
+    with pytest.raises(ValueError, match="rag_simples, graphrag"):
         run.compare("Pergunta", variant)
     profile.assert_not_called()
 
@@ -319,3 +319,38 @@ def test_global_source_ids_exclude_empty_documents(prepared):
     path.write_text(json.dumps(payload), encoding="utf-8")
     result = run.compare("Quais os principais temas do conjunto de documentos?", "graphrag")
     assert result["sources"][0]["metadata"]["source_ids"] == ["a"]
+
+
+def test_parents_ablation_uses_parents_without_graph_neighbors(prepared):
+    settings, llm, _ = prepared
+    path = run.ARTIFACTS / "index.json"
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["chunks"][0]["metadata"].update(
+        parent_id="parent:a", parent_text="Indústria paulista em 2023. Contexto literal adicional.")
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "rag_pais")
+    assert [source["source"] for source in result["sources"]] == ["a.pdf"]
+    assert result["sources"][0]["metadata"]["context_strategy"] == "parent_child"
+    assert "Contexto literal adicional." in llm.complete.call_args.args[0]
+
+
+def test_graph_v2_keeps_initial_ranking_and_reports_selection(prepared):
+    result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "graphrag_v2")
+    assert result["diagnostics"]["initial_ids"] == ["a"]
+    assert result["sources"][0]["source"] == "a.pdf"
+    selection = result["diagnostics"]["graph_v2"]
+    assert selection["threshold"] is None  # sem reranker nos testes
+    assert {"documentary", "entity_pool", "query_pool", "accepted"} <= set(selection)
+
+
+def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
+    result = run.evaluate("desenvolvimento", "padrao")
+    assert result["executadas"] == 4
+    output = run.ARTIFACTS / "resultados" / "padrao"
+    assert sorted(path.name for path in output.glob("D001_*.json")) == ["D001_graphrag.json", "D001_rag_simples.json"]
+    result = run.evaluate("desenvolvimento", "ablacao", ["D001"], ["rag_pais", "graphrag_v2"])
+    assert result["executadas"] == 2 and result["erros"] == []
+    manifest = json.loads((run.ARTIFACTS / "resultados" / "ablacao" / "manifesto.json").read_text(encoding="utf-8"))
+    assert manifest["runs"][-1]["variants"] == ["rag_pais", "graphrag_v2"]
+    with pytest.raises(ValueError, match="Versões inválidas"):
+        run.evaluate("desenvolvimento", "invalida", None, ["grafo"])

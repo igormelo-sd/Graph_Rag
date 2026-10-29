@@ -161,6 +161,51 @@ por `avaliacao/cega.py` (veja [avaliação cega](avaliacao/README.md#avaliação
 | Todas | Modelos remotos sob nomes estáveis | `gpt-4o-mini` e `text-embedding-3-small` podem mudar; a identidade reportada pela API não foi registrada |
 | Todas | Ambiente | Python 3.13 local; os locks do repositório visam 3.11 |
 
+## Versões experimentais (fora do congelamento)
+
+`rag_simples` e `graphrag` continuam sendo as versões congeladas, e o `avaliar`
+roda só essas duas quando `--versoes` não é informado. As versões abaixo usam o
+mesmo perfil, o mesmo índice e o mesmo ranking inicial. Não fazem parte da
+configuração congelada.
+
+- `rag_pais` (ablação): RAG simples com os mesmos pais literais do GraphRAG e
+  sem nenhum vizinho do grafo. Separa o efeito do contexto maior do efeito do grafo.
+- `graphrag_v2` ([graph_v2.py](graph_v2.py)): vizinhos por entidade pontuados
+  por raridade das entidades compartilhadas, e não pela ordem dos IDs; da tabela
+  vêm só título, notas e descrições, sem as linhas irmãs; a busca guiada pela
+  pergunta (observações e relações auditadas) também fornece candidatos. Esses
+  candidatos passam pelo reranker e entram no máximo 4, com escore de pelo menos
+  metade do menor escore inicial da pergunta. Os parâmetros ficam no módulo,
+  não em `config.json`, para não alterar o perfil congelado. Perguntas globais
+  seguem o mesmo caminho de comunidades do `graphrag`.
+
+```powershell
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida experimental_r1 --versoes rag_pais,graphrag_v2
+.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py experimental_r1 --versoes rag_pais,graphrag_v2
+```
+
+### Rodadas experimentais de 29/10/2026
+
+Rodadas `experimental_dev_20261029_r1..r3` (mesmo commit-base, perfil e índice
+das rodadas congeladas; 120 execuções, sem erros). Marcadores literais, de 34:
+
+| Versão | Rodadas 1 / 2 / 3 | Média | Contexto (mediana) | Recuperação (mediana) |
+|---|---|---:|---:|---:|
+| RAG simples (congelada, 28/10) | 22 / 21 / 23 | 22,0 | ~1,1 mil tokens | 17 s |
+| `rag_pais` | 24 / 23 / 24 | 23,7 | ~2,4 mil tokens | 18 s |
+| `graphrag_v2` | 23 / 24 / 23 | 23,3 | ~2,9 mil tokens | 30 s |
+| GraphRAG (congelada, 28/10) | 25 / 24 / 24 | 24,3 | ~6,5 mil tokens | 17 s |
+
+- Os pais literais explicam +1,7 dos +2,3 marcadores do GraphRAG sobre o RAG
+  simples (D001 e D014). A diferença restante entre GraphRAG e `rag_pais` está
+  na D010: linhas irmãs da Tabela 4.2 levaram a resposta a citar dados
+  preliminares, mas com valor errado (1,68% em vez de ~1,59%).
+- `graphrag_v2` reduz o contexto à metade sem perder marcadores fora da D010,
+  mas não ganha nenhum; D016 e D017 continuam falhando porque nenhum vizinho do
+  grafo supera o limiar do reranker.
+- São marcadores automáticos em 20 perguntas, com variação de cerca de 1 marcador
+  entre rodadas; não substituem a rubrica nem a revisão humana.
+
 ## Preparação e execução
 
 Use **o mesmo ambiente Python** para as duas versões. Na raiz `Graph_Rag`, com

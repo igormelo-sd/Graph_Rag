@@ -77,6 +77,10 @@ class Reranker:
                  "ranks": {**candidates[index]["ranks"], "rerank": position}}
                 for position, index in enumerate(order, 1)]
 
+    def score(self, question, texts):
+        """Escores na mesma escala do reranking inicial, na ordem recebida."""
+        return [float(value) for value in self.model.predict([(question, text) for text in texts], batch_size=8)]
+
 
 def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None):
     """Trechos iniciais conforme o perfil: `dense` ou `hybrid`, com reranking opcional."""

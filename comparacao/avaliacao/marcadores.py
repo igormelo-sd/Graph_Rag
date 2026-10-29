@@ -5,7 +5,7 @@ no texto (um número, um termo). É uma triagem automática para comparar rodada
 versões; não substitui a rubrica nem a revisão humana. Sem chamadas de modelos.
 
 Uso:
-    python comparacao/avaliacao/marcadores.py RODADA [RODADA ...] [--json saida.json]
+    python comparacao/avaliacao/marcadores.py RODADA [RODADA ...] [--versoes a,b] [--json saida.json]
 
 RODADA é o nome de uma pasta em comparacao/artefatos/resultados/.
 """
@@ -54,14 +54,14 @@ def score(question_id, answer):
     return sum(bool(re.search(marker, text, re.S)) for marker in MARKERS[question_id])
 
 
-def summarize(runs):
+def summarize(runs, variants=VARIANTS):
     questions_path = HERE / "desenvolvimento.jsonl"
     if hashlib.sha256(questions_path.read_bytes()).hexdigest() != QUESTIONS_SHA256:
         raise SystemExit("desenvolvimento.jsonl mudou: revise os marcadores antes de comparar.")
     ids = [json.loads(line)["id"] for line in questions_path.read_text(encoding="utf-8").splitlines()]
     total = sum(len(MARKERS[qid]) for qid in ids)
     rows, summary = [], {}
-    for variant in VARIANTS:
+    for variant in variants:
         per_run = [0] * len(runs)
         same_ids = same_text = 0
         for qid in ids:
@@ -83,9 +83,11 @@ def summarize(runs):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("rodadas", nargs="+")
+    parser.add_argument("--versoes", default=",".join(VARIANTS),
+                        help="Versões separadas por vírgula; padrão: as congeladas.")
     parser.add_argument("--json", type=Path)
     args = parser.parse_args()
-    report = summarize(args.rodadas)
+    report = summarize(args.rodadas, [item.strip() for item in args.versoes.split(",") if item.strip()])
     for row in report["perguntas"]:
         flag = "  <-- varia" if len(set(row["por_rodada"])) > 1 else ""
         print(f"{row['id']}  {row['versao']:11}  {row['por_rodada']} de {row['marcadores']}{flag}")
