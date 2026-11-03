@@ -1,20 +1,35 @@
 # Banco de perguntas para RAG simples × GraphRAG
 
 O banco foi elaborado a partir dos 20 arquivos de `graphrag/data`, o corpus
-definido em `comparacao/config.json`. Os arquivos correspondentes em `data` da
-raiz são idênticos. O PDF adicional `data/pib_municipal_ed2019.pdf` foi inspecionado
-no filtro, mas não foi usado nos gabaritos por estar fora do corpus configurado.
+definido em `comparacao/config.json`. O PDF adicional `pib_municipal_ed2019.pdf`,
+que ficava em `data/` da raiz (removida), foi inspecionado no filtro, mas não foi
+usado nos gabaritos por estar fora do corpus configurado.
 
 Leia primeiro [o filtro dos PDFs](filtro_pdfs.md).
 
 | Categoria | Desenvolvimento | Teste |
 |---|---:|---:|
-| Factual e conceitos documentados | 5 | 25 |
-| Numérica e leitura de tabelas | 5 | 25 |
-| Integração de fontes, recortes ou cálculos | 4 | 20 |
-| Síntese | 3 | 15 |
-| Ausência de informação, ambiguidade ou premissa incorreta | 3 | 15 |
-| **Total** | **20** | **100** |
+| Factual e conceitos documentados | 5 | 12 |
+| Numérica e leitura de tabelas | 5 | 12 |
+| Integração de fontes, recortes ou cálculos | 4 | 10 |
+| Síntese | 3 | 8 |
+| Ausência de informação, ambiguidade ou premissa incorreta | 3 | 8 |
+| **Total** | **20** | **50** |
+
+O conjunto de teste tinha 100 perguntas e foi reduzido a 50 em 03/11/2026, antes
+de qualquer rodada com ele, por sorteio estratificado por categoria e
+comportamento esperado (`random.Random(20261103)`, `sample` sobre os IDs
+ordenados de cada estrato): factual 12, numérica 12, integração 10, síntese 8 e
+limites 8 (4 de informação insuficiente, 2 de esclarecimento e 2 de correção de
+premissa). A seleção não considerou respostas dos sistemas, e as 50 perguntas
+mantêm referências aos 19 arquivos citados no conjunto original. Os IDs
+originais foram preservados; as perguntas retiradas continuam no histórico do
+git (tag `tcc-congelamento`).
+Na mesma data, o trecho de `pmc_202512caderno.pdf`, página 29, citado em T071
+e T085, passou a começar em "Volume de vendas do comércio varejista (5)": o
+cabeçalho anterior juntava espaçamentos de extratores diferentes e não era
+encontrado literalmente por `validar.py`. Gabaritos e pontos obrigatórios não
+mudaram.
 
 ## Arquivos
 

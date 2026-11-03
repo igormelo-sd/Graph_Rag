@@ -10,7 +10,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 EXPECTED = {
-    "teste": {"factual": 25, "numerica": 25, "integracao": 20, "sintese": 15, "limites": 15},
+    "teste": {"factual": 12, "numerica": 12, "integracao": 10, "sintese": 8, "limites": 8},
     "desenvolvimento": {"factual": 5, "numerica": 5, "integracao": 4, "sintese": 3, "limites": 3},
 }
 

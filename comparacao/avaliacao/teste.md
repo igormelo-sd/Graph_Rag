@@ -2,15 +2,6 @@
 
 Gabaritos candidatos. Revisão humana pendente.
 
-## T001 — factual
-
-Qual é o objetivo da Pesquisa Mensal de Comércio?
-
-**Resposta esperada:** Acompanhar a evolução conjuntural do comércio varejista, do varejista ampliado e de seus principais segmentos.
-
-**Fontes:**
-- pmc_202512caderno.pdf — página PDF 4
-
 ## T002 — factual
 
 Qual é a unidade básica de informação da PMC?
@@ -28,15 +19,6 @@ Como a PMC obtém volume de vendas a partir da receita nominal?
 
 **Fontes:**
 - pmc_202512caderno.pdf — página PDF 5
-
-## T004 — factual
-
-Qual período de referência é usado na série encadeada da PMC apresentada no caderno de dezembro de 2025?
-
-**Resposta esperada:** A média mensal de 2022 corresponde a 100.
-
-**Fontes:**
-- pmc_202512caderno.pdf — página PDF 4
 
 ## T005 — factual
 
@@ -65,38 +47,11 @@ Qual software é usado no ajuste sazonal da PMC?
 **Fontes:**
 - pmc_202512caderno.pdf — página PDF 7
 
-## T008 — factual
-
-Qual é o período de revisão informado pela PMC após a atualização iniciada em janeiro de 2023?
-
-**Resposta esperada:** 13 meses.
-
-**Fontes:**
-- pmc_202512caderno.pdf — página PDF 4
-
 ## T009 — factual
 
 Na PIM-PF de dezembro de 2025, qual ano estrutura os pesos das atividades e produtos?
 
 **Resposta esperada:** 2019; a base de ponderação usa o Valor da Transformação Industrial desse ano.
-
-**Fontes:**
-- pim-pf-br_202512caderno.pdf — página PDF 5
-
-## T010 — factual
-
-Qual ano corresponde à média mensal de referência do número-índice da PIM-PF nesse caderno?
-
-**Resposta esperada:** 2022.
-
-**Fontes:**
-- pim-pf-br_202512caderno.pdf — página PDF 5
-
-## T011 — factual
-
-Como a PIM-PF define a comparação mês contra mês anterior?
-
-**Resposta esperada:** Compara a produção do mês de referência com a do mês imediatamente anterior usando a série de base fixa ajustada sazonalmente.
 
 **Fontes:**
 - pim-pf-br_202512caderno.pdf — página PDF 5
@@ -109,33 +64,6 @@ Segundo as notas técnicas de 2022, com qual sistema o Sistema de Contas Regiona
 
 **Fontes:**
 - contas_regionais_2022_notas_tecnicas.pdf — página PDF 6
-
-## T013 — factual
-
-Qual ano de referência é usado na série das Contas Regionais descrita nas notas de 2022?
-
-**Resposta esperada:** 2010.
-
-**Fontes:**
-- contas_regionais_2022_notas_tecnicas.pdf — página PDF 6
-
-## T014 — factual
-
-Na metodologia do PIB mensal paulista, qual ótica foi escolhida para o cálculo?
-
-**Resposta esperada:** A ótica do produto, considerando a disponibilidade de dados.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 6
-
-## T015 — factual
-
-Que tipo de índice e pesos a metodologia do PIB mensal paulista utiliza?
-
-**Resposta esperada:** Índice de Laspeyres com pesos do ano anterior, base móvel e encadeamento.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 6
 
 ## T016 — factual
 
@@ -156,24 +84,6 @@ De onde vêm os pesos setoriais usados na estimativa do PIB mensal paulista?
 **Fontes:**
 - pib_mensal_trimestral_metodologia.pdf — página PDF 11
 
-## T018 — factual
-
-Qual método de ajuste a metodologia paulista menciona para compatibilizar os indicadores trimestrais com totais anuais?
-
-**Resposta esperada:** O método proporcional de Denton, dentro do benchmarking.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 12
-
-## T019 — factual
-
-Quais quatro componentes não observáveis de uma série temporal são apresentados na metodologia do Seade?
-
-**Resposta esperada:** Tendência, ciclo, sazonalidade e irregularidade.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 13
-
 ## T020 — factual
 
 Qual método é usado para dessazonalizar as estimativas do PIB paulista na metodologia de abril de 2024?
@@ -182,24 +92,6 @@ Qual método é usado para dessazonalizar as estimativas do PIB paulista na meto
 
 **Fontes:**
 - pib_mensal_trimestral_metodologia.pdf — página PDF 13
-
-## T021 — factual
-
-Qual fonte passou a ser usada a partir de 2013 para os indicadores de transporte, armazenagem e correio do PIB paulista?
-
-**Resposta esperada:** Os índices de volume e receita da Pesquisa Mensal de Serviços do IBGE.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 17
-
-## T022 — factual
-
-No dicionário do PIB municipal, o que significa PIB per capita?
-
-**Resposta esperada:** O PIB total dividido pela população residente da unidade geográfica.
-
-**Fontes:**
-- dicvar_pib_municipal_2002_2020.csv — linha 10
 
 ## T023 — factual
 
@@ -219,42 +111,6 @@ Qual é a descrição da classe CNAE 47.61-0?
 **Fontes:**
 - cnae20.csv — linha 429
 
-## T025 — factual
-
-No dicionário da PMS, o campo date representa a data de publicação ou a data de referência da pesquisa?
-
-**Resposta esperada:** A data de referência dos dados da pesquisa.
-
-**Fontes:**
-- dic_variaveis_pms.csv — linha 2
-
-## T026 — numerica
-
-Qual foi a variação do PIB brasileiro no quarto trimestre de 2025 frente ao terceiro, com ajuste sazonal?
-
-**Resposta esperada:** 0,1%.
-
-**Fontes:**
-- pib-vol-val_202504caderno.pdf — página PDF 4
-
-## T027 — numerica
-
-Qual foi a variação do PIB brasileiro no quarto trimestre de 2025 frente ao mesmo trimestre de 2024?
-
-**Resposta esperada:** 1,8%.
-
-**Fontes:**
-- pib-vol-val_202504caderno.pdf — página PDF 4
-
-## T028 — numerica
-
-Quanto o PIB brasileiro cresceu em volume em 2025 em relação a 2024?
-
-**Resposta esperada:** 2,3%.
-
-**Fontes:**
-- pib-vol-val_202504caderno.pdf — página PDF 4
-
 ## T029 — numerica
 
 Qual foi o PIB brasileiro em valores correntes no ano de 2025, em bilhões de reais?
@@ -263,15 +119,6 @@ Qual foi o PIB brasileiro em valores correntes no ano de 2025, em bilhões de re
 
 **Fontes:**
 - pib-vol-val_202504caderno.pdf — página PDF 4
-
-## T030 — numerica
-
-Qual foi a variação da produção industrial brasileira entre novembro e dezembro de 2025, com ajuste sazonal?
-
-**Resposta esperada:** -1,2%.
-
-**Fontes:**
-- pim-pf-br_202512caderno.pdf — página PDF 9
 
 ## T031 — numerica
 
@@ -291,33 +138,6 @@ Quanto a produção industrial do Estado de São Paulo variou em dezembro de 202
 **Fontes:**
 - pim-pf-regional_202512.pdf — página PDF 15
 
-## T033 — numerica
-
-Quanto a produção industrial paulista variou em dezembro de 2025 frente a dezembro de 2024?
-
-**Resposta esperada:** -3,2%.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 15
-
-## T034 — numerica
-
-Qual foi a variação acumulada da produção industrial paulista de janeiro a dezembro de 2025 frente ao mesmo período de 2024?
-
-**Resposta esperada:** -2,2%.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 15
-
-## T035 — numerica
-
-Qual foi a variação do volume de vendas do varejo brasileiro no acumulado de janeiro a dezembro de 2025?
-
-**Resposta esperada:** 1,6% em relação ao mesmo período de 2024.
-
-**Fontes:**
-- pmc_202512caderno.pdf — página PDF 29
-
 ## T036 — numerica
 
 Qual foi a variação do PIB do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
@@ -326,36 +146,6 @@ Qual foi a variação do PIB do Estado de São Paulo no segundo trimestre de 202
 
 **Fontes:**
 - tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!O106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A109
-
-## T037 — numerica
-
-Qual foi a variação do PIB do Estado de São Paulo no segundo trimestre de 2026 em relação ao segundo trimestre de 2025?
-
-**Resposta esperada:** 1,40%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
-
-**Fontes:**
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 4!O103
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 4!A106
-
-## T038 — numerica
-
-Qual foi a variação do Valor Adicionado da agropecuária do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
-
-**Resposta esperada:** 1,95%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
-
-**Fontes:**
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!C106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A109
-
-## T039 — numerica
-
-Qual foi a variação do Valor Adicionado da indústria do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
-
-**Resposta esperada:** 0,11%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
-
-**Fontes:**
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!D106
 - tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A109
 
 ## T040 — numerica
@@ -386,24 +176,6 @@ Qual é o PIB de 2025 do Estado de São Paulo, em bilhões de reais, na tabela r
 
 **Fontes:**
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
-
-## T043 — numerica
-
-Qual é o PIB de 2025 da Região Administrativa de Campinas, em bilhões de reais, na tabela regional do Seade?
-
-**Resposta esperada:** R$ 748,10 bilhões, aproximadamente.
-
-**Fontes:**
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE15
-
-## T044 — numerica
-
-Qual é o PIB de 2025 do Município de São Paulo, em bilhões de reais, na tabela regional do Seade?
-
-**Resposta esperada:** R$ 1232,55 bilhões, aproximadamente.
-
-**Fontes:**
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
 
 ## T045 — numerica
 
@@ -450,15 +222,6 @@ Qual é o PIB do município de Campinas em 2020, em reais, na base municipal?
 **Fontes:**
 - pib_municipal_2002_2020.csv — linha 36875
 
-## T050 — numerica
-
-Qual é o PIB do município de Santos em 2020, em reais, na base municipal?
-
-**Resposta esperada:** R$ 22.073.535.214.
-
-**Fontes:**
-- pib_municipal_2002_2020.csv — linha 37311
-
 ## T051 — integracao
 
 Informe o PIB de Campinas em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
@@ -481,28 +244,6 @@ Informe o PIB de Santos em 2019 e sua Região Administrativa no cadastro territo
 - codigos_municipios_regioes.csv — linha 546
 - dicvar_codigos_municipios_regioes.csv — linha 5
 
-## T053 — integracao
-
-Informe o PIB de Ribeirão Preto em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
-
-**Resposta esperada:** PIB municipal de 2019: R$ 35.444.535.507. Cadastro territorial: RA Ribeirão Preto. Chave: código IBGE 3543402. O cadastro territorial tem referência própria, não comprova a divisão administrativa vigente em 2019.
-
-**Fontes:**
-- pib_municipal_2002_2020.csv — linha 37901
-- codigos_municipios_regioes.csv — linha 491
-- dicvar_codigos_municipios_regioes.csv — linha 5
-
-## T054 — integracao
-
-Informe o PIB de Sorocaba em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
-
-**Resposta esperada:** PIB municipal de 2019: R$ 37.272.883.503. Cadastro territorial: RA Sorocaba. Chave: código IBGE 3552205. O cadastro territorial tem referência própria, não comprova a divisão administrativa vigente em 2019.
-
-**Fontes:**
-- pib_municipal_2002_2020.csv — linha 37995
-- codigos_municipios_regioes.csv — linha 585
-- dicvar_codigos_municipios_regioes.csv — linha 5
-
 ## T055 — integracao
 
 Informe o PIB de São José dos Campos em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
@@ -513,16 +254,6 @@ Informe o PIB de São José dos Campos em 2019 e sua Região Administrativa no c
 - pib_municipal_2002_2020.csv — linha 37971
 - codigos_municipios_regioes.csv — linha 561
 - dicvar_codigos_municipios_regioes.csv — linha 5
-
-## T056 — integracao
-
-Em dezembro de 2025, a indústria paulista caiu mais ou menos que a brasileira frente a novembro, com ajuste sazonal? Quantifique a diferença.
-
-**Resposta esperada:** São Paulo caiu 1,6% e o Brasil 1,2%. A queda paulista foi 0,4 ponto percentual mais intensa.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 15
-- pim-pf-br_202512caderno.pdf — página PDF 9
 
 ## T057 — integracao
 
@@ -554,16 +285,6 @@ O PIB e a indústria brasileiros tiveram o mesmo crescimento acumulado em 2025? 
 - pib-vol-val_202504caderno.pdf — página PDF 4
 - pim-pf-br_202512caderno.pdf — página PDF 9
 
-## T060 — integracao
-
-Por que o aumento do PIB em reais correntes não demonstra, sozinho, crescimento real? Use a definição metodológica e o resultado brasileiro de 2025.
-
-**Resposta esperada:** R$ 12.738,6 bilhões é valor corrente; mudanças de preços também afetam valores nominais. O crescimento em volume informado para 2025 é 2,3%, uma medida distinta.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 5
-- pib-vol-val_202504caderno.pdf — página PDF 4
-
 ## T061 — integracao
 
 Qual coluna da base PMC deve ser usada para uma comparação de meses consecutivos que controle sazonalidade? Relacione o dicionário à metodologia.
@@ -574,29 +295,6 @@ Qual coluna da base PMC deve ser usada para uma comparação de meses consecutiv
 - dic_variaveis_pmc.csv — linha 5
 - pmc_202512caderno.pdf — página PDF 6
 - pmc_202512caderno.pdf — página PDF 7
-
-## T062 — integracao
-
-Por que não se deve somar diretamente o índice de serviços da PMS ao índice de comércio da PMC para obter o PIB?
-
-**Resposta esperada:** São índices de atividades de pesquisas distintas, não valores monetários aditivos do PIB. A metodologia do PIB combina indicadores e pesos, e alerta sobre a não aditividade de índices encadeados.
-
-**Fontes:**
-- dic_variaveis_pmc.csv — linha 4
-- dic_variaveis_pms.csv — linha 4
-- pib_mensal_trimestral_metodologia.pdf — página PDF 6
-- pib_mensal_trimestral_metodologia.pdf — página PDF 7
-
-## T063 — integracao
-
-Na base municipal, serviços de administração pública devem ser adicionados a serviços exceto administração pública para obter serviços totais? Explique a diferença para somá-los ao Valor Adicionado total.
-
-**Resposta esperada:** As duas parcelas de serviços podem compor serviços totais, pois uma exclui administração pública e a outra a representa. Não devem ser somadas novamente ao Valor Adicionado total, que já agrega as atividades.
-
-**Fontes:**
-- dicvar_pib_municipal_2002_2020.csv — linha 2
-- dicvar_pib_municipal_2002_2020.csv — linha 7
-- dicvar_pib_municipal_2002_2020.csv — linha 8
 
 ## T064 — integracao
 
@@ -617,48 +315,6 @@ A base municipal termina em 2018 como diz o dicionário ou contém anos posterio
 **Fontes:**
 - dicvar_pib_municipal_2002_2020.csv — linha 9
 - pib_municipal_2002_2020.csv — linha 36875
-
-## T066 — integracao
-
-O arquivo pib-vol-val_202504caderno.pdf corresponde a abril de 2025? Identifique o período e a atualização a partir do conteúdo.
-
-**Resposta esperada:** A capa informa outubro–dezembro de 2025 e atualização em 03/03/2026 às 09 horas; o corpo apresenta o quarto trimestre de 2025. O nome do arquivo não é uma referência temporal confiável.
-
-**Fontes:**
-- pib-vol-val_202504caderno.pdf — página PDF 1
-- pib-vol-val_202504caderno.pdf — página PDF 4
-
-## T067 — integracao
-
-Como se relacionam a classe CNAE 47.31-8 e a atividade de combustíveis e lubrificantes da PMC?
-
-**Resposta esperada:** A classe é comércio varejista de combustíveis para veículos automotores; o quadro metodológico da PMC inclui 4731-8 e 4732-6 na atividade combustíveis e lubrificantes.
-
-**Fontes:**
-- cnae20.csv — linha 415
-- pmc_202512caderno.pdf — página PDF 5
-
-## T068 — integracao
-
-Calcule a participação do Município de São Paulo no PIB estadual de 2025 e confronte com a tabela de participações regionais.
-
-**Resposta esperada:** Aproximadamente 31,48%: PIB do recorte dividido pelo PIB estadual, multiplicado por 100. O resultado coincide, após arredondamento, com a Tabela 2.
-
-**Fontes:**
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 2!AE11
-
-## T069 — integracao
-
-Calcule a participação da Região Metropolitana de São Paulo no PIB estadual de 2025 e confronte com a tabela de participações regionais.
-
-**Resposta esperada:** Aproximadamente 52,28%: PIB do recorte dividido pelo PIB estadual, multiplicado por 100. O resultado coincide, após arredondamento, com a Tabela 2.
-
-**Fontes:**
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE10
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 2!AE10
 
 ## T070 — integracao
 
@@ -693,19 +349,6 @@ Resuma o contraste entre a indústria paulista e a brasileira em dezembro e no a
 - pim-pf-regional_202512.pdf — página PDF 15
 - pim-pf-br_202512caderno.pdf — página PDF 9
 
-## T073 — sintese
-
-Como evoluíram agropecuária, indústria e serviços paulistas do primeiro para o segundo trimestre de 2026? Relacione ao PIB e ressalve o status dos dados.
-
-**Resposta esperada:** agropecuária +1,95%; indústria +0,11%; serviços -0,27%; PIB +0,04%; taxas contra trimestre anterior com ajuste sazonal, preliminares.
-
-**Fontes:**
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!C106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!D106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!I106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!O106
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A109
-
 ## T074 — sintese
 
 Apresente um panorama da concentração do PIB de 2025 entre Estado, Região Metropolitana e Município de São Paulo e RA Campinas, evitando dupla contagem.
@@ -717,19 +360,6 @@ Apresente um panorama da concentração do PIB de 2025 entre Estado, Região Met
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE10
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE15
-
-## T075 — sintese
-
-Explique como o conjunto de fontes permite acompanhar a economia paulista em frequências mensal, trimestral e anual.
-
-**Resposta esperada:** PIM, PMC e PMS: indicadores mensais de atividades; tabela trimestral: PIB e VA setorial; tabela anual: componentes do PIB; distinguir número-índice, taxa e valor monetário.
-
-**Fontes:**
-- base-pim_spbrasil.csv — linha 2
-- base-pmc_spbrasil.csv — linha 2
-- base-pms_spbrasil.csv — linha 2
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A2
-- tabelas-pib-anual-2023.xlsx — Tabela 1!A3
 
 ## T076 — sintese
 
@@ -778,63 +408,6 @@ Resuma os conceitos territoriais que precisam ser distinguidos ao interpretar as
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
 - 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
 
-## T080 — sintese
-
-Como os dicionários de dados ajudam a interpretar as bases de comércio e serviços e quais limites permanecem?
-
-**Resposta esperada:** date é referência dos dados; UF é Brasil/SP; campos distinguem ajuste sazonal; segmentação define atividade; índices não são valores em reais nem percentuais de crescimento; dicionário não substitui verificar cobertura e versão do arquivo.
-
-**Fontes:**
-- dic_variaveis_pmc.csv — linha 2
-- dic_variaveis_pmc.csv — linha 4
-- dic_variaveis_pms.csv — linha 4
-- dic_variaveis_pms.csv — linha 5
-
-## T081 — sintese
-
-Compare a base de ponderação e o período de referência descritos para PIM-PF e PMC, sem confundir os dois conceitos.
-
-**Resposta esperada:** PIM: pesos de 2019 e referência de índice 2022; PMC: série encadeada com média 2022=100; ano dos pesos e ano em que índice vale 100 são conceitos diferentes.
-
-**Fontes:**
-- pim-pf-br_202512caderno.pdf — página PDF 5
-- pmc_202512caderno.pdf — página PDF 4
-- pib_mensal_trimestral_metodologia.pdf — página PDF 6
-
-## T082 — sintese
-
-Que limitações documentais precisam ser registradas antes de analisar o PIB municipal e as Contas Regionais de 2022?
-
-**Resposta esperada:** dicionário municipal declara até 2018, base contém 2020; notas SCR reduzem 18 para 12 atividades; não pressupor mesma abertura setorial entre anos; validar cobertura do arquivo.
-
-**Fontes:**
-- dicvar_pib_municipal_2002_2020.csv — linha 9
-- pib_municipal_2002_2020.csv — linha 36875
-- contas_regionais_2022_notas_tecnicas.pdf — página PDF 8
-
-## T083 — sintese
-
-Explique por que uma síntese econômica não deve atribuir ao Município de São Paulo os números da indústria paulista ou do PIB brasileiro.
-
-**Resposta esperada:** PIM regional São Paulo refere-se ao estado; PIB nacional refere-se ao Brasil; tabela regional distingue município, RM e estado; preservar território em cada conclusão.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 15
-- pib-vol-val_202504caderno.pdf — página PDF 4
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
-
-## T084 — sintese
-
-Resuma as diferenças entre volume de vendas, receita nominal de vendas e Valor Adicionado, indicando quais fontes explicam cada conceito.
-
-**Resposta esperada:** PMC: receita bruta de revenda; volume obtido por deflação; VA é produção menos consumo intermediário; não tratar receita de vendas como PIB ou VA.
-
-**Fontes:**
-- pmc_202512caderno.pdf — página PDF 5
-- pib_mensal_trimestral_metodologia.pdf — página PDF 5
-- dicvar_pib_municipal_2002_2020.csv — linha 8
-
 ## T085 — sintese
 
 Sintetize quais PDFs servem para resultados conjunturais e quais dão apoio metodológico, apresentando um exemplo de cada finalidade.
@@ -848,15 +421,6 @@ Sintetize quais PDFs servem para resultados conjunturais e quais dão apoio meto
 - pib_mensal_trimestral_metodologia.pdf — página PDF 11
 - contas_regionais_2022_notas_tecnicas.pdf — página PDF 8
 
-## T086 — limites
-
-Qual será o crescimento do PIB paulista em 2027 segundo estes arquivos?
-
-**Resposta esperada:** O corpus não fornece previsão de crescimento para 2027; não extrapolar as séries observadas.
-
-**Fontes:**
-- tabelas-relatorio-2-trim2026-site.xlsx — Tabela 3!A4
-
 ## T087 — limites
 
 Qual é o PIB por bairro do Município de São Paulo em 2020?
@@ -865,57 +429,6 @@ Qual é o PIB por bairro do Município de São Paulo em 2020?
 
 **Fontes:**
 - pib_municipal_2002_2020.csv — linha 37331
-
-## T088 — limites
-
-Qual foi o PIB de Campinas em 2026 na base municipal 2002–2020?
-
-**Resposta esperada:** Essa base não contém 2026. A tabela regional de 2025 para RA Campinas não substitui o PIB municipal solicitado.
-
-**Fontes:**
-- pib_municipal_2002_2020.csv — linha 36875
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE15
-
-## T089 — limites
-
-Qual foi a taxa de desemprego paulista em dezembro de 2025?
-
-**Resposta esperada:** Os arquivos analisados não fornecem uma série de taxa de desemprego para esse período; não deduzir desemprego de produção, comércio ou PIB.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 15
-- pmc_202512caderno.pdf — página PDF 29
-
-## T090 — limites
-
-Qual empresa paulista teve o maior lucro em 2025?
-
-**Resposta esperada:** Não há resultados de lucro por empresa no corpus; indicadores agregados de atividade não permitem esse ranking.
-
-**Fontes:**
-- pim-pf-br_202512caderno.pdf — página PDF 5
-- pmc_202512caderno.pdf — página PDF 5
-
-## T091 — limites
-
-Qual foi a causa comprovada da queda de 1,6% da indústria paulista em dezembro de 2025?
-
-**Resposta esperada:** A taxa observada não demonstra uma causa única comprovada. É possível descrever resultados e contribuições documentadas, sem inferir causalidade comprovada.
-
-**Fontes:**
-- pim-pf-regional_202512.pdf — página PDF 9
-- pim-pf-regional_202512.pdf — página PDF 15
-
-## T092 — limites
-
-Qual foi o PIB de São Paulo em 2025?
-
-**Resposta esperada:** Pedir esclarecimento: Estado de São Paulo, Município de São Paulo ou Região Metropolitana? Há valores distintos na tabela.
-
-**Fontes:**
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE9
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE10
-- 01-2026-tabelas-pib-regional-site.xlsx — Tabela 1!AE11
 
 ## T093 — limites
 
@@ -982,12 +495,3 @@ A produção industrial brasileira cresceu 0,6% em dezembro de 2025 frente a nov
 **Fontes:**
 - pim-pf-br_202512caderno.pdf — página PDF 9
 
-## T100 — limites
-
-É correto calcular o PIB paulista somando os números-índices de agropecuária, indústria e serviços?
-
-**Resposta esperada:** Não. Índices não são valores monetários aditivos, e o encadeamento pode perder aditividade; usar o agregado publicado ou metodologia e ponderações adequadas.
-
-**Fontes:**
-- pib_mensal_trimestral_metodologia.pdf — página PDF 6
-- pib_mensal_trimestral_metodologia.pdf — página PDF 7
