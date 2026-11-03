@@ -35,8 +35,8 @@ log = get_logger(__name__)
 _GRAPH_DIR = "graph_store"
 _GRAPH_FILE = "graph_store.json"
 _EXTRACTION_CACHE = "extraction_cache.jsonl"
-# Facetas mudam observações e HAS_ENTITY: nova versão força reconstrução do cache.
-_GRAPH_PIPELINE = "typed-observations-entity-links-v4"
+# Facetas mudam observações e HAS_ENTITY; v5 acrescenta co-dimensões. Nova versão reconstrói o cache.
+_GRAPH_PIPELINE = "typed-observations-co-dimensions-v5"
 
 def _save_graph_store(graph_store: SimplePropertyGraphStore, path: str) -> None:
     """Persiste o grafo em UTF-8 (contorna limite do cp1252 no Windows)."""
@@ -83,6 +83,7 @@ def _inject_structural_triplets(graph_store, all_nodes):
     for node in all_nodes:
         md = node.metadata
         by_page[(str(md.get("source_file", "")), str(md.get("page", "")))].append(node)
+    edges_of_page = {}
     for (source, page), nodes in by_page.items():
         if not source or not page:
             continue
@@ -102,6 +103,15 @@ def _inject_structural_triplets(graph_store, all_nodes):
                 Relation(label="SAME_PAGE", source_id=first.node_id, target_id=second.node_id),
                 Relation(label="SAME_PAGE", source_id=second.node_id, target_id=first.node_id),
             ])
+        if text_nodes and page.isdigit():
+            edges_of_page[(source, int(page))] = (text_nodes[0], text_nodes[-1])
+    # Continuidade entre páginas consecutivas do mesmo documento: o texto atravessa a quebra.
+    for (source, page), (_, last) in edges_of_page.items():
+        following = edges_of_page.get((source, page + 1))
+        if following is not None:
+            graph_store.upsert_relations([Relation(label="NEXT_CHUNK", source_id=last.node_id,
+                                                   target_id=following[0].node_id,
+                                                   properties={"method": "page_boundary"})])
     _inject_document_context(graph_store, all_nodes)
 
 
@@ -159,6 +169,7 @@ def _inject_domain_triplets(graph_store, all_nodes):
             graph_store.upsert_nodes([obs])
             graph_store.upsert_relations([Relation(label="SUSTENTADA_POR", source_id=obs.id, target_id=node.node_id,
                                                   properties={TRIPLET_SOURCE_KEY: node.node_id})])
+            linked = {}
             for dimension, relation, typ in [("indicator", "OBSERVACAO_DE", "Indicador"), ("period", "REFERENTE_A", "Período"),
                                               ("region", "APLICA_SE_A", "Territorio"), ("unit", "EXPRESSA_EM", "Unidade"),
                                               ("sector", "NO_SETOR", "Setor"), ("source", "MEDIDO_POR", "FonteDados")]:
@@ -175,6 +186,31 @@ def _inject_domain_triplets(graph_store, all_nodes):
                     graph_store.upsert_nodes([entity])
                     graph_store.upsert_relations([Relation(label=relation, source_id=obs.id, target_id=entity.id,
                                                           properties={TRIPLET_SOURCE_KEY: node.node_id})])
+                    linked[dimension] = entity
+            _inject_co_dimensions(graph_store, linked, observation, node.node_id)
+
+
+def _inject_co_dimensions(graph_store, linked, observation, node_id):
+    """Indicador -> fonte e indicador -> setor quando uma mesma observação tem os dois.
+
+    Ligam entidades para a expansão do grafo; não afirmam associação econômica.
+    A fonte registrada é uma das células que sustentam a co-ocorrência.
+    """
+    from llama_index.core.graph_stores.types import Relation, TRIPLET_SOURCE_KEY
+    from domain_ontology import validate_relation
+    from relation_semantics import CO_DIMENSION
+    indicator = linked.get("indicator")
+    if indicator is None:
+        return
+    for dimension, relation in (("source", "MEDIDO_POR"), ("sector", "RELACIONA_COM")):
+        other = linked.get(dimension)
+        if other is None or not validate_relation("Indicador", relation, other.label):
+            continue
+        graph_store.upsert_relations([Relation(label=relation, source_id=indicator.id, target_id=other.id, properties={
+            "source_node_id": node_id, TRIPLET_SOURCE_KEY: node_id,
+            "evidence": str(observation.get("provenance", {}).get("excerpt", ""))[:300],
+            "method": "observation_dimensions", "relation_kind": "co_dimension",
+            "semantic_status": CO_DIMENSION})])
 
 def _inject_entity_links(graph_store, all_nodes):
     """Menções de domínio ligam fontes ao grafo sem afirmar causalidade."""

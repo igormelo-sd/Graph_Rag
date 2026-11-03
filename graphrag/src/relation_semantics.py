@@ -3,6 +3,9 @@ import json
 import re
 from domain_ontology import fold, periods
 
+# Relação derivada das dimensões de uma mesma observação: liga entidades, não é afirmação narrada.
+CO_DIMENSION = "observation_co_dimension"
+
 
 def relation_attributes(relation, evidence, metadata, node_id):
     from statistical_observations import reference_text, publication_periods

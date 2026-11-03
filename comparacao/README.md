@@ -161,30 +161,84 @@ por `avaliacao/cega.py` (veja [avaliação cega](avaliacao/README.md#avaliação
 | Todas | Modelos remotos sob nomes estáveis | `gpt-4o-mini` e `text-embedding-3-small` podem mudar; a identidade reportada pela API não foi registrada |
 | Todas | Ambiente | Python 3.13 local; os locks do repositório visam 3.11 |
 
-## Versões experimentais (fora do congelamento)
+## GraphRAG revisado (03/11/2026)
 
-`rag_simples` e `graphrag` continuam sendo as versões congeladas, e o `avaliar`
-roda só essas duas quando `--versoes` não é informado. As versões abaixo usam o
-mesmo perfil, o mesmo índice e o mesmo ranking inicial. Não fazem parte da
-configuração congelada.
+O código do `graphrag` mudou depois do congelamento de 28/10/2026: os resultados
+daquela seção valem para o commit `4b2afd8`, e os resultados do TCC exigem
+novas rodadas e um novo registro de congelamento. O índice
+experimental e o `PIPELINE` não mudaram; o grafo é montado na sessão.
 
-- `rag_pais` (ablação): RAG simples com os mesmos pais literais do GraphRAG e
-  sem nenhum vizinho do grafo. Separa o efeito do contexto maior do efeito do grafo.
-- `graphrag_v2` ([graph_v2.py](graph_v2.py)): vizinhos por entidade pontuados
-  por raridade das entidades compartilhadas, e não pela ordem dos IDs; da tabela
-  vêm só título, notas e descrições, sem as linhas irmãs; a busca guiada pela
-  pergunta (observações e relações auditadas) também fornece candidatos. Esses
-  candidatos passam pelo reranker e entram no máximo 4, com escore de pelo menos
-  metade do menor escore inicial da pergunta. Os parâmetros ficam no módulo,
-  não em `config.json`, para não alterar o perfil congelado. Perguntas globais
-  seguem o mesmo caminho de comunidades do `graphrag`.
+O diagnóstico das rodadas de 28/10 mostrou que o grafo acrescentava ~11 trechos
+por pergunta (contexto de ~6,5 mil tokens contra ~1,1 mil do RAG simples), e só
+10 dos 651 trechos acrescentados nas 3 rodadas foram citados nas respostas. Os
+vizinhos eram escolhidos pela ordem dos IDs (312 de 366 IDs hexadecimais abaixo
+de `0x20`), com escore fixo e sem reranking. Mudanças, todas gerais:
+
+1. **Entidades por raridade** (`GraphRetriever.retrieve_entity_context`): cada
+   vizinho soma o IDF das entidades que compartilha com as sementes, dividido
+   pela posição da semente; entidades citadas por mais de 2% dos trechos não
+   servem de ponte.
+2. **Rótulos raros na tabela e no documento** (`label_candidates`): trechos da
+   tabela ou do documento das sementes que repetem termos raros da pergunta.
+3. **Contexto documental sem linhas irmãs**, com continuidade do texto entre
+   páginas consecutivas (`NEXT_CHUNK`, `method: page_boundary`).
+4. **Busca guiada pela pergunta** (observações por recorte) também propõe candidatos.
+5. **Co-dimensões das observações**: `Indicador MEDIDO_POR FonteDados` e
+   `Indicador RELACIONA_COM Setor`, marcadas como coocorrência, não associação.
+6. **O reranker decide** ([graph_selection.py](graph_selection.py)): todos os
+   candidatos são pontuados pelo mesmo cross-encoder do ranking inicial e entram
+   no máximo 6, com escore de pelo menos 0,25 do menor escore inicial da pergunta.
+
+A variante experimental `graphrag_v2` foi incorporada e removida.
+
+### Cobertura do gabarito, sem API
+
+[avaliacao/cobertura.py](avaliacao/cobertura.py) reaproveita os 5 trechos
+iniciais gravados numa rodada, o índice local e o reranker local, e conta as
+referências do gabarito presentes no contexto que cada versão enviaria ao modelo.
+Nas 20 perguntas de desenvolvimento (39 referências), a partir de
+`openai_rerank_dev_20261028_r1`:
+
+| Versão | Referências no contexto | Tokens médios | Perguntas com referência nova |
+|---|---:|---:|---:|
+| Só os trechos iniciais | 19 | — | — |
+| `rag_pais` | 19 | ~2,3 mil | 0 |
+| GraphRAG de 28/10 | 22 | ~6,2 mil | 2 (D008, D020) |
+| `graphrag_v2` de 29/10 | 21 | ~2,9 mil | 2 |
+| **GraphRAG revisado** | **23** | **~4,0 mil** | **3 (D008, D014, D020)** |
+
+Os candidatos do grafo revisado contêm 5 referências ausentes dos trechos
+iniciais (D008, D014, D017 e duas de D020); o reranker aceita 4. Na versão de
+28/10, as referências novas vinham de entidades genéricas (`Setor:Comércio`,
+`Territorio:Brasil`) percorridas pela ordem dos IDs. Os limiares foram
+escolhidos nessas mesmas 20 perguntas (1,0 · 4 extras: 19; 0,5 · 4: 21;
+0,25 · 6: 23), portanto não medem generalização: a confirmação deve vir do
+conjunto de teste. Cobertura não é qualidade da resposta; D010, D011, D016 e
+D018 continuam sem a referência no contexto.
 
 ```powershell
-.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida experimental_r1 --versoes rag_pais,graphrag_v2
-.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py experimental_r1 --versoes rag_pais,graphrag_v2
+.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes rag_pais,graphrag
+.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes graphrag --candidatos
+```
+
+## Ablação e rodadas experimentais
+
+`rag_simples` e `graphrag` são as versões comparadas, e o `avaliar` roda só essas
+duas quando `--versoes` não é informado. `rag_pais` (ablação) é o RAG simples com
+os mesmos pais literais do GraphRAG e sem nenhum candidato do grafo: separa o
+efeito do contexto maior do efeito do grafo. Usa o mesmo perfil, índice e
+ranking inicial.
+
+```powershell
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida experimental_r1 --versoes rag_pais
+.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py experimental_r1 --versoes rag_pais
 ```
 
 ### Rodadas experimentais de 29/10/2026
+
+A variante `graphrag_v2` destas rodadas foi incorporada ao `graphrag` em
+03/11/2026 (veja [GraphRAG revisado](#graphrag-revisado-03112026)); seu código
+está no commit `7be2b27`.
 
 Rodadas `experimental_dev_20261029_r1..r3` (mesmo commit-base, perfil e índice
 das rodadas congeladas; 120 execuções, sem erros). Marcadores literais, de 34:
@@ -268,7 +322,7 @@ Ele não substitui os índices Chroma usados pelo aplicativo completo.
 | Versão | Recuperação e contexto |
 |---|---|
 | `rag_simples` | Trechos iniciais por similaridade, sem grafo |
-| `graphrag` | Expansão por entidades e estrutura, contexto dos documentos; perguntas globais usam resumos de comunidades |
+| `graphrag` | Candidatos do grafo (entidades raras, rótulos da tabela ou do documento, título, notas e continuidade, observações da pergunta) escolhidos pelo reranker; pais literais; perguntas globais usam resumos de comunidades |
 
 Existe uma única opção GraphRAG na comparação. Não há seleção de uma versão
 reduzida ou uma opção adicional para ativar os recursos completos. Os antigos

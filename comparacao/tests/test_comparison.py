@@ -334,13 +334,13 @@ def test_parents_ablation_uses_parents_without_graph_neighbors(prepared):
     assert "Contexto literal adicional." in llm.complete.call_args.args[0]
 
 
-def test_graph_v2_keeps_initial_ranking_and_reports_selection(prepared):
-    result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "graphrag_v2")
+def test_graph_keeps_initial_ranking_and_reports_selection(prepared):
+    result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "graphrag")
     assert result["diagnostics"]["initial_ids"] == ["a"]
     assert result["sources"][0]["source"] == "a.pdf"
-    selection = result["diagnostics"]["graph_v2"]
+    selection = result["diagnostics"]["graph"]
     assert selection["threshold"] is None  # sem reranker nos testes
-    assert {"documentary", "entity_pool", "query_pool", "accepted"} <= set(selection)
+    assert {"candidates", "accepted"} <= set(selection)
 
 
 def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
@@ -348,9 +348,9 @@ def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
     assert result["executadas"] == 4
     output = run.ARTIFACTS / "resultados" / "padrao"
     assert sorted(path.name for path in output.glob("D001_*.json")) == ["D001_graphrag.json", "D001_rag_simples.json"]
-    result = run.evaluate("desenvolvimento", "ablacao", ["D001"], ["rag_pais", "graphrag_v2"])
+    result = run.evaluate("desenvolvimento", "ablacao", ["D001"], ["rag_pais", "graphrag"])
     assert result["executadas"] == 2 and result["erros"] == []
     manifest = json.loads((run.ARTIFACTS / "resultados" / "ablacao" / "manifesto.json").read_text(encoding="utf-8"))
-    assert manifest["runs"][-1]["variants"] == ["rag_pais", "graphrag_v2"]
+    assert manifest["runs"][-1]["variants"] == ["rag_pais", "graphrag"]
     with pytest.raises(ValueError, match="Versões inválidas"):
         run.evaluate("desenvolvimento", "invalida", None, ["grafo"])

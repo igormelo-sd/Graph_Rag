@@ -9,17 +9,35 @@ evitar repetição de conteúdo na síntese.
 """
 import os
 import json
+import math
+import re
 from collections import defaultdict, deque
 from copy import deepcopy
 from domain_ontology import facets, expand_query, filter_candidates, fold
 from knowledge_analytics import hierarchy_scope
-from runtime import bounded_int
+from runtime import bounded_float, bounded_int
 from llama_index.core.schema import NodeWithScore
 
 from llama_index.core.indices.property_graph import LLMSynonymRetriever
 from logger import get_logger
+from relation_semantics import CO_DIMENSION
 
 log = get_logger(__name__)
+
+_TERM = re.compile(r"\d+(?:[.,/-]\d+)*[a-z]?|[a-z]{3,}")
+_STOPWORDS = frozenset(
+    "com das dos entre foi nas nos para pela pelas pelo pelos por qual quais que sua suas seu seus uma "
+    "como quanto quanta quantos quantas onde quando sobre segundo valor".split())
+
+
+def _terms(text):
+    """Termos sem acento para casar rótulos de tabela; números e anos ficam inteiros."""
+    return {term for term in _TERM.findall(fold(str(text))) if term not in _STOPWORDS}
+
+
+def _seed_ids(nodes):
+    """IDs das sementes na ordem recebida, que carrega a prioridade do ranking."""
+    return list(dict.fromkeys(str(getattr(getattr(n, "node", n), "node_id", "")) for n in nodes))
 
 
 class GraphRetriever:
@@ -54,6 +72,8 @@ class GraphRetriever:
         for relation in self._store.graph.relations.values():
             self._outgoing[relation.source_id].append(relation)
             self._incoming[relation.target_id].append(relation)
+        self._mention_cache, self._term_cache = {}, {}
+        self._document_chunks = self._chunk_document = None
         self._observations = {}
         self._observation_dimensions = {}
         self._dimensions = defaultdict(lambda: defaultdict(set))
@@ -140,7 +160,8 @@ class GraphRetriever:
                 continue
             visited.add(current)
             for relation in self._outgoing.get(current, []) + self._incoming.get(current, []):
-                if relation.label not in allowed:
+                # Co-dimensões ligam entidades; a fonte registrada é só uma das células.
+                if relation.label not in allowed or relation.properties.get("semantic_status") == CO_DIMENSION:
                     continue
                 edges_seen += 1
                 if edges_seen > 160:
@@ -248,21 +269,28 @@ class GraphRetriever:
         return NodeWithScore(node=node, score=score)
 
     def retrieve_context(self, nodes, max_nodes=6):
-        """Percorre arestas documentais com prioridade às notas e orçamento limitado."""
+        """Percorre arestas documentais com prioridade às notas e orçamento limitado.
+
+        A tabela é ponte para título, notas e descrições: as linhas irmãs não entram
+        por aqui (veja label_candidates). Empates seguem a ordem das sementes.
+        """
         max_nodes = min(max_nodes, bounded_int("RAG_GRAPH_CONTEXT_LIMIT", 6, 1, 30))
         depth_limit = bounded_int("RAG_GRAPH_CONTEXT_DEPTH", 2, 1, 3)
         allowed = {"TEM_NOTA": 0, "TEM_TITULO": 1, "DESCRITA_EM": 2, "REPRESENTADA_EM": 3, "NEXT_CHUNK": 4, "SAME_PAGE": 5}
-        original = {str(getattr(getattr(n, "node", n), "node_id", "")) for n in nodes}
-        pending = deque((node_id, 0, []) for node_id in sorted(original))
+        seeds = _seed_ids(nodes)
+        original = set(seeds)
+        pending = deque((node_id, 0, [], rank) for rank, node_id in enumerate(seeds))
         visited = set(original)
-        paths, visits = {}, 0
+        paths, origin, visits = {}, {}, 0
         while pending and visits < 160:
-            current, depth, path = pending.popleft()
+            current, depth, path, rank = pending.popleft()
             if depth >= depth_limit:
                 continue
             edges = self._outgoing.get(current, []) + self._incoming.get(current, [])
             for relation in sorted(edges, key=lambda edge: (allowed.get(edge.label, 99), edge.source_id, edge.target_id)):
                 if relation.label not in allowed:
+                    continue
+                if relation.label == "REPRESENTADA_EM" and current not in self._chunk_ids:
                     continue
                 visits += 1
                 if visits > 160:
@@ -276,58 +304,154 @@ class GraphRetriever:
                         "semantic_status": relation.properties.get("semantic_status", "documentary_link")}
                 extended = path + [step]
                 paths[target] = extended
+                origin[target] = rank
                 # Não expandir indefinidamente adjacência nem incluir todos os chunks da página.
                 if relation.label not in {"NEXT_CHUNK", "SAME_PAGE"}:
-                    pending.append((target, depth + 1, extended))
+                    pending.append((target, depth + 1, extended, rank))
         if not paths:
             return []
         candidates = self._get_source_nodes([target for target in paths if target in self._chunk_ids])
-        candidates = sorted(candidates, key=lambda n: (min(allowed[s["relation"]] for s in paths[n.node_id]), len(paths[n.node_id]), n.node_id))
+        candidates = sorted(candidates, key=lambda n: (min(allowed[s["relation"]] for s in paths[n.node_id]),
+                                                       origin[n.node_id], len(paths[n.node_id]), n.node_id))
         return [self._with_paths(n, paths[n.node_id], 0.45) for n in candidates[:max_nodes] if n.node_id not in original]
 
+    def _mentions(self, entity):
+        if entity not in self._mention_cache:
+            self._mention_cache[entity] = [edge.source_id for edge in self._incoming.get(entity, ())
+                                           if edge.label == "HAS_ENTITY" and edge.source_id in self._chunk_ids]
+        return self._mention_cache[entity]
+
+    def _hub_limit(self):
+        """Entidades mencionadas por mais trechos que isso não servem de ponte."""
+        share = bounded_float("RAG_ENTITY_HUB_SHARE", 0.02, 0.0, 1.0)
+        return max(50, int(share * len(self._chunk_ids)))
+
     def retrieve_entity_context(self, nodes, question):
-        """Trecho -> entidade -> entidade relacionada -> fontes, com limites."""
+        """Trecho -> entidade (-> entidade relacionada) -> outros trechos, por relevância.
+
+        Cada candidato soma, por entidade compartilhada com uma semente, o peso de
+        raridade da entidade (IDF suavizado) dividido pela posição da semente;
+        entidades alcançadas por relação registrada valem metade a cada passo.
+        Entidades acima do limite de hub não servem de ponte. O node_id só desempata.
+        """
         from domain_ontology import RELATIONS
         limit = bounded_int("RAG_ENTITY_CONTEXT_LIMIT", 8, 1, 40)
         depth_limit = bounded_int("RAG_ENTITY_CONTEXT_DEPTH", 1, 0, 2)
-        original = {getattr(getattr(n, "node", n), "node_id", "") for n in nodes}
-        pending = deque()
-        for chunk_id in sorted(original):
-            for edge in self._outgoing.get(chunk_id, []):
-                if edge.label == "HAS_ENTITY":
-                    pending.append((edge.target_id, 0, [{"source": chunk_id,
-                        "relation": edge.label, "target": edge.target_id,
-                        "semantic_status": "mention_only"}]))
-        paths, visited, visits = {}, set(), 0
-        while pending and visits < 300:
-            entity, depth, path = pending.popleft()
-            if entity in visited:
-                continue
-            visited.add(entity)
-            for edge in self._incoming.get(entity, []):
-                visits += 1
-                if visits > 300:
-                    break
-                if edge.label == "HAS_ENTITY" and edge.source_id not in original:
-                    paths.setdefault(edge.source_id, path + [{"source": edge.source_id,
-                        "relation": edge.label, "target": entity, "semantic_status": "mention_only"}])
-            if depth >= depth_limit:
-                continue
-            for edge in self._outgoing.get(entity, []) + self._incoming.get(entity, []):
-                visits += 1
-                if visits > 300:
-                    break
-                if edge.label not in RELATIONS or not edge.properties.get("source_node_id"):
+        seeds = _seed_ids(nodes)
+        original, total, hub = set(seeds), max(1, len(self._chunk_ids)), self._hub_limit()
+        scores, paths = defaultdict(float), {}
+        for rank, seed in enumerate(seeds):
+            pending = deque((edge.target_id, 0, 1.0, [{"source": seed, "relation": edge.label,
+                             "target": edge.target_id, "semantic_status": "mention_only"}])
+                            for edge in self._outgoing.get(seed, []) if edge.label == "HAS_ENTITY")
+            reached = {}
+            while pending:
+                entity, depth, weight, path = pending.popleft()
+                if entity in reached:
                     continue
-                other = edge.target_id if edge.source_id == entity else edge.source_id
-                if other not in self._chunk_ids:
-                    pending.append((other, depth + 1, path + [{"source": edge.source_id,
-                        "relation": edge.label, "target": edge.target_id,
-                        "evidence": edge.properties.get("evidence", ""),
-                        "polarity": edge.properties.get("polarity", "affirmed"),
-                        "semantic_status": "requires_review"}]))
-        candidates = [self._with_paths(n, paths[n.node_id], 0.4)
-                      for n in self._get_source_nodes(sorted(paths)) if n.node_id in self._chunk_ids]
+                reached[entity] = (weight, path)
+                if depth >= depth_limit:
+                    continue
+                for edge in self._outgoing.get(entity, []) + self._incoming.get(entity, []):
+                    if (edge.label not in RELATIONS or not edge.properties.get("source_node_id")
+                            or edge.properties.get("polarity") == "negated"):
+                        continue
+                    other = edge.target_id if edge.source_id == entity else edge.source_id
+                    if other not in self._chunk_ids and other not in reached:
+                        pending.append((other, depth + 1, weight / 2, path + [{"source": edge.source_id,
+                            "relation": edge.label, "target": edge.target_id,
+                            "evidence": edge.properties.get("evidence", ""),
+                            "polarity": edge.properties.get("polarity", "affirmed"),
+                            "semantic_status": "requires_review"}]))
+            for entity, (weight, path) in reached.items():
+                mentions = self._mentions(entity)
+                if not mentions or len(mentions) > hub:
+                    continue
+                gain = weight * math.log(1 + total / len(mentions)) / (rank + 1)
+                for chunk in mentions:
+                    if chunk in original:
+                        continue
+                    scores[chunk] += gain
+                    paths.setdefault(chunk, path + [{"source": chunk, "relation": "HAS_ENTITY",
+                                                     "target": entity, "semantic_status": "mention_only"}])
+        if not scores:
+            return []
+        top = max(scores.values())
+        # Filtra antes de cortar: candidatos com recorte conflitante não ocupam vagas.
+        ordered = sorted(scores, key=lambda chunk: (-scores[chunk], chunk))[:limit * 4]
+        candidates = [self._with_paths(n, paths[n.node_id], round(0.4 * scores[n.node_id] / top, 4))
+                      for n in self._get_source_nodes(ordered)]
+        return filter_candidates(candidates, question)[:limit]
+
+    def _row_terms(self, chunk_id):
+        if chunk_id not in self._term_cache:
+            node = self._store.graph.nodes.get(chunk_id)
+            self._term_cache[chunk_id] = _terms(getattr(node, "text", "") or "")
+        return self._term_cache[chunk_id]
+
+    def _scopes(self, seed):
+        """Tabela e documento que contêm a semente, com seus trechos e o caminho até ela."""
+        if self._document_chunks is None:
+            page_document = {r.source_id: r.target_id for r in self._store.graph.relations.values()
+                             if r.label == "PERTENCE_A_DOC"}
+            self._document_chunks, self._chunk_document = defaultdict(list), {}
+            for relation in self._store.graph.relations.values():
+                document = page_document.get(relation.target_id)
+                if relation.label == "CONTIDA_EM" and relation.source_id in self._chunk_ids and document:
+                    self._document_chunks[document].append(relation.source_id)
+                    self._chunk_document[relation.source_id] = (document, relation.target_id)
+        for edge in self._incoming.get(seed, ()):
+            if edge.label == "REPRESENTADA_EM" and edge.source_id not in self._chunk_ids:
+                rows = [e.target_id for e in self._outgoing.get(edge.source_id, ())
+                        if e.label == "REPRESENTADA_EM" and e.target_id in self._chunk_ids]
+                yield edge.source_id, rows, [{"source": edge.source_id, "relation": "REPRESENTADA_EM", "target": seed}], "row_label_match"
+        if seed in self._chunk_document:
+            document, page = self._chunk_document[seed]
+            yield document, self._document_chunks[document], [
+                {"source": seed, "relation": "CONTIDA_EM", "target": page},
+                {"source": page, "relation": "PERTENCE_A_DOC", "target": document}], "document_label_match"
+
+    def label_candidates(self, nodes, question, limit=8):
+        """Trechos da tabela ou do documento das sementes que repetem termos raros da pergunta.
+
+        Cada termo vale pela raridade dentro do próprio escopo (log N/df): o título,
+        repetido em todas as linhas, não conta. Trechos sem termo raro em comum não
+        entram. Complementa o ranking inicial quando o trecho pedido fica fora dos
+        candidatos: séries longas com o mesmo título e cabeçalho, ou a tabela-resumo
+        do mesmo caderno com o rótulo procurado.
+        """
+        wanted = _terms(question)
+        if not wanted:
+            return []
+        seeds = _seed_ids(nodes)
+        original = set(seeds)
+        best, paths, scopes_seen = {}, {}, set()
+        for rank, seed in enumerate(seeds):
+            for scope, members, bridge, method in self._scopes(seed):
+                if scope in scopes_seen or len(members) < 2:
+                    continue
+                scopes_seen.add(scope)
+                frequency = defaultdict(int)
+                for member in members:
+                    for term in self._row_terms(member) & wanted:
+                        frequency[term] += 1
+                weight = {term: math.log(len(members) / count) for term, count in frequency.items()}
+                for member in members:
+                    if member in original:
+                        continue
+                    matched = sorted(term for term in self._row_terms(member) & wanted if weight[term] > 0)
+                    score = sum(weight[term] for term in matched) / (rank + 1)
+                    if score > best.get(member, (0.0,))[0]:
+                        best[member] = (score, rank)
+                        paths[member] = bridge + [{"source": scope, "relation": "CONTEM", "target": member,
+                                                   "method": method, "evidence": " ".join(matched),
+                                                   "semantic_status": "documentary_link"}]
+        if not best:
+            return []
+        top = max(score for score, _ in best.values())
+        ordered = sorted(best, key=lambda row: (-best[row][0], best[row][1], row))[:limit * 4]
+        candidates = [self._with_paths(n, paths[n.node_id], round(0.4 * best[n.node_id][0] / top, 4))
+                      for n in self._get_source_nodes(ordered)]
         return filter_candidates(candidates, question)[:limit]
 
     def retrieve_neighbors(self, nodes: list, db_path: str | None = None, limit_per_node: int = 1) -> list:

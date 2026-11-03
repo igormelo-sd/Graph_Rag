@@ -35,16 +35,24 @@ class SimpleVariant:
 
 
 class GraphVariant:
-    """Com grafo: entidades, vizinhança estrutural, pais e, em perguntas globais, comunidades."""
+    """Com grafo: candidatos do grafo escolhidos pelo reranker, pais e, em perguntas globais, comunidades.
+
+    O grafo propõe candidatos a partir dos trechos iniciais (entidades raras em
+    comum, trechos da mesma tabela ou documento com rótulos raros da pergunta,
+    título, notas e continuidade do texto) e da própria pergunta (observações
+    por recorte); o reranker decide quais entram (comparacao/graph_selection.py).
+    O ranking inicial não muda.
+    """
 
     graph_extraction = "registered_entities_only"
+    uses_reranker = True
 
-    def __init__(self, nodes, client, settings, artifacts):
+    def __init__(self, nodes, client, settings, artifacts, reranker=None):
         # Construído antes da cronometragem, como o carregamento dos modelos.
         from llama_index.core.graph_stores import SimplePropertyGraphStore
         from graph_indexing import inject_deterministic_triplets
         from graph_retriever import GraphRetriever
-        self.nodes, self.client, self.settings = nodes, client, settings
+        self.nodes, self.client, self.settings, self.reranker = nodes, client, settings, reranker
         self.summaries_path = artifacts / "community_summaries.json"
         self.store = SimplePropertyGraphStore()
         inject_deterministic_triplets(self.store, nodes, structural=True)
@@ -55,18 +63,31 @@ class GraphVariant:
         if is_global_question(question):
             return self._global(question)
         from parent_context import expand_parents
-        return Retrieval([as_result(item) for item in expand_parents(self._expand(question, ranked))])
+        extras, diagnostics = self._expand(question, ranked)
+        return Retrieval([as_result(item) for item in expand_parents(list(ranked) + extras)], {"graph": diagnostics})
+
+    def candidates(self, question, ranked):
+        """Candidatos do grafo sem repetição nem sementes, marcados com a origem."""
+        from comparacao.graph_selection import POOL
+        seen = {item.node_id for item in ranked}
+        pools = (("entity", self.graph.retrieve_entity_context(ranked, question)),
+                 ("label", self.graph.label_candidates(ranked, question, POOL)),
+                 ("documentary", self.graph.retrieve_context(ranked, self.settings["graph_context_limit"])),
+                 ("query", self.graph.retrieve(question, exclude_ids=seen)[:POOL]))
+        found = []
+        for origin, items in pools:
+            for item in items:
+                if item.node_id not in seen:
+                    seen.add(item.node_id)
+                    item.node.metadata["graph_origin"] = origin
+                    found.append(item)
+        return found
 
     def _expand(self, question, ranked):
-        """Acrescenta vizinhos do grafo após o ranking inicial, sem reordená-lo."""
-        extra = self.graph.retrieve_entity_context(ranked, question)
-        extra += self.graph.retrieve_context(ranked, self.settings["graph_context_limit"])
-        expanded, seen = list(ranked), {item.node_id for item in ranked}
-        for item in extra:
-            if item.node_id not in seen:
-                seen.add(item.node_id)
-                expanded.append(item)
-        return expanded
+        """Extras aceitos pelo reranker, depois do ranking inicial e sem reordená-lo."""
+        from comparacao.graph_selection import accept_extras
+        return accept_extras(question, list(ranked), self.candidates(question, ranked), self.reranker,
+                             self.settings["max_per_table"])
 
     def _global(self, question) -> Retrieval:
         from community_search import CommunitySearch
@@ -90,53 +111,6 @@ class ParentsVariant:
         return Retrieval([as_result(item) for item in expand_parents(ranked)])
 
 
-class GraphV2Variant(GraphVariant):
-    """Experimental: vizinhos escolhidos por relevância; ver comparacao/graph_v2.py."""
-
-    uses_reranker = True
-
-    def __init__(self, nodes, client, settings, artifacts, reranker=None):
-        super().__init__(nodes, client, settings, artifacts)
-        self.reranker = reranker
-
-    def _expand(self, question, ranked):
-        from domain_ontology import filter_candidates
-        from comparacao.graph_v2 import ENTITY_POOL, QUERY_POOL, accept_extras, document_context, entity_candidates
-        seeds = [item.node_id for item in ranked]
-        seen = set(seeds)
-
-        def wrap(identities, paths, score, origin):
-            order = {identity: position for position, identity in enumerate(identities)}
-            nodes = [node for node in self.graph._get_source_nodes(identities) if node.node_id not in seen]
-            wrapped = [self.graph._with_paths(node, paths[node.node_id], score) for node in nodes]
-            for item in wrapped:
-                item.node.metadata["graph_v2_origin"] = origin
-            seen.update(item.node_id for item in wrapped)
-            return sorted(wrapped, key=lambda item: order[item.node_id])
-
-        context = document_context(self.graph, seeds, self.settings["graph_context_limit"])
-        documentary = wrap([key for key, _ in context], dict(context), 0.45, "documentary")
-        by_entity = entity_candidates(self.graph, seeds, ENTITY_POOL)
-        candidates = filter_candidates(wrap([key for key, _, _ in by_entity],
-                                            {key: path for key, _, path in by_entity}, 0.4, "entity"), question)
-        guided = [item for item in self.graph.retrieve(question, exclude_ids=seen)][:QUERY_POOL]
-        for item in guided:
-            item.node.metadata["graph_v2_origin"] = "query"
-        seen.update(item.node_id for item in guided)
-        accepted, diagnostics = accept_extras(question, list(ranked), candidates + guided, self.reranker,
-                                              self.settings["max_per_table"])
-        self.last_diagnostics = {"graph_v2": {**diagnostics, "documentary": [item.node_id for item in documentary],
-                                              "entity_pool": len(candidates), "query_pool": len(guided)}}
-        return list(ranked) + documentary + accepted
-
-    def retrieve(self, question, ranked) -> Retrieval:
-        self.last_diagnostics = {}
-        retrieval = super().retrieve(question, ranked)
-        retrieval.diagnostics.update(self.last_diagnostics)
-        return retrieval
-
-
-# rag_simples e graphrag são as versões congeladas em 28/10/2026; as demais são experimentais.
+# rag_simples e graphrag são as versões comparadas no TCC; rag_pais é ablação.
 FROZEN = ("rag_simples", "graphrag")
-REGISTRY = {"rag_simples": SimpleVariant, "graphrag": GraphVariant,
-            "rag_pais": ParentsVariant, "graphrag_v2": GraphV2Variant}
+REGISTRY = {"rag_simples": SimpleVariant, "graphrag": GraphVariant, "rag_pais": ParentsVariant}
