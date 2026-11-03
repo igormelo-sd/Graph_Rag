@@ -61,7 +61,8 @@ e reporte esse grupo separadamente.
 
 ## Revisão antes do experimento final
 
-Todas as perguntas têm `revisao_humana.status = "pendente"`. Verifique a pergunta,
+As perguntas de desenvolvimento têm `revisao_humana.status = "pendente"`; as 50 de
+teste foram aprovadas em 03/11/2026 (abaixo). Verifique a pergunta,
 o gabarito, as fontes e as interpretações necessárias. Corrija divergências e
 registre revisor, data e observações; use `aprovada` somente após essa revisão.
 Os exemplos de insuficiência de informação dizem respeito ao corpus congelado,
@@ -219,4 +220,15 @@ O hash SHA-256 de `desenvolvimento.jsonl` antes desta curadoria era
 `846eca46ca864267a2f22503b9542a0abefa9e4409a7ec370e83faf58b4ee8b8`. Resultados
 coletados antes dela, como `openai_te3small_dev_20261026`, usaram a D016
 anterior e os pontos agrupados; colete-os de novo ou pontue com a versão antiga.
-A revisão humana de todas as perguntas continua pendente.
+A revisão humana das perguntas de desenvolvimento continua pendente.
+
+## Revisão das perguntas de teste (03/11/2026)
+
+As 50 perguntas de teste passaram por conferência assistida, registrada em
+[revisao_teste_20261103.md](revisao_teste_20261103.md): integridade literal,
+coluna, período e unidade de cada célula, e apoio textual das sínteses. Não houve
+divergência de valor, território, período, unidade ou base de comparação. Foram
+aplicadas cinco sugestões: `calculo_esperado` em T057 e T059, redação de T061 e
+T085 e a página 8 da metodologia como fonte de T078. O revisor (igormelo-sd)
+aprovou as 50 perguntas; como o revisor também participou do ajuste dos sistemas,
+a revisão não é cega.

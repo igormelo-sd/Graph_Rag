@@ -1,6 +1,6 @@
 # Perguntas de teste
 
-Gabaritos candidatos. Revisão humana pendente.
+Gabaritos candidatos. Revisão humana: aprovada por igormelo-sd em 03/11/2026 (veja revisao_teste_20261103.md).
 
 ## T002 — factual
 
@@ -289,7 +289,7 @@ O PIB e a indústria brasileiros tiveram o mesmo crescimento acumulado em 2025? 
 
 Qual coluna da base PMC deve ser usada para uma comparação de meses consecutivos que controle sazonalidade? Relacione o dicionário à metodologia.
 
-**Resposta esperada:** indice_atividade_comercio_com_ajuste_sazonal; o dicionário identifica o índice ajustado e a metodologia exige ajuste para mês contra mês anterior.
+**Resposta esperada:** indice_atividade_comercio_com_ajuste_sazonal; o dicionário identifica o índice ajustado e o índice mês/mês anterior da metodologia usa séries ajustadas sazonalmente.
 
 **Fontes:**
 - dic_variaveis_pmc.csv — linha 5
@@ -393,6 +393,7 @@ Descreva a relação entre estimativas conjunturais do PIB e Contas Regionais an
 
 **Fontes:**
 - pib_mensal_trimestral_metodologia.pdf — página PDF 6
+- pib_mensal_trimestral_metodologia.pdf — página PDF 8
 - pib_mensal_trimestral_metodologia.pdf — página PDF 12
 - pib_mensal_trimestral_metodologia.pdf — página PDF 13
 
@@ -412,7 +413,7 @@ Resuma os conceitos territoriais que precisam ser distinguidos ao interpretar as
 
 Sintetize quais PDFs servem para resultados conjunturais e quais dão apoio metodológico, apresentando um exemplo de cada finalidade.
 
-**Resposta esperada:** PIB nacional, PIM nacional/regional e PMC contêm resultados; Seade metodologia explica índices e contém tabela histórica; notas SCR explicam procedimentos e agregações; não inferir números estaduais de um texto metodológico.
+**Resposta esperada:** PIB nacional, PIM nacional/regional e PMC contêm resultados; Seade metodologia explica índices e traz tabelas de pesos e de índices encadeados; notas SCR explicam procedimentos e agregações; não inferir números estaduais de um texto metodológico.
 
 **Fontes:**
 - pib-vol-val_202504caderno.pdf — página PDF 4

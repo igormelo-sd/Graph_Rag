@@ -33,12 +33,13 @@ def validate(splits=None):
         assert hashlib.sha256((corpus / name).read_bytes()).hexdigest() == info["sha256"], f"Corpus mudou: {name}"
     readers, questions, ids, families = {}, set(), set(), {}
     source_count = 0
-    reports = {}
+    reports, reviews = {}, {}
     for split, expected in EXPECTED.items():
         if splits is not None and split not in splits: continue
         records = [json.loads(line) for line in (HERE / f"{split}.jsonl").read_text(encoding="utf-8").splitlines()]
         assert Counter(item["categoria"] for item in records) == expected, f"Distribuição incorreta: {split}"
         reports[split] = dict(Counter(item["categoria"] for item in records))
+        reviews[split] = dict(Counter(item["revisao_humana"]["status"] for item in records))
         for record in records:
             assert record["id"] not in ids, "ID repetido"
             ids.add(record["id"])
@@ -109,7 +110,7 @@ def validate(splits=None):
     assert not any(len(parts)>1 for parts in families.values()), "Família repetida entre conjuntos"
     return {"status": "integridade_documental_verificada", "perguntas": len(questions),
             "referencias_conferidas": source_count, "arquivos_corpus": len(snapshots),
-            "distribuicao": reports, "revisao_semantica_humana": "pendente"}
+            "distribuicao": reports, "revisao_semantica_humana": reviews}
 
 
 if __name__ == "__main__":
