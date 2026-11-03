@@ -221,6 +221,33 @@ D018 continuam sem a referência no contexto.
 .\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes graphrag --candidatos
 ```
 
+### Rodadas de desenvolvimento de 03/11/2026
+
+Rodadas `revisado_dev_20261103_r1..r3` (commit `cac4929`, mesmo perfil, índice e
+perguntas das rodadas de 28/10; 180 execuções, sem erros). Marcadores literais, de 34:
+
+| Versão | Rodadas 1 / 2 / 3 | Média | Contexto (mediana) | Recuperação (mediana) | Extras citados |
+|---|---|---:|---:|---:|---:|
+| RAG simples | 22 / 22 / 22 | 22,0 | ~1,1 mil tokens | 17 s | — |
+| `rag_pais` | 23 / 23 / 23 | 23,0 | ~2,4 mil tokens | 17 s | — |
+| GraphRAG revisado | 23 / 24 / 24 | 23,7 | ~4,0 mil tokens | 36 s | 12 de 168 |
+| GraphRAG de 28/10 | 25 / 24 / 24 | 24,3 | ~6,5 mil tokens | 18 s | 10 de 651 |
+
+- O GraphRAG revisado ganha na D014 (3 de 3 marcadores nas 3 rodadas, contra
+  2 na versão de 28/10 e no `rag_pais`): a página 5 da metodologia chega pela
+  continuidade entre páginas. D013 também melhora em 2 das 3 rodadas.
+- Perde a D010: a versão de 28/10 marcava "dados preliminares" ao citar um valor
+  **errado** (1,68% em vez de ~1,59%); a revisada responde que a taxa não está
+  nas fontes. Perde a D001: a resposta cita a Secretaria da Fazenda, mas não o
+  termo "ICMS" exigido pelo marcador.
+- Os trechos do grafo citados nas respostas passam de 1,5% para 7%, quase todos
+  da busca por rótulos; o contexto cai ~40%. O reranker dos candidatos dobra o
+  tempo de recuperação.
+- Marcadores são triagem: a diferença entre as versões (menos de 1 marcador)
+  está dentro da variação vista entre rodadas, e a rubrica com revisão humana
+  continua necessária. As perguntas são as mesmas usadas para escolher os
+  limiares do grafo; a confirmação deve vir do conjunto de teste.
+
 ## Ablação e rodadas experimentais
 
 `rag_simples` e `graphrag` são as versões comparadas, e o `avaliar` roda só essas
