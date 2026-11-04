@@ -125,8 +125,19 @@
     ],
     "split": "teste",
     "execucoes_previstas": 450,
-    "inicio": null,
-    "fim": null,
-    "erros": null
+    "execucoes": 450,
+    "inicio": "2026-11-04T12:49:47",
+    "fim": "2026-11-04T14:50:01",
+    "erros": 0,
+    "commit": "1b6cf1b",
+    "corpus_alterado": false,
+    "observacao": "Trechos iniciais iguais nas 3 rodadas em 49 de 50 perguntas; na T093, o 5º trecho da rodada 2 difere, nas três versões."
+  },
+  "avaliacao_cega": {
+    "pasta": "comparacao/artefatos/avaliacao_cega/cega_teste_r1",
+    "rodada": "teste_20261104_r1",
+    "ficha_id": "45c8cd181eb8d8fa",
+    "ficha_sha256": "a33606af485a1f7ad4d1cda0a400a1110d8d55da6c4866808fa85501241f7db6",
+    "status": "pendente de preenchimento humano"
   }
 }

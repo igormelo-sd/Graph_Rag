@@ -109,6 +109,42 @@ corpus e índice (`df54c6ed…`) são os mesmos de 28/10. Rodadas:
 `config.json`, o código de `comparacao/`, `rag_simples/`, `rag_app/` e
 `graphrag/src` nem as perguntas para novas rodadas desses resultados.
 
+### Resultados de recuperação no teste (3 rodadas, 450 execuções, sem erros)
+
+Rodadas de 04/11, das 12:49 às 14:50, a partir do commit `1b6cf1b`, com corpus
+inalterado. Referências do gabarito no contexto, de 94 (o resultado foi igual nas 3
+rodadas):
+
+| Versão | Referências | Contexto (mediana) | Recuperação (mediana) | Geração (mediana) |
+|---|---:|---:|---:|---:|
+| RAG simples | 30 | ~1,1 mil tokens | 19 s | 1,8 s |
+| `rag_pais` | 30 | ~2,1 mil tokens | 19 s | 1,7 s |
+| GraphRAG revisado | 35 | ~3,2 mil tokens | 37 s | 1,8 s |
+
+| Categoria | Referências | RAG simples | `rag_pais` | GraphRAG |
+|---|---:|---:|---:|---:|
+| Factual | 13 | 11 | 11 | 11 |
+| Numérica | 15 | 2 | 2 | 4 |
+| Integração | 26 | 8 | 8 | 8 |
+| Síntese | 30 | 6 | 6 | 9 |
+| Limites | 10 | 3 | 3 | 3 |
+
+- O GraphRAG ganha 5 referências em 5 perguntas (T032, T042, T076, T077, T085) e
+  não perde nenhuma. Duas ressalvas: na T042, o RAG simples responde o mesmo valor
+  mesmo sem a referência contada, e a resposta do GraphRAG não cita o trecho novo;
+  a T032 é a única das cinco em que o valor numérico da resposta muda (de -1,3%,
+  errado, para -1,6%).
+- Dos 453 trechos que o grafo acrescentou aos contextos, 67 foram citados (14,8%,
+  contra 7% no desenvolvimento e 1,5% em 28/10), em 52 das 150 respostas. Em 30 das
+  150 execuções o grafo não teve extra aceito.
+- 59 das 94 referências ficam fora do contexto de todas as versões. Os candidatos
+  do grafo trazem 31; em T016, T058, T076 e T085 há referência proposta e recusada,
+  mas a principal limitação é o alcance, não a seleção.
+- A diferença é pequena e a medida é de recuperação: não diz se as respostas
+  melhoraram. Isso cabe à rubrica cega da rodada 1 (`cega_teste_r1`, ficha
+  `45c8cd18…`), ainda não preenchida. Rascunho do capítulo:
+  [avaliacao/rascunho_cap5_resultados.md](avaliacao/rascunho_cap5_resultados.md).
+
 ## Configuração congelada anterior (28/10/2026, substituída)
 
 
