@@ -25,8 +25,20 @@ def rodada(tmp_path, monkeypatch):
                 {"answer": f"Resposta {number} [1][3] [9]", "sources": sources}), encoding="utf-8")
     monkeypatch.setattr(cega, "RESULTS", results)
     monkeypatch.setattr(cega, "OUTPUT", output)
-    cega.generate(SimpleNamespace(rodada="rodada", saida="cega", semente=7))
+    cega.generate(SimpleNamespace(rodada="rodada", saida="cega", semente=7, split="desenvolvimento"))
     return output / "cega"
+
+
+def test_sheet_can_use_the_test_split(tmp_path, monkeypatch):
+    run = tmp_path / "rodada"
+    run.mkdir()
+    questions = [json.loads(line) for line in (cega.HERE / "teste.jsonl").read_text(encoding="utf-8").splitlines()]
+    for question in questions:
+        for variant in cega.VARIANTS:
+            (run / f"{question['id']}_{variant}.json").write_text(json.dumps({"answer": "Resposta", "sources": []}), encoding="utf-8")
+    monkeypatch.setattr(cega, "RESULTS", tmp_path)
+    data, key = cega.build("rodada", 7, "teste")
+    assert len(data["itens"]) == 50 and set(key["chave"]) == {question["id"] for question in questions}
 
 
 def filled(directory, **overrides):

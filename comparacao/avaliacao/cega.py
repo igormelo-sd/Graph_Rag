@@ -6,11 +6,12 @@ gerar    Monta uma ficha HTML para uma rodada do `avaliar`: em cada pergunta, o
 pontuar  Valida a ficha preenchida (exportada pelo HTML), revela as versões e
          calcula as médias por componente da rubrica, por categoria e por pergunta.
 
-A revisão dos gabaritos fica na ficha, não em `desenvolvimento.jsonl`, para não
+A revisão dos gabaritos fica na ficha, não no banco de perguntas, para não
 alterar o conjunto congelado. Sem chamadas de modelos.
 
 Uso:
     python comparacao/avaliacao/cega.py gerar --rodada openai_rerank_dev_20261028_r1 --saida cega_r1
+    python comparacao/avaliacao/cega.py gerar --rodada teste_20261104_r1 --split teste --saida cega_teste_r1
     python comparacao/avaliacao/cega.py pontuar --saida cega_r1 --preenchida ficha_preenchida.json
 """
 import argparse
@@ -53,8 +54,9 @@ def locator(source):
     return f"{source['aba']}!{source['celula']}"
 
 
-def build(run, seed):
-    questions = [json.loads(line) for line in (HERE / "desenvolvimento.jsonl").read_text(encoding="utf-8").splitlines()]
+def build(run, seed, split="desenvolvimento"):
+    questions = [json.loads(line) for line in (HERE / f"{split}.jsonl").read_text(encoding="utf-8").splitlines()
+                 if line.strip()]
     rng = random.Random(seed)
     items, key = [], {}
     for question in questions:
@@ -188,7 +190,7 @@ def generate(args):
     if directory.exists():
         raise SystemExit(f"{directory} já existe; use outro nome em --saida.")
     seed = args.semente if args.semente is not None else random.SystemRandom().randrange(2**31)
-    data, key = build(args.rodada, seed)
+    data, key = build(args.rodada, seed, args.split)
     (directory / "_chave").mkdir(parents=True)
     payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
     (directory / "ficha.html").write_text(PAGE.replace("__DATA__", payload).replace("__FICHA__", html.escape(data["ficha_id"])),
@@ -302,6 +304,7 @@ def main():
     make = sub.add_parser("gerar")
     make.add_argument("--rodada", required=True, help="Pasta em artefatos/resultados.")
     make.add_argument("--saida", required=True, help="Pasta nova em artefatos/avaliacao_cega.")
+    make.add_argument("--split", default="desenvolvimento", choices=("desenvolvimento", "teste"))
     make.add_argument("--semente", type=int, help="Sorteio A/B reproduzível; omitida, é aleatória e registrada na chave.")
     grade = sub.add_parser("pontuar")
     grade.add_argument("--saida", required=True)
