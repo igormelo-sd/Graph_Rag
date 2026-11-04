@@ -98,7 +98,19 @@ Na preparação de 26/10/2026, o índice teve 27.091 trechos (1.013 de texto e
 trechos (500 linhas de rodapé a menos). Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
 os 5 resultados iniciais. Na de 28/10/2026 (`PIPELINE` v3), ficaram 25.896.
 
-## Configuração congelada para o TCC (28/10/2026)
+## Configuração congelada para o TCC (04/11/2026)
+
+A configuração usada nos resultados finais está em
+[avaliacao/congelamento_20261104.json](avaliacao/congelamento_20261104.json):
+commit `6c894ca`, GraphRAG revisado, 50 perguntas de teste aprovadas (hash
+`bed1400c…`) e parâmetros da seleção do grafo. Perfil `d68b280c…`, `PIPELINE` v3,
+corpus e índice (`df54c6ed…`) são os mesmos de 28/10. Rodadas:
+`teste_20261104_r1..r3`, com `rag_simples`, `graphrag` e `rag_pais`. Não altere
+`config.json`, o código de `comparacao/`, `rag_simples/`, `rag_app/` e
+`graphrag/src` nem as perguntas para novas rodadas desses resultados.
+
+## Configuração congelada anterior (28/10/2026, substituída)
+
 
 A configuração usada nos resultados do TCC está registrada em
 [avaliacao/congelamento_20261028.json](avaliacao/congelamento_20261028.json):
@@ -163,10 +175,9 @@ por `avaliacao/cega.py` (veja [avaliação cega](avaliacao/README.md#avaliação
 
 ## GraphRAG revisado (03/11/2026)
 
-O código do `graphrag` mudou depois do congelamento de 28/10/2026: os resultados
-daquela seção valem para o commit `4b2afd8`, e os resultados do TCC exigem
-novas rodadas e um novo registro de congelamento. O índice
-experimental e o `PIPELINE` não mudaram; o grafo é montado na sessão.
+O código do `graphrag` mudou depois do congelamento de 28/10/2026, cujos
+resultados valem para o commit `4b2afd8`. O índice experimental e o `PIPELINE`
+não mudaram; o grafo é montado na sessão.
 
 O diagnóstico das rodadas de 28/10 mostrou que o grafo acrescentava ~11 trechos
 por pergunta (contexto de ~6,5 mil tokens contra ~1,1 mil do RAG simples), e só

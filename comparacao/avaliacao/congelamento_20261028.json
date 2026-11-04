@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-10-28",
-  "status": "congelada",
+  "status": "substituída",
   "codigo": {
     "commit": "4b2afd87c5fe9a09681129f0d50db4f71b270586",
     "observacao": "Árvore de trabalho limpa durante a preparação e as três rodadas."
@@ -610,5 +610,6 @@
         }
       }
     }
-  }
+  },
+  "substituida_por": "comparacao/avaliacao/congelamento_20261104.json"
 }

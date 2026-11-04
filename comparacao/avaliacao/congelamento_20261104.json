@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-04",
+  "status": "congelada",
+  "codigo": {
+    "commit": "6c894ca12cd605da89fe0abab76c277e2d974449",
+    "observacao": "As rodadas partem do commit seguinte, que só acrescenta este registro e documentação; árvore de trabalho limpa durante as rodadas."
+  },
+  "perfil": {
+    "arquivo": "comparacao/config.json",
+    "fingerprint": "d68b280c66d8b60111ed758776c1cc5d3426268cba47565fc71a9ef6ea35b160",
+    "config_sha256": "6a4915df7fa2aa39b4490915f6795dd7a605671aaaf931bd2ed5dc0c32ca96d4",
+    "valores": {
+      "version": 1,
+      "corpus": "graphrag/data",
+      "provider": "openai",
+      "llm_model": "gpt-4o-mini",
+      "embedding_provider": "openai",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_device": "cpu",
+      "embedding_batch_size": 128,
+      "embedding_max_length": 8192,
+      "chunk_size": 1024,
+      "chunk_overlap": 200,
+      "parent_size": 3200,
+      "top_k": 5,
+      "retrieval_mode": "hybrid",
+      "candidate_pool": 50,
+      "rrf_k": 60,
+      "max_per_table": 2,
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "rerank_pool": 30,
+      "min_text_chars": 250,
+      "small_table_rows": 30,
+      "small_table_chars": 6000,
+      "context_tokens": 12000,
+      "max_output_tokens": 1200,
+      "temperature": 0.0,
+      "entity_context_limit": 8,
+      "entity_context_depth": 1,
+      "graph_context_limit": 6,
+      "graph_context_depth": 2,
+      "community_summary_chars": 1800
+    }
+  },
+  "pipeline": "shared-graph-processing-v3",
+  "corpus": {
+    "pasta": "graphrag/data",
+    "manifesto": "comparacao/avaliacao/manifesto_corpus.json",
+    "manifesto_sha256": "6b33cfbb608907b7eeba17274be90396b5f88f12edc40036d92f504f5cd381d6",
+    "arquivos": 20,
+    "observacao": "Arquivos do corpus inalterados; o manifesto mudou só na distribuição das perguntas de teste."
+  },
+  "perguntas": {
+    "arquivo": "comparacao/avaliacao/teste.jsonl",
+    "sha256": "bed1400c397931231fef983821dd3bd0162cfc05431b84cd1ead00d866f2612c",
+    "quantidade": 50,
+    "revisao_humana": "aprovada por igormelo-sd em 2026-11-03; não cega (revisao_teste_20261103.md)",
+    "desenvolvimento_sha256": "4147b379a3251ce91861cd6579ebd6024fa58d91740cb7341c6922f91121986d"
+  },
+  "indice": {
+    "arquivo": "comparacao/artefatos/index.json",
+    "sha256": "df54c6ed3eeb163aea062b552f4a140a2d8adbcaac15a8bd6d2ba4a78c672de1",
+    "gerado_em": "2026-10-28T14:06",
+    "trechos": 25896,
+    "rodapes_convertidos": 500,
+    "fragmentos_anexados": 39,
+    "tabelas_pequenas_reunidas": 29
+  },
+  "modelos": {
+    "resposta": {
+      "provedor": "openai",
+      "modelo": "gpt-4o-mini",
+      "temperatura": 0.0,
+      "observacao": "Alias do provedor; a identidade reportada pela API não foi registrada nos resultados."
+    },
+    "embeddings": {
+      "provedor": "openai",
+      "modelo": "text-embedding-3-small",
+      "observacao": "Modelo remoto; pode mudar sob o mesmo nome."
+    },
+    "reranker": {
+      "modelo": "BAAI/bge-reranker-v2-m3",
+      "revisao": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "dispositivo": "cpu"
+    }
+  },
+  "ambiente": {
+    "python": "3.13.5",
+    "sistema": "Windows 11",
+    "bibliotecas": {
+      "openai": "1.109.1",
+      "llama-index-core": "0.14.25",
+      "llama-index-embeddings-openai": "0.6.0",
+      "llama-index-llms-openai": "0.7.10",
+      "sentence-transformers": "6.1.0",
+      "transformers": "5.18.0",
+      "torch": "2.14.1",
+      "rank-bm25": "0.2.2"
+    },
+    "observacao": "Os locks do repositório visam Python 3.11; este ambiente local usa 3.13."
+  },
+  "substitui": "comparacao/avaliacao/congelamento_20261028.json",
+  "grafo": {
+    "selecao": "comparacao/graph_selection.py",
+    "selecao_sha256": "40330666d6fce8f90cf7c9941e4151d31cfe1272f0ff57e328f93bb1c3ba947e",
+    "POOL": 16,
+    "EXTRA_LIMIT": 6,
+    "SCORE_RATIO": 0.25,
+    "SCORE_FLOOR": 0.02,
+    "RAG_ENTITY_HUB_SHARE": 0.02,
+    "graph_pipeline": "typed-observations-co-dimensions-v5",
+    "observacao": "Parâmetros escolhidos nas 20 perguntas de desenvolvimento, antes de qualquer execução do conjunto de teste."
+  },
+  "rodadas": {
+    "pastas": [
+      "teste_20261104_r1",
+      "teste_20261104_r2",
+      "teste_20261104_r3"
+    ],
+    "versoes": [
+      "rag_simples",
+      "graphrag",
+      "rag_pais"
+    ],
+    "split": "teste",
+    "execucoes_previstas": 450,
+    "inicio": null,
+    "fim": null,
+    "erros": null
+  }
+}
