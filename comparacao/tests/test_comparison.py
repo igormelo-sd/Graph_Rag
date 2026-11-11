@@ -374,6 +374,8 @@ def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
 def test_simple_fills_extra_slots_with_next_ranked_chunks_and_keeps_initial_ids(prepared):
     settings, llm, _ = prepared
     settings["baseline_extra_slots"] = 1
+    # O perfil faz parte da identidade do índice: regrava o hash nas duas pastas.
+    edit_index(lambda payload: payload["experiment"].update(profile=common.fingerprint(settings)))
     question = "O que dizem as fontes sobre a indústria paulista em 2023?"
     result = run.compare(question, "rag_simples")
     assert result["diagnostics"]["initial_ids"] == ["a"]  # só os top_k são os iniciais
