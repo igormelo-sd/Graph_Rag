@@ -326,7 +326,7 @@ def main(argv=None):
     args = parser.parse_args(argv)
     from dotenv import load_dotenv
     load_dotenv(Path(__file__).with_name(".env"), override=True)
-    from comparacao.common import load_openai_key
+    from comparacao.common import implementation_for, load_openai_key, use_implementation
     load_openai_key()
     try:
         if args.command == "preparar":
@@ -334,8 +334,11 @@ def main(argv=None):
         elif args.command == "avaliar":
             ids = [item.strip() for item in args.ids.split(",") if item.strip()] if args.ids else None
             variants = [item.strip() for item in args.versoes.split(",") if item.strip()]
+            # Só rag_simples (e rag_pais): carrega apenas rag_simples/src, sem módulos de grafo.
+            use_implementation(implementation_for(variants))
             result = evaluate(args.split, args.saida, ids, variants)
         else:
+            use_implementation(implementation_for([args.versao]))
             result = compare(args.pergunta, args.versao)
         print(json.dumps(result, ensure_ascii=False, indent=2))
     except (ValueError, OSError) as exc:

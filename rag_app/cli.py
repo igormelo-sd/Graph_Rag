@@ -53,6 +53,9 @@ def main(base_dir: Path, argv: list[str] | None = None, *, extended: bool = Fals
         parser.error("Informe uma pergunta não vazia para --comparar")
 
     base_dir = base_dir.resolve()
+    has_graph = (base_dir / "src" / "graph_indexing.py").is_file()
+    if args.graph and not has_graph:
+        parser.error("--graph não existe nesta implementação (sem módulos de grafo)")
     activate(base_dir)
     configure_console()
     from dotenv import load_dotenv
@@ -73,7 +76,7 @@ def main(base_dir: Path, argv: list[str] | None = None, *, extended: bool = Fals
         print(f"Resumos de {engine.prepare_communities()} comunidades preparados.")
     elif args.cli:
         from rag_app.console import run_cli
-        run_cli(base_dir, use_graph=args.graph)
+        run_cli(base_dir, use_graph=args.graph if has_graph else None)
     else:
         if args.graph:
             os.environ["RAG_USE_GRAPH"] = "1"

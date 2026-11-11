@@ -17,9 +17,32 @@ def fingerprint(settings=None):
     return hashlib.sha256(json.dumps(settings or config(), sort_keys=True).encode()).hexdigest()
 
 
+IMPLEMENTATION = "graphrag"
+IMPLEMENTATIONS = ("rag_simples", "graphrag")
+# Versões que não usam nenhum módulo de grafo e podem rodar só com rag_simples/src.
+GRAPH_FREE_VARIANTS = frozenset({"rag_simples", "rag_pais"})
+
+
+def use_implementation(name):
+    """Escolhe qual pasta fornece os módulos (src) neste processo; chamar antes de importá-los.
+
+    O padrão é `graphrag`, que tem tudo. `rag_simples` carrega apenas a pasta sem
+    módulos de grafo, e por isso precisa rodar num processo próprio.
+    """
+    global IMPLEMENTATION
+    if name not in IMPLEMENTATIONS:
+        raise ValueError(f"Implementação inválida: {name}.")
+    IMPLEMENTATION = name
+
+
+def implementation_for(variants):
+    """`rag_simples` só se todas as versões pedidas dispensam o grafo."""
+    return "rag_simples" if variants and set(variants) <= GRAPH_FREE_VARIANTS else "graphrag"
+
+
 def graph_modules():
     from rag_app.bootstrap import activate
-    activate(ROOT / "graphrag")
+    activate(ROOT / IMPLEMENTATION)
 
 
 def apply_profile(strict=False):
@@ -55,7 +78,7 @@ def apply_profile(strict=False):
         # Evita endpoints locais divergentes e habilita a mesma ontologia no grafo.
         os.environ.pop("RAG_LLM_BASE_URL", None)
         os.environ["RAG_ONTOLOGY_ENABLE"] = "1"
-        os.environ["RAG_ONTOLOGY_EXTENSIONS"] = str(ROOT / "graphrag" / "config" / "ontology_extensions.json")
+        os.environ["RAG_ONTOLOGY_EXTENSIONS"] = str(ROOT / IMPLEMENTATION / "config" / "ontology_extensions.json")
     return settings
 
 

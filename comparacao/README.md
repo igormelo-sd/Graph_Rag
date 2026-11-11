@@ -107,7 +107,9 @@ diferença entre as versões passa a ser o grafo.
 
 | Aspecto | `rag_simples` | `graphrag` |
 |---|---|---|
-| Código de preparo, índice, ranking inicial, reranker, ontologia (anotação e filtro), prompt | iguais | iguais |
+| Código (`rag_simples/src` e `graphrag/src`): preparo, índice, ranking inicial, reranker, ontologia (anotação e filtro), prompt | idêntico, byte a byte (teste em `tests_shared/test_implementations.py`) | idêntico |
+| Módulos de grafo (`graph_indexing`, `graph_retriever`, `graph_ontology`, `ontology_extractor`, `relation_semantics`, `community_search`) | **não existem na pasta** | existem |
+| Módulos com ganchos de grafo (`analysis_engine`, `startup`, `query_interpreter`) | versão sem grafo | versão com grafo |
 | Trechos iniciais | `top_k` do ranking comum | os mesmos |
 | Vagas extras | próximos `baseline_extra_slots` (6) trechos do ranking comum (reserva) | até 6 candidatos do grafo aceitos pelo reranker |
 | Trechos pais literais | sim | sim |
@@ -125,6 +127,11 @@ diferença entre as versões passa a ser o grafo.
 - **Filtro de ontologia comum** (`ontology_filter`): candidatos em conflito explícito
   com indicador, território, período, unidade, escala ou setor da pergunta saem do
   ranking inicial das duas versões. Dados incompletos permanecem.
+- **Processo próprio:** `avaliar --versoes rag_simples` (ou `rag_simples,rag_pais`) e a CLI do
+  `rag_simples` carregam só `rag_simples/src`; com `graphrag` na lista, o processo usa
+  `graphrag/src`. Rodadas das duas versões podem ir para a mesma `--saida` em comandos
+  separados (a retomada mantém o que já foi gravado), perdendo a alternância de ordem.
+  A raiz do repositório não tem código de RAG.
 - **Comandos do `rag_simples`:** `indexar` chama o mesmo `preparar`; `perguntar` e
   `comparar` usam a mesma recuperação do `avaliar`. O caminho antigo (`pypdf` e
   `SentenceSplitter`) não é mais usado pela CLI.

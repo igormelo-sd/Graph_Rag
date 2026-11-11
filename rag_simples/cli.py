@@ -18,12 +18,13 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main(argv=None) -> None:
     from dotenv import load_dotenv
-    from comparacao.common import apply_profile, load_openai_key
+    from comparacao.common import apply_profile, load_openai_key, use_implementation
 
     parser = build_parser()
     args = parser.parse_args(argv)
     load_dotenv(ROOT.parent / "comparacao" / ".env", override=True)
     load_openai_key()
+    use_implementation("rag_simples")  # só rag_simples/src: nenhum módulo de grafo no processo
     apply_profile(strict=True)
     from comparacao.run import compare, prepare
     try:

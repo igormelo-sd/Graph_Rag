@@ -415,3 +415,13 @@ def test_pipeline_version_and_profile_defaults():
     assert set(run.INDEX_PATHS) == {"rag_simples", "graphrag"}
     settings = common.config()
     assert settings["baseline_extra_slots"] == 6 and settings["ontology_filter"] is True
+
+
+def test_implementation_is_chosen_by_variants_and_graph_needs_graphrag():
+    assert common.implementation_for(["rag_simples"]) == "rag_simples"
+    assert common.implementation_for(["rag_simples", "rag_pais"]) == "rag_simples"
+    assert common.implementation_for(["rag_simples", "graphrag"]) == "graphrag"
+    assert common.implementation_for(["graphrag"]) == "graphrag"
+    assert common.implementation_for([]) == "graphrag"
+    with pytest.raises(ValueError, match="Implementação inválida"):
+        common.use_implementation("outra")

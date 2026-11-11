@@ -1,7 +1,8 @@
 """Interface de terminal compartilhada; modelos carregados somente na execução."""
 from pathlib import Path
 
-def run_cli(base_dir: Path, use_graph: bool = False) -> None:
+def run_cli(base_dir: Path, use_graph: bool | None = False) -> None:
+    """`use_graph=None`: implementação sem grafo (rag_simples), que não recebe o argumento."""
     import asyncio
     from dotenv import load_dotenv
     from startup import initialize
@@ -10,7 +11,7 @@ def run_cli(base_dir: Path, use_graph: bool = False) -> None:
 
     load_dotenv(base_dir / ".env")
 
-    engine, interp_llm = initialize(str(base_dir), use_graph=use_graph)
+    engine, interp_llm = initialize(str(base_dir), **({} if use_graph is None else {"use_graph": use_graph}))
 
     print("=" * 52)
     print(" RAG PRONTO — modo CLI interativo")
