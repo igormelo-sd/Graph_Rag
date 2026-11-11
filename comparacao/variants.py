@@ -1,7 +1,8 @@
 """Estratégias de recuperação comparadas sobre o mesmo ranking inicial.
 
-As duas variantes recebem os mesmos nós e os mesmos trechos iniciais; só muda o
-que acontece depois. Os imports do GraphRAG são tardios porque dependem de
+As duas variantes recebem os mesmos nós, os mesmos trechos iniciais e a mesma
+reserva (os trechos seguintes do ranking); só muda o que acontece depois: o RAG
+simples usa a reserva, o GraphRAG usa candidatos do grafo. Os imports do GraphRAG são tardios porque dependem de
 ``graph_modules()`` e não podem ocorrer no ``--help``.
 """
 from dataclasses import dataclass, field
@@ -23,15 +24,22 @@ def as_result(item) -> dict:
 
 
 class SimpleVariant:
-    """Sem grafo: usa exatamente os trechos da busca vetorial."""
+    """Sem grafo: mesmos pais literais e mesmo número de vagas que o GraphRAG.
+
+    Em vez de candidatos do grafo, ocupa as vagas extras com os próximos trechos
+    do ranking inicial comum (`baseline_extra_slots`). Nenhum módulo de grafo é usado.
+    """
 
     graph_extraction = "disabled"
 
     def __init__(self, nodes, client, settings, artifacts):
-        pass
+        self.slots = settings.get("baseline_extra_slots", 0)
 
-    def retrieve(self, question, ranked) -> Retrieval:
-        return Retrieval([as_result(item) for item in ranked])
+    def retrieve(self, question, ranked, reserve=()) -> Retrieval:
+        from parent_context import expand_parents
+        extras = list(reserve)[:self.slots]
+        diagnostics = {"reserve_ids": [item.node_id for item in extras]}
+        return Retrieval([as_result(item) for item in expand_parents(list(ranked) + extras)], diagnostics)
 
 
 class GraphVariant:
@@ -58,7 +66,7 @@ class GraphVariant:
         inject_deterministic_triplets(self.store, nodes, structural=True)
         self.graph = GraphRetriever(SimpleNamespace(property_graph_store=self.store), None, use_llm=False)
 
-    def retrieve(self, question, ranked) -> Retrieval:
+    def retrieve(self, question, ranked, reserve=()) -> Retrieval:
         from community_search import is_global_question
         if is_global_question(question):
             return self._global(question)
@@ -106,7 +114,7 @@ class ParentsVariant:
     def __init__(self, nodes, client, settings, artifacts):
         pass
 
-    def retrieve(self, question, ranked) -> Retrieval:
+    def retrieve(self, question, ranked, reserve=()) -> Retrieval:
         from parent_context import expand_parents
         return Retrieval([as_result(item) for item in expand_parents(ranked)])
 

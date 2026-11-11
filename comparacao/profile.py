@@ -13,7 +13,7 @@ INTEGER_LIMITS = {
     "community_summary_chars": (200, 6000),
     "candidate_pool": (1, 1000), "rrf_k": (1, 1000), "max_per_table": (0, 200),
     "rerank_pool": (1, 200), "min_text_chars": (0, 2000), "small_table_rows": (0, 200),
-    "small_table_chars": (500, 20000),
+    "small_table_chars": (500, 20000), "baseline_extra_slots": (0, 30),
 }
 
 
@@ -34,6 +34,11 @@ def load_profile(path: Path) -> dict:
     settings.setdefault("min_text_chars", 0)
     settings.setdefault("small_table_rows", 0)
     settings.setdefault("small_table_chars", 6000)
+    # v4: vagas extras do RAG simples (próximos trechos do ranking) e filtro de ontologia comum.
+    settings.setdefault("baseline_extra_slots", 0)
+    settings.setdefault("ontology_filter", False)
+    if type(settings["ontology_filter"]) is not bool:
+        raise ValueError("Configuração inválida: ontology_filter.")
     if not isinstance(settings["reranker"], str):
         raise ValueError("Configuração inválida: reranker.")
     for key, (minimum, maximum) in INTEGER_LIMITS.items():

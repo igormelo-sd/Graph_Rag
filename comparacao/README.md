@@ -98,6 +98,39 @@ Na preparação de 26/10/2026, o índice teve 27.091 trechos (1.013 de texto e
 trechos (500 linhas de rodapé a menos). Esse desequilíbrio pode reduzir a presença de trechos dos PDFs entre
 os 5 resultados iniciais. Na de 28/10/2026 (`PIPELINE` v3), ficaram 25.896.
 
+## Versão v4: RAG simples sem grafo e GraphRAG sobre o mesmo código
+
+`PIPELINE` `shared-graph-processing-v4`. Esta versão **não** é a configuração
+congelada de 04/11 (abaixo): o perfil, o índice e o comportamento do `rag_simples`
+mudaram, então os resultados anteriores não são comparáveis. Objetivo: a única
+diferença entre as versões passa a ser o grafo.
+
+| Aspecto | `rag_simples` | `graphrag` |
+|---|---|---|
+| Código de preparo, índice, ranking inicial, reranker, ontologia (anotação e filtro), prompt | iguais | iguais |
+| Trechos iniciais | `top_k` do ranking comum | os mesmos |
+| Vagas extras | próximos `baseline_extra_slots` (6) trechos do ranking comum (reserva) | até 6 candidatos do grafo aceitos pelo reranker |
+| Trechos pais literais | sim | sim |
+| Grafo (entidades, rótulos, contexto documental, observações, comunidades) | **nenhum** | sim |
+
+- **Índice por pasta:** `preparar` calcula os vetores uma vez em
+  `rag_simples/indice/index.json` e copia os mesmos bytes para
+  `graphrag/indice/index.json`; cada pasta recebe `manifesto.json` com o SHA-256.
+  `perguntar`, `avaliar` e `cobertura` recusam a execução se um índice faltar ou se
+  os hashes divergirem; o hash também entra no manifesto de cada rodada.
+- **Reserva:** o ranking comum é calculado com `top_k + baseline_extra_slots`
+  posições; os `top_k` primeiros são idênticos aos de antes. O limite de 6 é o
+  máximo do GraphRAG, que costuma aceitar menos; o RAG simples fica, se algo,
+  com vantagem de contexto.
+- **Filtro de ontologia comum** (`ontology_filter`): candidatos em conflito explícito
+  com indicador, território, período, unidade, escala ou setor da pergunta saem do
+  ranking inicial das duas versões. Dados incompletos permanecem.
+- **Comandos do `rag_simples`:** `indexar` chama o mesmo `preparar`; `perguntar` e
+  `comparar` usam a mesma recuperação do `avaliar`. O caminho antigo (`pypdf` e
+  `SentenceSplitter`) não é mais usado pela CLI.
+- **Não executado:** esta versão não foi testada nem preparada; exige novo
+  `preparar` (embeddings pagos), novas rodadas e novo registro de congelamento.
+
 ## Configuração congelada para o TCC (04/11/2026)
 
 A configuração usada nos resultados finais está em

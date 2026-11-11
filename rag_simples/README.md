@@ -11,6 +11,11 @@ versão por `../comparacao`. As chamadas LLM usam a mesma factory do GraphRAG.
 Padrões: `gpt-4o-mini`, `BAAI/bge-m3`, trechos de 1.024 caracteres, sobreposição
 de 200, top-k 5 e temperatura zero.
 
+> **v4:** a CLI (`indexar`, `perguntar`, `comparar`) agora usa o mesmo preparo, índice,
+> ranking e prompt da comparação, sem nenhum módulo de grafo; o índice fica em
+> `rag_simples/indice/`. Veja [a versão v4](../comparacao/README.md#versão-v4-rag-simples-sem-grafo-e-graphrag-sobre-o-mesmo-código).
+> As seções abaixo sobre `pypdf`, `SentenceSplitter` e índice próprio descrevem o fluxo anterior.
+
 ## Comparação experimental
 
 Para comparar com GraphRAG, siga [o roteiro comum](../comparacao/README.md).

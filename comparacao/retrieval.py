@@ -82,15 +82,36 @@ class Reranker:
         return [float(value) for value in self.model.predict([(question, text) for text in texts], batch_size=8)]
 
 
-def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None):
-    """Trechos iniciais conforme o perfil: `dense` ou `hybrid`, com reranking opcional."""
+def ontology_filter(question, ranking):
+    """Remove candidatos em conflito explícito com o recorte da pergunta.
+
+    Mesma regra da ontologia de domínio usada pelo GraphRAG (`filter_candidates`),
+    mas aplicada ao ranking comum: indicador, território, período, unidade,
+    escala ou setor incompatíveis saem; dados incompletos permanecem. Não usa grafo.
+    Exige que `graph_modules()` já tenha sido chamado.
+    """
+    from types import SimpleNamespace
+    from domain_ontology import filter_candidates
+    wrapped = [SimpleNamespace(text=item["text"], get_content=lambda text=item["text"]: text, item=item)
+               for item in ranking]
+    return [node.item for node in filter_candidates(wrapped, question)]
+
+
+def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None, extra=0):
+    """Trechos iniciais conforme o perfil: `dense` ou `hybrid`, com reranking opcional.
+
+    `extra` acrescenta, depois dos `top_k` primeiros, os próximos trechos do mesmo
+    ranking (reserva). Como a diversificação é gulosa, os `top_k` primeiros não mudam.
+    """
     pool = max(settings["candidate_pool"], settings["top_k"])
     dense = rag.search(question, pool, payload)
     if settings["retrieval_mode"] == "hybrid":
         ranking = rrf_fuse({"vetorial": dense, "bm25": bm25.search(question, pool)}, settings["rrf_k"])
     else:
         ranking = [{**item, "ranks": {"vetorial": position}} for position, item in enumerate(dense, 1)]
+    if settings.get("ontology_filter"):
+        ranking = ontology_filter(question, ranking)
     if reranker is not None:
         head = settings["rerank_pool"]
         ranking = reranker.rerank(question, ranking[:head]) + ranking[head:]
-    return diversify(ranking, settings["top_k"], settings["max_per_table"])
+    return diversify(ranking, settings["top_k"] + extra, settings["max_per_table"])

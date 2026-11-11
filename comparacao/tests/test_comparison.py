@@ -35,6 +35,15 @@ def test_strict_profile_removes_local_model_and_retrieval_drift(monkeypatch):
     assert "RAG_LLM_BASE_URL" not in os.environ
 
 
+def edit_index(mutate):
+    """Altera o índice e mantém as duas pastas idênticas, como o `preparar` faz."""
+    source = run.INDEX_PATHS["rag_simples"]
+    payload = json.loads(source.read_text(encoding="utf-8"))
+    mutate(payload)
+    for path in run.INDEX_PATHS.values():
+        path.write_text(json.dumps(payload), encoding="utf-8")
+
+
 @pytest.fixture
 def prepared(monkeypatch, tmp_path):
     settings = common.config()
@@ -44,10 +53,15 @@ def prepared(monkeypatch, tmp_path):
     settings["corpus"] = str(corpus)
     settings["top_k"] = 1
     settings["reranker"] = ""  # sem modelo real nos testes
+    settings["baseline_extra_slots"] = 0  # testes de reserva ligam explicitamente
+    settings["ontology_filter"] = False
     monkeypatch.setattr(common, "config", lambda: settings)
     monkeypatch.setattr(run, "config", lambda: settings)
     artifacts = tmp_path / "artefatos"
     monkeypatch.setattr(run, "ARTIFACTS", artifacts)
+    paths = {"rag_simples": tmp_path / "rag_simples" / "indice" / "index.json",
+             "graphrag": tmp_path / "graphrag" / "indice" / "index.json"}
+    monkeypatch.setattr(run, "INDEX_PATHS", paths)
     def embed(self, texts):
         return [[1, 0] if "preliminar" not in text else [0.8, 0.2] for text in texts]
     monkeypatch.setattr(SimpleRAG, "embed", embed)
@@ -57,8 +71,9 @@ def prepared(monkeypatch, tmp_path):
                     {"node_id": "b", "source_file": "b.pdf", "page": 1, "type": "text", "chunk_id": 1})]
     experiment = {"profile": common.fingerprint(settings), "corpus": run.corpus_snapshot(settings),
                   "pipeline": run.PIPELINE}
-    rag = SimpleRAG(artifacts / "index.json", settings["embedding_model"], settings["llm_model"])
+    rag = SimpleRAG(paths["rag_simples"], settings["embedding_model"], settings["llm_model"])
     rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
+    run.publish_indices(experiment, len(chunks))
     mock_llm = SimpleNamespace(complete=Mock(return_value=SimpleNamespace(text="Resposta com fontes.")))
     monkeypatch.setattr(common, "llm_model", lambda _: mock_llm)
     monkeypatch.setattr("rag_simples.rag.llm_model", lambda _: mock_llm)
@@ -92,11 +107,8 @@ def test_changed_corpus_aborts_before_model_call(prepared):
 
 def test_full_graph_expands_parent_without_changing_initial_ranking(prepared):
     settings, llm, _ = prepared
-    path = run.ARTIFACTS / "index.json"
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    payload["chunks"][0]["metadata"].update(
-        parent_id="parent:a", parent_text="Indústria paulista em 2023. Contexto literal adicional.")
-    path.write_text(json.dumps(payload), encoding="utf-8")
+    edit_index(lambda payload: payload["chunks"][0]["metadata"].update(
+        parent_id="parent:a", parent_text="Indústria paulista em 2023. Contexto literal adicional."))
     result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "graphrag")
     assert result["diagnostics"]["initial_ids"] == ["a"]
     assert result["sources"][0]["metadata"]["context_strategy"] == "parent_child"
@@ -218,6 +230,9 @@ def test_preparation_uses_one_shared_ingestion_and_embedding_pass(monkeypatch, t
     settings["corpus"] = str(corpus)
     monkeypatch.setattr(common, "config", lambda: settings)
     monkeypatch.setattr(run, "ARTIFACTS", tmp_path / "output")
+    paths = {"rag_simples": tmp_path / "rag_simples" / "indice" / "index.json",
+             "graphrag": tmp_path / "graphrag" / "indice" / "index.json"}
+    monkeypatch.setattr(run, "INDEX_PATHS", paths)
     load = Mock(return_value=[Document(text="Texto literal.")])
     process = Mock(return_value=[TextNode(id_="id", text="Texto literal.",
         metadata={"node_id": "id", "source_file": "fonte.txt", "page": 1, "chunk_id": 1, "type": "text"})])
@@ -228,8 +243,14 @@ def test_preparation_uses_one_shared_ingestion_and_embedding_pass(monkeypatch, t
     assert result["chunks"] == 1
     load.assert_called_once_with(str(corpus), save_output=False)
     process.assert_called_once()
-    stored = json.loads((run.ARTIFACTS / "index.json").read_text(encoding="utf-8"))
+    stored = json.loads(paths["rag_simples"].read_text(encoding="utf-8"))
     assert stored["chunks"][0]["metadata"]["node_id"] == "id"
+    # Vetores calculados uma vez: as duas pastas têm os mesmos bytes e o hash é registrado.
+    assert paths["graphrag"].read_bytes() == paths["rag_simples"].read_bytes()
+    assert result["index_sha256"] == run.index_digest(paths["graphrag"])
+    for folder in ("rag_simples", "graphrag"):
+        manifest = json.loads((tmp_path / folder / "indice" / "manifesto.json").read_text(encoding="utf-8"))
+        assert manifest["sha256"] == result["index_sha256"] and manifest["pipeline"] == run.PIPELINE
 
 
 def test_factories_apply_same_embedding_and_generation_parameters(monkeypatch):
@@ -297,15 +318,15 @@ def test_removed_variants_fail_before_configuration(monkeypatch, variant):
 @pytest.mark.parametrize("invalid", ["missing", "duplicate", "metadata"])
 def test_invalid_node_ids_rejected_before_model_loading(prepared, invalid):
     _, llm, embedder = prepared
-    path = run.ARTIFACTS / "index.json"
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    if invalid == "metadata":
-        payload["chunks"][0]["metadata"] = None
-    elif invalid == "duplicate":
-        payload["chunks"][1]["metadata"]["node_id"] = "a"
-    else:
-        payload["chunks"][0]["metadata"].pop("node_id")
-    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    def break_ids(payload):
+        if invalid == "metadata":
+            payload["chunks"][0]["metadata"] = None
+        elif invalid == "duplicate":
+            payload["chunks"][1]["metadata"]["node_id"] = "a"
+        else:
+            payload["chunks"][0]["metadata"].pop("node_id")
+    edit_index(break_ids)
     with pytest.raises(ValueError, match="node_id"):
         run.compare("Pergunta", "graphrag")
     llm.complete.assert_not_called()
@@ -313,21 +334,15 @@ def test_invalid_node_ids_rejected_before_model_loading(prepared, invalid):
 
 
 def test_global_source_ids_exclude_empty_documents(prepared):
-    path = run.ARTIFACTS / "index.json"
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    payload["chunks"][1]["text"] = "   "
-    path.write_text(json.dumps(payload), encoding="utf-8")
+    edit_index(lambda payload: payload["chunks"][1].update(text="   "))
     result = run.compare("Quais os principais temas do conjunto de documentos?", "graphrag")
     assert result["sources"][0]["metadata"]["source_ids"] == ["a"]
 
 
 def test_parents_ablation_uses_parents_without_graph_neighbors(prepared):
     settings, llm, _ = prepared
-    path = run.ARTIFACTS / "index.json"
-    payload = json.loads(path.read_text(encoding="utf-8"))
-    payload["chunks"][0]["metadata"].update(
-        parent_id="parent:a", parent_text="Indústria paulista em 2023. Contexto literal adicional.")
-    path.write_text(json.dumps(payload), encoding="utf-8")
+    edit_index(lambda payload: payload["chunks"][0]["metadata"].update(
+        parent_id="parent:a", parent_text="Indústria paulista em 2023. Contexto literal adicional."))
     result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "rag_pais")
     assert [source["source"] for source in result["sources"]] == ["a.pdf"]
     assert result["sources"][0]["metadata"]["context_strategy"] == "parent_child"
@@ -354,3 +369,49 @@ def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
     assert manifest["runs"][-1]["variants"] == ["rag_pais", "graphrag"]
     with pytest.raises(ValueError, match="Versões inválidas"):
         run.evaluate("desenvolvimento", "invalida", None, ["grafo"])
+
+
+def test_simple_fills_extra_slots_with_next_ranked_chunks_and_keeps_initial_ids(prepared):
+    settings, llm, _ = prepared
+    settings["baseline_extra_slots"] = 1
+    question = "O que dizem as fontes sobre a indústria paulista em 2023?"
+    result = run.compare(question, "rag_simples")
+    assert result["diagnostics"]["initial_ids"] == ["a"]  # só os top_k são os iniciais
+    assert result["diagnostics"]["reserve_ids"] == ["b"]
+    assert [source["source"] for source in result["sources"]] == ["a.pdf", "b.pdf"]
+    # O GraphRAG recebe a mesma reserva no diagnóstico, mas não a usa como extra.
+    graph = run.compare(question, "graphrag")
+    assert graph["diagnostics"]["initial_ids"] == ["a"]
+    assert graph["diagnostics"]["reserve_ids"] == ["b"]
+
+
+def test_diverging_indices_abort_before_any_model_call(prepared):
+    settings, llm, embedder = prepared
+    run.INDEX_PATHS["graphrag"].write_text("{}", encoding="utf-8")
+    with pytest.raises(ValueError, match="divergem"):
+        run.compare("Pergunta", "graphrag")
+    llm.complete.assert_not_called()
+    embedder.get_query_embedding.assert_not_called()
+
+
+def test_missing_index_in_one_folder_is_rejected(prepared):
+    run.INDEX_PATHS["graphrag"].unlink()
+    with pytest.raises(ValueError, match="não encontrado"):
+        run.compare("Pergunta", "rag_simples")
+
+
+def test_simple_variant_uses_no_graph_module():
+    import inspect
+    from comparacao.variants import SimpleVariant
+    source = inspect.getsource(SimpleVariant)
+    for forbidden in ("graph_retriever", "graph_indexing", "GraphRetriever", "community_search",
+                      "inject_deterministic_triplets", "SimplePropertyGraphStore"):
+        assert forbidden not in source
+    assert SimpleVariant.graph_extraction == "disabled"
+
+
+def test_pipeline_version_and_profile_defaults():
+    assert run.PIPELINE.endswith("-v4")
+    assert set(run.INDEX_PATHS) == {"rag_simples", "graphrag"}
+    settings = common.config()
+    assert settings["baseline_extra_slots"] == 6 and settings["ontology_filter"] is True

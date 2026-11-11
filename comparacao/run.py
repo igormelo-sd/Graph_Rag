@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -18,9 +19,49 @@ from comparacao.variants import FROZEN, REGISTRY
 VARIANTS = tuple(REGISTRY)
 # v2: linhas de rodapé das planilhas viram notas da tabela (comparacao/footnotes.py).
 # v3: fragmentos curtos anexados e tabelas pequenas reunidas (comparacao/chunk_repair.py).
-PIPELINE = "shared-graph-processing-v3"
+# v4: um índice por pasta (rag_simples/indice e graphrag/indice, mesmos bytes),
+# reserva de trechos para o RAG simples, pais literais e filtro de ontologia comuns.
+PIPELINE = "shared-graph-processing-v4"
 
 ARTIFACTS = Path(__file__).with_name("artefatos")
+INDEX_PATHS = {"rag_simples": ROOT / "rag_simples" / "indice" / "index.json",
+               "graphrag": ROOT / "graphrag" / "indice" / "index.json"}
+
+
+def index_digest(path):
+    digest = hashlib.sha256()
+    with Path(path).open("rb") as stream:
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def verify_indices():
+    """Os dois índices precisam existir e ser idênticos; senão a comparação não vale."""
+    digests = {}
+    for name, path in INDEX_PATHS.items():
+        if not Path(path).is_file():
+            raise ValueError(f"Índice de {name} não encontrado. Execute comparacao/run.py preparar.")
+        digests[name] = index_digest(path)
+    if len(set(digests.values())) != 1:
+        raise ValueError("Os índices de rag_simples e graphrag divergem. Execute comparacao/run.py preparar novamente.")
+    return digests["rag_simples"]
+
+
+def publish_indices(experiment, chunks):
+    """Copia o índice calculado uma vez para a pasta do GraphRAG e registra o hash nas duas."""
+    from rag_app.storage import write_json
+    source, target = Path(INDEX_PATHS["rag_simples"]), Path(INDEX_PATHS["graphrag"])
+    target.parent.mkdir(parents=True, exist_ok=True)
+    temporary = target.with_name(target.name + ".tmp")
+    shutil.copyfile(source, temporary)
+    temporary.replace(target)
+    digest = verify_indices()
+    for path in (source, target):
+        write_json(path.with_name("manifesto.json"), {
+            "sha256": digest, "chunks": chunks, "pipeline": experiment["pipeline"],
+            "profile": experiment["profile"], "gerado_em": time.strftime("%Y-%m-%dT%H:%M:%S")})
+    return digest
 
 
 def corpus_snapshot(settings):
@@ -47,7 +88,7 @@ def experiment_signature(settings, snapshot=None):
 
 def simple_rag(settings):
     from rag_simples.rag import SimpleRAG
-    return SimpleRAG(ARTIFACTS / "index.json", settings["embedding_model"], settings["llm_model"])
+    return SimpleRAG(INDEX_PATHS["rag_simples"], settings["embedding_model"], settings["llm_model"])
 
 
 def prepare():
@@ -73,11 +114,14 @@ def prepare():
                     node.metadata.get("page"), int(node.metadata.get("chunk_id", 1)),
                     dict(node.metadata)) for node in nodes]
     rag = simple_rag(settings)
+    # Vetores calculados uma única vez; a pasta do GraphRAG recebe a mesma cópia.
     count = rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
+    digest = publish_indices(experiment, count)
     return {"chunks": count, "footnote_rows_removed": footnotes, "short_fragments_joined": fragments,
             "small_tables_merged": small_tables, "profile": experiment["profile"],
-            "corpus_files": len(snapshot),
-            "preparation_seconds": round(time.perf_counter() - started, 3), "index": str(rag.index_path)}
+            "corpus_files": len(snapshot), "index_sha256": digest,
+            "preparation_seconds": round(time.perf_counter() - started, 3),
+            "indexes": {name: str(path) for name, path in INDEX_PATHS.items()}}
 
 
 def load_experiment_nodes(rag, expected, payload=None):
@@ -108,6 +152,7 @@ class Session:
         from comparacao.retrieval import BM25Index, Reranker
         load_openai_key()
         self.settings = settings
+        self.index_sha256 = verify_indices()
         self.rag = simple_rag(settings)
         self.expected = experiment_signature(settings)
         self.payload = self.rag.load_index()
@@ -130,7 +175,8 @@ class Session:
         if question not in self._initial:
             from comparacao.retrieval import initial_ranking
             started = time.perf_counter()
-            ranking = initial_ranking(question, self.rag, self.payload, self.settings, self.bm25, self.reranker)
+            ranking = initial_ranking(question, self.rag, self.payload, self.settings, self.bm25, self.reranker,
+                                      extra=self.settings.get("baseline_extra_slots", 0))
             self._initial[question] = (ranking, time.perf_counter() - started)
         return self._initial[question]
 
@@ -152,14 +198,19 @@ def compare(question, variant, session=None):
     # O ranking inicial é o mesmo para as duas versões; seu tempo entra em ambas.
     initial, initial_seconds = session.initial(question)
     started = time.perf_counter()
-    ranked = [NodeWithScore(node=session.by_id[item["metadata"]["node_id"]], score=item["score"])
-              for item in initial]
-    retrieval = strategy.retrieve(question, ranked)
+    everything = [NodeWithScore(node=session.by_id[item["metadata"]["node_id"]], score=item["score"])
+                  for item in initial]
+    # Os top_k primeiros são os trechos iniciais das duas versões; o resto é reserva comum.
+    ranked, reserve = everything[:settings["top_k"]], everything[settings["top_k"]:]
+    initial = initial[:settings["top_k"]]
+    retrieval = strategy.retrieve(question, ranked, reserve)
     context, used = pack_results(retrieval.results, settings["context_tokens"])
     diagnostics = {"mode": variant, "initial_ids": [item.node_id for item in ranked],
                    "initial_ranks": [item["ranks"] for item in initial],
                    "initial_ranking_seconds": round(initial_seconds, 3),
                    "profile": expected["profile"], "corpus": expected["corpus"],
+                   "index_sha256": session.index_sha256,
+                   "reserve_ids": [item.node_id for item in reserve],
                    "graph_extraction": strategy.graph_extraction, **retrieval.diagnostics,
                    "retrieval_seconds": round(initial_seconds + time.perf_counter() - started, 3),
                    "context_estimated_tokens": (len(context) + 3) // 4}
@@ -211,7 +262,7 @@ def evaluate(split, output, ids=None, variants=FROZEN):
     directory.mkdir(parents=True, exist_ok=True)
     manifest_path = directory / "manifesto.json"
     identity = {"split": split, "questions_sha256": hashlib.sha256(raw).hexdigest(),
-                **experiment_signature(settings)}
+                "index_sha256": verify_indices(), **experiment_signature(settings)}
     manifest = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else {
         **identity, "settings": settings, "sent_fields": ["pergunta"],
         "variants_order": "alternada por pergunta", "runs": []}

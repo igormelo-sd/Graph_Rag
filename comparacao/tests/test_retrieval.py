@@ -137,3 +137,25 @@ def test_reranker_reorders_only_the_head_before_diversification():
     result = initial_ranking("pergunta", rag, None, settings, reranker=reranker)
     assert [item["metadata"]["node_id"] for item in result] == ["2", "1", "3"]
     assert result[0]["ranks"] == {"vetorial": 2, "rerank": 1}
+
+
+def test_ontology_filter_drops_explicit_conflicts_and_keeps_incomplete_data(monkeypatch):
+    from comparacao import common
+    from comparacao.retrieval import ontology_filter
+    common.apply_profile(strict=True)
+    common.graph_modules()
+    ranking = [{"text": "PIB de São Paulo em 2023 cresceu 3,2%.", "metadata": {"node_id": "ok"}},
+               {"text": "PIB do Rio de Janeiro em 2019 cresceu 1,1%.", "metadata": {"node_id": "conflict"}},
+               {"text": "Texto sem recorte identificável.", "metadata": {"node_id": "incomplete"}}]
+    kept = [item["metadata"]["node_id"] for item in ontology_filter("PIB de São Paulo em 2023", ranking)]
+    assert "ok" in kept and "incomplete" in kept and "conflict" not in kept
+
+
+def test_extra_reserve_keeps_the_top_k_prefix():
+    settings = {"candidate_pool": 5, "top_k": 2, "retrieval_mode": "dense", "rrf_k": 60,
+                "max_per_table": 0, "rerank_pool": 5}
+    items = [{"text": str(i), "metadata": {"node_id": str(i)}, "score": 1 - i / 10} for i in range(5)]
+    rag = SimpleNamespace(search=lambda question, pool, payload: items[:pool])
+    base = [item["metadata"]["node_id"] for item in initial_ranking("q", rag, None, settings)]
+    wide = [item["metadata"]["node_id"] for item in initial_ranking("q", rag, None, settings, extra=2)]
+    assert base == ["0", "1"] and wide[:2] == base and wide == ["0", "1", "2", "3"]

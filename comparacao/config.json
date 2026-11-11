@@ -21,6 +21,8 @@
   "min_text_chars": 250,
   "small_table_rows": 30,
   "small_table_chars": 6000,
+  "baseline_extra_slots": 6,
+  "ontology_filter": true,
   "context_tokens": 12000,
   "max_output_tokens": 1200,
   "temperature": 0.0,
