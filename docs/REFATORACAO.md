@@ -125,6 +125,6 @@ O comportamento está coberto por regressões em `graph_rag/tests`.
 - **Testes:** `scripts/test_all.py` ganhou `simple_rag_src` (a suíte de `graph_rag/tests`
   contra `simple_rag/src`; `RAG_TEST_IMPL=simple_rag`). Os testes que exigem grafo são pulados
   nesse modo. Resultado local: `graph_rag` 302 passam; `simple_rag_src` 221 passam e 13 pulados;
-  `simple_rag` e `comparacao` 62 passam; `tests_shared` passa. Python 3.13.
+  `simple_rag` 7 e `comparacao` 55 passam; `tests_shared` 105 passam (inclui o hash do corpus e a identidade dos módulos). Python 3.13.
 - **Depuração:** um teste apontava para o corpus no lugar antigo e foi corrigido; `pyflakes`
   não achou nomes indefinidos; foram removidos imports que ficaram mortos.

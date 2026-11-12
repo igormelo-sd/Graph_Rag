@@ -138,6 +138,49 @@ diferença entre as versões passa a ser o grafo.
 - **Não executado:** esta versão não foi testada nem preparada; exige novo
   `preparar` (embeddings pagos), novas rodadas e novo registro de congelamento.
 
+## Resultados da v4 no conjunto de desenvolvimento (12/11/2026)
+
+Rodada `v4_dev_20261112_r1`: 20 perguntas, `simple_rag` e `graph_rag` em processos separados
+(`avaliar --versoes simple_rag` e depois `--versoes graph_rag`, mesma `--saida`), índice de 25.896
+trechos (SHA-256 `2a17c93a…`, igual nas duas pastas), perfil `d7da9383…`, `PIPELINE` v4, `gpt-4o-mini`,
+`text-embedding-3-small`, reranker `BAAI/bge-reranker-v2-m3`. 40 execuções, sem erros. Os 5 trechos
+iniciais foram iguais nas duas versões em 20 de 20 perguntas.
+
+| Medida | `simple_rag` | `graph_rag` |
+|---|---:|---:|
+| Marcadores literais (de 34, `avaliacao/marcadores.py`) | 24 | 24 |
+| Referências do gabarito no contexto enviado ao modelo (de 39) | 23 | 23 |
+| Contexto (mediana, tokens estimados) | ~4,4 mil | ~4,0 mil |
+| Recuperação (mediana) | 15,5 s | 32,1 s |
+| Extras aceitos do grafo (média por pergunta) | — (6 de reserva) | 4,0 (nenhum em 4 de 20) |
+
+- **Empate.** O grafo não superou o RAG simples nesta rodada. Diferenças por pergunta: nos marcadores,
+  D001 (ICMS) é 1 a 0 para o `simple_rag` e D014 é 3 a 2 para o `graph_rag`; na cobertura do gabarito,
+  D008 é 1 a 0 para o `graph_rag` (candidatos por rótulo) e D017 é 2 a 1 para o `simple_rag`.
+- **Custo.** O tempo de recuperação do `graph_rag` é o dobro, com contexto de tamanho parecido.
+  Em 4 das 20 perguntas o grafo não teve candidato aceito.
+- **Por que o simples melhorou.** Na rodada de 03/11, o `simple_rag` tinha 22 marcadores e o
+  `graph_rag` 23,7. Agora o simples usa os mesmos trechos pais e a mesma quantidade de vagas
+  (reserva de 6 trechos do ranking comum), e o filtro de ontologia vale para os dois. Com isso o
+  ganho que antes se atribuía ao grafo ficou, em grande parte, nas etapas comuns.
+- **Limites desta leitura.** Uma única rodada; marcadores são triagem automática (variação de cerca
+  de 1 marcador entre rodadas em medições anteriores); as respostas não passaram pela rubrica humana;
+  o conjunto de desenvolvimento foi o usado para ajustar o grafo em 03/11 e a cobertura é determinística
+  (a variação vem só da geração). Não houve rodada no conjunto de teste, que segue reservado.
+- **Não foi feito:** melhorias do grafo (ranking dos candidatos, unificação de entidades, evidência
+  normalizada) e a incorporação das melhorias de ingestão e embedding do `cd9ff90`. Ficam para o
+  planejamento do próximo passo, medindo cada uma nas duas versões.
+
+## Resultados anteriores à v4 (registro histórico)
+
+As seções abaixo descrevem as rodadas de 26/10 a 05/11/2026, feitas com a organização anterior:
+pastas `rag_simples` e `graphrag`, variante de ablação `rag_pais` e corpus em `graphrag/data`. Os
+nomes foram atualizados no texto por consistência (`simple_rag`, `graph_rag`, `parent_rag`), mas
+**os arquivos dessas rodadas** em `artefatos/resultados/` e os registros `congelamento_*.json` mantêm
+os nomes antigos (`D001_rag_simples.json`, `D001_graphrag.json`). Esses resultados não são
+comparáveis com os da v4: o perfil (reserva de trechos, filtro de ontologia, corpus em `data/`) e o
+`rag_simples` mudaram. As ferramentas de `avaliacao/` leem os dois nomes.
+
 ## Configuração congelada para o TCC (04/11/2026)
 
 A configuração usada nos resultados finais está em
