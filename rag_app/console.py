@@ -2,7 +2,7 @@
 from pathlib import Path
 
 def run_cli(base_dir: Path, use_graph: bool | None = False) -> None:
-    """`use_graph=None`: implementação sem grafo (rag_simples), que não recebe o argumento."""
+    """`use_graph=None`: implementação sem grafo (simple_rag), que não recebe o argumento."""
     import asyncio
     from dotenv import load_dotenv
     from startup import initialize

@@ -19,8 +19,8 @@ DIMENSIONS = ('correcao', 'apoio_documental', 'completude', 'qualificacao')
 
 def application(variant):
     if variant == 'principal': return ROOT, 'RAG Principal'
-    if variant == 'graphrag': return ROOT/'graphrag', 'GraphRAG'
-    raise ValueError('Escolha principal ou graphrag; a comparação controlada usa seu executor próprio.')
+    if variant == 'graph_rag': return ROOT/'graph_rag', 'GraphRAG'
+    raise ValueError('Escolha principal ou graph_rag; a comparação controlada usa seu executor próprio.')
 
 
 def digest(path):
@@ -79,7 +79,7 @@ async def collect(args):
     if not args.allow_unreviewed and any(c['revisao_humana']['status'] != 'aprovada' for c in cases):
         raise ValueError('Revise os gabaritos ou use --allow-unreviewed para coleta sem pontuação.')
     sys.path.insert(0, str(ROOT))
-    variant = getattr(args, 'versao', 'graphrag')
+    variant = getattr(args, 'versao', 'graph_rag')
     base_dir, label = application(variant)
     from rag_app.bootstrap import activate
     activate(base_dir)
@@ -168,7 +168,7 @@ def main():
     sub = parser.add_subparsers(dest='command', required=True)
     run = sub.add_parser('coletar')
     run.add_argument('--provider', required=True)
-    run.add_argument('--versao', choices=('principal','graphrag'), default='graphrag')
+    run.add_argument('--versao', choices=('principal','graph_rag'), default='graph_rag')
     run.add_argument('--model', required=True)
     run.add_argument('--output', required=True)
     run.add_argument('--ids')

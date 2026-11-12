@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "corpus": "graphrag/data",
+  "corpus": "data",
   "provider": "openai",
   "llm_model": "gpt-4o-mini",
   "embedding_provider": "openai",

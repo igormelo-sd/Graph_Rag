@@ -2,14 +2,14 @@
 setlocal
 cd /d "%~dp0"
 if errorlevel 1 goto failure
-rem Suporta venv local (graphrag\.venv) ou venv geral da raiz (..\.venv).
+rem Suporta venv local (graph_rag\.venv) ou venv geral da raiz (..\.venv).
 set "PY_LOCAL=.venv\Scripts\python.exe"
 set "PY_ROOT=..\.venv\Scripts\python.exe"
 set "PY="
 if exist "%PY_LOCAL%" set "PY=%PY_LOCAL%"
 if not defined PY if exist "%PY_ROOT%" set "PY=%PY_ROOT%"
 if not defined PY (
-    echo Ambiente Python nao encontrado nem em graphrag\.venv nem em ..\.venv. Siga a instalacao no README.md.
+    echo Ambiente Python nao encontrado nem em graph_rag\.venv nem em ..\.venv. Siga a instalacao no README.md.
     goto failure
 )
 if not exist ".env" (

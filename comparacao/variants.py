@@ -119,6 +119,6 @@ class ParentsVariant:
         return Retrieval([as_result(item) for item in expand_parents(ranked)])
 
 
-# rag_simples e graphrag são as versões comparadas no TCC; rag_pais é ablação.
-FROZEN = ("rag_simples", "graphrag")
-REGISTRY = {"rag_simples": SimpleVariant, "graphrag": GraphVariant, "rag_pais": ParentsVariant}
+# simple_rag e graph_rag são as versões comparadas no TCC; parent_rag é ablação.
+FROZEN = ("simple_rag", "graph_rag")
+REGISTRY = {"simple_rag": SimpleVariant, "graph_rag": GraphVariant, "parent_rag": ParentsVariant}

@@ -19,13 +19,13 @@ from comparacao.variants import FROZEN, REGISTRY
 VARIANTS = tuple(REGISTRY)
 # v2: linhas de rodapé das planilhas viram notas da tabela (comparacao/footnotes.py).
 # v3: fragmentos curtos anexados e tabelas pequenas reunidas (comparacao/chunk_repair.py).
-# v4: um índice por pasta (rag_simples/indice e graphrag/indice, mesmos bytes),
+# v4: um índice por pasta (simple_rag/indice e graph_rag/indice, mesmos bytes),
 # reserva de trechos para o RAG simples, pais literais e filtro de ontologia comuns.
 PIPELINE = "shared-graph-processing-v4"
 
 ARTIFACTS = Path(__file__).with_name("artefatos")
-INDEX_PATHS = {"rag_simples": ROOT / "rag_simples" / "indice" / "index.json",
-               "graphrag": ROOT / "graphrag" / "indice" / "index.json"}
+INDEX_PATHS = {"simple_rag": ROOT / "simple_rag" / "indice" / "index.json",
+               "graph_rag": ROOT / "graph_rag" / "indice" / "index.json"}
 
 
 def index_digest(path):
@@ -44,14 +44,14 @@ def verify_indices():
             raise ValueError(f"Índice de {name} não encontrado. Execute comparacao/run.py preparar.")
         digests[name] = index_digest(path)
     if len(set(digests.values())) != 1:
-        raise ValueError("Os índices de rag_simples e graphrag divergem. Execute comparacao/run.py preparar novamente.")
-    return digests["rag_simples"]
+        raise ValueError("Os índices de simple_rag e graph_rag divergem. Execute comparacao/run.py preparar novamente.")
+    return digests["simple_rag"]
 
 
 def publish_indices(experiment, chunks):
     """Copia o índice calculado uma vez para a pasta do GraphRAG e registra o hash nas duas."""
     from rag_app.storage import write_json
-    source, target = Path(INDEX_PATHS["rag_simples"]), Path(INDEX_PATHS["graphrag"])
+    source, target = Path(INDEX_PATHS["simple_rag"]), Path(INDEX_PATHS["graph_rag"])
     target.parent.mkdir(parents=True, exist_ok=True)
     temporary = target.with_name(target.name + ".tmp")
     shutil.copyfile(source, temporary)
@@ -87,8 +87,8 @@ def experiment_signature(settings, snapshot=None):
 
 
 def simple_rag(settings):
-    from rag_simples.rag import SimpleRAG
-    return SimpleRAG(INDEX_PATHS["rag_simples"], settings["embedding_model"], settings["llm_model"])
+    from simple_rag.rag import SimpleRAG
+    return SimpleRAG(INDEX_PATHS["simple_rag"], settings["embedding_model"], settings["llm_model"])
 
 
 def prepare():
@@ -96,7 +96,7 @@ def prepare():
     graph_modules()
     from ingestion import load_documents
     from processing import process_documents
-    from rag_simples.rag import Chunk
+    from simple_rag.rag import Chunk
     started = time.perf_counter()
     snapshot = corpus_snapshot(settings)
     documents = load_documents(str((ROOT / settings["corpus"]).resolve()), save_output=False)
@@ -334,7 +334,7 @@ def main(argv=None):
         elif args.command == "avaliar":
             ids = [item.strip() for item in args.ids.split(",") if item.strip()] if args.ids else None
             variants = [item.strip() for item in args.versoes.split(",") if item.strip()]
-            # Só rag_simples (e rag_pais): carrega apenas rag_simples/src, sem módulos de grafo.
+            # Só simple_rag (e parent_rag): carrega apenas simple_rag/src, sem módulos de grafo.
             use_implementation(implementation_for(variants))
             result = evaluate(args.split, args.saida, ids, variants)
         else:

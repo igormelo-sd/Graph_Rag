@@ -60,7 +60,7 @@ Essa conversão mascarava uma falha de geração.
 
 Repetindo com os mesmos trechos e limite de 4.096 tokens, o provedor devolveu
 texto, com término `stop` e uso reportado de 1.249 tokens de conclusão, dos quais
-1.049 eram de raciocínio. Os arquivos `.env` da raiz e de `graphrag` passaram a
+1.049 eram de raciocínio. Os arquivos `.env` da raiz e de `graph_rag` passaram a
 definir `RAG_MAX_OUTPUT_TOKENS=4096` para o chat. O perfil experimental de
 `comparacao/config.json` não foi alterado.
 
@@ -81,6 +81,6 @@ completa continua sujeita à validação documental e numérica.
 
 ## Aplicação no chat
 
-Feche o processo antigo e abra novamente `graphrag/start.bat` para carregar código
+Feche o processo antigo e abra novamente `graph_rag/start.bat` para carregar código
 e configuração atualizados. O fingerprint do processamento não mudou nestes
 ajustes; eles não exigem reconstruir os embeddings.

@@ -1,7 +1,7 @@
 # Expansão por entidades, filhos e pais, e busca global
 
-Implementação em `Graph_Rag/graphrag`. As ideias foram adaptadas do
-[GraphRAG Pattern Catalog](https://graphrag.com/concepts/intro-to-graphrag/).
+Implementação em `Graph_Rag/graph_rag`. As ideias foram adaptadas do
+[GraphRAG Pattern Catalog](https://graph_rag.com/concepts/intro-to-graph_rag/).
 
 ## 1. Expansão por entidades
 
@@ -63,7 +63,7 @@ em andamento pode terminar.
 
 ## Uso
 
-Com o ambiente e a chave do provedor configurados, na pasta `graphrag`:
+Com o ambiente e a chave do provedor configurados, na pasta `graph_rag`:
 
 ```powershell
 # Reconstrói o índice conforme o novo fingerprint.

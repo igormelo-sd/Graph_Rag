@@ -1,4 +1,4 @@
-"""Entrada do RAG simples (sem grafo): carrega apenas rag_simples/src."""
+"""Entrada do RAG simples (sem grafo): carrega apenas simple_rag/src."""
 from pathlib import Path
 import sys
 

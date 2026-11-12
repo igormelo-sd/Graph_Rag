@@ -24,10 +24,13 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from resultados import result_file  # noqa: E402  (aceita nomes de resultado antigos)
+
 ARTIFACTS = HERE.parent / "artefatos"
 RESULTS = ARTIFACTS / "resultados"
 OUTPUT = ARTIFACTS / "avaliacao_cega"
-VARIANTS = ("rag_simples", "graphrag")
+VARIANTS = ("simple_rag", "graph_rag")
 DIMENSIONS = ("correcao", "apoio_documental", "completude", "qualificacao")
 GABARITO = ("aprovado", "corrigido", "rejeitado")
 RECUPERACAO = ("sim", "parcial", "nao")
@@ -60,7 +63,7 @@ def build(run, seed, split="desenvolvimento"):
     rng = random.Random(seed)
     items, key = [], {}
     for question in questions:
-        results = {v: json.loads((RESULTS / run / f"{question['id']}_{v}.json").read_text(encoding="utf-8"))
+        results = {v: json.loads(result_file(RESULTS / run, question['id'], v).read_text(encoding="utf-8"))
                    for v in VARIANTS}
         if any("erro" in result for result in results.values()):
             raise SystemExit(f"{question['id']} tem execução com erro na rodada {run}.")
@@ -263,7 +266,7 @@ def summarize(filled, data, key):
             category["soma_total"] += total
             totals[version] = total
         per_question.append({"id": qid, "categoria": categories[qid], "total_0_8": totals,
-                             "diferenca_graphrag_menos_simples": totals["graphrag"] - totals["rag_simples"]})
+                             "diferenca_graph_rag_menos_simples": totals["graph_rag"] - totals["simple_rag"]})
     for stats in per_version.values():
         n = stats["perguntas"] or 1
         stats["medias_por_componente"] = {d: round(stats["componentes"].pop(d) / n, 3) for d in DIMENSIONS}
@@ -271,13 +274,13 @@ def summarize(filled, data, key):
         stats["media_total_0_8"] = round(sum(stats["medias_por_componente"].values()), 3)
         for category in stats["por_categoria"].values():
             category["media_total_0_8"] = round(category.pop("soma_total") / category["perguntas"], 3)
-    differences = [row["diferenca_graphrag_menos_simples"] for row in per_question]
+    differences = [row["diferenca_graph_rag_menos_simples"] for row in per_question]
     return {"ficha_id": data["ficha_id"], "rodada": data["rodada"], "avaliador": filled["avaliador"],
             "metodo": "rubrica_humana_cega_por_componente", "perguntas_pontuadas": len(per_question),
             "gabaritos_rejeitados": excluded, "por_versao": per_version,
-            "comparacao": {"graphrag_melhor": sum(d > 0 for d in differences),
+            "comparacao": {"graph_rag_melhor": sum(d > 0 for d in differences),
                            "empates": sum(d == 0 for d in differences),
-                           "rag_simples_melhor": sum(d < 0 for d in differences)},
+                           "simple_rag_melhor": sum(d < 0 for d in differences)},
             "por_pergunta": per_question, "revisao_gabaritos": gabaritos}
 
 

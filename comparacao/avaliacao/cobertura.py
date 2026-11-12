@@ -1,6 +1,6 @@
 """Cobertura das referências do gabarito no contexto de cada versão, sem chamadas de API.
 
-Reaproveita os trechos iniciais gravados numa rodada (`<id>_rag_simples.json`),
+Reaproveita os trechos iniciais gravados numa rodada (`<id>_simple_rag.json`),
 o índice experimental local, o grafo e o reranker local. Para cada pergunta,
 conta quantas referências do gabarito aparecem no contexto que cada versão
 enviaria ao modelo e quantas já estavam nos trechos iniciais. Com
@@ -19,6 +19,8 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parents[1]))
+sys.path.insert(0, str(HERE))
+from resultados import result_file  # noqa: E402  (aceita nomes de resultado antigos)
 
 
 def matches(reference, item):
@@ -69,7 +71,7 @@ def measure(round_name, variants, split="desenvolvimento", candidates=False):
     for variant, strategy in strategies.items():
         rows = []
         for question in questions:
-            initial = json.loads((directory / f"{question['id']}_rag_simples.json").read_text(encoding="utf-8"))["sources"]
+            initial = json.loads(result_file(directory, question['id'], "simple_rag").read_text(encoding="utf-8"))["sources"]
             ranked = [NodeWithScore(node=by_id[item["metadata"]["node_id"]], score=item["score"]) for item in initial]
             references = question["fontes"]
             row = {"id": question["id"], "referencias": len(references), "iniciais": sum(covered(references, initial))}
@@ -96,8 +98,8 @@ def measure(round_name, variants, split="desenvolvimento", candidates=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("rodada", help="Pasta em artefatos/resultados com <id>_rag_simples.json de cada pergunta.")
-    parser.add_argument("--versoes", default="rag_pais,graphrag")
+    parser.add_argument("rodada", help="Pasta em artefatos/resultados com <id>_simple_rag.json de cada pergunta.")
+    parser.add_argument("--versoes", default="parent_rag,graph_rag")
     parser.add_argument("--split", default="desenvolvimento", choices=("desenvolvimento", "teste"))
     parser.add_argument("--candidatos", action="store_true", help="Conta referências entre os candidatos do grafo.")
     args = parser.parse_args(argv)

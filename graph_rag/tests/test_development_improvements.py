@@ -104,7 +104,7 @@ def test_numeric_coincidence_is_not_evidence(answer):
 
 
 def test_actual_development_rows():
-    corpus=Path(__file__).resolve().parents[1]/'data'
+    corpus=Path(__file__).resolve().parents[2]/'data'  # corpus compartilhado na raiz
     lookup=StructuredLookup(corpus)
     assert any('lubrificantes' in n.text.casefold() for n in lookup.retrieve('Qual classe CNAE 47.32-6?'))
     assert any('Campinas' in n.text and 'drs' in n.text for n in lookup.retrieve('Qual DRS do município de Campinas?'))

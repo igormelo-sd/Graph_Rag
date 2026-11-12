@@ -14,7 +14,7 @@ from rag_app.storage import write_json
 ROOT = Path(__file__).resolve().parents[1]
 
 
-@pytest.mark.parametrize("entry", ["main.py", "graphrag/main.py"])
+@pytest.mark.parametrize("entry", ["main.py", "graph_rag/main.py"])
 def test_help_from_another_directory_without_site_packages(entry, tmp_path):
     result = subprocess.run([sys.executable, "-S", str(ROOT / entry), "--help"],
                             cwd=tmp_path, capture_output=True, text=True)
@@ -29,20 +29,20 @@ def test_help_from_another_directory_without_site_packages(entry, tmp_path):
 ])
 def test_invalid_modes_fail_before_initialization(argv):
     with pytest.raises(SystemExit) as error:
-        main(ROOT / "graphrag", argv, extended=True)
+        main(ROOT / "graph_rag", argv, extended=True)
     assert error.value.code == 2
 
 
 def test_bootstrap_rejects_already_loaded_other_variant(monkeypatch):
     monkeypatch.setitem(sys.modules, "processing", SimpleNamespace(__file__=str(ROOT / "src/processing.py")))
     with pytest.raises(RuntimeError, match="processo separado"):
-        activate(ROOT / "graphrag")
+        activate(ROOT / "graph_rag")
 
 
 def test_bootstrap_prioritizes_selected_implementation(monkeypatch):
     monkeypatch.setattr(sys, "path", list(sys.path))
-    activate(ROOT / "graphrag")
-    assert sys.path[0] == str(ROOT / "graphrag/src")
+    activate(ROOT / "graph_rag")
+    assert sys.path[0] == str(ROOT / "graph_rag/src")
 
 
 @pytest.mark.parametrize("key,value", [
@@ -89,7 +89,7 @@ def test_page_metadata_preserves_grouping_order_and_explicit_sections():
     assert "section" not in nodes[1].metadata
 
 
-def test_graph_entry_dispatches_only_graphrag(monkeypatch, capsys):
+def test_graph_entry_dispatches_only_graph_rag(monkeypatch, capsys):
     from unittest.mock import Mock
     from rag_app import cli
     from comparacao import run
@@ -98,14 +98,14 @@ def test_graph_entry_dispatches_only_graphrag(monkeypatch, capsys):
     monkeypatch.setattr(cli, "configure_console", lambda: None)
     monkeypatch.setattr("dotenv.load_dotenv", lambda *a, **kw: None)
     monkeypatch.setattr(run, "compare", compare)
-    cli.main(ROOT / "graphrag", ["--comparar", "Pergunta"], extended=True)
-    compare.assert_called_once_with("Pergunta", "graphrag")
+    cli.main(ROOT / "graph_rag", ["--comparar", "Pergunta"], extended=True)
+    compare.assert_called_once_with("Pergunta", "graph_rag")
     assert json.loads(capsys.readouterr().out)["answer"] == "ok"
 
 
 def test_comparison_help_exposes_frozen_implementations_first():
     from comparacao import run
-    assert run.FROZEN == ("rag_simples", "graphrag")
+    assert run.FROZEN == ("simple_rag", "graph_rag")
     assert run.VARIANTS[:len(run.FROZEN)] == run.FROZEN
     result = subprocess.run([sys.executable, "-S", str(ROOT / "comparacao/run.py"),
                              "perguntar", "--help"], capture_output=True, text=True)

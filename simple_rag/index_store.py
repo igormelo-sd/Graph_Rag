@@ -3,12 +3,12 @@ import json
 from dataclasses import asdict
 from pathlib import Path
 
-from rag_simples.documents import Chunk
-from rag_simples.vectors import normalize
+from simple_rag.chunk import Chunk
+from simple_rag.vectors import normalize
 from rag_app.storage import write_json
 
 VERSION = 2
-BACKEND = "huggingface-local"
+BACKEND = "cosine-json"  # formato do índice; o provedor de embeddings fica no perfil
 
 
 def save_index(path: Path, chunks: list[Chunk], vectors: list[list[float]], *,

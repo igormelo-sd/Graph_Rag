@@ -1,6 +1,6 @@
 # Banco de perguntas para RAG simples × GraphRAG
 
-O banco foi elaborado a partir dos 20 arquivos de `graphrag/data`, o corpus
+O banco foi elaborado a partir dos 20 arquivos de `data`, o corpus
 definido em `comparacao/config.json`. O PDF adicional `pib_municipal_ed2019.pdf`,
 que ficava em `data/` da raiz (removida), foi inspecionado no filtro, mas não foi
 usado nos gabaritos por estar fora do corpus configurado.
@@ -95,7 +95,7 @@ retomada; `perguntar` continua disponível para uma pergunta avulsa. Veja
 
 ```powershell
 .\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida minha_rodada
-.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao graphrag
+.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao graph_rag
 .\.venv\Scripts\python.exe comparacao/avaliacao/validar.py
 ```
 
@@ -146,7 +146,7 @@ gere a ficha de novo com outra `--saida` para que as avaliações sejam independ
 ## Coleta reproduzível da aplicação GraphRAG
 
 `experimento.py` executa as perguntas de desenvolvimento no aplicativo completo.
-Use `--versao principal` para o RAG principal ou `--versao graphrag` (padrão)
+Use `--versao principal` para o RAG principal ou `--versao graph_rag` (padrão)
 para a variante GraphRAG. Cada opção carrega sua própria engine, `.env`, corpus
 resolvido e configuração de índice, em processos separados. O manifesto registra
 essa escolha; a coleta não transforma os motores em uma mesma implementação.

@@ -4,9 +4,9 @@ Leia primeiro [AGENTS.md](../AGENTS.md). Este repositório é independente; não
 
 ## Uso pelo aplicativo
 
-`graphrag/src/llm.py` é a factory do fluxo principal. `llm_factory.py` neste diretório é um helper legado separado; suas regras de fallback não descrevem o comportamento do aplicativo atual. Ajuste o provedor principal pela configuração documentada no README e por `graphrag/src/llm.py` quando necessário.
+`graph_rag/src/llm.py` é a factory do fluxo principal. `llm_factory.py` neste diretório é um helper legado separado; suas regras de fallback não descrevem o comportamento do aplicativo atual. Ajuste o provedor principal pela configuração documentada no README e por `graph_rag/src/llm.py` quando necessário.
 
-`graphrag/src/domain_skills.py` registra skills com `rag-routing.json` e injeta na síntese o conteúdo entre `<!-- rag-context:start -->` e `<!-- rag-context:end -->` do `SKILL.md`. Assim, partes das skills de domínio são instruções de produção. Referências e scripts auxiliares não são carregados ou executados automaticamente por esse registro.
+`graph_rag/src/domain_skills.py` registra skills com `rag-routing.json` e injeta na síntese o conteúdo entre `<!-- rag-context:start -->` e `<!-- rag-context:end -->` do `SKILL.md`. Assim, partes das skills de domínio são instruções de produção. Referências e scripts auxiliares não são carregados ou executados automaticamente por esse registro.
 
 ## Ao editar skills
 

@@ -2,13 +2,13 @@
 
 Organização do código e execução de todas as suítes: [guia de manutenção](../docs/REFATORACAO.md).
 
-Para comparar com `rag_simples`, use o [perfil e os comandos compartilhados](../comparacao/README.md).
+Para comparar com `simple_rag`, use o [perfil e os comandos compartilhados](../comparacao/README.md).
 Os padrões comuns são `gpt-4o-mini`, embeddings locais normalizados `BAAI/bge-m3`,
 trechos de 1.024 caracteres com sobreposição de 200, top-k inicial 5, temperatura
 zero e resposta máxima de 1.200 tokens. Os comandos `--comparar` impõem o perfil
 e usam o mesmo índice do RAG simples. O chat/API abaixo conservam o fluxo completo.
 
-Esta cópia em `Graph_Rag/graphrag` inclui **expansão por entidades**, **filhos e pais
+Esta cópia em `Graph_Rag/graph_rag` inclui **expansão por entidades**, **filhos e pais
 textuais** e **busca global por resumos de comunidades**. Consulte
 [padrões implementados](docs/PADROES_IMPLEMENTADOS.md) para uso, configuração e limites.
 O novo fingerprint exige sincronizar índices anteriores. Para preparar os
@@ -61,7 +61,7 @@ O esquema altera o fingerprint: índices anteriores precisam de reconstrução n
 main.py  requirements.txt  .env  LICENSE
 src/            # API, engine, retrievers, indexação, validação
 .agents/        # helper legado + skills de domínio
-data/           # 10 PDFs Seade (fonte indexada)
+../data/        # corpus compartilhado com simple_rag
 chroma_db/      # gerado no 1º boot: chroma.sqlite3 + bm25_nodes.pkl + indexed_manifest.json
 tests/          # suítes pytest
 ```

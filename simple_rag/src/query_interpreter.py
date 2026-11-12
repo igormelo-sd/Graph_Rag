@@ -7,7 +7,7 @@ Query Interpreter — analisa a pergunta e determina:
 import json
 import os
 from rag_app.query_routing import minimum_sources
-from domain_ontology import prompt_block, query_constraints, preserve_query, enabled as ontology_enabled
+from domain_ontology import prompt_block, query_constraints, preserve_query
 from labor_market_skill import is_labor_market_query
 
 INTERPRET_PROMPT = """\

@@ -2,14 +2,14 @@
 import argparse
 import json
 
-from rag_simples.rag import ROOT
+from simple_rag.rag import ROOT
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description="RAG simples (sem grafo): usa o perfil, o preparo e o ranking comuns em comparacao/.")
     commands = parser.add_subparsers(dest="command", required=True)
-    commands.add_parser("indexar", help="Prepara o corpus uma vez e grava o índice em rag_simples/indice e graphrag/indice.")
+    commands.add_parser("indexar", help="Prepara o corpus uma vez e grava o índice em simple_rag/indice e graph_rag/indice.")
     for name in ("perguntar", "comparar"):
         query = commands.add_parser(name, help="Responde com o RAG simples (comparar é sinônimo).")
         query.add_argument("pergunta")
@@ -24,11 +24,11 @@ def main(argv=None) -> None:
     args = parser.parse_args(argv)
     load_dotenv(ROOT.parent / "comparacao" / ".env", override=True)
     load_openai_key()
-    use_implementation("rag_simples")  # só rag_simples/src: nenhum módulo de grafo no processo
+    use_implementation("simple_rag")  # só simple_rag/src: nenhum módulo de grafo no processo
     apply_profile(strict=True)
     from comparacao.run import compare, prepare
     try:
-        result = prepare() if args.command == "indexar" else compare(args.pergunta, "rag_simples")
+        result = prepare() if args.command == "indexar" else compare(args.pergunta, "simple_rag")
     except (ValueError, OSError) as exc:
         parser.exit(1, f"Erro: {exc}\n")
     if args.command == "indexar":

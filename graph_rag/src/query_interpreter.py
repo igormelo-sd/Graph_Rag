@@ -71,7 +71,7 @@ def _prepare_query(question: str):
     Retorna ao menos "text", exceto quando pede esclarecimento antes da busca.
     Quando RAG_DEEP_SEARCH=1, também retorna alternativas para deep search.
     """
-    from knowledge_analytics import clarification_request, hierarchy_scope
+    from knowledge_analytics import clarification_request
     from community_search import enabled as global_enabled, is_global_question
     if global_enabled() and is_global_question(question):
         return {"sources": ["text", "graph", "global"], "rewritten_query": question,

@@ -15,7 +15,7 @@ recuperação ou endpoint não podem substituir o perfil nessa execução.
 | Busca inicial | Híbrida: cosseno exato + BM25, 50 candidatos de cada, fusão RRF (k=60), reranking dos 30 primeiros com `BAAI/bge-reranker-v2-m3` (local, CPU), no máximo 2 trechos por tabela, 5 trechos |
 | Contexto de evidências | Até 12.000 tokens estimados por caracteres / 4 |
 | Resposta máxima / temperatura | 1.200 tokens / 0 |
-| Corpus | `../graphrag/data` |
+| Corpus | `../data` |
 
 Também são iguais o prompt final, a numeração de fontes e a política de incluir
 trechos inteiros que caibam no orçamento. O limite de contexto é uma estimativa;
@@ -101,13 +101,13 @@ os 5 resultados iniciais. Na de 28/10/2026 (`PIPELINE` v3), ficaram 25.896.
 ## Versão v4: RAG simples sem grafo e GraphRAG sobre o mesmo código
 
 `PIPELINE` `shared-graph-processing-v4`. Esta versão **não** é a configuração
-congelada de 04/11 (abaixo): o perfil, o índice e o comportamento do `rag_simples`
+congelada de 04/11 (abaixo): o perfil, o índice e o comportamento do `simple_rag`
 mudaram, então os resultados anteriores não são comparáveis. Objetivo: a única
 diferença entre as versões passa a ser o grafo.
 
-| Aspecto | `rag_simples` | `graphrag` |
+| Aspecto | `simple_rag` | `graph_rag` |
 |---|---|---|
-| Código (`rag_simples/src` e `graphrag/src`): preparo, índice, ranking inicial, reranker, ontologia (anotação e filtro), prompt | idêntico, byte a byte (teste em `tests_shared/test_implementations.py`) | idêntico |
+| Código (`simple_rag/src` e `graph_rag/src`): preparo, índice, ranking inicial, reranker, ontologia (anotação e filtro), prompt | idêntico, byte a byte (teste em `tests_shared/test_implementations.py`) | idêntico |
 | Módulos de grafo (`graph_indexing`, `graph_retriever`, `graph_ontology`, `ontology_extractor`, `relation_semantics`, `community_search`) | **não existem na pasta** | existem |
 | Módulos com ganchos de grafo (`analysis_engine`, `startup`, `query_interpreter`) | versão sem grafo | versão com grafo |
 | Trechos iniciais | `top_k` do ranking comum | os mesmos |
@@ -116,8 +116,8 @@ diferença entre as versões passa a ser o grafo.
 | Grafo (entidades, rótulos, contexto documental, observações, comunidades) | **nenhum** | sim |
 
 - **Índice por pasta:** `preparar` calcula os vetores uma vez em
-  `rag_simples/indice/index.json` e copia os mesmos bytes para
-  `graphrag/indice/index.json`; cada pasta recebe `manifesto.json` com o SHA-256.
+  `simple_rag/indice/index.json` e copia os mesmos bytes para
+  `graph_rag/indice/index.json`; cada pasta recebe `manifesto.json` com o SHA-256.
   `perguntar`, `avaliar` e `cobertura` recusam a execução se um índice faltar ou se
   os hashes divergirem; o hash também entra no manifesto de cada rodada.
 - **Reserva:** o ranking comum é calculado com `top_k + baseline_extra_slots`
@@ -127,12 +127,12 @@ diferença entre as versões passa a ser o grafo.
 - **Filtro de ontologia comum** (`ontology_filter`): candidatos em conflito explícito
   com indicador, território, período, unidade, escala ou setor da pergunta saem do
   ranking inicial das duas versões. Dados incompletos permanecem.
-- **Processo próprio:** `avaliar --versoes rag_simples` (ou `rag_simples,rag_pais`) e a CLI do
-  `rag_simples` carregam só `rag_simples/src`; com `graphrag` na lista, o processo usa
-  `graphrag/src`. Rodadas das duas versões podem ir para a mesma `--saida` em comandos
+- **Processo próprio:** `avaliar --versoes simple_rag` (ou `simple_rag,parent_rag`) e a CLI do
+  `simple_rag` carregam só `simple_rag/src`; com `graph_rag` na lista, o processo usa
+  `graph_rag/src`. Rodadas das duas versões podem ir para a mesma `--saida` em comandos
   separados (a retomada mantém o que já foi gravado), perdendo a alternância de ordem.
   A raiz do repositório não tem código de RAG.
-- **Comandos do `rag_simples`:** `indexar` chama o mesmo `preparar`; `perguntar` e
+- **Comandos do `simple_rag`:** `indexar` chama o mesmo `preparar`; `perguntar` e
   `comparar` usam a mesma recuperação do `avaliar`. O caminho antigo (`pypdf` e
   `SentenceSplitter`) não é mais usado pela CLI.
 - **Não executado:** esta versão não foi testada nem preparada; exige novo
@@ -145,9 +145,9 @@ A configuração usada nos resultados finais está em
 commit `6c894ca`, GraphRAG revisado, 50 perguntas de teste aprovadas (hash
 `bed1400c…`) e parâmetros da seleção do grafo. Perfil `d68b280c…`, `PIPELINE` v3,
 corpus e índice (`df54c6ed…`) são os mesmos de 28/10. Rodadas:
-`teste_20261104_r1..r3`, com `rag_simples`, `graphrag` e `rag_pais`. Não altere
-`config.json`, o código de `comparacao/`, `rag_simples/`, `rag_app/` e
-`graphrag/src` nem as perguntas para novas rodadas desses resultados.
+`teste_20261104_r1..r3`, com `simple_rag`, `graph_rag` e `parent_rag`. Não altere
+`config.json`, o código de `comparacao/`, `simple_rag/`, `rag_app/` e
+`graph_rag/src` nem as perguntas para novas rodadas desses resultados.
 
 ### Resultados de recuperação no teste (3 rodadas, 450 execuções, sem erros)
 
@@ -158,10 +158,10 @@ rodadas):
 | Versão | Referências | Contexto (mediana) | Recuperação (mediana) | Geração (mediana) |
 |---|---:|---:|---:|---:|
 | RAG simples | 30 | ~1,1 mil tokens | 19 s | 1,8 s |
-| `rag_pais` | 30 | ~2,1 mil tokens | 19 s | 1,7 s |
+| `parent_rag` | 30 | ~2,1 mil tokens | 19 s | 1,7 s |
 | GraphRAG revisado | 35 | ~3,2 mil tokens | 37 s | 1,8 s |
 
-| Categoria | Referências | RAG simples | `rag_pais` | GraphRAG |
+| Categoria | Referências | RAG simples | `parent_rag` | GraphRAG |
 |---|---:|---:|---:|---:|
 | Factual | 13 | 11 | 11 | 11 |
 | Numérica | 15 | 2 | 2 | 4 |
@@ -194,7 +194,7 @@ commit `4b2afd8`, perfil `d68b280c…` (`config.json` atual), `PIPELINE` v3,
 índice de 25.896 trechos, `gpt-4o-mini` (temperatura 0), `text-embedding-3-small`,
 reranker `BAAI/bge-reranker-v2-m3` (revisão `953dc6f`) e as 20 perguntas de
 desenvolvimento (hash `4147b379…`). Não altere `config.json`, o código de
-`comparacao/`, `rag_simples/`, `rag_app/` e `graphrag/src` nem as perguntas para
+`comparacao/`, `simple_rag/`, `rag_app/` e `graph_rag/src` nem as perguntas para
 novas rodadas desses resultados. Qualquer mudança exige novo preparo, novas
 rodadas e um novo registro de congelamento.
 
@@ -251,7 +251,7 @@ por `avaliacao/cega.py` (veja [avaliação cega](avaliacao/README.md#avaliação
 
 ## GraphRAG revisado (03/11/2026)
 
-O código do `graphrag` mudou depois do congelamento de 28/10/2026, cujos
+O código do `graph_rag` mudou depois do congelamento de 28/10/2026, cujos
 resultados valem para o commit `4b2afd8`. O índice experimental e o `PIPELINE`
 não mudaram; o grafo é montado na sessão.
 
@@ -276,7 +276,7 @@ de `0x20`), com escore fixo e sem reranking. Mudanças, todas gerais:
    candidatos são pontuados pelo mesmo cross-encoder do ranking inicial e entram
    no máximo 6, com escore de pelo menos 0,25 do menor escore inicial da pergunta.
 
-A variante experimental `graphrag_v2` foi incorporada e removida.
+A variante experimental `graph_rag_v2` foi incorporada e removida.
 
 ### Cobertura do gabarito, sem API
 
@@ -289,9 +289,9 @@ Nas 20 perguntas de desenvolvimento (39 referências), a partir de
 | Versão | Referências no contexto | Tokens médios | Perguntas com referência nova |
 |---|---:|---:|---:|
 | Só os trechos iniciais | 19 | — | — |
-| `rag_pais` | 19 | ~2,3 mil | 0 |
+| `parent_rag` | 19 | ~2,3 mil | 0 |
 | GraphRAG de 28/10 | 22 | ~6,2 mil | 2 (D008, D020) |
-| `graphrag_v2` de 29/10 | 21 | ~2,9 mil | 2 |
+| `graph_rag_v2` de 29/10 | 21 | ~2,9 mil | 2 |
 | **GraphRAG revisado** | **23** | **~4,0 mil** | **3 (D008, D014, D020)** |
 
 Os candidatos do grafo revisado contêm 5 referências ausentes dos trechos
@@ -304,8 +304,8 @@ conjunto de teste. Cobertura não é qualidade da resposta; D010, D011, D016 e
 D018 continuam sem a referência no contexto.
 
 ```powershell
-.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes rag_pais,graphrag
-.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes graphrag --candidatos
+.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes parent_rag,graph_rag
+.\.venv\Scripts\python.exe comparacao/avaliacao/cobertura.py openai_rerank_dev_20261028_r1 --versoes graph_rag --candidatos
 ```
 
 ### Rodadas de desenvolvimento de 03/11/2026
@@ -316,12 +316,12 @@ perguntas das rodadas de 28/10; 180 execuções, sem erros). Marcadores literais
 | Versão | Rodadas 1 / 2 / 3 | Média | Contexto (mediana) | Recuperação (mediana) | Extras citados |
 |---|---|---:|---:|---:|---:|
 | RAG simples | 22 / 22 / 22 | 22,0 | ~1,1 mil tokens | 17 s | — |
-| `rag_pais` | 23 / 23 / 23 | 23,0 | ~2,4 mil tokens | 17 s | — |
+| `parent_rag` | 23 / 23 / 23 | 23,0 | ~2,4 mil tokens | 17 s | — |
 | GraphRAG revisado | 23 / 24 / 24 | 23,7 | ~4,0 mil tokens | 36 s | 12 de 168 |
 | GraphRAG de 28/10 | 25 / 24 / 24 | 24,3 | ~6,5 mil tokens | 18 s | 10 de 651 |
 
 - O GraphRAG revisado ganha na D014 (3 de 3 marcadores nas 3 rodadas, contra
-  2 na versão de 28/10 e no `rag_pais`): a página 5 da metodologia chega pela
+  2 na versão de 28/10 e no `parent_rag`): a página 5 da metodologia chega pela
   continuidade entre páginas. D013 também melhora em 2 das 3 rodadas.
 - Perde a D010: a versão de 28/10 marcava "dados preliminares" ao citar um valor
   **errado** (1,68% em vez de ~1,59%); a revisada responde que a taxa não está
@@ -337,20 +337,20 @@ perguntas das rodadas de 28/10; 180 execuções, sem erros). Marcadores literais
 
 ## Ablação e rodadas experimentais
 
-`rag_simples` e `graphrag` são as versões comparadas, e o `avaliar` roda só essas
-duas quando `--versoes` não é informado. `rag_pais` (ablação) é o RAG simples com
+`simple_rag` e `graph_rag` são as versões comparadas, e o `avaliar` roda só essas
+duas quando `--versoes` não é informado. `parent_rag` (ablação) é o RAG simples com
 os mesmos pais literais do GraphRAG e sem nenhum candidato do grafo: separa o
 efeito do contexto maior do efeito do grafo. Usa o mesmo perfil, índice e
 ranking inicial.
 
 ```powershell
-.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida experimental_r1 --versoes rag_pais
-.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py experimental_r1 --versoes rag_pais
+.\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida experimental_r1 --versoes parent_rag
+.\.venv\Scripts\python.exe comparacao/avaliacao/marcadores.py experimental_r1 --versoes parent_rag
 ```
 
 ### Rodadas experimentais de 29/10/2026
 
-A variante `graphrag_v2` destas rodadas foi incorporada ao `graphrag` em
+A variante `graph_rag_v2` destas rodadas foi incorporada ao `graph_rag` em
 03/11/2026 (veja [GraphRAG revisado](#graphrag-revisado-03112026)); seu código
 está no commit `7be2b27`.
 
@@ -360,15 +360,15 @@ das rodadas congeladas; 120 execuções, sem erros). Marcadores literais, de 34:
 | Versão | Rodadas 1 / 2 / 3 | Média | Contexto (mediana) | Recuperação (mediana) |
 |---|---|---:|---:|---:|
 | RAG simples (congelada, 28/10) | 22 / 21 / 23 | 22,0 | ~1,1 mil tokens | 17 s |
-| `rag_pais` | 24 / 23 / 24 | 23,7 | ~2,4 mil tokens | 18 s |
-| `graphrag_v2` | 23 / 24 / 23 | 23,3 | ~2,9 mil tokens | 30 s |
+| `parent_rag` | 24 / 23 / 24 | 23,7 | ~2,4 mil tokens | 18 s |
+| `graph_rag_v2` | 23 / 24 / 23 | 23,3 | ~2,9 mil tokens | 30 s |
 | GraphRAG (congelada, 28/10) | 25 / 24 / 24 | 24,3 | ~6,5 mil tokens | 17 s |
 
 - Os pais literais explicam +1,7 dos +2,3 marcadores do GraphRAG sobre o RAG
-  simples (D001 e D014). A diferença restante entre GraphRAG e `rag_pais` está
+  simples (D001 e D014). A diferença restante entre GraphRAG e `parent_rag` está
   na D010: linhas irmãs da Tabela 4.2 levaram a resposta a citar dados
   preliminares, mas com valor errado (1,68% em vez de ~1,59%).
-- `graphrag_v2` reduz o contexto à metade sem perder marcadores fora da D010,
+- `graph_rag_v2` reduz o contexto à metade sem perder marcadores fora da D010,
   mas não ganha nenhum; D016 e D017 continuam falhando porque nenhum vizinho do
   grafo supera o limiar do reranker.
 - São marcadores automáticos em 20 perguntas, com variação de cerca de 1 marcador
@@ -381,7 +381,7 @@ Python 3.11 / Windows x64 para as dependências fixadas:
 
 ```powershell
 python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install --require-hashes -r graphrag/requirements.txt
+.\.venv\Scripts\python.exe -m pip install --require-hashes -r graph_rag/requirements.txt
 Copy-Item comparacao/.env.example comparacao/.env
 ```
 
@@ -395,11 +395,11 @@ correspondente. Evite roteadores que escolham modelos diferentes a cada chamada.
 # Extrai e divide o corpus uma única vez e grava os mesmos vetores para ambos.
 .\.venv\Scripts\python.exe comparacao/run.py preparar
 
-.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao rag_simples
-.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao graphrag
+.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao simple_rag
+.\.venv\Scripts\python.exe comparacao/run.py perguntar "Sua pergunta" --versao graph_rag
 
 # Perguntas globais usam comunidades automaticamente no GraphRAG.
-.\.venv\Scripts\python.exe comparacao/run.py perguntar "Quais os temas dos documentos?" --versao graphrag
+.\.venv\Scripts\python.exe comparacao/run.py perguntar "Quais os temas dos documentos?" --versao graph_rag
 
 # Banco de perguntas nas duas versões, numa única sessão.
 .\.venv\Scripts\python.exe comparacao/run.py avaliar --split desenvolvimento --saida minha_rodada
@@ -422,8 +422,8 @@ as demais. Retomar com outro perfil, corpus ou banco é recusado.
 Os mesmos comandos têm entradas nos aplicativos:
 
 ```powershell
-.\.venv\Scripts\python.exe rag_simples/rag.py comparar "Sua pergunta"
-.\.venv\Scripts\python.exe graphrag/main.py --comparar "Sua pergunta"
+.\.venv\Scripts\python.exe simple_rag/rag.py comparar "Sua pergunta"
+.\.venv\Scripts\python.exe graph_rag/main.py --comparar "Sua pergunta"
 ```
 
 O índice comum fica em `comparacao/artefatos/index.json`. O preparo usa a ingestão
@@ -435,8 +435,8 @@ Ele não substitui os índices Chroma usados pelo aplicativo completo.
 
 | Versão | Recuperação e contexto |
 |---|---|
-| `rag_simples` | Trechos iniciais por similaridade, sem grafo |
-| `graphrag` | Candidatos do grafo (entidades raras, rótulos da tabela ou do documento, título, notas e continuidade, observações da pergunta) escolhidos pelo reranker; pais literais; perguntas globais usam resumos de comunidades |
+| `simple_rag` | Trechos iniciais por similaridade, sem grafo |
+| `graph_rag` | Candidatos do grafo (entidades raras, rótulos da tabela ou do documento, título, notas e continuidade, observações da pergunta) escolhidos pelo reranker; pais literais; perguntas globais usam resumos de comunidades |
 
 Existe uma única opção GraphRAG na comparação. Não há seleção de uma versão
 reduzida ou uma opção adicional para ativar os recursos completos. Os antigos
@@ -471,7 +471,7 @@ Resumos são derivados e suas fontes candidatas não comprovam correção das ci
 ## Validação local
 
 ```powershell
-.\.venv\Scripts\python.exe -m pytest comparacao/tests rag_simples/tests -q --capture=sys
+.\.venv\Scripts\python.exe -m pytest comparacao/tests simple_rag/tests -q --capture=sys
 ```
 
 Os testes simulam os modelos e verificam equivalência da busca inicial, prompt,

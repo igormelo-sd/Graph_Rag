@@ -2,19 +2,21 @@
 
 O repositório contém a implementação GraphRAG, um RAG simples e uma comparação
 experimental. A antiga aplicação principal (`src/` e `tests/` da raiz) foi
-removida; o último estado com ela está na tag `tcc-congelamento`. Mantenha a pasta completa: `graphrag/`
-e `rag_simples/` usam os componentes comuns da raiz.
+removida; o último estado com ela está na tag `tcc-congelamento`. Mantenha a pasta completa: `graph_rag/`
+e `simple_rag/` usam os componentes comuns da raiz.
 
 | Pasta | Responsabilidade |
 |---|---|
-| `graphrag/src/` | Aplicação GraphRAG: recuperação híbrida, API, ingestão, validação, expansão de pais e busca global por comunidades |
+| `graph_rag/src/` | Aplicação GraphRAG: recuperação híbrida, API, ingestão, validação, expansão de pais e busca global por comunidades |
 | `rag_app/` | Comandos, inicialização, terminal, limites, proveniência, resultados e persistência comuns |
 | `rag_app/structured_lookup.py`, `numeric_binding.py` | Busca tabular completa e vínculo numérico por ocorrência usados pela aplicação GraphRAG |
-| `rag_simples/documents.py` | Leitura dos documentos e divisão em trechos |
-| `rag_simples/vectors.py` | Validação, normalização e ranking exato por cosseno |
-| `rag_simples/index_store.py` | Gravação atômica e validação do índice JSON |
-| `rag_simples/rag.py` | Classe `SimpleRAG`: indexação, busca e resposta |
-| `rag_simples/cli.py` | Comandos `indexar`, `perguntar` e `comparar` |
+| `simple_rag/src/` | O mesmo código de `graph_rag/src` sem os módulos de grafo (teste de identidade em `tests_shared/test_implementations.py`) |
+| `simple_rag/chunk.py` | Trecho gravado no índice JSON |
+| `simple_rag/vectors.py` | Validação, normalização e ranking exato por cosseno |
+| `simple_rag/index_store.py` | Gravação atômica e validação do índice JSON |
+| `simple_rag/rag.py` | Classe `SimpleRAG`: embeddings, índice, busca e resposta |
+| `simple_rag/cli.py`, `simple_rag/main.py` | Comandos `indexar`, `perguntar` e `comparar`; entrada da aplicação sem grafo |
+| `data/` | Corpus compartilhado pelas duas implementações |
 | `comparacao/profile.py` | Validação do perfil experimental |
 | `comparacao/common.py` | Aplicação do perfil, factories de modelos e contexto compartilhado |
 | `comparacao/variants.py` | Estratégias comparadas: `SimpleVariant` (sem grafo) e `GraphVariant` (entidades, vizinhança, pais, comunidades) |
@@ -29,12 +31,12 @@ e `rag_simples/` usam os componentes comuns da raiz.
 Os comandos existentes continuam disponíveis a partir da raiz:
 
 ```powershell
-.\.venv\Scripts\python.exe graphrag/main.py --cli
-.\.venv\Scripts\python.exe rag_simples/rag.py --help
+.\.venv\Scripts\python.exe graph_rag/main.py --cli
+.\.venv\Scripts\python.exe simple_rag/rag.py --help
 .\.venv\Scripts\python.exe comparacao/run.py --help
 ```
 
-`graphrag/main.py` delega para `rag_app.cli`; o `main.py` da raiz é só um
+`graph_rag/main.py` delega para `rag_app.cli`; o `main.py` da raiz é só um
 atalho para ele. Os argumentos são validados antes
 de carregar modelos, credenciais ou índices. `--help` funciona sem carregar as
 dependências de aprendizado de máquina. Cada implementação lê seu próprio
@@ -64,7 +66,7 @@ não foram regenerados nesta refatoração.
 
 ## Compatibilidade
 
-- Os módulos `runtime`, `provenance` e `query_results` de `graphrag/src`
+- Os módulos `runtime`, `provenance` e `query_results` de `graph_rag/src`
   reexportam a implementação comum, preservando os imports dos consumidores.
 - A numeração de trechos por fonte/página foi centralizada sem mudar agrupamento,
   ordem, conteúdo, splitter ou fingerprint do pipeline.
@@ -80,8 +82,8 @@ retrieval e síntese têm diferenças que não devem ser eliminadas automaticame
 
 ## Comparação simplificada
 
-A comparação oferece somente `rag_simples` e `graphrag`, com nomes iguais aos das
-pastas. `graphrag/main.py --comparar "pergunta"` usa automaticamente entidades,
+A comparação oferece somente `simple_rag` e `graph_rag`, com nomes iguais aos das
+pastas. `graph_rag/main.py --comparar "pergunta"` usa automaticamente entidades,
 estrutura, pais e, para perguntas globais, comunidades. Não existe modo reduzido
 nem argumento adicional para selecionar uma versão completa.
 
@@ -102,4 +104,27 @@ candidatas se restringem aos nós efetivamente disponíveis na busca por comunid
 A depuração também corrigiu consultas ao armazenamento do grafo com uma lista
 vazia de IDs: a biblioteca tratava essa entrada como busca sem filtro. Agora,
 nenhum ID produz nenhuma fonte, e os resultados são filtrados pelos IDs pedidos.
-O comportamento está coberto por regressões em `graphrag/tests`.
+O comportamento está coberto por regressões em `graph_rag/tests`.
+
+## Revisão de 12/11/2026
+
+- **Nomes:** `rag_simples` → `simple_rag`, `graphrag` → `graph_rag` e `rag_pais` → `parent_rag`
+  (pastas, módulos e variantes). Os registros de congelamento e o rascunho do capítulo 5
+  mantêm os nomes antigos de propósito, pois descrevem resultados já obtidos. As ferramentas de
+  avaliação (`cega.py`, `marcadores.py`, `cobertura.py`) leem resultados com os dois nomes
+  (`comparacao/avaliacao/resultados.py`).
+- **Corpus:** movido de `graphrag/data` para `data/` na raiz, compartilhado. `corpus` em
+  `comparacao/config.json` mudou, o que altera o fingerprint do perfil e exige novo `preparar`.
+- **`simple_rag/src`:** sem nenhum módulo de grafo; `analysis_engine`, `startup`,
+  `query_interpreter`, `parent_context` e `domain_ontology` perderam os ganchos de grafo.
+  Os demais módulos são idênticos aos de `graph_rag/src` (teste de identidade).
+- **Fluxo antigo do RAG simples removido:** `documents.py`, `SimpleRAG.index()`, a dependência
+  `pypdf` e o exemplo em `documentos/` duplicavam o preparo e usavam outro divisor de texto.
+  `indexar` agora chama o mesmo `preparar` da comparação. O rótulo `embedding_backend` do
+  índice deixou de dizer `huggingface-local` (o provedor vem do perfil).
+- **Testes:** `scripts/test_all.py` ganhou `simple_rag_src` (a suíte de `graph_rag/tests`
+  contra `simple_rag/src`; `RAG_TEST_IMPL=simple_rag`). Os testes que exigem grafo são pulados
+  nesse modo. Resultado local: `graph_rag` 302 passam; `simple_rag_src` 221 passam e 13 pulados;
+  `simple_rag` e `comparacao` 62 passam; `tests_shared` passa. Python 3.13.
+- **Depuração:** um teste apontava para o corpus no lugar antigo e foi corrigido; `pyflakes`
+  não achou nomes indefinidos; foram removidos imports que ficaram mortos.

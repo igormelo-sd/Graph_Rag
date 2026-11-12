@@ -1,4 +1,8 @@
-"""RAG tradicional: documentos -> trechos -> vetores -> busca -> resposta."""
+"""RAG simples: trechos -> vetores -> busca por cosseno -> resposta com fontes.
+
+O preparo dos trechos (extração, divisão e reparos) é o mesmo do GraphRAG e fica em
+`comparacao/run.py`; esta classe só embute, guarda, busca e responde.
+"""
 from __future__ import annotations
 
 import sys
@@ -7,11 +11,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT.parent))
 from comparacao.common import embedding_model, llm_model, pack_results, answer_prompt
-from rag_simples.documents import SUPPORTED, Chunk, split_text, read_documents
-from rag_simples.index_store import save_index, load_index
-from rag_simples.vectors import normalize, rank_by_cosine
+from simple_rag.chunk import Chunk
+from simple_rag.index_store import save_index, load_index
+from simple_rag.vectors import normalize, rank_by_cosine
 
-__all__ = ["SimpleRAG", "Chunk", "split_text", "main"]
+__all__ = ["SimpleRAG", "Chunk", "main"]
 
 
 class SimpleRAG:
@@ -43,12 +47,6 @@ class SimpleRAG:
 
     def embed_query(self, question: str) -> list[float]:
         return normalize(self.embedder.get_query_embedding(question))
-
-    def index(self, directory: Path, size: int = 1024, overlap: int = 200) -> int:
-        # Valida mesmo que a pasta esteja vazia.
-        split_text("", size, overlap)
-        chunks = read_documents(directory, size, overlap)
-        return self.index_chunks(chunks, size, overlap)
 
     def index_chunks(self, chunks, size=1024, overlap=200, experiment=None) -> int:
         vectors = self.embed([chunk.text for chunk in chunks])
@@ -83,7 +81,7 @@ class SimpleRAG:
 
 
 def main(argv=None) -> None:
-    from rag_simples.cli import main as run
+    from simple_rag.cli import main as run
     run(argv)
 
 

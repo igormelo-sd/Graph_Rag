@@ -62,7 +62,7 @@ def main(base_dir: Path, argv: list[str] | None = None, *, extended: bool = Fals
     if comparison is not None:
         from comparacao.run import compare
         load_dotenv(base_dir.parent / "comparacao" / ".env", override=True)
-        print(json.dumps(compare(comparison, "graphrag"), ensure_ascii=False, indent=2))
+        print(json.dumps(compare(comparison, "graph_rag"), ensure_ascii=False, indent=2))
         return
     load_dotenv(base_dir / ".env", override=True)
     if extended:

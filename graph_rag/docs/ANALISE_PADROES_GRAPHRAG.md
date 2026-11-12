@@ -5,12 +5,12 @@ O diagnóstico abaixo registra o estado anterior às mudanças. Consulte
 [padrões implementados](PADROES_IMPLEMENTADOS.md) para o comportamento atual.
 
 Análise em 8 de outubro de 2026, baseada na leitura do site e do código local em
-`Graph_Rag/graphrag`. Não foram executados servidor, indexação ou experimentos.
+`Graph_Rag/graph_rag`. Não foram executados servidor, indexação ou experimentos.
 Os benefícios descritos abaixo são hipóteses a avaliar.
 
 ## Enquadramento
 
-O [catálogo introdutório](https://graphrag.com/concepts/intro-to-graphrag/),
+O [catálogo introdutório](https://graph_rag.com/concepts/intro-to-graph_rag/),
 mantido pela Neo4j, apresenta GraphRAG como uma família de padrões de recuperação
 que usam grafos. Cada padrão exige uma estrutura apropriada. Portanto, a aplicação
 pode incorporar ideias do catálogo mantendo LlamaIndex e seu armazenamento atual;
@@ -26,11 +26,11 @@ uma migração para Neo4j seria uma decisão separada.
 | Resumos globais de comunidades | Não foi encontrada implementação de detecção de comunidades do grafo e síntese global de seus resumos. Existem referências a RAPTOR, que não demonstram esse fluxo. | Acrescentar comunidades, resumos com proveniência e um modo global de resposta. |
 | Consultas por modelos predefinidos | Já existem travessias locais controladas para relações, observações e hierarquias; o armazenamento é `SimplePropertyGraphStore`, sem executor Cypher encontrado. | Organizar essas travessias em operações com parâmetros tipados, como indicador/região/período e relações de um setor. |
 
-Fontes dos padrões: [busca vetorial com grafo](https://graphrag.com/reference/graphrag/graph-enhanced-vector-search/),
-[filho e pai](https://graphrag.com/reference/graphrag/parent-child-retriever/),
-[metadados](https://graphrag.com/reference/graphrag/metadata-filtering/),
-[comunidades](https://graphrag.com/reference/graphrag/global-community-summary-retriever/) e
-[consultas predefinidas](https://graphrag.com/reference/graphrag/cypher-templates/).
+Fontes dos padrões: [busca vetorial com grafo](https://graph_rag.com/reference/graph_rag/graph-enhanced-vector-search/),
+[filho e pai](https://graph_rag.com/reference/graph_rag/parent-child-retriever/),
+[metadados](https://graph_rag.com/reference/graph_rag/metadata-filtering/),
+[comunidades](https://graph_rag.com/reference/graph_rag/global-community-summary-retriever/) e
+[consultas predefinidas](https://graph_rag.com/reference/graph_rag/cypher-templates/).
 
 ## Ordem sugerida
 
@@ -59,7 +59,7 @@ o mesmo corpus, modelos, configurações de trechos e orçamento de contexto nas
 etapas compartilhadas. Separar perguntas locais e globais; medir evidências
 recuperadas, fidelidade às fontes, abrangência, latência e custo.
 
-As versões atuais `rag_simples` e `graphrag` usam configurações diferentes de
+As versões atuais `simple_rag` e `graph_rag` usam configurações diferentes de
 embeddings e recuperação. Uma comparação direta não isola o efeito do grafo.
 O roteiro `scripts/evaluate_retrieval.py` já oferece modos de ablação no projeto
 maior, mas exigiria extensão para comparar o fluxo global proposto.

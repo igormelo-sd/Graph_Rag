@@ -13,11 +13,15 @@ import argparse
 import hashlib
 import json
 import re
+import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
+from resultados import result_file  # noqa: E402  (aceita nomes de resultado antigos)
+
 RESULTS = HERE.parent / "artefatos" / "resultados"
-VARIANTS = ("rag_simples", "graphrag")
+VARIANTS = ("simple_rag", "graph_rag")
 # Versão do conjunto de desenvolvimento a que os marcadores correspondem.
 QUESTIONS_SHA256 = "4147b379a3251ce91861cd6579ebd6024fa58d91740cb7341c6922f91121986d"
 
@@ -65,7 +69,7 @@ def summarize(runs, variants=VARIANTS):
         per_run = [0] * len(runs)
         same_ids = same_text = 0
         for qid in ids:
-            results = [json.loads((RESULTS / run / f"{qid}_{variant}.json").read_text(encoding="utf-8")) for run in runs]
+            results = [json.loads(result_file(RESULTS / run, qid, variant).read_text(encoding="utf-8")) for run in runs]
             scores = [score(qid, result["answer"]) for result in results]
             for index, value in enumerate(scores):
                 per_run[index] += value

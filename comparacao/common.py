@@ -17,16 +17,16 @@ def fingerprint(settings=None):
     return hashlib.sha256(json.dumps(settings or config(), sort_keys=True).encode()).hexdigest()
 
 
-IMPLEMENTATION = "graphrag"
-IMPLEMENTATIONS = ("rag_simples", "graphrag")
-# Versões que não usam nenhum módulo de grafo e podem rodar só com rag_simples/src.
-GRAPH_FREE_VARIANTS = frozenset({"rag_simples", "rag_pais"})
+IMPLEMENTATION = "graph_rag"
+IMPLEMENTATIONS = ("simple_rag", "graph_rag")
+# Versões que não usam nenhum módulo de grafo e podem rodar só com simple_rag/src.
+GRAPH_FREE_VARIANTS = frozenset({"simple_rag", "parent_rag"})
 
 
 def use_implementation(name):
     """Escolhe qual pasta fornece os módulos (src) neste processo; chamar antes de importá-los.
 
-    O padrão é `graphrag`, que tem tudo. `rag_simples` carrega apenas a pasta sem
+    O padrão é `graph_rag`, que tem tudo. `simple_rag` carrega apenas a pasta sem
     módulos de grafo, e por isso precisa rodar num processo próprio.
     """
     global IMPLEMENTATION
@@ -36,8 +36,8 @@ def use_implementation(name):
 
 
 def implementation_for(variants):
-    """`rag_simples` só se todas as versões pedidas dispensam o grafo."""
-    return "rag_simples" if variants and set(variants) <= GRAPH_FREE_VARIANTS else "graphrag"
+    """`simple_rag` só se todas as versões pedidas dispensam o grafo."""
+    return "simple_rag" if variants and set(variants) <= GRAPH_FREE_VARIANTS else "graph_rag"
 
 
 def graph_modules():

@@ -13,8 +13,8 @@ __pycache__/
 !.env.example
 chroma_db/
 graph_store/
-rag_simples/indice/
-graphrag/indice/
+simple_rag/indice/
+graph_rag/indice/
 comparacao/artefatos/
 
 .cache/

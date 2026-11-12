@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "corpus": "graphrag/data",
+  "corpus": "data",
   "arquivos": [
     {
       "arquivo": "01-2026-tabelas-pib-regional-site.xlsx",

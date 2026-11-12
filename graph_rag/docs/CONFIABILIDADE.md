@@ -4,7 +4,7 @@ As seções abaixo descrevem limites do sistema, não garantias de correção.
 Em 21/10/2026, as correções das falhas técnicas da avaliação de desenvolvimento
 passaram em 91 testes locais de geração, cancelamento, roteamento, busca global
 e contratos de resposta. A reexecução das cinco perguntas fica registrada em
-`comparacao/artefatos/resultados/graphrag_correcao_20261021/` na raiz do repositório.
+`comparacao/artefatos/resultados/graph_rag_correcao_20261021/` na raiz do repositório.
 
 ## Falhas de geração e cancelamento
 

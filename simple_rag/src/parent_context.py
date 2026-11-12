@@ -1,6 +1,5 @@
 """Filhos indexáveis e pais literais, sem embeddings ou metadados LLM dos pais."""
 import hashlib
-import json
 from copy import deepcopy
 
 from llama_index.core.schema import Document, TextNode, NodeWithScore

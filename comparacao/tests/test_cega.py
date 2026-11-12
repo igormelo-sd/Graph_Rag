@@ -49,7 +49,7 @@ def filled(directory, **overrides):
     for item in data["itens"]:
         respostas = {}
         for label in ("A", "B"):
-            nota = 2 if key["chave"][item["id"]][label] == "graphrag" else 1
+            nota = 2 if key["chave"][item["id"]][label] == "graph_rag" else 1
             respostas[label] = {"recuperacao": "sim",
                                 "pontos": [{"atendido": True, "evidencia": "ok"} for _ in item["pontos"]],
                                 "componentes": {d: {"nota": nota, "justificativa": "j"} for d in cega.DIMENSIONS}}
@@ -63,7 +63,7 @@ def filled(directory, **overrides):
 
 def test_sheet_hides_versions_and_shows_only_cited_sources(rodada):
     page = (rodada / "ficha.html").read_text(encoding="utf-8")
-    assert "rag_simples" not in page and "graphrag" not in page
+    assert "simple_rag" not in page and "graph_rag" not in page
     data = json.loads(re.search(r"const DATA = (.*);\nconst DIMS", page, re.S)[1].replace("<\\/", "</"))
     assert len(data["itens"]) == 20
     assert [f["numero"] for f in data["itens"][0]["respostas"]["A"]["fontes"]] == [1, 3]
@@ -76,9 +76,9 @@ def test_complete_sheet_reveals_versions_and_scores(rodada, capsys):
     path, _ = filled(rodada)
     cega.score(SimpleNamespace(saida="cega", preenchida=str(path)))
     report = json.loads((rodada / "resultado.json").read_text(encoding="utf-8"))
-    assert report["por_versao"]["graphrag"]["media_total_0_8"] == 8
-    assert report["por_versao"]["rag_simples"]["media_total_0_8"] == 4
-    assert report["comparacao"] == {"graphrag_melhor": 20, "empates": 0, "rag_simples_melhor": 0}
+    assert report["por_versao"]["graph_rag"]["media_total_0_8"] == 8
+    assert report["por_versao"]["simple_rag"]["media_total_0_8"] == 4
+    assert report["comparacao"] == {"graph_rag_melhor": 20, "empates": 0, "simple_rag_melhor": 0}
 
 
 def test_incomplete_or_rejected_sheets(rodada):
