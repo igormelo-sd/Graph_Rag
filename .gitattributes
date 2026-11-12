@@ -1,2 +1,5 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+
+# Corpus: bytes exatos (hashes em comparacao/avaliacao/manifesto_corpus.json); sem conversao de fim de linha.
+data/** -text
