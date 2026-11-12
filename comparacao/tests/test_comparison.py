@@ -55,6 +55,7 @@ def prepared(monkeypatch, tmp_path):
     settings["reranker"] = ""  # sem modelo real nos testes
     settings["baseline_extra_slots"] = 0  # testes de reserva ligam explicitamente
     settings["ontology_filter"] = False
+    settings["structured_lookup"] = False  # testes específicos ligam e usam um substituto
     monkeypatch.setattr(common, "config", lambda: settings)
     monkeypatch.setattr(run, "config", lambda: settings)
     artifacts = tmp_path / "artefatos"
@@ -91,7 +92,8 @@ def test_both_variants_share_vectors_initial_ranking_and_final_prompt(prepared):
     assert baseline["diagnostics"]["settings"] == graph["diagnostics"]["settings"] == settings
     assert baseline["diagnostics"]["initial_ids"] == graph["diagnostics"]["initial_ids"] == ["a"]
     assert [source["source"] for source in baseline["sources"]] == ["a.pdf"]
-    assert {source["source"] for source in graph["sources"]} == {"a.pdf", "b.pdf"}
+    # O grafo parte dos mesmos trechos iniciais; o pool de entidades raras (que trazia b.pdf aqui) foi retirado.
+    assert {"a.pdf"} <= {source["source"] for source in graph["sources"]}
     assert embedder.get_query_embedding.call_count == 2
     prompts = [call.args[0] for call in llm.complete.call_args_list]
     assert prompts[0].split("Fontes de referência:")[0] == prompts[1].split("Fontes de referência:")[0]
@@ -427,3 +429,30 @@ def test_implementation_is_chosen_by_variants_and_graph_needs_graph_rag():
     assert common.implementation_for([]) == "graph_rag"
     with pytest.raises(ValueError, match="Implementação inválida"):
         common.use_implementation("outra")
+
+
+def test_structured_rows_enter_the_shared_ranking_and_are_sent_to_both_versions(prepared, monkeypatch):
+    import sys
+    from llama_index.core.schema import NodeWithScore, TextNode
+    settings, llm, _ = prepared
+    settings["structured_lookup"] = True
+    edit_index(lambda payload: payload["experiment"].update(profile=common.fingerprint(settings)))
+
+    class FakeLookup:
+        def __init__(self, directory):
+            self.directory = directory
+
+        def retrieve(self, question, limit=8):
+            node = TextNode(id_="structured:linha-9", text="Município: Exemplo\nPIB: 123",
+                            metadata={"type": "table", "source_file": "tabela.csv", "page": "linha 9", "row": 9,
+                                      "retrieval_method": "structured_exact"})
+            return [NodeWithScore(node=node, score=1.0)]
+
+    monkeypatch.setitem(sys.modules, "structured_lookup", SimpleNamespace(StructuredLookup=FakeLookup))
+    question = "O que dizem as fontes sobre a indústria paulista em 2023?"
+    for variant in ("simple_rag", "graph_rag"):
+        result = run.compare(question, variant)
+        # A linha exata vai à frente e os trechos iniciais (top_k=1) passam a incluí-la, nas duas versões.
+        assert result["diagnostics"]["initial_ids"] == ["structured:linha-9"]
+        assert result["sources"][0]["source"] == "tabela.csv"
+        assert "Município: Exemplo" in llm.complete.call_args.args[0]

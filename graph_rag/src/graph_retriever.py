@@ -276,7 +276,7 @@ class GraphRetriever:
         """
         max_nodes = min(max_nodes, bounded_int("RAG_GRAPH_CONTEXT_LIMIT", 6, 1, 30))
         depth_limit = bounded_int("RAG_GRAPH_CONTEXT_DEPTH", 2, 1, 3)
-        allowed = {"TEM_NOTA": 0, "TEM_TITULO": 1, "DESCRITA_EM": 2, "REPRESENTADA_EM": 3, "NEXT_CHUNK": 4, "SAME_PAGE": 5}
+        allowed = {"TEM_NOTA": 0, "TEM_TITULO": 1, "DESCRITA_EM": 2, "DICIONARIO_DE": 2, "REPRESENTADA_EM": 3, "NEXT_CHUNK": 4, "SAME_PAGE": 5}
         seeds = _seed_ids(nodes)
         original = set(seeds)
         pending = deque((node_id, 0, [], rank) for rank, node_id in enumerate(seeds))

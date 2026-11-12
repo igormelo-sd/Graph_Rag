@@ -43,3 +43,24 @@ def test_without_reranker_graph_order_is_kept():
     accepted, diagnostics = accept_extras("pergunta", [item("i")], [item("b"), item("a")], None, 2)
     assert [extra.node_id for extra in accepted] == ["b", "a"]
     assert diagnostics["threshold"] is None
+
+
+def test_linked_dictionary_and_notes_skip_the_threshold_up_to_the_cap():
+    import json
+    from comparacao.graph_selection import LINKED_CAP, is_linked
+
+    def make(identity, origin, relation=None):
+        metadata = {"type": "text", "graph_origin": origin}
+        if relation:
+            metadata["graph_paths"] = json.dumps([{"relation": relation}])
+        return SimpleNamespace(node_id=identity, node=SimpleNamespace(text=identity), metadata=metadata, score=None)
+
+    dictionary = make("d", "documentary", "DICIONARIO_DE")
+    note, third = make("n", "documentary", "TEM_NOTA"), make("n2", "documentary", "TEM_NOTA")
+    strong, other = make("s", "label"), make("o", "documentary", "TEM_TITULO")
+    assert is_linked(dictionary) and not is_linked(strong) and not is_linked(other)
+    reranker = FixedReranker({"i": 1.0, "d": 0.0, "n": 0.0, "n2": 0.0, "s": 0.9, "o": 0.0})  # vinculados abaixo do limiar
+    accepted, diagnostics = accept_extras("pergunta", [item("i")], [strong, dictionary, note, third, other], reranker, 2)
+    ids = [candidate.node_id for candidate in accepted]
+    assert ids[:LINKED_CAP] == ["d", "n"] and "n2" not in ids and "o" not in ids and "s" in ids
+    assert [entry["linked"] for entry in diagnostics["accepted"]][:LINKED_CAP] == [True, True]

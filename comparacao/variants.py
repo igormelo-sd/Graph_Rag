@@ -65,6 +65,11 @@ class GraphVariant:
         self.store = SimplePropertyGraphStore()
         inject_deterministic_triplets(self.store, nodes, structural=True)
         self.graph = GraphRetriever(SimpleNamespace(property_graph_store=self.store), None, use_llm=False)
+        # Uma linha de cada tabela do índice, usada como semente de apoio das linhas exatas do corpus inteiro.
+        self.table_proxy = {}
+        for node in nodes:
+            if node.metadata.get("type") == "table":
+                self.table_proxy.setdefault((str(node.metadata.get("source_file")), str(node.metadata.get("page"))), node)
 
     def retrieve(self, question, ranked, reserve=()) -> Retrieval:
         from community_search import is_global_question
@@ -75,12 +80,16 @@ class GraphVariant:
         return Retrieval([as_result(item) for item in expand_parents(list(ranked) + extras)], {"graph": diagnostics})
 
     def candidates(self, question, ranked):
-        """Candidatos do grafo sem repetição nem sementes, marcados com a origem."""
+        """Candidatos do grafo sem repetição nem sementes, marcados com a origem.
+
+        O pool de entidades raras ficou de fora: na rodada v4_dev_20261112_r1 propôs 122
+        candidatos e o reranker aceitou 2, ao custo de pontuar todos eles.
+        """
         from comparacao.graph_selection import POOL
-        seen = {item.node_id for item in ranked}
-        pools = (("entity", self.graph.retrieve_entity_context(ranked, question)),
-                 ("label", self.graph.label_candidates(ranked, question, POOL)),
-                 ("documentary", self.graph.retrieve_context(ranked, self.settings["graph_context_limit"])),
+        seeds = self.seeds(ranked)
+        seen = {item.node_id for item in seeds}
+        pools = (("label", self.graph.label_candidates(seeds, question, POOL)),
+                 ("documentary", self.graph.retrieve_context(seeds, self.settings["graph_context_limit"])),
                  ("query", self.graph.retrieve(question, exclude_ids=seen)[:POOL]))
         found = []
         for origin, items in pools:
@@ -90,6 +99,24 @@ class GraphVariant:
                     item.node.metadata["graph_origin"] = origin
                     found.append(item)
         return found
+
+    def seeds(self, ranked):
+        """Trechos iniciais mais, para cada linha exata do corpus inteiro, uma linha da mesma tabela no grafo.
+
+        Linhas encontradas fora do índice não existem no grafo; a tabela delas existe, e é por ela
+        que chegam notas, título e dicionário. Os apoios não entram no contexto, só guiam a expansão.
+        """
+        from llama_index.core.schema import NodeWithScore
+        present = {item.node_id for item in ranked}
+        proxies = []
+        for item in ranked:
+            if str(item.metadata.get("retrieval_method", "")).startswith("structured"):
+                key = (str(item.metadata.get("source_file")), str(item.metadata.get("sheet") or "Planilha"))
+                proxy = self.table_proxy.get(key)
+                if proxy is not None and proxy.node_id not in present:
+                    present.add(proxy.node_id)
+                    proxies.append(NodeWithScore(node=proxy, score=0.0))
+        return list(ranked) + proxies
 
     def _expand(self, question, ranked):
         """Extras aceitos pelo reranker, depois do ranking inicial e sem reordená-lo."""

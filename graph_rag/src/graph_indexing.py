@@ -11,6 +11,7 @@ seguintes. É reconstruído automaticamente quando os documentos mudam
 (force_rebuild=True).
 """
 import os
+from pathlib import Path
 import json
 
 from llama_index.core import PropertyGraphIndex
@@ -36,7 +37,7 @@ _GRAPH_DIR = "graph_store"
 _GRAPH_FILE = "graph_store.json"
 _EXTRACTION_CACHE = "extraction_cache.jsonl"
 # Facetas mudam observações e HAS_ENTITY; v5 acrescenta co-dimensões. Nova versão reconstrói o cache.
-_GRAPH_PIPELINE = "typed-observations-co-dimensions-v5"
+_GRAPH_PIPELINE = "typed-observations-co-dimensions-dictionary-v6"
 
 def _save_graph_store(graph_store: SimplePropertyGraphStore, path: str) -> None:
     """Persiste o grafo em UTF-8 (contorna limite do cp1252 no Windows)."""
@@ -132,6 +133,54 @@ def _inject_document_context(graph_store, all_nodes):
         if table is not None:
             graph_store.upsert_relations([Relation(label=relation, source_id=table.id, target_id=target.node_id,
                                                   properties={**properties, TRIPLET_SOURCE_KEY: target.node_id})])
+    _inject_dictionary_links(graph_store, all_nodes, tables)
+
+
+_DICTIONARY_PREFIXES = ("dicvar_", "dic_variaveis_")
+_TABLE_SUFFIXES = (".csv", ".xlsx", ".xls")
+
+
+def dictionary_base_files(files):
+    """Arquivo de dicionário -> arquivo-base, pela convenção de nomes do corpus.
+
+    `dicvar_X` e `dic_variaveis_X` descrevem `X` ou `base-X_*`. A ligação só existe quando
+    há exatamente um arquivo-base; ambiguidade ou ausência não geram aresta.
+    """
+    tables = {file: Path(file).stem.lower() for file in files if Path(file).suffix.lower() in _TABLE_SUFFIXES}
+    links = {}
+    for file, stem in tables.items():
+        prefix = next((p for p in _DICTIONARY_PREFIXES if stem.startswith(p)), None)
+        if prefix is None:
+            continue
+        rest = stem[len(prefix):]
+        bases = [other for other, name in tables.items()
+                 if other != file and not name.startswith(_DICTIONARY_PREFIXES)
+                 and (name == rest or name.startswith(f"base-{rest}_"))]
+        if len(bases) == 1:
+            links[file] = bases[0]
+    return links
+
+
+def _inject_dictionary_links(graph_store, all_nodes, tables):
+    """Trechos do dicionário -> tabela que ele descreve (`DICIONARIO_DE`), sem LLM.
+
+    A ponte é a tabela-base: uma linha dela leva, em dois passos, ao dicionário.
+    """
+    from llama_index.core.graph_stores.types import Relation, TRIPLET_SOURCE_KEY
+    by_file = {}
+    for node in all_nodes:
+        key = node.metadata.get("table_key")
+        if node.metadata.get("type") == "table" and key in tables:
+            by_file.setdefault(str(node.metadata.get("source_file")), {"keys": set(), "chunks": []})
+            by_file[str(node.metadata.get("source_file"))]["keys"].add(key)
+            by_file[str(node.metadata.get("source_file"))]["chunks"].append(node)
+    for dictionary, base in dictionary_base_files(by_file).items():
+        for chunk in by_file[dictionary]["chunks"]:
+            for key in sorted(by_file[base]["keys"]):
+                graph_store.upsert_relations([Relation(
+                    label="DICIONARIO_DE", source_id=chunk.node_id, target_id=tables[key].id,
+                    properties={TRIPLET_SOURCE_KEY: chunk.node_id, "method": "filename_convention",
+                                "semantic_status": "documentary_link"})])
 
 
 def _inject_domain_triplets(graph_store, all_nodes):

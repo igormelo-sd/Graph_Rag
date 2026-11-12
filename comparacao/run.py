@@ -161,6 +161,13 @@ class Session:
         self.bm25 = BM25Index(self.payload["chunks"]) if settings["retrieval_mode"] == "hybrid" else None
         self.reranker = Reranker(settings["reranker"]) if settings["reranker"] else None
         self._initial = {}
+        # Busca literal no corpus tabular inteiro (sem o teto de linhas do índice), comum às versões.
+        self.dynamic = {}  # nós criados na consulta, fora do índice, por node_id
+        self.structured = None
+        if settings.get("structured_lookup"):
+            from structured_lookup import StructuredLookup
+            self.structured = StructuredLookup((ROOT / settings["corpus"]).resolve())
+            self.structured.retrieve("cnae ibge municipio pib")  # lê e indexa os arquivos antes da cronometragem
         # Modelos carregados antes da cronometragem da recuperação.
         self.rag.client
         self.rag.embedder = embedding_model(settings["embedding_model"])
@@ -176,9 +183,24 @@ class Session:
             from comparacao.retrieval import initial_ranking
             started = time.perf_counter()
             ranking = initial_ranking(question, self.rag, self.payload, self.settings, self.bm25, self.reranker,
-                                      extra=self.settings.get("baseline_extra_slots", 0))
+                                      extra=self.settings.get("baseline_extra_slots", 0),
+                                      structured=self.structured_items if self.structured is not None else None)
             self._initial[question] = (ranking, time.perf_counter() - started)
         return self._initial[question]
+
+    def structured_items(self, question):
+        """Linhas do corpus tabular inteiro no formato do ranking; os nós ficam em `dynamic`."""
+        items = []
+        for position, scored in enumerate(self.structured.retrieve(question), 1):
+            node = scored.node
+            metadata = {**node.metadata, "node_id": node.node_id, "chunk_id": node.metadata.get("row", position)}
+            self.dynamic[node.node_id] = node
+            items.append({"text": node.text, "source": metadata.get("source_file", "?"), "page": metadata.get("page"),
+                          "number": metadata["chunk_id"], "score": float(scored.score), "metadata": metadata})
+        return items
+
+    def node(self, identity):
+        return self.by_id[identity] if identity in self.by_id else self.dynamic[identity]
 
     def strategy(self, variant):
         if variant not in self._strategies:
@@ -198,7 +220,7 @@ def compare(question, variant, session=None):
     # O ranking inicial é o mesmo para as duas versões; seu tempo entra em ambas.
     initial, initial_seconds = session.initial(question)
     started = time.perf_counter()
-    everything = [NodeWithScore(node=session.by_id[item["metadata"]["node_id"]], score=item["score"])
+    everything = [NodeWithScore(node=session.node(item["metadata"]["node_id"]), score=item["score"])
                   for item in initial]
     # Os top_k primeiros são os trechos iniciais das duas versões; o resto é reserva comum.
     ranked, reserve = everything[:settings["top_k"]], everything[settings["top_k"]:]

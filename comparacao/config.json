@@ -23,6 +23,7 @@
   "small_table_chars": 6000,
   "baseline_extra_slots": 6,
   "ontology_filter": true,
+  "structured_lookup": true,
   "context_tokens": 12000,
   "max_output_tokens": 1200,
   "temperature": 0.0,

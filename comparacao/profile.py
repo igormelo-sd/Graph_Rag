@@ -37,8 +37,11 @@ def load_profile(path: Path) -> dict:
     # v4: vagas extras do RAG simples (próximos trechos do ranking) e filtro de ontologia comum.
     settings.setdefault("baseline_extra_slots", 0)
     settings.setdefault("ontology_filter", False)
-    if type(settings["ontology_filter"]) is not bool:
-        raise ValueError("Configuração inválida: ontology_filter.")
+    # Busca literal no corpus tabular inteiro (linhas além do teto de 1.000, códigos, células), comum às versões.
+    settings.setdefault("structured_lookup", False)
+    for flag in ("ontology_filter", "structured_lookup"):
+        if type(settings[flag]) is not bool:
+            raise ValueError(f"Configuração inválida: {flag}.")
     if not isinstance(settings["reranker"], str):
         raise ValueError("Configuração inválida: reranker.")
     for key, (minimum, maximum) in INTEGER_LIMITS.items():

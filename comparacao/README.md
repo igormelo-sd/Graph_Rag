@@ -171,6 +171,54 @@ iniciais foram iguais nas duas versões em 20 de 20 perguntas.
   normalizada) e a incorporação das melhorias de ingestão e embedding do `cd9ff90`. Ficam para o
   planejamento do próximo passo, medindo cada uma nas duas versões.
 
+## Passo 1: tabelas longas e dicionários (12/11/2026)
+
+Motivo: na rodada `r1`, 15 das 39 referências do gabarito ficavam fora do contexto das duas versões; 11 eram
+linhas de CSV ou dicionários (`dicvar_*`, `dic_variaveis_*`) e 2 estavam além do teto de 1.000 linhas por tabela.
+
+Mudanças **comuns às duas versões** (`comparacao/`, perfil `structured_lookup: true`):
+- **Busca literal no corpus tabular inteiro** (`rag_app/structured_lookup.py`, sem LLM e sem o teto de linhas).
+  Só as linhas *exatas* (código, célula, município ou catálogo identificados) entram, até 2, à frente do
+  ranking (`retrieval.initial_ranking`). As linhas apenas lexicais foram descartadas (veja `r2`).
+- **Título e notas da tabela no contexto** (`common.pack_results`): o trecho de uma tabela é uma linha
+  "coluna: valor" e o título, que define a série, não chegava ao modelo (70 dos 184 blocos eram linhas de tabela).
+
+Mudanças **só do `graph_rag`**:
+- **`DICIONARIO_DE`**: trechos de `dicvar_X` e `dic_variaveis_X` ligados à tabela-base (`X` ou `base-X_*`) pela
+  convenção de nomes, só se a base for única (`graph_indexing.dictionary_base_files`).
+- **Sementes de apoio**: uma linha exata do corpus inteiro não existe no grafo; usa-se uma linha da mesma tabela
+  como ponto de partida da expansão (`GraphVariant.seeds`), sem incluí-la no contexto.
+- **Contexto vinculado**: dicionário e notas ligados por essas arestas (até 2) entram sem o limiar do reranker.
+- **Pool de entidades raras retirado** (122 propostos, 2 aceitos na `r1`).
+
+| Rodada | Código | `simple_rag` refs / marcadores | `graph_rag` refs / marcadores | Recuperação (s/g) |
+|---|---|---:|---:|---:|
+| `r1` | base v4 | 23 / 24 | 23 / 24 | 15,5 / 32,1 |
+| `r2` | + linhas exatas **e lexicais** | 21 / 24 | 22 / 25 | 16,8 / 34,6 |
+| `r3` | só linhas exatas | 25 / 25 | 25 / 25 | 15,4 / 34,7 |
+| `r4` | + título e notas; grafo com dicionário | 25 / 27 | 25 / 26 | 16,0 / 31,9 |
+
+(refs = referências do gabarito no contexto enviado ao modelo, de 39; marcadores de 34 por `avaliacao/marcadores.py`.)
+
+- **`r2`:** as linhas lexicais (25 nos contextos, só 1 útil) desalojaram dicionários e trechos úteis (D016 perdeu 4
+  referências; D001, 1 marcador). Por isso só as exatas ficaram.
+- **`r3`:** as linhas exatas deram +2 referências nas duas versões (D005, D011) e nenhuma regressão.
+- **`r4`:** título e notas elevaram os marcadores do `simple_rag` (+2: D010, D014) e do `graph_rag` (+1: D013), sem
+  mudar as referências. O dicionário foi anexado em 6 casos (D005, D011, D013, D018), todos com uma linha da
+  tabela-base já no contexto; **não recuperou nenhuma referência nova**. O contexto documental aceito subiu de 7 para 13.
+- **Leitura:** as melhorias comuns elevaram as duas versões (referências 23→25; marcadores 24→27 no simples,
+  24→26 no grafo) e **o empate permanece**: o grafo não superou o simples. As mudanças específicas do grafo não
+  geraram ganho mensurável aqui; a latência caiu ~8% (34,7 → 31,9 s) com a retirada do pool de entidades.
+- **Dicionários ainda ausentes:** em D014, D016 e D019 o gabarito é o próprio dicionário e a tabela-base também não está
+  no contexto; sem semente, a aresta não atua. O problema parece ser de recuperação do dicionário pela pergunta
+  (roteamento por tipo de documento), não de ligação entre tabelas. Hipótese a testar, não verificada.
+- **Limites:** uma rodada por configuração; conjunto de desenvolvimento (39 referências, ±1 é ruído); marcadores são
+  triagem automática; sem rubrica humana. O corte das linhas lexicais e a retirada do pool de entidades foram
+  decididos depois de ver resultados do próprio desenvolvimento, então os números tendem a ser otimistas.
+  Na `r3`, o `graph_rag` carregou a seleção nova no meio da rodada (campo `linked`), sem efeito (0 vinculados aceitos).
+- **Conjunto de teste:** não foi avaliado. Houve uma contagem offline, sem ler as perguntas, de quantas referências
+  tabulares a busca literal alcança (8 de 45 no teste, contra 8 de 20 no desenvolvimento); não foi usada para ajustar nada.
+
 ## Resultados anteriores à v4 (registro histórico)
 
 As seções abaixo descrevem as rodadas de 26/10 a 05/11/2026, feitas com a organização anterior:

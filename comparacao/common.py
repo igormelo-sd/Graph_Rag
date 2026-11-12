@@ -142,9 +142,18 @@ def pack_results(results, budget=None):
     parts, included, consumed = [], [], 0
     for item in results:
         block = f"[{len(included) + 1}] Fonte: {item['source']}; página: {item['page'] or 'não se aplica'}\n{item['text']}"
-        notes = (item.get("metadata") or {}).get("table_footnotes")
-        if notes:
-            block += "\nNotas da tabela: " + " ".join(json.loads(notes))
+        metadata = item.get("metadata") or {}
+        # O trecho de uma tabela é uma linha ("coluna: valor"); o título e as notas definem a série.
+        title = str(metadata.get("table_title") or "").strip()
+        if title:
+            block += "\nTítulo da tabela: " + title
+        for key, label in (("table_footnotes", "Notas da tabela"), ("table_notes", "Notas do documento")):
+            try:
+                notes = [str(note) for note in json.loads(metadata.get(key) or "[]") if str(note).strip()]
+            except (TypeError, ValueError):
+                notes = []
+            if notes:
+                block += f"\n{label}: " + " ".join(notes)
         cost = (len(block) + 5) // 4
         if consumed + cost <= budget:
             parts.append(block)

@@ -159,3 +159,39 @@ def test_extra_reserve_keeps_the_top_k_prefix():
     base = [item["metadata"]["node_id"] for item in initial_ranking("q", rag, None, settings)]
     wide = [item["metadata"]["node_id"] for item in initial_ranking("q", rag, None, settings, extra=2)]
     assert base == ["0", "1"] and wide[:2] == base and wide == ["0", "1", "2", "3"]
+
+
+def test_exact_structured_rows_go_first_capped_and_lexical_rows_are_ignored():
+    from comparacao.retrieval import EXACT_CAP
+    items = [{"text": str(i), "metadata": {"node_id": str(i)}, "score": 1 - i / 10} for i in range(4)]
+    rag = SimpleNamespace(search=lambda question, pool, payload: items[:pool])
+    exact = [{"text": f"e{i}", "metadata": {"node_id": f"e{i}", "retrieval_method": "structured_exact"}, "score": 1.0}
+             for i in range(EXACT_CAP + 1)]
+    lexical = [{"text": "l", "metadata": {"node_id": "l", "retrieval_method": "structured_lexical"}, "score": .75}]
+    settings = {"candidate_pool": 4, "top_k": 4, "retrieval_mode": "dense", "rrf_k": 60, "max_per_table": 0,
+                "rerank_pool": 4}
+    result = initial_ranking("q", rag, None, settings, structured=lambda question: exact + lexical)
+    ids = [item["metadata"]["node_id"] for item in result]
+    assert ids[:EXACT_CAP] == [f"e{i}" for i in range(EXACT_CAP)]  # exatas à frente, no máximo EXACT_CAP
+    assert "e2" not in ids[:EXACT_CAP] and len(ids) == 4
+    assert "l" not in ids  # a linha só lexical é descartada
+    assert result[0]["ranks"] == {"estruturada_exata": 1}
+    # Sem busca estruturada, nada muda.
+    plain = initial_ranking("q", rag, None, settings)
+    assert [item["metadata"]["node_id"] for item in plain] == ["0", "1", "2", "3"]
+
+
+def test_context_shows_table_title_and_all_notes_for_table_rows():
+    from comparacao.common import pack_results
+    row = {"text": "Período: 2023\nValor: 3,2", "source": "t.xlsx", "page": "Tabela 1",
+           "metadata": {"type": "table", "table_title": "Tabela 1 | Taxa de crescimento, com ajuste sazonal",
+                        "table_footnotes": json.dumps(["Nota: dados preliminares."]),
+                        "table_notes": json.dumps(["(1) Base: ano anterior."])}}
+    text, used = pack_results([row], budget=10000)
+    assert "Título da tabela: Tabela 1 | Taxa de crescimento, com ajuste sazonal" in text
+    assert "Notas da tabela: Nota: dados preliminares." in text
+    assert "Notas do documento: (1) Base: ano anterior." in text
+    # Trechos sem esses metadados (texto de PDF) e metadados malformados continuam funcionando.
+    plain = {"text": "Texto.", "source": "a.pdf", "page": 1, "metadata": {"type": "text", "table_notes": "{inválido"}}
+    text, _ = pack_results([plain], budget=10000)
+    assert "Título" not in text and "Notas" not in text

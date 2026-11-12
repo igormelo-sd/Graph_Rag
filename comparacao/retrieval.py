@@ -97,14 +97,26 @@ def ontology_filter(question, ranking):
     return [node.item for node in filter_candidates(wrapped, question)]
 
 
-def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None, extra=0):
+EXACT_METHODS = ("structured_exact", "structured_catalogue")
+EXACT_CAP = 2  # linhas exatas (código, célula, município) que passam à frente do ranking
+
+
+def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None, extra=0, structured=None):
     """Trechos iniciais conforme o perfil: `dense` ou `hybrid`, com reranking opcional.
 
     `extra` acrescenta, depois dos `top_k` primeiros, os próximos trechos do mesmo
     ranking (reserva). Como a diversificação é gulosa, os `top_k` primeiros não mudam.
+
+    `structured(question)` devolve itens da busca literal no corpus tabular inteiro. Só os
+    exatos (código, célula, município ou catálogo identificados) entram: passam à frente do
+    ranking, no máximo `EXACT_CAP`. As linhas apenas lexicais (sobreposição de palavras) são
+    descartadas: na rodada v4_dev_20261112_r2, 25 delas chegaram aos contextos e só 1 ajudou,
+    enquanto desalojavam trechos úteis (D001, D016). Igual para todas as versões.
     """
     pool = max(settings["candidate_pool"], settings["top_k"])
     dense = rag.search(question, pool, payload)
+    found = structured(question) if structured is not None else []
+    exact = [item for item in found if item["metadata"].get("retrieval_method") in EXACT_METHODS][:EXACT_CAP]
     if settings["retrieval_mode"] == "hybrid":
         ranking = rrf_fuse({"vetorial": dense, "bm25": bm25.search(question, pool)}, settings["rrf_k"])
     else:
@@ -114,4 +126,8 @@ def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None, 
     if reranker is not None:
         head = settings["rerank_pool"]
         ranking = reranker.rerank(question, ranking[:head]) + ranking[head:]
+    if exact:
+        taken = {node_id(item) for item in exact}
+        ranking = [{**item, "ranks": {"estruturada_exata": position}} for position, item in enumerate(exact, 1)] \
+            + [item for item in ranking if node_id(item) not in taken]
     return diversify(ranking, settings["top_k"] + extra, settings["max_per_table"])
