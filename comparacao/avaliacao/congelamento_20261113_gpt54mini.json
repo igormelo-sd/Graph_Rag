@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "data": "2026-11-13",
+  "status": "congelada",
+  "descricao": "v4: simple_rag e graph_rag sobre o mesmo código, índice e ranking; o grafo soma-se ao ranking no mesmo orçamento de extras. Modelo de resposta: gpt-5.4-mini.",
+  "codigo": {
+    "commit": "e6c0420277b6d16977541c0a415c909cc9eb3adb",
+    "branch": "main",
+    "tag": "v4-congelamento-20261113-gpt54mini",
+    "observacao": "As rodadas partem do commit seguinte, que só acrescenta este registro; árvore de trabalho limpa durante as rodadas."
+  },
+  "perfil": {
+    "arquivo": "comparacao/config.json",
+    "fingerprint": "88fbabaa13aae7439d03d2cda022420d74f623fc864a21c286c242ab9cf5cf09",
+    "fingerprint_do_indice": "8cb7d24b2e27f532f3fc84e99eb1561189839d23c67fc64c07a82f16680a712b",
+    "config_sha256": "42bbc6f7cb58d2547a8248001e3aa48324d9e3da4c00841a2f5745f4eeb5c0b6",
+    "valores": {
+      "version": 1,
+      "corpus": "data",
+      "provider": "openai",
+      "llm_model": "gpt-5.4-mini",
+      "embedding_provider": "openai",
+      "embedding_model": "text-embedding-3-small",
+      "embedding_device": "cpu",
+      "embedding_batch_size": 128,
+      "embedding_max_length": 8192,
+      "chunk_size": 1024,
+      "chunk_overlap": 200,
+      "parent_size": 3200,
+      "top_k": 5,
+      "retrieval_mode": "hybrid",
+      "candidate_pool": 50,
+      "rrf_k": 60,
+      "max_per_table": 2,
+      "reranker": "BAAI/bge-reranker-v2-m3",
+      "rerank_pool": 30,
+      "min_text_chars": 250,
+      "small_table_rows": 30,
+      "small_table_chars": 6000,
+      "baseline_extra_slots": 6,
+      "ontology_filter": true,
+      "structured_lookup": true,
+      "contextual_embedding": true,
+      "dictionary_routing": true,
+      "gap_planning": false,
+      "graph_ppr": false,
+      "context_tokens": 12000,
+      "max_output_tokens": 1200,
+      "temperature": 1.0,
+      "entity_context_limit": 8,
+      "entity_context_depth": 1,
+      "graph_context_limit": 6,
+      "graph_context_depth": 2,
+      "community_summary_chars": 1800
+    }
+  },
+  "pipeline": "shared-graph-processing-v4",
+  "corpus": {
+    "pasta": "data",
+    "manifesto": "comparacao/avaliacao/manifesto_corpus.json",
+    "manifesto_sha256": "2efdbbdad5e879df2da298d958df575db5b0454fe0d81ab799b93957a72a0367",
+    "arquivos": 20,
+    "observacao": "20 arquivos com os bytes do manifesto (data/** -text no git)."
+  },
+  "perguntas": {
+    "teste": {
+      "arquivo": "comparacao/avaliacao/teste.jsonl",
+      "sha256": "bed1400c397931231fef983821dd3bd0162cfc05431b84cd1ead00d866f2612c",
+      "quantidade": 50,
+      "revisao_humana": "aprovada por igormelo-sd em 2026-11-03; não cega (revisao_teste_20261103.md)"
+    },
+    "desenvolvimento": {
+      "arquivo": "comparacao/avaliacao/desenvolvimento.jsonl",
+      "sha256": "4147b379a3251ce91861cd6579ebd6024fa58d91740cb7341c6922f91121986d",
+      "quantidade": 20,
+      "observacao": "usado para todas as decisões de desenho; revisão humana pendente"
+    }
+  },
+  "indice": {
+    "arquivos": [
+      "simple_rag/indice/index.json",
+      "graph_rag/indice/index.json"
+    ],
+    "sha256": "0e71b27ccb08b476de50d1bb0d623314ae7458709d0211e5990c3c05ddfd47b0",
+    "trechos": 25896,
+    "identicos": true,
+    "observacao": "gerado com contextual_embedding; não versionado (git ignora indice/)."
+  },
+  "modelos": {
+    "resposta": {
+      "provedor": "openai",
+      "modelo": "gpt-5.4-mini",
+      "temperatura": 1.0,
+      "observacao": "A fábrica de LLM usa temperatura 1,0 neste modelo (não 0): respostas não determinísticas. Alias do provedor; a identidade reportada pela API não foi registrada.",
+      "custo_estimado_usd": {
+        "por_versao_e_rodada_de_50": 0.29,
+        "execucoes_previstas_350": 2.02,
+        "base": "6.462 tokens de entrada e 207 de saída por resposta (6 perguntas de desenvolvimento); US$ 0,75 e US$ 4,50 por milhão"
+      }
+    },
+    "embeddings": {
+      "provedor": "openai",
+      "modelo": "text-embedding-3-small",
+      "observacao": "Modelo remoto; pode mudar sob o mesmo nome."
+    },
+    "reranker": {
+      "modelo": "BAAI/bge-reranker-v2-m3",
+      "revisao": "953dc6f6f85a1b2dbfca4c34a2796e7dde08d41e",
+      "dispositivo": "cpu"
+    }
+  },
+  "ambiente": {
+    "python": "3.13.17",
+    "sistema": "Windows 11",
+    "bibliotecas": {
+      "openai": "1.109.1",
+      "llama-index-core": "0.14.25",
+      "llama-index-embeddings-openai": "0.6.0",
+      "llama-index-llms-openai": "0.7.10",
+      "sentence-transformers": "6.1.0",
+      "transformers": "5.18.0",
+      "torch": "2.14.1",
+      "rank-bm25": "0.2.2",
+      "networkx": "3.6.1",
+      "pandas": "3.0.6",
+      "camelot-py": "2.0.0"
+    },
+    "locks": "requirements.txt e requirements-dev.txt (Python 3.13), fixados nas versões do ambiente"
+  },
+  "grafo": {
+    "selecao": "comparacao/graph_selection.py",
+    "selecao_sha256": "c7290c1ba179e04601ce02edfec98bd48ca0462aca797f722da08ebba630e0a6",
+    "POOL": "16",
+    "EXTRA_LIMIT": "6",
+    "SCORE_RATIO": "0.25",
+    "SCORE_FLOOR": "0.02",
+    "LINKED_CAP": "2",
+    "GAP_CAP": "2",
+    "graph_pipeline": "typed-observations-co-dimensions-dictionary-v6",
+    "chaves_desligadas": {
+      "gap_planning": false,
+      "graph_ppr": false
+    },
+    "observacao": "Parâmetros e chaves escolhidos no conjunto de desenvolvimento, antes de qualquer execução do conjunto de teste (exceto uma contagem offline, sem ler perguntas, das referências tabulares que a busca literal alcança: 8 de 45)."
+  },
+  "evidencia_do_desenvolvimento": {
+    "rodada": "v5_dev_20261113_r8",
+    "referencias_no_contexto_de_39": {
+      "simple_rag": 30,
+      "lexical_rag": 26,
+      "graph_rag": 26
+    },
+    "marcadores_de_34": {
+      "simple_rag": 26,
+      "lexical_rag": 26,
+      "graph_rag": 27
+    },
+    "leitura": "o grafo não superou o simples; empatou com a expansão lexical em todas as perguntas",
+    "observacao": "rodadas de desenvolvimento feitas com gpt-4o-mini: as referências no contexto não dependem do modelo; os marcadores sim"
+  },
+  "rodadas": {
+    "split": "teste",
+    "pastas": [
+      "v4b_teste_20261113_r1",
+      "v4b_teste_20261113_r2",
+      "v4b_teste_20261113_r3"
+    ],
+    "versoes": {
+      "r1": [
+        "simple_rag",
+        "lexical_rag",
+        "graph_rag"
+      ],
+      "r2": [
+        "simple_rag",
+        "graph_rag"
+      ],
+      "r3": [
+        "simple_rag",
+        "graph_rag"
+      ]
+    },
+    "execucoes_previstas": 350,
+    "medida_principal": "referências do gabarito no contexto, comparação pareada por pergunta (comparacao/avaliacao/comparar.py); qualidade das respostas por rubrica humana cega",
+    "execucao": "cada versão em seu processo (avaliar --versoes simple_rag | lexical_rag | graph_rag), mesma --saida",
+    "arquivo_antigo": "v4_gpt4omini_teste_parcial_20261113_r1 (98 respostas com gpt-4o-mini, fora da análise)"
+  },
+  "substitui": "comparacao/avaliacao/congelamento_20261113.json"
+}
