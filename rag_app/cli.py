@@ -65,9 +65,8 @@ def main(base_dir: Path, argv: list[str] | None = None, *, extended: bool = Fals
         print(json.dumps(compare(comparison, "graph_rag"), ensure_ascii=False, indent=2))
         return
     load_dotenv(base_dir / ".env", override=True)
-    if extended:
-        from comparacao.common import apply_profile
-        apply_profile()
+    from comparacao.common import apply_profile
+    apply_profile()  # modelos e parâmetros comuns; variáveis do ambiente prevalecem
     if args.index_only:
         prepare_index(base_dir)
     elif getattr(args, "prepare_communities", False):

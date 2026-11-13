@@ -94,6 +94,7 @@ def apply_profile(strict=False):
     values = {
         "RAG_LLM_PROVIDER": settings["provider"], "RAG_LLM_MODEL": settings["llm_model"],
         "RAG_INTERP_MODEL": settings["llm_model"], "RAG_POPUP_MODEL": settings["llm_model"],
+        "RAG_EMBED_PROVIDER": settings["embedding_provider"],
         "RAG_EMBED_MODEL": settings["embedding_model"], "RAG_EMBED_DEVICE": settings["embedding_device"],
         "RAG_EMBED_BATCH_SIZE": settings["embedding_batch_size"], "RAG_EMBED_MAX_LENGTH": settings["embedding_max_length"],
         "RAG_EMBED_NORMALIZE": "1", "RAG_CHUNK_SIZE": settings["chunk_size"],

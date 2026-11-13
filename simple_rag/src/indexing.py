@@ -122,9 +122,11 @@ def _delete_ids(collection, ids, batch_size=1000):
 def _embed_config() -> dict:
     """Config formal do embedding local (bge-m3 ou ollama), com batch/device/normalização explícitos."""
     from runtime import bounded_int
+    provider = os.getenv("RAG_EMBED_PROVIDER", "huggingface").strip().lower()
+    default_model = "text-embedding-3-small" if provider == "openai" else "BAAI/bge-m3"
     return {
-        "provider": os.getenv("RAG_EMBED_PROVIDER", "huggingface").strip().lower(),
-        "model": os.getenv("RAG_EMBED_MODEL", "BAAI/bge-m3").strip() or "BAAI/bge-m3",
+        "provider": provider,
+        "model": os.getenv("RAG_EMBED_MODEL", default_model).strip() or default_model,
         "batch_size": bounded_int("RAG_EMBED_BATCH_SIZE", 16, 1, 128),
         "device": os.getenv("RAG_EMBED_DEVICE", "auto").strip().lower() or "auto",
         "normalize": os.getenv("RAG_EMBED_NORMALIZE", "1").strip().lower() in {"1", "true", "yes", "on"},
@@ -153,7 +155,7 @@ def _insert_nodes_in_batches(index, nodes):
 
 
 def setup_embeddings():
-    """Seleciona um modelo local, compartilhado entre indexação e consulta."""
+    """Seleciona o modelo de embeddings (local ou OpenAI), compartilhado entre indexação e consulta."""
     global _EMBED_INSTANCE, _EMBED_IDENTITY
     cfg = _embed_config()
     if cfg["provider"] == "ollama":
@@ -182,10 +184,19 @@ def setup_embeddings():
                 kwargs["device"] = cfg["device"]
             _EMBED_INSTANCE = HuggingFaceEmbedding(**kwargs)
             _EMBED_IDENTITY = identity
+    elif cfg["provider"] == "openai":
+        # Mesmo embedding da comparação (perfil): API remota; device e max_length não se aplicam.
+        os.environ.pop("RAG_EMBED_MODEL_REVISION", None)
+        identity = (cfg["provider"], cfg["model"], cfg["batch_size"])
+        if identity != _EMBED_IDENTITY:
+            from llama_index.embeddings.openai import OpenAIEmbedding
+            _EMBED_INSTANCE = OpenAIEmbedding(model=cfg["model"], embed_batch_size=cfg["batch_size"],
+                                              max_retries=10, timeout=120.0)
+            _EMBED_IDENTITY = identity
     else:
-        raise ValueError("RAG_EMBED_PROVIDER deve ser huggingface ou ollama.")
+        raise ValueError("RAG_EMBED_PROVIDER deve ser huggingface, ollama ou openai.")
     Settings.embed_model = _EMBED_INSTANCE
-    log.info("Embeddings locais: provider=%s, model=%s, batch=%d", cfg["provider"], cfg["model"], cfg["batch_size"])
+    log.info("Embeddings: provider=%s, model=%s, batch=%d", cfg["provider"], cfg["model"], cfg["batch_size"])
     return _EMBED_INSTANCE
 
 

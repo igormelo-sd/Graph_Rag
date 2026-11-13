@@ -137,3 +137,10 @@ O comportamento está coberto por regressões em `graph_rag/tests`.
   desenvolvimento (80 de 80 pools idênticos). `retrieve_ppr` usa `nx.pagerank` com personalização; `community_search` já usava
   `nx.community`.
 - **Suítes (13/11/2026):** `shared` 105, `graph_rag` 307, `simple_rag_src` 221 (13 pulados), `simple_rag` 8, `comparacao` 70.
+- **Aplicativos de ponta a ponta (13/11/2026):** `graph_rag/main.py` e `simple_rag/main.py` foram executados num corpus mínimo
+  (dois TXT): `--index-only` (índice Chroma próprio) e uma pergunta pela CLI, com resposta e fonte corretas nos dois. A primeira
+  execução falhou: o perfil define o embedding como `text-embedding-3-small` (OpenAI) e a indexação do aplicativo só carregava
+  modelos locais. Foi acrescentado o provedor `openai` em `indexing.py` (nas duas pastas), `RAG_EMBED_PROVIDER` passou a vir do
+  perfil e o `main.py` aplica o perfil nos dois aplicativos. Não foi testado o servidor HTTP (`api.py`) nem o corpus completo
+  nos aplicativos (índice Chroma de 26 mil trechos).
+- **Suítes após a correção:** `shared` 105, `graph_rag` 309, `simple_rag_src` 223 (13 pulados), `simple_rag` 8, `comparacao` 70.
