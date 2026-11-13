@@ -12,6 +12,8 @@ import json
 import math
 import re
 from collections import defaultdict, deque
+
+import networkx as nx
 from copy import deepcopy
 from domain_ontology import facets, expand_query, filter_candidates, fold
 from knowledge_analytics import hierarchy_scope
@@ -57,6 +59,14 @@ class GraphRetriever:
                       key=lambda node: order[node.node_id])
 
 
+    def _out(self, node):
+        """Relações que saem de `node` (vazio se o nó não está no grafo)."""
+        return [data["relation"] for _, _, data in self._graph.out_edges(node, data=True)] if node in self._graph else []
+
+    def _in(self, node):
+        """Relações que chegam a `node`."""
+        return [data["relation"] for _, _, data in self._graph.in_edges(node, data=True)] if node in self._graph else []
+
     def __init__(self, graph_index, llm, use_llm=True):
         self._store = graph_index.property_graph_store
         self._retriever = LLMSynonymRetriever(
@@ -66,12 +76,13 @@ class GraphRetriever:
             path_depth=2,
             llm=llm,
         ) if use_llm else None
-        self._outgoing, self._incoming = defaultdict(list), defaultdict(list)
         from llama_index.core.graph_stores.types import ChunkNode
         self._chunk_ids = {node_id for node_id, entity in self._store.graph.nodes.items() if isinstance(entity, ChunkNode)}
-        for relation in self._store.graph.relations.values():
-            self._outgoing[relation.source_id].append(relation)
-            self._incoming[relation.target_id].append(relation)
+        # O armazenamento do LlamaIndex guarda nós e relações; o grafo para percorrer e calcular é do NetworkX.
+        self._graph = nx.MultiDiGraph()
+        self._graph.add_nodes_from(self._store.graph.nodes)
+        for key, relation in self._store.graph.relations.items():
+            self._graph.add_edge(relation.source_id, relation.target_id, key=key, relation=relation)
         self._mention_cache, self._term_cache = {}, {}
         self._document_chunks = self._chunk_document = None
         self._observations = {}
@@ -159,7 +170,7 @@ class GraphRetriever:
             if current in visited or depth >= 2:
                 continue
             visited.add(current)
-            for relation in self._outgoing.get(current, []) + self._incoming.get(current, []):
+            for relation in self._out(current) + self._in(current):
                 # Co-dimensões ligam entidades; a fonte registrada é só uma das células.
                 if relation.label not in allowed or relation.properties.get("semantic_status") == CO_DIMENSION:
                     continue
@@ -203,7 +214,7 @@ class GraphRetriever:
         source_ids, paths = [], defaultdict(list)
         ranked = sorted(candidates or (), key=lambda identity: self._observation_rank(identity, wanted, preferred))
         for observation_id in ranked:
-            for relation in self._outgoing.get(observation_id, ()):
+            for relation in self._out(observation_id):
                 if relation.label != "SUSTENTADA_POR":
                     continue
                 source = relation.target_id
@@ -214,6 +225,83 @@ class GraphRetriever:
                 paths[source].append({"source": observation_id, "relation": relation.label, "target": source})
                 paths[source].extend(self._hierarchy_paths(observation_id, scope, wanted))
         return [self._with_paths(n, paths[n.node_id], 0.5) for n in self._get_source_nodes(source_ids)]
+
+    def retrieve_gaps(self, question, missing, exclude_ids=(), limit=6):
+        """Observações para cada recorte pedido que o contexto ainda não sustenta.
+
+        `missing` mapeia indicador, território, período ou setor (identificadores canônicos) aos valores
+        da pergunta sem apoio nos trechos já escolhidos. Para cada um, busca observações com esse valor
+        e os demais recortes obrigatórios da pergunta, até dois trechos de origem por valor. Não afirma
+        compatibilidade: só traz de volta o trecho que sustenta o recorte.
+        """
+        wanted = facets(question)
+        preferred = [k for k in self._PREFERRED if wanted[k]]
+        seen, sources, paths = set(exclude_ids), [], {}
+        for key, values in missing.items():
+            for value in values:
+                candidates = set(self._dimensions[key].get(value, set()))
+                for other in self._REQUIRED:
+                    if other != key and wanted[other]:
+                        candidates &= set().union(*(self._dimensions[other].get(v, set()) for v in wanted[other]))
+                taken = 0
+                for observation_id in sorted(candidates, key=lambda i: self._observation_rank(i, wanted, preferred)):
+                    for relation in self._out(observation_id):
+                        if relation.label != "SUSTENTADA_POR" or relation.target_id in seen:
+                            continue
+                        seen.add(relation.target_id)
+                        sources.append(relation.target_id)
+                        paths[relation.target_id] = [{"source": observation_id, "relation": "SUSTENTADA_POR",
+                                                      "target": relation.target_id, "method": "coverage_gap",
+                                                      "gap": f"{key}:{value}"}]
+                        taken += 1
+                    if taken >= 2:
+                        break
+        found = [self._with_paths(n, paths[n.node_id], 0.5) for n in self._get_source_nodes(sources)]
+        return filter_candidates(found, question)[:limit]
+
+    # Peso de cada tipo de relação na projeção usada pelo PageRank; as demais (entidades e dimensões das
+    # observações) pesam menos, e as arestas para nós muito conectados são amortecidas pelo grau.
+    _PPR_WEIGHTS = {"CONTIDA_EM": 1.0, "PERTENCE_A_DOC": 0.4, "REPRESENTADA_EM": 1.0, "NEXT_CHUNK": 1.0, "SAME_PAGE": 0.3,
+                    "TEM_NOTA": 1.0, "TEM_TITULO": 1.0, "DESCRITA_EM": 1.0, "DICIONARIO_DE": 1.0, "SUSTENTADA_POR": 1.0}
+    _PPR_DEFAULT = 0.4
+
+    def _ppr_graph(self):
+        """Projeção não direcionada e ponderada do grafo, construída uma vez por processo."""
+        if getattr(self, "_ppr_cache", None) is None:
+            graph = nx.DiGraph()
+            for source, target, data in self._graph.edges(data=True):
+                base = self._PPR_WEIGHTS.get(data["relation"].label, self._PPR_DEFAULT)
+                for origin, destination in ((source, target), (target, source)):
+                    weight = base / math.log2(2 + self._graph.degree(destination))
+                    previous = graph.get_edge_data(origin, destination, {}).get("weight", 0.0)
+                    graph.add_edge(origin, destination, weight=previous + weight)
+            self._ppr_cache = graph
+        return self._ppr_cache
+
+    def retrieve_ppr(self, nodes, question, limit=8, alpha=0.6):
+        """Trechos mais próximos das sementes na estrutura do grafo, por PageRank personalizado.
+
+        A massa parte das sementes (a primeira vale mais) e se espalha por tabelas, páginas, documentos,
+        notas, dicionários, observações e entidades; os trechos com mais massa, fora as sementes, são os
+        candidatos. Multi-salto, ao contrário da expansão por rótulos, que só olha a mesma tabela ou documento.
+        """
+        graph = self._ppr_graph()
+        seeds = [seed for seed in _seed_ids(nodes) if seed in graph]
+        if not seeds:
+            return []
+        personalization = {seed: 1.0 / (rank + 1) for rank, seed in enumerate(seeds)}
+        scores = nx.pagerank(graph, alpha=alpha, personalization=personalization, weight="weight", max_iter=100, tol=1e-6)
+        original = set(seeds)
+        ranked = sorted((chunk for chunk in self._chunk_ids if chunk not in original and scores.get(chunk, 0.0) > 0),
+                        key=lambda chunk: (-scores[chunk], chunk))[:limit * 4]
+        if not ranked:
+            return []
+        top = scores[ranked[0]]
+        found = [self._with_paths(node, [{"relation": "PPR", "method": "personalized_pagerank",
+                                          "score": round(scores[node.node_id], 8), "semantic_status": "documentary_link"}],
+                                  round(0.4 * scores[node.node_id] / top, 4))
+                 for node in self._get_source_nodes(ranked)]
+        return filter_candidates(found, question)[:limit]
 
     _REQUIRED = ("indicator", "region", "period", "unit", "scale", "sector")
     _PREFERRED = ("source", "kind", "basis", "coverage")
@@ -240,7 +328,7 @@ class GraphRetriever:
         for key, label in (("region", "APLICA_SE_A"), ("sector", "NO_SETOR")):
             if not scope.get(key + "_requested"):
                 continue
-            for edge in self._outgoing.get(observation_id, ()):
+            for edge in self._out(observation_id):
                 if edge.label != label:
                     continue
                 paths.append({"source": edge.source_id, "relation": edge.label, "target": edge.target_id})
@@ -251,7 +339,7 @@ class GraphRetriever:
                     node = self._store.graph.nodes.get(current)
                     if node is None or node.properties.get("canonical_id") in wanted[key]:
                         break
-                    parent_edges = [relation for relation in self._outgoing.get(current, ()) if relation.label == "PARTE_DE"]
+                    parent_edges = [relation for relation in self._out(current) if relation.label == "PARTE_DE"]
                     if len(parent_edges) != 1:
                         break
                     parent = parent_edges[0]
@@ -286,7 +374,7 @@ class GraphRetriever:
             current, depth, path, rank = pending.popleft()
             if depth >= depth_limit:
                 continue
-            edges = self._outgoing.get(current, []) + self._incoming.get(current, [])
+            edges = self._out(current) + self._in(current)
             for relation in sorted(edges, key=lambda edge: (allowed.get(edge.label, 99), edge.source_id, edge.target_id)):
                 if relation.label not in allowed:
                     continue
@@ -317,7 +405,7 @@ class GraphRetriever:
 
     def _mentions(self, entity):
         if entity not in self._mention_cache:
-            self._mention_cache[entity] = [edge.source_id for edge in self._incoming.get(entity, ())
+            self._mention_cache[entity] = [edge.source_id for edge in self._in(entity)
                                            if edge.label == "HAS_ENTITY" and edge.source_id in self._chunk_ids]
         return self._mention_cache[entity]
 
@@ -343,7 +431,7 @@ class GraphRetriever:
         for rank, seed in enumerate(seeds):
             pending = deque((edge.target_id, 0, 1.0, [{"source": seed, "relation": edge.label,
                              "target": edge.target_id, "semantic_status": "mention_only"}])
-                            for edge in self._outgoing.get(seed, []) if edge.label == "HAS_ENTITY")
+                            for edge in self._out(seed) if edge.label == "HAS_ENTITY")
             reached = {}
             while pending:
                 entity, depth, weight, path = pending.popleft()
@@ -352,7 +440,7 @@ class GraphRetriever:
                 reached[entity] = (weight, path)
                 if depth >= depth_limit:
                     continue
-                for edge in self._outgoing.get(entity, []) + self._incoming.get(entity, []):
+                for edge in self._out(entity) + self._in(entity):
                     if (edge.label not in RELATIONS or not edge.properties.get("source_node_id")
                             or edge.properties.get("polarity") == "negated"):
                         continue
@@ -400,9 +488,9 @@ class GraphRetriever:
                 if relation.label == "CONTIDA_EM" and relation.source_id in self._chunk_ids and document:
                     self._document_chunks[document].append(relation.source_id)
                     self._chunk_document[relation.source_id] = (document, relation.target_id)
-        for edge in self._incoming.get(seed, ()):
+        for edge in self._in(seed):
             if edge.label == "REPRESENTADA_EM" and edge.source_id not in self._chunk_ids:
-                rows = [e.target_id for e in self._outgoing.get(edge.source_id, ())
+                rows = [e.target_id for e in self._out(edge.source_id)
                         if e.label == "REPRESENTADA_EM" and e.target_id in self._chunk_ids]
                 yield edge.source_id, rows, [{"source": edge.source_id, "relation": "REPRESENTADA_EM", "target": seed}], "row_label_match"
         if seed in self._chunk_document:

@@ -68,7 +68,7 @@ tests/          # suítes pytest
 
 ## Pré-requisitos
 
-- Python 3.11 / Windows x64 para o conjunto de dependências fixadas (.venv recomendado); espaço e memória dependem dos modelos e do corpus
+- Python 3.13 / Windows x64 para o conjunto de dependências fixadas (.venv recomendado); espaço e memória dependem dos modelos e do corpus
 - Chave de LLM no `.env` — padrão OpenAI (`OPENAI_API_KEY`); OpenRouter (`OPENROUTER_API_KEY`) ou Ollama local como alternativa
 
 ## Como rodar

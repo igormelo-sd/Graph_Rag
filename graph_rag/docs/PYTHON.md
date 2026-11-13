@@ -4,7 +4,7 @@ Veja [RAG](RAG.md), [Grafos](GRAFOS.md), [Ontologia](ONTOLOGIA.md) e [Como funci
 
 ## Ambiente e entrada
 
-O alvo dos locks é Windows x64/Python 3.11. `requirements.in` e `requirements-dev.in` são as entradas; os respectivos `.txt` incluem versões transitivas e hashes. `scripts/lock_dependencies.ps1` regenera os locks. Bibliotecas resolvidas não significam compatibilidade testada.
+O alvo dos locks é Windows x64/Python 3.13 (regenerados em 13/11/2026; antes, 3.11). `requirements.in` e `requirements-dev.in` são as entradas; os respectivos `.txt` incluem versões transitivas e hashes. `scripts/lock_dependencies.ps1` regenera os locks. Bibliotecas resolvidas não significam compatibilidade testada.
 
 `main.py --cli` inicia o modo interativo; `main.py --port 8080` inicia FastAPI. `--graph` funciona em ambos. A stack inclui LlamaIndex, Chroma, pandas, FastAPI e sentence-transformers; as versões exatas estão nos locks.
 

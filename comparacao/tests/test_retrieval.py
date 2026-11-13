@@ -195,3 +195,51 @@ def test_context_shows_table_title_and_all_notes_for_table_rows():
     plain = {"text": "Texto.", "source": "a.pdf", "page": 1, "metadata": {"type": "text", "table_notes": "{inválido"}}
     text, _ = pack_results([plain], budget=10000)
     assert "Título" not in text and "Notas" not in text
+
+
+def test_context_header_names_document_table_and_section():
+    from comparacao.common import context_header, search_text
+    row = {"type": "table", "source_file": "pib.xlsx", "table_title": "Tabela 2 | PIB por setor", "page": "Tabela 2"}
+    assert context_header(row) == "Documento: pib.xlsx | Tabela: Tabela 2 | PIB por setor | Aba: Tabela 2"
+    csv_row = {"type": "table", "source_file": "base.csv", "table_descricao": "Tabela de base.csv com Ano, Valor", "page": "Planilha"}
+    assert context_header(csv_row) == "Documento: base.csv | Tabela de base.csv com Ano, Valor"
+    text = {"type": "text", "source_file": "a.pdf", "section": "1. Introdução", "page": 3}
+    assert context_header(text) == "Documento: a.pdf | Seção: 1. Introdução"
+    assert search_text("Ano: 2023", row, True).splitlines()[0].startswith("Documento: pib.xlsx")
+    assert search_text("Ano: 2023", row, False) == "Ano: 2023"  # desligado: texto puro
+    assert context_header(None) == ""
+
+
+def test_contextual_bm25_finds_a_row_by_its_table_title():
+    plain = [{"text": "Ano: 2023\nValor: 3,2", "metadata": {"type": "table", "table_title": "Taxa de desocupação", "node_id": "a"}},
+             {"text": "Ano: 2023\nValor: 9,9", "metadata": {"type": "table", "table_title": "Inflação", "node_id": "b"}},
+             {"text": "Ano: 2023\nValor: 1,1", "metadata": {"type": "table", "table_title": "Câmbio", "node_id": "c"}}]
+    assert BM25Index(plain).search("desocupação", 5) == []  # sem o cabeçalho, a linha não menciona o termo
+    found = BM25Index(plain, contextual=True).search("desocupação", 5)
+    assert [item["metadata"]["node_id"] for item in found] == ["a"]
+
+
+def test_definitional_questions_route_to_dictionary_chunks_only_when_enabled():
+    from comparacao.retrieval import dictionary_positions, is_definitional
+    assert is_definitional("Qual a definição de Valor Adicionado?") and is_definitional("Que níveis hierárquicos existem?")
+    assert not is_definitional("Qual foi o PIB de Campinas em 2020?")
+    payload = {"chunks": [{"source": "base.csv", "metadata": {"node_id": "0"}, "text": "x"},
+                          {"source": "dicvar_base.csv", "metadata": {"node_id": "1"}, "text": "y"},
+                          {"source": "dic_variaveis_pms.csv", "metadata": {"node_id": "2"}, "text": "z"}]}
+    assert dictionary_positions(payload) == [1, 2]
+    calls = []
+
+    def search(question, pool, payload, subset=None):
+        calls.append(subset)
+        positions = subset if subset is not None else range(3)
+        return [{**payload["chunks"][i], "score": 1.0 - i / 10} for i in positions][:pool]
+
+    rag = SimpleNamespace(search=search)
+    settings = {"candidate_pool": 1, "top_k": 1, "retrieval_mode": "dense", "rrf_k": 60, "max_per_table": 0,
+                "rerank_pool": 3, "dictionary_routing": True}
+    routed = initial_ranking("Qual a definição de PIB?", rag, payload, settings, extra=2)
+    assert [1, 2] in calls and "dicionario" in {key for item in routed for key in item["ranks"]}
+    calls.clear()
+    initial_ranking("Qual foi o PIB em 2020?", rag, payload, settings)            # sem intenção de definição
+    initial_ranking("Qual a definição de PIB?", rag, payload, {**settings, "dictionary_routing": False})
+    assert [1, 2] not in calls

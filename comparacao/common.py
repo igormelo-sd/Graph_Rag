@@ -17,10 +17,54 @@ def fingerprint(settings=None):
     return hashlib.sha256(json.dumps(settings or config(), sort_keys=True).encode()).hexdigest()
 
 
+# Parâmetros que mudam o conteúdo do índice (trechos e vetores). Os demais (busca, contexto, grafo,
+# modelo de resposta) valem na consulta e não exigem novo embedding.
+INDEX_KEYS = ("version", "corpus", "embedding_provider", "embedding_model", "embedding_device",
+              "embedding_batch_size", "embedding_max_length", "chunk_size", "chunk_overlap", "parent_size",
+              "min_text_chars", "small_table_rows", "small_table_chars", "contextual_embedding")
+
+
+def index_fingerprint(settings=None):
+    settings = settings or config()
+    return fingerprint({key: settings[key] for key in INDEX_KEYS if key in settings})
+
+
+def context_header(metadata):
+    """Documento, tabela e seção de um trecho, para o embedding e o BM25 (não aparece no contexto).
+
+    O trecho de uma tabela é uma linha ("coluna: valor") e não diz de qual tabela veio.
+    """
+    md = metadata or {}
+    parts = []
+    if md.get("source_file"):
+        parts.append(f"Documento: {md['source_file']}")
+    if md.get("type") == "table":
+        title = str(md.get("table_title") or "").strip()
+        description = str(md.get("table_descricao") or "").strip()
+        page = str(md.get("page") or "")
+        if title:
+            parts.append(f"Tabela: {title}")
+        elif description:
+            parts.append(description)
+        if page and not page.isdigit() and page != "Planilha":
+            parts.append(f"Aba: {page}")
+    else:
+        section = str(md.get("section") or "").strip()
+        if section:
+            parts.append(f"Seção: {section}")
+    return " | ".join(parts)
+
+
+def search_text(text, metadata, contextual):
+    """Texto usado na busca: com o cabeçalho quando `contextual_embedding` está ligado."""
+    header = context_header(metadata) if contextual else ""
+    return f"{header}" + chr(10) + text if header else text
+
+
 IMPLEMENTATION = "graph_rag"
 IMPLEMENTATIONS = ("simple_rag", "graph_rag")
 # Versões que não usam nenhum módulo de grafo e podem rodar só com simple_rag/src.
-GRAPH_FREE_VARIANTS = frozenset({"simple_rag", "parent_rag"})
+GRAPH_FREE_VARIANTS = frozenset({"simple_rag", "parent_rag", "lexical_rag"})
 
 
 def use_implementation(name):

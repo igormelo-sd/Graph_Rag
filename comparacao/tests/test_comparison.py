@@ -70,7 +70,8 @@ def prepared(monkeypatch, tmp_path):
                     {"node_id": "a", "source_file": "a.pdf", "page": 1, "type": "text", "chunk_id": 1}),
               Chunk("Indústria paulista em 2023: dado preliminar.", "b.pdf", 1, 1,
                     {"node_id": "b", "source_file": "b.pdf", "page": 1, "type": "text", "chunk_id": 1})]
-    experiment = {"profile": common.fingerprint(settings), "corpus": run.corpus_snapshot(settings),
+    experiment = {"profile": common.fingerprint(settings), "index": common.index_fingerprint(settings),
+                  "corpus": run.corpus_snapshot(settings),
                   "pipeline": run.PIPELINE}
     rag = SimpleRAG(paths["simple_rag"], settings["embedding_model"], settings["llm_model"])
     rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
@@ -131,12 +132,21 @@ def test_full_graph_global_processes_all_sources_with_same_final_prompt(prepared
     assert final_prompt == common.answer_prompt(question, context)
 
 
-def test_changed_profile_aborts_before_model_call(prepared):
+def test_changed_index_parameter_aborts_before_model_call(prepared):
     settings, llm, _ = prepared
-    settings["llm_model"] = "modelo-alterado"
+    settings["chunk_size"] = 2048  # muda o conteúdo do índice
     with pytest.raises(ValueError, match="Perfil ou corpus mudou"):
         run.compare("Pergunta", "graph_rag")
     llm.complete.assert_not_called()
+
+
+def test_query_time_parameters_do_not_invalidate_the_index(prepared):
+    settings, llm, _ = prepared
+    for key, value in (("llm_model", "outro-modelo"), ("baseline_extra_slots", 2), ("structured_lookup", False),
+                       ("dictionary_routing", True), ("max_output_tokens", 900)):
+        settings[key] = value
+    assert run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "simple_rag")["answer"]
+    assert common.index_fingerprint(settings) == run.index_identity(run.experiment_signature(settings))["index"]
 
 
 @pytest.fixture
@@ -376,8 +386,7 @@ def test_evaluate_defaults_to_frozen_versions_and_accepts_others(question_bank):
 def test_simple_fills_extra_slots_with_next_ranked_chunks_and_keeps_initial_ids(prepared):
     settings, llm, _ = prepared
     settings["baseline_extra_slots"] = 1
-    # O perfil faz parte da identidade do índice: regrava o hash nas duas pastas.
-    edit_index(lambda payload: payload["experiment"].update(profile=common.fingerprint(settings)))
+    # Parâmetros de consulta não mudam a identidade do índice: nenhuma regravação é necessária.
     question = "O que dizem as fontes sobre a indústria paulista em 2023?"
     result = run.compare(question, "simple_rag")
     assert result["diagnostics"]["initial_ids"] == ["a"]  # só os top_k são os iniciais
@@ -436,7 +445,6 @@ def test_structured_rows_enter_the_shared_ranking_and_are_sent_to_both_versions(
     from llama_index.core.schema import NodeWithScore, TextNode
     settings, llm, _ = prepared
     settings["structured_lookup"] = True
-    edit_index(lambda payload: payload["experiment"].update(profile=common.fingerprint(settings)))
 
     class FakeLookup:
         def __init__(self, directory):
@@ -456,3 +464,26 @@ def test_structured_rows_enter_the_shared_ranking_and_are_sent_to_both_versions(
         assert result["diagnostics"]["initial_ids"] == ["structured:linha-9"]
         assert result["sources"][0]["source"] == "tabela.csv"
         assert "Município: Exemplo" in llm.complete.call_args.args[0]
+
+
+def test_lexical_control_variant_runs_without_any_graph_module(prepared):
+    settings, llm, _ = prepared
+    result = run.compare("O que dizem as fontes sobre a indústria paulista em 2023?", "lexical_rag")
+    assert result["diagnostics"]["initial_ids"] == ["a"]
+    assert {"threshold", "candidates", "accepted"} <= set(result["diagnostics"]["lexical"])
+    assert common.implementation_for(["lexical_rag"]) == "simple_rag"
+
+
+def test_graph_and_lexical_add_to_the_ranking_with_the_same_extra_budget(prepared):
+    settings, llm, _ = prepared
+    settings["baseline_extra_slots"] = 1
+    question = "O que dizem as fontes sobre a indústria paulista em 2023?"
+    simple = run.compare(question, "simple_rag")
+    for variant in ("graph_rag", "lexical_rag"):
+        result = run.compare(question, variant)
+        # Sem candidato aceito, as vagas extras são completadas pelo próximo trecho do ranking comum.
+        assert {source["source"] for source in result["sources"]} == {source["source"] for source in simple["sources"]}
+        assert result["diagnostics"]["extras_from_reserve"] == ["b"]
+        assert result["diagnostics"]["initial_ids"] == ["a"]
+        accepted = len(result["diagnostics"].get("graph", result["diagnostics"].get("lexical"))["accepted"])
+        assert accepted + len(result["diagnostics"]["extras_from_reserve"]) <= settings["baseline_extra_slots"]

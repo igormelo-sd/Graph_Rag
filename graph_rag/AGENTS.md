@@ -26,7 +26,7 @@ Não edite manualmente `chroma_db/`, `graph_store/` ou `__pycache__/`. Mudanças
 
 ## Dependências e execução
 
-As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks `.txt` têm hashes e alvo Windows x64/Python 3.11; `scripts/lock_dependencies.ps1` permite regenerá-los deliberadamente. Consulte [README.md](README.md) para instalação e execução.
+As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks `.txt` têm hashes e alvo Windows x64/Python 3.13; `scripts/lock_dependencies.ps1` permite regenerá-los deliberadamente. Consulte [README.md](README.md) para instalação e execução.
 
 Respeite instruções explícitas de não executar testes, servidor, avaliações ou validadores. A presença de uma suíte não demonstra que ela passou. O roteiro de avaliação em `scripts/evaluate_retrieval.py` exige gabaritos revisados; exemplos em `evaluation/` não são resultados experimentais.
 

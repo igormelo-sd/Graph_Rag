@@ -219,6 +219,56 @@ Mudanças **só do `graph_rag`**:
 - **Conjunto de teste:** não foi avaliado. Houve uma contagem offline, sem ler as perguntas, de quantas referências
   tabulares a busca literal alcança (8 de 45 no teste, contra 8 de 20 no desenvolvimento); não foi usada para ajustar nada.
 
+## Passo 2: cabeçalho contextual, dicionários, controle lexical e desenho do orçamento (13/11/2026)
+
+Mudanças **comuns às duas versões** (`comparacao/`; chaves do perfil):
+- **`contextual_embedding`** (exige reindexar): o embedding e o BM25 de cada trecho levam o cabeçalho "Documento | Tabela
+  (título ou descrição) | Aba/Seção"; o texto mostrado ao modelo não muda. Uma linha de tabela ("coluna: valor") não dizia de
+  qual tabela veio.
+- **`dictionary_routing`**: perguntas com intenção de definição ou de estrutura de classificação (regra de vocabulário geral,
+  `retrieval.is_definitional`) também buscam nos dicionários de variáveis (`dicvar_*`, `dic_variaveis_*`), até 3 trechos.
+- **Identidade do índice** separada do perfil de consulta (`INDEX_KEYS`): só o que muda o conteúdo do índice exige novo
+  `preparar`; o perfil completo identifica a rodada.
+
+**Desenho do orçamento de contexto (correção).** Até a `r6`, o `simple_rag` completava as 6 vagas extras com os próximos trechos
+do ranking comum, e o `graph_rag` **descartava essa faixa** e usava só os candidatos do grafo. Como o roteamento de dicionários
+coloca dicionários nas posições 6 a 11, o simples os aproveitava e o grafo não (D016: 8 contra 4 referências). Desde a `r8` o
+grafo **soma-se** ao ranking: candidatos aceitos primeiro e, depois, os próximos trechos do ranking até o mesmo total de extras
+(`variants.fill_with_reserve`). Os números do grafo anteriores à `r8` **não são comparáveis** com os novos.
+
+Novas variantes/ferramentas:
+- **`lexical_rag`** (controle sem grafo): mesma seleção pelo reranker e mesmo orçamento, mas os candidatos vêm da expansão lexical
+  por tabela e documento (`lexical.py`, termos raros da pergunta), a partir de metadados e não de arestas.
+- **`avaliacao/comparar.py`**: comparação pareada por pergunta (diferença de referências, IC95% por bootstrap, teste dos sinais).
+
+Mudanças do grafo (`graph_rag/src`), todas medidas no desenvolvimento:
+- **NetworkX** passou a ser a estrutura do grafo (`MultiDiGraph`) para adjacência e algoritmos; o LlamaIndex continua guardando nós
+  e relações. A troca preservou o comportamento: 80 de 80 pools (20 perguntas × 4) idênticos em conteúdo e ordem; consultas
+  +50% de tempo no total das 80 chamadas, desprezível frente ao reranking.
+- **PageRank personalizado** (`retrieve_ppr`, chave `graph_ppr`): multi-salto a partir dos trechos iniciais. Nas 20 perguntas, os
+  pools do grafo (~800 candidatos) contêm só 4 referências do gabarito fora dos 5 iniciais, todas no pool de rótulos; o PageRank
+  contém 1 e nenhuma exclusiva. **Desligado.**
+- **Planejamento por lacunas** (`retrieve_gaps`, chave `gap_planning`): 7 perguntas têm recorte sem apoio e 4 geram candidatos, mas
+  todos já eram propostos pelo pool de observações (a deduplicação mantém a primeira origem); efeito nulo na `r9`. **Desligado.**
+
+Rodadas no desenvolvimento (referências do gabarito no contexto, de 39 / marcadores, de 34):
+
+| Rodada | Código | `simple_rag` | `lexical_rag` | `graph_rag` |
+|---|---|---:|---:|---:|
+| `r4` | linhas exatas, título e notas | 25 / 27 | — | 25 / 26 |
+| `r5` | + cabeçalho contextual | 26 / 25 | 21 / 25 | 25 / 26 |
+| `r6` | + roteamento de dicionários (grafo sem somar ao ranking) | 30 / 25 | — | 25 / 27 |
+| `r8` | grafo e lexical **somam** ao ranking (mesmo orçamento) | **30 / 26** | 26 / 26 | 26 / 27 |
+| `r9` | `r8` + planejamento por lacunas (só grafo) | — | — | 26 / 26 |
+
+- **Na `r8`**, o grafo e a lexical empatam em **todas** as 20 perguntas, e o simples fica 4 referências à frente
+  (`graph_rag` − `simple_rag` = −4, IC95% −13 a +2, 1 pergunta a favor e 2 contra, p = 1,0), quase tudo na D016.
+  Os candidatos do grafo (e da lexical) deslocam trechos do ranking comum; na D016, dicionários.
+- **Leitura:** no desenvolvimento, o grafo não supera o RAG simples nem a expansão lexical sem grafo. A vantagem que o grafo
+  mostrava sobre a lexical na `r5` (4 referências) vinha do dicionário e do orçamento, e desapareceu com o desenho corrigido.
+- **Limites:** uma rodada por configuração; 39 referências (±1 é ruído); marcadores são triagem automática; sem rubrica humana;
+  várias decisões (roteamento, corte das linhas lexicais, pool de entidades) foram tomadas olhando o próprio desenvolvimento.
+
 ## Resultados anteriores à v4 (registro histórico)
 
 As seções abaixo descrevem as rodadas de 26/10 a 05/11/2026, feitas com a organização anterior:
@@ -468,7 +518,7 @@ das rodadas congeladas; 120 execuções, sem erros). Marcadores literais, de 34:
 ## Preparação e execução
 
 Use **o mesmo ambiente Python** para as duas versões. Na raiz `Graph_Rag`, com
-Python 3.11 / Windows x64 para as dependências fixadas:
+Python 3.13 / Windows x64 para as dependências fixadas:
 
 ```powershell
 python -m venv .venv

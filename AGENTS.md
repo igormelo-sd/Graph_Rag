@@ -23,6 +23,6 @@ Os resultados do TCC de 04/11/2026 estão congelados e descrevem a organização
 
 ## Dependências e execução
 
-As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks `.txt` têm hashes e alvo Windows x64/Python 3.11; `scripts/lock_dependencies.ps1` permite regenerá-los deliberadamente. Consulte [README.md](README.md) para instalação e execução.
+As entradas editáveis são `requirements.in` e `requirements-dev.in`. Os locks `.txt` têm hashes e alvo Windows x64/Python 3.13; `scripts/lock_dependencies.ps1` permite regenerá-los deliberadamente. Consulte [README.md](README.md) para instalação e execução.
 
 Respeite instruções explícitas de não executar testes, servidor, avaliações ou validadores. A presença de uma suíte não demonstra que ela passou. Execute cada suíte em processo separado com `scripts/test_all.py` (inclui `simple_rag_src`, que roda os testes de `graph_rag/tests` contra `simple_rag/src`).

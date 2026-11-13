@@ -1,11 +1,15 @@
 aiofiles==25.1.0 \
     --hash=sha256:a8d728f0a29de45dc521f18f07297428d56992a742f0cd2701ba86e44d23d5b2 \
     --hash=sha256:abe311e527c862958650f9438e859c1fa7568a141b22abcd015e120e86a85695
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 aiohappyeyeballs==2.7.1 \
     --hash=sha256:065665c041c42a5938ed220bdcd7230f22527fbec085e1853d2402c8a3615d9d \
     --hash=sha256:9243213661e29250eb41368e5daa826fc017156c3b8a11440826b2e3ed376472
-    # via aiohttp
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   aiohttp
 aiohttp==3.14.3 \
     --hash=sha256:03cd2bde3d7f085b64e549c985f4bb928cad7e8ecf5323bfca320db548d81b39 \
     --hash=sha256:041badb8f84396357c4d3ad26de6afd7a32b112f43d3c63045c0c8278cfd2043 \
@@ -127,6 +131,7 @@ aiohttp==3.14.3 \
     --hash=sha256:fa9467a8113aa69d3d7c55a70ef0b7c636010a40993f3df9d9d0d73b3eb7ef24 \
     --hash=sha256:fd51ebf9d3a00c074df4ede271023f4d2dba289bcc740b88191872716014e3c5
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   fsspec
     #   kubernetes
     #   langchain-community
@@ -134,23 +139,32 @@ aiohttp==3.14.3 \
 aiosignal==1.4.0 \
     --hash=sha256:053243f8b92b990551949e63930a839ff0cf0b0ebbe0597b0f3fb19e1a0fe82e \
     --hash=sha256:f47eecd9468083c2029cc99945502cb7708b082c232f9aca65da147157b251c7
-    # via aiohttp
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   aiohttp
 aiosqlite==0.22.1 \
     --hash=sha256:043e0bd78d32888c0a9ca90fc788b38796843360c855a7262a532813133a0650 \
     --hash=sha256:21c002eb13823fad740196c5a2e9d8e62f6243bd9e7e4a1f87fb5e44ecb4fceb
-    # via llama-index-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-core
 annotated-doc==0.0.5 \
     --hash=sha256:117bac03a25ede5df5440e855b32d556049ca169ead221505badf432fed4b101 \
     --hash=sha256:c7e58ce09192557605d8bbd92836d7e1d520ac9580096042c0bfd197efacf1bb
-    # via fastapi
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   fastapi
 annotated-types==0.8.0 \
     --hash=sha256:13b2beaad985e05e2d6407ee4c4f35590b11f8d693a258a561055cac8f64cab7 \
     --hash=sha256:f072f4d804ea359e4eaf198b1af7a8b0943881a87f31bb764f8bf219bb9419e0
-    # via pydantic
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   pydantic
 anyio==4.15.1 \
     --hash=sha256:6152fdbbf9a77fdec97731721bebf7c4c44f7c29b424b0065826173efc7ed101 \
     --hash=sha256:9f28306018cbd6d329e64a36d58256edff76dd996fe423bc957326e578b82a94
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   httpx
     #   httpx2
     #   langsmith
@@ -160,18 +174,23 @@ anyio==4.15.1 \
 appdirs==1.4.4 \
     --hash=sha256:7d5d0167b2b1ba821647616af46a749d1c653740dd0d2415100fe26e27afdf41 \
     --hash=sha256:a841dacd6b99318a741b166adb07e19ee71a274450e68237b4650ca1055ab128
-    # via ragas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   ragas
 attrs==26.1.0 \
     --hash=sha256:c647aa4a12dfbad9333ca4e71fe62ddc36f4e63b2d260a37a8b83d2f043ac309 \
     --hash=sha256:d03ceb89cb322a8fd706d4fb91940737b6642aa36998fe130a9bc96c985eff32
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   aiohttp
     #   jsonschema
     #   referencing
 banks==2.5.1 \
     --hash=sha256:a7ca5c250b605ae90cfd6e4ca5dd6ce2ee377d5d59021b6feba44e345910026d \
     --hash=sha256:b7c91365626bab4b46197d24ce04cd69540730ed669a50a399f240318ba3dcfb
-    # via llama-index-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-core
 bcrypt==5.0.0 \
     --hash=sha256:046ad6db88edb3c5ece4369af997938fb1c19d6a699b9c1b27b0db432faae4c4 \
     --hash=sha256:0c418ca99fd47e9c59a301744d63328f17798b5947b0f791e9af3c1c499c2d0a \
@@ -236,23 +255,32 @@ bcrypt==5.0.0 \
     --hash=sha256:f748f7c2d6fd375cc93d3fba7ef4a9e3a092421b8dbf34d8d4dc06be9492dfdd \
     --hash=sha256:f8429e1c410b4073944f03bd778a9e066e7fad723564a52ff91841d278dfc822 \
     --hash=sha256:fc746432b951e92b58317af8e0ca746efe93e66555f1b40888865ef5bf56446b
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 bm25s==0.3.11 \
     --hash=sha256:3d1d28badb299d6fc9324111e5c8276927e990b908607b39ff9bd65b102e9a24 \
     --hash=sha256:8ae0f0707d279969829383c7aaeef00fb09ca343101160222571d6bfc969f889
-    # via llama-index-retrievers-bm25
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-retrievers-bm25
 build==1.6.1 \
     --hash=sha256:51cc11666391ab6f092070437ac747002ff46f3e4113a3622177ee6b488bfc53 \
     --hash=sha256:ecd351a4be9d35a9eaaba244a7687143c9c7d4aea6ac964e7e7ddab20cbcf4e7
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 camelot-py==2.0.0 \
     --hash=sha256:c2c6c7e4b0cb422b8050624c1d54026a8b3af1d86b7d7951eddeb18854fbcfb6 \
     --hash=sha256:e96891d30707b3e2f1c08cb7ae15eea67abe72485ca92c7025b6308ba37bd3cd
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 certifi==2026.7.22 \
     --hash=sha256:62f22742b58a1a33014a2b6b706588a8d7e2a88ae7bd1a6ebe8c992928483775 \
     --hash=sha256:741e2c3b351ddf169a738da9f2c048608ff7f2c5cc02f1ebc6b118bb090d5d55
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   httpcore
     #   httpx
     #   kubernetes
@@ -430,7 +458,9 @@ charset-normalizer==3.5.2 \
     --hash=sha256:fcff63213e8e6e47770541a4607175404f47cbb3ebea7b6058cc82d524a0e424 \
     --hash=sha256:fd1fbe0f116b6e55da77aca2c6ddcddcfac2186cbf78bdebf40fc156efca389d \
     --hash=sha256:fe9753dfee015c570d73df76f899f18444d41388bffcde097deba51c4fadbb9f
-    # via requests
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   requests
 chromadb==1.5.9 \
     --hash=sha256:4fd0b560e56761b7f3cb4d5c6205fd5f20814484b4a3e4e9af9038c2b428fc6c \
     --hash=sha256:5c20e62a455c28bacac927f26116a73fd8e1799e0d908be8e8a4f02197a54731 \
@@ -439,12 +469,14 @@ chromadb==1.5.9 \
     --hash=sha256:9192d111bd662241625867962333d99369a00769a50f8b2f58cb388731274d7e \
     --hash=sha256:cc09b3df76e5a5cb386aed2715a2eea152e3949f9e1ba93c7119505377749929
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   llama-index-vector-stores-chroma
 click==8.5.0 \
     --hash=sha256:255bc9599cf7748b4b1a446ccc735421bd08a2ae529a8b88597d3de5664ee360 \
     --hash=sha256:ba0d2089de75ea0310e2dde03160e6ca10009947fb95a182f9b54021bb272e34
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   camelot-py
     #   huggingface-hub
     #   nltk
@@ -453,11 +485,14 @@ click==8.5.0 \
 cloudpickle==3.1.2 \
     --hash=sha256:7fda9eb655c9c230dab534f1983763de5835249750e85fbcef43aaa30a9a2414 \
     --hash=sha256:9acb47f6afd73f60dc1df93bb801b472f05ff42fa6c84167d25cb206be1fbf4a
-    # via joblib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   joblib
 colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   build
     #   griffecli
     #   tqdm
@@ -534,31 +569,40 @@ contourpy==1.3.3 \
     --hash=sha256:fd907ae12cd483cd83e414b12941c632a969171bf90fc937d0c9f268a31cafff \
     --hash=sha256:fd914713266421b7536de2bfa8181aa8c699432b6763a0ea64195ebe28bff6a9 \
     --hash=sha256:fde6c716d51c04b1c25d0b90364d0be954624a0ee9d60e23e850e8d48353d07a
-    # via matplotlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   matplotlib
 cycler==0.12.1 \
     --hash=sha256:85cef7cff222d8644161529808465972e51340599459b8ac3ccbac5a854e0d30 \
     --hash=sha256:88bb128f02ba341da8ef447245a9e138fae777f6a23943da4540077d3601eb1c
-    # via matplotlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   matplotlib
 dataclasses-json==0.6.7 \
     --hash=sha256:0dbf33f26c8d5305befd61b39d2b3414e8a407bedc2834dea9b8d642666fb40a \
     --hash=sha256:b6b3e528266ea45b9535223bc53ca645f5208833c29229e847b3f26a1cc55fc0
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-community
     #   llama-index-core
 datasets==5.0.1 \
     --hash=sha256:9fbf73688f8c18f7529b4fe592abd04015f81d1e58001e4bac73ffb2b39d7cc4 \
     --hash=sha256:ce22bb851efd7494f08aad33b940803784434f6e77763d00679a0dc45fcf686a
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   ragas
 defusedxml==0.7.1 \
     --hash=sha256:1bb3032db185915b62d7c6209c5a8792be6a32ab2fedacc84e01b52c51aa3e69 \
     --hash=sha256:a352e7e428770286cc899e2542b6cdaedb2b4953ff269a210103ec58f6198a61
-    # via nltk
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   nltk
 deprecated==1.3.1 \
     --hash=sha256:597bfef186b6f60181535a29fbe44865ce137a5079f295b479886c82729d5f3f \
     --hash=sha256:b1b50e0ff0c1fddaa5708a2c6b0a6588bb09b892825ab2b214ac9ea9d92a5223
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   banks
     #   llama-index-core
     #   llama-index-instrumentation
@@ -566,34 +610,46 @@ dill==0.4.1 \
     --hash=sha256:1e1ce33e978ae97fcfcff5638477032b801c46c7c65cf717f95fbc2248f79a9d \
     --hash=sha256:423092df4182177d4d8ba8290c8a5b640c66ab35ec7da59ccfa00f6fa3eea5fa
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   multiprocess
 dirtyjson==1.0.8 \
     --hash=sha256:125e27248435a58acace26d5c2c4c11a1c0de0a9c5124c5a94ba78e517d74f53 \
     --hash=sha256:90ca4a18f3ff30ce849d100dcf4a003953c79d3a2348ef056f1d9c22231a25fd
-    # via llama-index-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-core
 diskcache==5.6.3 \
     --hash=sha256:2c3a3fa2743d8535d832ec61c2054a1641f41775aa7c556758a109941e33e4fc \
     --hash=sha256:5e31b2d5fbad117cc363ebaf6b689474db18a1f6438bc82358b024abd4c2ca19
-    # via ragas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   ragas
 distro==1.9.0 \
     --hash=sha256:2fa77c6fd8940f116ee1d6b94a2f90b13b5ea8d019b98bc8bafdcabcdd9bdbed \
     --hash=sha256:7bffd925d65168f85027d8da9af6bddab658135b840670a223589bc0c8ef02b2
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langsmith
     #   openai
 docstring-parser==0.15 \
     --hash=sha256:48ddc093e8b1865899956fcc03b03e66bb7240c310fac5af81814580c55bf682 \
     --hash=sha256:d1679b86250d269d06a99670924d6bce45adc00b08069dae8c47d98e89b667a9
-    # via instructor
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   instructor
 durationpy==0.11 \
     --hash=sha256:181898e1ae282e288f0a2291829656bf1b6b3aadf30a97993b85db4943642905 \
     --hash=sha256:a739fe2b8972c250ff72f8e2c488d18cf25f7b852f49ee76048775d5171df30c
-    # via kubernetes
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   kubernetes
 et-xmlfile==2.0.0 \
     --hash=sha256:7a91720bc756843502c3b7504c77b8fe44217c85c537d85037f0f536151b2caa \
     --hash=sha256:dab3f4764309081ce75662649be815c4c9081e88f0837825f90fd28317d4da54
-    # via openpyxl
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   openpyxl
 faiss-cpu==1.15.1 \
     --hash=sha256:2d0a59d8ee9ffcac34608f591d16b617d9056e12a26a8b8cf0015b6b334e33e1 \
     --hash=sha256:38d192695210a51ff72449d8802ff62601568fcfc6372222a64a069da0ecdb10 \
@@ -610,15 +666,20 @@ faiss-cpu==1.15.1 \
     --hash=sha256:f2c31b7f2f6647eb76829a5cfe3c398fb9346df9f26b1d4db35269c91eb58c33 \
     --hash=sha256:f52e727992ce86a783f61657f0c4f3498a235883083b982ba1be49d05f924450 \
     --hash=sha256:ffa71b14b3090bc076f8b026554178868fdbfe2f26fe644da629405836369039
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 fastapi==0.142.2 \
     --hash=sha256:06366626f2e70576367714d9ab2fe8472e6c8456dba69b399f9f797ab5e92570 \
     --hash=sha256:bd5f4d81f1e93a88bcd77caf4dfe3c2dbffc3805407a0007e9a114c18b3a670b
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 filelock==4.0.9 \
     --hash=sha256:635e7d67fa92654eed444e75e9ca18426d34e77ad9c469bf4373f75a932f7b22 \
     --hash=sha256:9287fd61b99a806e5202be29a83034c0808a1b9830e820537c2f5773981f7eeb
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   huggingface-hub
     #   torch
@@ -626,11 +687,14 @@ filetype==1.2.0 \
     --hash=sha256:66b56cd6474bf41d8c54660347d37afcc3f7d1970648de365c102ef77548aadb \
     --hash=sha256:7ce71b6880181241cf7ac8697a2f1eb6a8bd9b429f7ad6d27b8db9ba5f1c2d25
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   banks
     #   llama-index-core
 flatbuffers==25.12.19 \
     --hash=sha256:7634f50c427838bb021c2d66a3d1168e9d199b0607e6329399f04846d42e20b4
-    # via onnxruntime
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   onnxruntime
 fonttools==4.66.1 \
     --hash=sha256:058cd823b80bac59e64dfad9e3b6fcd677852f9a3804971bbf6b48cc611e785c \
     --hash=sha256:05aeb146451f37289f782c3c861f3d0f4b86c2dd2e4620b46683544c7406640e \
@@ -690,7 +754,9 @@ fonttools==4.66.1 \
     --hash=sha256:eef76d5796e604f9d6753fa6d323c4eb9f4e0e43f1dcca553f3e6914f1667b64 \
     --hash=sha256:f08ab7f8461c37ecfdd29ad97fb0c0780b50501bd664bb0f46b6e83ed2b9d2a7 \
     --hash=sha256:fdf4afd75c643e60ef4a96fe64fc8a9def27d2a542112332371a9e5066885f9a
-    # via matplotlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   matplotlib
 frozenlist==1.8.0 \
     --hash=sha256:0325024fe97f94c41c08872db482cf8ac4800d80e79222c6b0b7b162d5b13686 \
     --hash=sha256:032efa2674356903cd0261c4317a561a6850f3ac864a63fc1583147fb05a79b0 \
@@ -823,12 +889,14 @@ frozenlist==1.8.0 \
     --hash=sha256:fb30f9626572a76dfe4293c7194a09fb1fe93ba94c7d4f720dfae3b646b45027 \
     --hash=sha256:fe3c58d2f5db5fbd18c2987cba06d51b0529f52bc3a6cdc33d3f4eab725104bd
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   aiohttp
     #   aiosignal
 fsspec==2026.6.0 \
     --hash=sha256:02e0b71817df9b2169dc30a16832045764def1191b43dcff5bb85bdee212d2a1 \
     --hash=sha256:f5bac145310fe30e16e1471bd6840b2d990d609e872251d7e674241822abf01a
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   huggingface-hub
     #   llama-index-core
@@ -836,7 +904,9 @@ fsspec==2026.6.0 \
 googleapis-common-protos==1.75.5 \
     --hash=sha256:c7a866fc34ed29a3b10af627a4b9b1dc2433313ca6e959f0ae4feb132047ed72 \
     --hash=sha256:d7285525c23039db98f2463e6d5a4f9b958b94d497f03a844ece3259c4e72d5d
-    # via opentelemetry-exporter-otlp-proto-grpc
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   opentelemetry-exporter-otlp-proto-grpc
 greenlet==3.5.6 \
     --hash=sha256:0616b8f878098c5681fd8f0dc92d887551717402342a70f0abcbfea5f5ad8a44 \
     --hash=sha256:06c0e933290fba8ffe53ead4ae1b8044b0e9754b75cebf381aa2bc3e50d82fac \
@@ -917,19 +987,26 @@ greenlet==3.5.6 \
     --hash=sha256:fdacf26402389bdd89857ad3c045a26fe8f3314f9a8b28226f82f88463a65b77 \
     --hash=sha256:fe3170a69fe039b18ad18171e66faa9a75f6fe9d78f968fd9b54e09fbd714d81 \
     --hash=sha256:fea4427d1ffdb3b523d7daa6712038428a4c16c450b9777bdd1221cfee0eab49
-    # via sqlalchemy
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   sqlalchemy
 griffe==2.3.0 \
     --hash=sha256:92a41ff72eb1eb316cdcb7248a608f1313f9fbc6e35d5cffa5cf7c813b7db70b \
     --hash=sha256:aa5634c0d7802583ecd29a7fe335c02d462ffdf5ce8f51426a3d326f374e6d93
-    # via banks
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   banks
 griffecli==2.3.0 \
     --hash=sha256:916fdc851cf51d38e9b5ab82550305df45e5981d5dfe65d346544464abedb3ec \
     --hash=sha256:f94653edcb52ebcac21eaeb3b7121b065a636174eddf2bd558b5935e72a553e8
-    # via griffe
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   griffe
 griffelib==2.3.0 \
     --hash=sha256:1b8f9cd525681c26b1d6d574faa1371651e8459ca51d209684f50b8096ae06e0 \
     --hash=sha256:7b0952caf5bca6afa4bb5ee8c6a2d183fe3f21b62efc5f6c7243cb2b26d2d115
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   griffe
     #   griffecli
 grpcio==1.84.0 \
@@ -995,12 +1072,14 @@ grpcio==1.84.0 \
     --hash=sha256:fc66cb50c93554b86db0b6625ab5c6e9051dbf8847c08d93c84918e02e413fb7 \
     --hash=sha256:fff5ef3fe1bba7d6147e5f19e01e5e122ac2c076486887ddcb8d42e663400fbe
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   opentelemetry-exporter-otlp-proto-grpc
 h11==0.16.0 \
     --hash=sha256:4e35b956cf45792e4caa5885e69fba00bdbc6ffafbfa020300e549b208ee5ff1 \
     --hash=sha256:63cf8bbe7522de3bf65932fda1d9c2772064ffb3dae62d55932da54b31cb6c86
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   httpcore
     #   httpcore2
     #   uvicorn
@@ -1022,15 +1101,21 @@ hf-xet==1.6.0 \
     --hash=sha256:f0906082d9932ae0c0057fa194041c22b4e2cdb46b2592ef3b91f020d62a081a \
     --hash=sha256:f2f7278c05c22fd60cb436cda1269649b3e81db65ecdc8496e5e164aa4143e7b \
     --hash=sha256:fb4fadde1b2b70bf4c0c14a6dccbe7194b1c28947fefd5bbe3fed9d940676c3b
-    # via huggingface-hub
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   huggingface-hub
 httpcore==1.0.9 \
     --hash=sha256:2d400746a40668fc9dec9810239072b40b4484b640a8c38fd654a024c7a1bf55 \
     --hash=sha256:6e34463af53fd2ab5d807f399a9b45ea31c3dfa2276f15a2c3f00afff6e176e8
-    # via httpx
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   httpx
 httpcore2==2.13.1 \
     --hash=sha256:e0aa977abe17e69a3b820a24542a6fa88702676d83880b8d194dcd18408e5103 \
     --hash=sha256:e1e05d4f25f7d7d496bfb96748f6f4b67657b03da069b3a68c36069f3db73d0a
-    # via httpx2
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   httpx2
 httptools==0.8.0 \
     --hash=sha256:0770728beb05094c809b98e814edff5fef69d26ad7d21185f2f6d5884a0ba683 \
     --hash=sha256:0ea897f0c729581ebf72131a438a7932d9b14efef72d75ada966700cac3caaeb \
@@ -1082,11 +1167,14 @@ httptools==0.8.0 \
     --hash=sha256:ef7c3c97f4311c7be57e2986629df89d49cb434dbff78eafcd48c2bff986b15a \
     --hash=sha256:f256d6ce930c52ca1cb2a960b7da03548c454e7d28b06059ad41bfe789036ce0 \
     --hash=sha256:fe2a4c95aeba2209434e7b31172da572846cae8ca0bf1e7013e61b99fbbf5e72
-    # via uvicorn
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   uvicorn
 httpx==0.28.1 \
     --hash=sha256:75e98c5f16b0f35b567856f597f06ff2270a374470a5c2392242528e3e3e42fc \
     --hash=sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   datasets
     #   huggingface-hub
@@ -1097,15 +1185,20 @@ httpx==0.28.1 \
 httpx-sse==0.4.3 \
     --hash=sha256:0ac1c9fe3c0afad2e0ebb25a934a59f4c7823b60792691f779fad2c5568830fc \
     --hash=sha256:9b1ed0127459a66014aec3c56bebd93da3c1bc8bb6618c8082039a44889a755d
-    # via langchain-community
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langchain-community
 httpx2==2.13.1 \
     --hash=sha256:6dff50fabc270ee5fd25d845d0b078ed20564579744d6d962850975996d2f9a4 \
     --hash=sha256:e48744a19e3af5ee48313d0ce5fe941d5422fae5705ea922a4aabf94d7800dfa
-    # via langsmith
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langsmith
 huggingface-hub==1.33.0 \
     --hash=sha256:04e434b06e100eddbce9a6e817d72693a7884b10a79bd67ab48080d5c07eb899 \
     --hash=sha256:367be21a201db9523eddf8aeac7048f2602c1b308691c97640d5e72ed188007e
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   llama-index-embeddings-huggingface
     #   sentence-transformers
@@ -1115,6 +1208,7 @@ idna==3.20 \
     --hash=sha256:a7db850025b95ded1eae8a46181a1a6c56c92c96f0e2b005d9ff8dc0210cab44 \
     --hash=sha256:ab7ae7122974553370f0bdb919e1a960b2cd1bc1ef0276416d896db81c14582c
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   anyio
     #   httpx
     #   httpx2
@@ -1123,15 +1217,20 @@ idna==3.20 \
 importlib-resources==7.1.0 \
     --hash=sha256:0722d4c6212489c530f2a145a34c0a7a3b4721bc96a15fada5930e2a0b760708 \
     --hash=sha256:1bd7b48b4088eddb2cd16382150bb515af0bd2c70128194392725f82ad2c96a1
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 instructor==0.4.0 \
     --hash=sha256:56d9bc24101f9f903e046646cebe71160bbbd49a365dac65cc1f64bf9eea63ff \
     --hash=sha256:88dd145f989893619db645d2c3cad55e066c9ac26c2ea54fb8ebb3686e6507fe
-    # via ragas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   ragas
 jinja2==3.1.6 \
     --hash=sha256:0137fb05990d35f1275a587e9aee6d56da821fc83491a0fb838183be43f66d6d \
     --hash=sha256:85ece4451f492d0c13c5dd7c13a64681a86afae63a5f347908daf103ce6d2f67
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   banks
     #   torch
 jiter==0.17.0 \
@@ -1254,29 +1353,40 @@ jiter==0.17.0 \
     --hash=sha256:fd7790aa79c8b518e512ebcdfce9f11d8ef5f30efd43720c8a19a548b39fa489 \
     --hash=sha256:fe15ddf316f1f1f643347d3a474e74ce61880c79a11ec5dca53df20c071bd3e8 \
     --hash=sha256:ffa0380ad091de7d3fc33e17a97ff479851ee18a0a2a3ee56ff3215cdc886656
-    # via openai
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   openai
 joblib==1.6.0 \
     --hash=sha256:2ccc96785b12046c08fd6d55839c12857831b54a3c1673ffadd2f04bfc4eda03 \
     --hash=sha256:3dbbf9f6e4b592a2357b854608e980fe6390d131d7a82f011a377ef2ebef7aba
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   nltk
     #   scikit-learn
 jsonpatch==1.33 \
     --hash=sha256:0ae28c0cd062bbd8b8ecc26d7d164fbbea9652a1a3693f3b956c1eae5145dade \
     --hash=sha256:9fcd4009c41e6d12348b4a0ff2563ba56a2923a7dfee731d004e212e1ee5030c
-    # via langchain-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langchain-core
 jsonpointer==3.1.1 \
     --hash=sha256:0b801c7db33a904024f6004d526dcc53bbb8a4a0f4e32bfd10beadf60adf1900 \
     --hash=sha256:8ff8b95779d071ba472cf5bc913028df06031797532f08a7d5b602d8b2a488ca
-    # via jsonpatch
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   jsonpatch
 jsonschema==4.26.0 \
     --hash=sha256:0c26707e2efad8aa1bfc5b7ce170f3fccc2e4918ff85989ba9ffa9facb2be326 \
     --hash=sha256:d489f15263b8d200f8387e64b4c3a75f06629559fb73deb8fdfb525f2dab50ce
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 jsonschema-specifications==2025.9.1 \
     --hash=sha256:98802fee3a11ee76ecaca44429fda8a41bff98b00a0f2838151b113f210cc6fe \
     --hash=sha256:b540987f239e745613c7a9176f3edb72b832a4ac465cf02712288397832b5e8d
-    # via jsonschema
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   jsonschema
 kiwisolver==1.5.1 \
     --hash=sha256:007a5553dfc4f4e8d184f588a0200e2cd4b63a59cc8796df3c39909e679dc7a0 \
     --hash=sha256:0324cd2567259b7a095f6cf18a52b0ffc6f3de9e69528ff1bc0e7a37bd43ff1a \
@@ -1419,27 +1529,34 @@ kiwisolver==1.5.1 \
     --hash=sha256:f9b1c4900736e489a812c529100de4b8fb617d4db075e931e213c57424b83d9b \
     --hash=sha256:fc271a6f0a2126958f4090e5507b9da5848927dae331f8f763bd4aa642b3d2cd \
     --hash=sha256:febcce10f2bcdbb80b4ea919238a6a4ac13dbc4c7cadbe8d5d75c3682f8b5404
-    # via matplotlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   matplotlib
 kubernetes==36.0.3 \
     --hash=sha256:36993ed25ce59b789c9341473a228fcf268504a2fec7c2b2b1531d73072e5ce7 \
     --hash=sha256:8fde9241c4b298e6374a069dcf728359b4e72c2fb29489a975ba4e1c047cf10f
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 langchain==1.4.3 \
     --hash=sha256:0334066939dd1c7551889727ed2d09a72dea7a6aed2193ffb61817fb658d8921 \
     --hash=sha256:aed5c1a7cd581f70ddc076b75fdbcbae8031b8373983f86efd287aa70798abc2
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-community
     #   ragas
 langchain-community==0.3.31 \
     --hash=sha256:1c727e3ebbacd4d891b07bd440647668001cea3e39cbe732499ad655ec5cb569 \
     --hash=sha256:250e4c1041539130f6d6ac6f9386cb018354eafccd917b01a4cff1950b80fd81
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   ragas
 langchain-core==1.6.6 \
     --hash=sha256:67616d984c085009be2c381c2efd330d32429a58aebab295b4f51b6573964511 \
     --hash=sha256:d9a71e312ab7443701238750e04a57aefc037c4f1ec82837c8a1609d9a14a9b1
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain
     #   langchain-community
     #   langchain-openai
@@ -1451,45 +1568,59 @@ langchain-core==1.6.6 \
 langchain-openai==1.1.9 \
     --hash=sha256:ca2482b136c45fb67c0db84a9817de675e0eb8fb2203a33914c1b7a96f273940 \
     --hash=sha256:fdee25dcf4b0685d8e2f59856f4d5405431ef9e04ab53afe19e2e8360fed8234
-    # via ragas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   ragas
 langchain-protocol==0.0.19 \
     --hash=sha256:4cdf879a492a35980fd859ae792d3c65458ccaae504e183c9a10d7eac1f0720f \
     --hash=sha256:79d90a1425122ac87e8052e2ec054fbd09c3edbf341bdfb6397112a495c7bf8c
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-core
     #   langgraph-sdk
 langgraph==1.2.12 \
     --hash=sha256:5fae9fa4ce771e90f10ff19ce0d5aaef4b41d7632c713d769e89cbce1241a4b9 \
     --hash=sha256:95403af7b510de8d79164742f71daaf866c69ca804a8cb72bef2cc1fa1ab9813
-    # via langchain
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langchain
 langgraph-checkpoint==4.2.0 \
     --hash=sha256:0547fd228935a0b758865de3a3d6d7a2537c308895d0f9ab092ce9151b5da942 \
     --hash=sha256:51a593b6bee684b0818e5d6e58e28ab340c6db7794575056ce7bd1b746a84ed7
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langgraph
     #   langgraph-prebuilt
 langgraph-prebuilt==1.1.0 \
     --hash=sha256:3c579cf6eed2d17f9c157c2d0fcaddcd8688524e7022d3b22b37a3bf4589d528 \
     --hash=sha256:51e311747d755b751d5c6b39b0c1446124d3a7643d2515017e6714b323508fc9
-    # via langgraph
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langgraph
 langgraph-sdk==0.4.5 \
     --hash=sha256:d49a98a2ee8e0c494b101a7caf8061c8b4b94d3ee5ada0ea2dbe50903a5487b1 \
     --hash=sha256:e03ef033a20d21288af496e9b6c08ae3afcc1b58dc5abcd37575bfd1a93045de
-    # via langgraph
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langgraph
 langsmith==0.14.3 \
     --hash=sha256:4438b0c5d9ac14d5267d4373d67cfb58f1585c91c501564186b9ce196aad2988 \
     --hash=sha256:60c42b2c9e3e798ebbab3caa286ac25201b2b1861ed915dfe5851b076d6a9bc4
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-community
     #   langchain-core
 llama-index==0.14.25 \
     --hash=sha256:242269bf0dec5f73733572d10866b34aba86f049549fd97612f554461f549e68 \
     --hash=sha256:e5ddd3cc21705f54fd6495113307637059ca9f57c2c8251d1041f67936319e64
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 llama-index-core==0.14.25 \
     --hash=sha256:4ebfdc5317f0382501fa80262d7a7382715f80741cf41a7b11a52d4335e6f696 \
     --hash=sha256:caa7d9c5ac9b13dc33400cf8d5e92e689b6d1e4497eb9bfa50d6f52ca2eb22a1
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   llama-index
     #   llama-index-embeddings-huggingface
     #   llama-index-embeddings-openai
@@ -1499,37 +1630,52 @@ llama-index-core==0.14.25 \
 llama-index-embeddings-huggingface==0.8.0 \
     --hash=sha256:02f34df13e3b83e9169fcfdf624b6fbe906fce75b7448cdf69800babc281a9a6 \
     --hash=sha256:aca52e036371a86b0135f239d15916fbe2a5d66aa4267242bee1f2bef2da74c1
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 llama-index-embeddings-openai==0.6.0 \
     --hash=sha256:039bb1007ad4267e25ddb89a206dfdab862bfb87d58da4271a3919e4f9df4d61 \
     --hash=sha256:eb3e6606be81cb89125073e23c97c0a6119dabb4827adbd14697c2029ad73f29
-    # via llama-index
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index
 llama-index-instrumentation==0.6.0 \
     --hash=sha256:9588618b271e6c74e58dc81542ea022547c427f036e7cacb655865c4982610bb \
     --hash=sha256:b185c4e28a7f32899c27649cc2e2d7d54267fa2ff0cd43cbe2b5212bae98fe3a
-    # via llama-index-workflows
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-workflows
 llama-index-llms-openai==0.7.10 \
     --hash=sha256:aa8dabf08ea0b9740fc9dae9677f05049254be5e929794a886692eaf26973def \
     --hash=sha256:b76a0c3d4aaa9aba57dc0366ca6b2346c6819bed22973e334676d7a34704e46a
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   llama-index
 llama-index-retrievers-bm25==0.8.0 \
     --hash=sha256:8c487725129556485bb14a8363d5b15999c2392a7c4e02819f429c56ec3a9e3c \
     --hash=sha256:ef00595e9d5b059619bfc9c6ef2021447e2412c0b55d02d9c2fb766ea2613547
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 llama-index-vector-stores-chroma==0.6.0 \
     --hash=sha256:5f5afd52930eafc8129da35d41abbf199a4de5644ffccffeb40d9864ab22101d \
     --hash=sha256:98a4d049f0db7c0c151558945600719698e38132066786ca22127a743e055554
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 llama-index-workflows==2.25.0 \
     --hash=sha256:a14adb66ebd153db3874f31661d1c676fb45f4536187136de1284431ae3b2e84 \
     --hash=sha256:f1a6a90ccc2b818e3fdb0f9660deb34019b0c3f53533e9cecb3540882b527f49
-    # via llama-index-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-core
 markdown-it-py==4.2.0 \
     --hash=sha256:04a21681d6fbb623de53f6f364d352309d4094dd4194040a10fd51833e418d49 \
     --hash=sha256:9f7ebbcd14fe59494226453aed97c1070d83f8d24b6fc3a3bcf9a38092641c4a
-    # via rich
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   rich
 markupsafe==3.0.3 \
     --hash=sha256:0303439a41979d9e74d18ff5e2dd8c43ed6c6001fd40e5bf2e43f7bd9bbc523f \
     --hash=sha256:068f375c472b3e7acbe2d5318dea141359e6900156b5b2ba06a30b169086b91a \
@@ -1620,11 +1766,15 @@ markupsafe==3.0.3 \
     --hash=sha256:f71a396b3bf33ecaa1626c255855702aca4d3d9fea5e051b41ac59a9c1c41edc \
     --hash=sha256:f9e130248f4462aaa8e2552d547f36ddadbeaa573879158d721bbd33dfe4743a \
     --hash=sha256:fed51ac40f757d41b7c48425901843666a6677e3e8eb0abcff09e4ba6e664f50
-    # via jinja2
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   jinja2
 marshmallow==3.26.2 \
     --hash=sha256:013fa8a3c4c276c24d26d84ce934dc964e2aa794345a0f8c7e5a7191482c8a73 \
     --hash=sha256:bbe2adb5a03e6e3571b573f42527c6fe926e17467833660bebd11593ab8dfd57
-    # via dataclasses-json
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   dataclasses-json
 matplotlib==3.11.2 \
     --hash=sha256:01dc8eaaab5a9fce9ff615eca82345728f289e4715b186ee10c6d85272fc26bb \
     --hash=sha256:02329432ae5c6af87cf208ee575b701d698bdf0b1a3bb28cc6d53c36e967e575 \
@@ -1679,11 +1829,15 @@ matplotlib==3.11.2 \
     --hash=sha256:f25446b2981717dca9786bac841cb3fd7efb568e3e3c755dd980481c5cb9228d \
     --hash=sha256:f2ac30cf5eb5dff1b584627ae0b0e1186551a4f69ae3c75073911da497a29170 \
     --hash=sha256:fea03cf56568cc1cba08b470be6a0559e71c3a5b688d54b7179bb35ba23d0821
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 mdurl==0.1.2 \
     --hash=sha256:84008a41e51615a49fc9966191ff91509e3c40b939176e643fd50a5c2196b8f8 \
     --hash=sha256:bb413d29f5eea38f31dd4754dd7377d4465116fb207585f97bf925588687c1ba
-    # via markdown-it-py
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   markdown-it-py
 mmh3==5.3.1 \
     --hash=sha256:010dcd7406c2f77b978beaadfeb7a01d4f7868ce862f6273b1c37bd902267394 \
     --hash=sha256:01159489255615d4be76a9ebb07cb0c9b0345f544197aa64ab18a7cfa5579a28 \
@@ -1845,11 +1999,15 @@ mmh3==5.3.1 \
     --hash=sha256:fc205e9f78224db7239d163b9b7cac35596aa615665135b0105beb8080e9ebc5 \
     --hash=sha256:fc7a4ab919a66b9db72c1425d610f69a8480dce22aa4c6ad2218e4acf41f8c01 \
     --hash=sha256:fd3bbb5dc3c3a045605c1a618bfccb2de6d65ae89b99ff9a7f54556cf81175b7
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 mpmath==1.3.0 \
     --hash=sha256:7a28eb2a9774d00c7bc92411c19a89209d5da7c4c9a9e227be8330a23a25b91f \
     --hash=sha256:a0b2b9fe80bbcd81a6647ff13108738cfb482d481d826cc0e02f5b35e5c88d2c
-    # via sympy
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   sympy
 multidict==6.9.1 \
     --hash=sha256:006c4478de0a1876f4834e14255776286f09b9846b505fe63f67f9d173a9487c \
     --hash=sha256:024123f0ab402ab33828e24eb80fa8f25167d0d3783ba5f287e39ed741e6abf9 \
@@ -2023,6 +2181,7 @@ multidict==6.9.1 \
     --hash=sha256:fc0dcb22fa9aeabfe3fa4e0430099acff985ec5d77a851382f76cc6146e780e5 \
     --hash=sha256:fd882aa29bf402b62bf1fd7c19fd5df4b6528cf468a908864b39368572b662a9
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   aiohttp
     #   yarl
 multiprocess==0.70.19 \
@@ -2042,27 +2201,34 @@ multiprocess==0.70.19 \
     --hash=sha256:e5e7dc3e3e1732e88c07aaec17eeb9917f9ed1107d9e60d5ab985cdc14bac43a \
     --hash=sha256:e6c0674d34b8adac22533f6786576b3de4e396aaeda9e0c15378af9b8ada2702 \
     --hash=sha256:e8cc7fbdff15c0613f0a1f1f8744bef961b0a164c0ca29bdff53e9d2d93c5e5f
-    # via datasets
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   datasets
 mypy-extensions==1.1.0 \
     --hash=sha256:1be4cccdb0f2482337c4743e60421de3a356cd97508abadd57d47403e94f5505 \
     --hash=sha256:52e68efc3284861e772bbcd66823fde5ae21fd2fdb51c62a211403730b916558
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   playa-pdf
     #   typing-inspect
 narwhals==2.26.0 \
     --hash=sha256:29326d74f107c347fd1009bd58e38d9f7c7c5b51e6de97bc93dbc325d9038b54 \
     --hash=sha256:6b9cadca82f375c7e4cf584fdc86ca25da54827307a9c58f94547ee6104b82dd
-    # via scikit-learn
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   scikit-learn
 nest-asyncio==1.6.0 \
     --hash=sha256:6f172d5449aca15afd6c646851f4e31e02c598d553a667e38cafa997cfec55fe \
     --hash=sha256:87af6efd6b5e897c81050477ef65c62e2b2f35d51703cae01aff2905b1852e1c
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   llama-index-core
     #   ragas
 networkx==3.6.1 \
     --hash=sha256:26b7c357accc0c8cde558ad486283728b65b6a95d85ee1cd66bafab4c8168509 \
     --hash=sha256:d47fbf302e7d9cbbb9e2555a0d267983d2aa476bac30e90dfbe5669bd57f3762
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   llama-index-core
     #   ragas
@@ -2071,6 +2237,7 @@ nltk==3.10.3 \
     --hash=sha256:bb9327a461c3811c2fa4900e03840401f2126adfb30c0072827c433bd2444ea4 \
     --hash=sha256:ff9598a8e20518ee0d557745890cc4435b9578489e2dcbc69c4f81fa060caf7c
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   llama-index
     #   llama-index-core
 numpy==2.4.6 \
@@ -2147,6 +2314,7 @@ numpy==2.4.6 \
     --hash=sha256:f407cb6b8e9d6d8c626bc73c945db1706035af8fd632295547bf1c9e46d092d6 \
     --hash=sha256:f74a575920ab21fe304421a3fc28793d82e299cae9eccb37084e9fc7f3617c20
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   bm25s
     #   camelot-py
     #   chromadb
@@ -2169,7 +2337,9 @@ numpy==2.4.6 \
 oauthlib==4.0.0 \
     --hash=sha256:624c28c13a0a59cabf9747dfa52af63be3e512a7f2714df16e91b5b3a145e6cd \
     --hash=sha256:efb274799819440f95b4ab3b818869f1ce9ae26c5beacba0201d1a1b76b54f86
-    # via requests-oauthlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   requests-oauthlib
 onnxruntime==1.30.0 \
     --hash=sha256:001ed726c9bd5e2bc92faade7d37d889e9606a350b7d5529f0227df2e3bb57fd \
     --hash=sha256:05e4fc41711d1f4abd19a9124b5be7a65a506cb2670a7f14b16162ef13c58134 \
@@ -2195,11 +2365,14 @@ onnxruntime==1.30.0 \
     --hash=sha256:f36c87ec504f4f328e968ee322e4ba9682abe66280b3425625afcbed5333fed7 \
     --hash=sha256:fa688e7891a6aa206636fe7372e27ee75fd17713289f6b4fc7b190e0a7de9328 \
     --hash=sha256:fd54b314ea385bcecac69ab431f020ba503e3878dad4ebb645fec5a24b041242
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 openai==1.109.1 \
     --hash=sha256:6bcaf57086cf59159b8e27447e4e7dd019db5d29a438072fbd49c290c7e65315 \
     --hash=sha256:d173ed8dbca665892a6db099b4a2dfac624f94d20a93f46eb0b56aae940ed869
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   instructor
     #   langchain-openai
     #   llama-index-embeddings-openai
@@ -2215,17 +2388,21 @@ opencv-python-headless==5.0.0.93 \
     --hash=sha256:b82f9831daab90b725c7c1ee1b36cb5732c367096ac76d119e64e14eb70d5f3c \
     --hash=sha256:c6bcd96b185975ea240d22cfdb15a1f6d080cc95264cfbe2621f21bb144d89b9 \
     --hash=sha256:ed709fdf9aa0bd1f2ed8549e71d19449b03a675bb581eb292285f6861953be37
-    # via camelot-py
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   camelot-py
 openpyxl==3.1.5 \
     --hash=sha256:5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2 \
     --hash=sha256:cf0e3cf56142039133628b5acffe8ef0c12bc902d2aadd3e0fe5878dc08d1050
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   camelot-py
 opentelemetry-api==1.45.0 \
     --hash=sha256:711ede81773c8025c2c03dac0450bc89f3d30aea6eabcc815c570d4e35a963f7 \
     --hash=sha256:80e068aba7cd56c8b58512d6a36f8d25cb1dfaa0c0a4cc1c938ccf9f362d9cb3
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   fastapi
     #   opentelemetry-exporter-otlp-proto-grpc
@@ -2234,32 +2411,42 @@ opentelemetry-api==1.45.0 \
 opentelemetry-exporter-otlp-common==0.66b0 \
     --hash=sha256:35d24c867310f4713a9738b0202b6bade77955418fccb9e2f7eea01b76263916 \
     --hash=sha256:362268ec6aa705e183776ff938539df1e8ce45bc5509d242538b1d40c26fe6a6
-    # via opentelemetry-exporter-otlp-proto-grpc
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   opentelemetry-exporter-otlp-proto-grpc
 opentelemetry-exporter-otlp-proto-common==1.45.0 \
     --hash=sha256:36495115a0c6a7aa946cfda9d59b6ed4e917b6ab0f75cdaf66bc1b176ec1be1f \
     --hash=sha256:7e1410ae6d3ed301f7a74bec96467d519d3f37e52f9d95b309ae125e5a1af863
-    # via opentelemetry-exporter-otlp-proto-grpc
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   opentelemetry-exporter-otlp-proto-grpc
 opentelemetry-exporter-otlp-proto-grpc==1.45.0 \
     --hash=sha256:5a8460464a421fde245be0eb1cad6c6059a07845d1896afb74c963f847179070 \
     --hash=sha256:7888c2d57b4437cdd879fe250455065ec716a3862f3eb17b850cbfe134aeb181
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 opentelemetry-proto==1.45.0 \
     --hash=sha256:96ee414f24bc3f61ea8e17dc56b4348d4049d73db3eb17c6b3edf75b5b403300 \
     --hash=sha256:9731566359d7b8e1ee1e149d8e4ad6865bab965e657ad3387ec2784d16927666
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   opentelemetry-exporter-otlp-proto-common
     #   opentelemetry-exporter-otlp-proto-grpc
 opentelemetry-sdk==1.45.0 \
     --hash=sha256:20caa5130505e386c67c3da1c76e446c842698ced54c76c6148679539aa97972 \
     --hash=sha256:5dc634c946546f61b757c5b1781f9fd1a10e96ffaf7357c797e508fe9c57e75e
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   opentelemetry-exporter-otlp-common
     #   opentelemetry-exporter-otlp-proto-grpc
 opentelemetry-semantic-conventions==0.66b0 \
     --hash=sha256:175b19dd98c4473f4f43a2b1df59186fd7b4a48cd3f77cbe03438b6d6fda230a \
     --hash=sha256:97a77dce484c54861e7eeff7651fd8a806dd3c30e501dc316730215ec36890e6
-    # via opentelemetry-sdk
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   opentelemetry-sdk
 orjson==3.12.0 \
     --hash=sha256:010811c1b69773450a01cef97727a67b223242f350b77d4ca000e59a9ef2155a \
     --hash=sha256:01efac2074fffb4cb1ea3fab7861e9d0f2a26913854a972f5ac760525dbdaf6e \
@@ -2327,6 +2514,7 @@ orjson==3.12.0 \
     --hash=sha256:f3c0683136acdc29afdf88a5bc2f7d3d0e34087788d1d63c0144b805a87a196f \
     --hash=sha256:fb2539159dfe8d371914f354360fa50e4a577cc89222a3828b9650a5e5040252
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   langgraph-sdk
     #   langsmith
@@ -2380,15 +2568,20 @@ ormsgpack==1.12.2 \
     --hash=sha256:f04b5e896d510b07c0ad733d7fce2d44b260c5e6c402d272128f8941984e4285 \
     --hash=sha256:f3601f19afdbea273ed70b06495e5794606a8b690a568d6c996a90d7255e51c1 \
     --hash=sha256:fcd55e5f6ba0dbce624942adf9f152062135f991a0126064889f68eb850de0dd
-    # via langgraph-checkpoint
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langgraph-checkpoint
 overrides==7.7.0 \
     --hash=sha256:55158fa3d93b98cc75299b1e67078ad9003ca27945c76162c1c0766d6f91820a \
     --hash=sha256:c7ed9d062f78b8e4c1a7b70bd8796b35ead4d9f510227ef9c5dc7626c60d7e49
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 packaging==26.3 \
     --hash=sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79 \
     --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   build
     #   datasets
     #   faiss-cpu
@@ -2460,6 +2653,7 @@ pandas==3.0.6 \
     --hash=sha256:fb625f426b375bcc96e3a04c5d5d266cd7be6ae5d6866e0e703382ab5164068c \
     --hash=sha256:ff51a4459ed036e93d1eb1bb5e6e7b28685d3cb6b7c12b91c05b31024e234729
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   camelot-py
     #   datasets
@@ -2552,6 +2746,7 @@ pillow==12.3.0 \
     --hash=sha256:fe3cca2e4e8a592be0f269a1ca4835c25199d9f3ce815c8491048f785b0a0198 \
     --hash=sha256:ffd0c5368496f41b0944be820fcb7a838aa6e623d250b01acf2643939c3f99d7
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   camelot-py
     #   llama-index-core
@@ -2562,6 +2757,7 @@ platformdirs==4.12.2 \
     --hash=sha256:29dbf06d96c500bc6bdbce75fb0a14d63279c93b1842f97e72a135b33e856983 \
     --hash=sha256:eab5f70271a490ef74618bb314fbb86e3c7e82fa3b9c922c2ea0e0a1a155d329
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   banks
     #   llama-index-core
 playa-pdf==1.1.0 \
@@ -2596,7 +2792,9 @@ playa-pdf==1.1.0 \
     --hash=sha256:daf8774b97933ddf8fb9120204ff9db96c56c360dfdecc489be5cec3338d0b5c \
     --hash=sha256:e43afdc20cde1b77a9b4cb5804d9499d8c6966f34f3348abd4cd0541c591fe83 \
     --hash=sha256:e548a7542036f89a622f1c11c2a9c40b8476090b04f3abc335a8dd20142060aa
-    # via camelot-py
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   camelot-py
 propcache==0.5.4 \
     --hash=sha256:004e685b315646c410771836e72a44f143bbe624f29653a42687815069a303d5 \
     --hash=sha256:02c0a34f16889cf800f10f0247a564d8ce6eeab6ffcd7c87198f769067eb8432 \
@@ -2737,6 +2935,7 @@ propcache==0.5.4 \
     --hash=sha256:fc2461ecc45f17893f8207e73b46ea8ba93e33630e51cf4af3fbc21d47462b1a \
     --hash=sha256:ff6b113f50bc066a698db5d944d2c6dc7507168dd3341e255a8892fd0715a558
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   aiohttp
     #   yarl
 protobuf==7.36.2 \
@@ -2749,6 +2948,7 @@ protobuf==7.36.2 \
     --hash=sha256:e11e1f0180583a2af89db6a2ecd9e8dc40aa6d2988ca175bfd0e6d12ea72d74e \
     --hash=sha256:f4fee11ec330d238b34a05c9b675f693c20415d1c5bd7d5320cc2f8a798eb9cf
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   googleapis-common-protos
     #   onnxruntime
     #   opentelemetry-proto
@@ -2796,7 +2996,9 @@ pyarrow==25.0.1 \
     --hash=sha256:eb6203482ff3746a5632303a7279ae0b5a304c46985b49ed1378cb350ea6728d \
     --hash=sha256:f3831aaa25c67a99f99dc8b05873cb9d64560390372e2aa197ce9dd4a3f06a44 \
     --hash=sha256:f729cfdbd36fd99d543b67a914d2de044c84ebe45be8b34902b299b608c15c8f
-    # via datasets
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   datasets
 pybase64==1.5.0 \
     --hash=sha256:0030a64fe91791e5e553edaff3a55d319cd07fb5e097b09c5f7f45e4905c40cb \
     --hash=sha256:0202f2e2bc65a97969f6b1076cb4714054f0c770e9a44c883280c1435c82c858 \
@@ -3011,11 +3213,14 @@ pybase64==1.5.0 \
     --hash=sha256:fb5dc922ce3cb4211caa7e29e6daee98f319e59f297a904acd74f2fdd0674356 \
     --hash=sha256:fbf8e901a9caf045062b7a1a8f7db056c492a5a76a0c612714ed7abb5ad42f7a \
     --hash=sha256:fe57aab650c771802cc7b0eb541a74b6a181cd1870f61c537294ab462fec34e8
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 pydantic==2.13.5 \
     --hash=sha256:346a034f080da3755d8e9cb5e00e8b07de1d39e4f6e2c87d8ab7cafa0b269a73 \
     --hash=sha256:51a9c5f7b2f8e636f04c6cada605d9b6a3bf1348fdf945a3d8869b19bba0ee08
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   banks
     #   chromadb
     #   fastapi
@@ -3151,17 +3356,22 @@ pydantic-core==2.46.5 \
     --hash=sha256:fc5d783bd4a2387e97b8a2d5ec781cfb92b3d893bf82370548e99db5915935d3 \
     --hash=sha256:fc8515076c11f3cfdf4fb142dcca0fe384b1230a3b5415458ac84f3e0903ec13 \
     --hash=sha256:ff218293c9c806138dca139765e3b067621be52bcd93cdc14c7711be7ddc90a9
-    # via pydantic
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   pydantic
 pydantic-settings==2.15.0 \
     --hash=sha256:0ba092c291c94baceb5eff768aa0d56400a457585bc0175925a5a5510303da42 \
     --hash=sha256:694b793e84f766ba76a90ebdefc01d0a9a045dab0382bee70393da93712ad117
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   langchain-community
 pygments==2.21.0 \
     --hash=sha256:2363c69b61c4a97c838da3b130dcd6468f4848992b21a82f2a63ec34377137d9 \
     --hash=sha256:610ca751c9bc2492b38eb9a38a7fbc93edbbb2d7182edaf34e66ae493dee5c8c
-    # via rich
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   rich
 pymupdf==1.28.2 \
     --hash=sha256:2e1b574c0fd2cb238021033fd3c0f9c4388816638df064e4bfb56d9d81736dc8 \
     --hash=sha256:3050a233dde1211efe89ada74e2add6238436434159f46097a1423aad2842545 \
@@ -3174,15 +3384,21 @@ pymupdf==1.28.2 \
     --hash=sha256:f89fb2d86d07d643a269f17a093105057e20c79c1d06c103b53600067b6d2b01 \
     --hash=sha256:fd481ed48bef56305c41fb7e05a055c03345c899c7b101dad086258b438f8168 \
     --hash=sha256:ffe91a24edc75c80da2a4b62f50fc0f54632d34fc8fe4cbc48e5c7ff07cf8fb4
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 pyparsing==3.3.3 \
     --hash=sha256:928ae7e20211f3b6f3915a72f06a0cfd29ab9d24279dd6346b6b1a7146397d36 \
     --hash=sha256:ece8c00a69cf01b45d0b1dedabb469c90d8caf996d4fda40f147627a122849a4
-    # via matplotlib
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   matplotlib
 pypdf==6.19.0 \
     --hash=sha256:7e5d6e730e7dae87d560a2cee218b852f6498c8be61966f3cd02ead971e48d14 \
     --hash=sha256:bbc43aca292369ccc6cbc8a921991ecf2538a3587ab5a116eff06c321d647155
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 pypdfium2==5.13.0 \
     --hash=sha256:07f58e91b8c45ca144a1ff3008faf3c73ef8a5e9fb32988831788363288228cd \
     --hash=sha256:2abedfb5c70992b19c780ed58d7f7b929e8ce8ee52c9140158f44317c90ec6c7 \
@@ -3206,15 +3422,21 @@ pypdfium2==5.13.0 \
     --hash=sha256:d96929bde3bd64c771ab3558ca1ffd7704cc4d872ab92cd9f8f8b8a20f7f36b8 \
     --hash=sha256:d96beb7f379e6c76d874ca93fcd182ac3168dd499056407070f9927fb1061b8e \
     --hash=sha256:da5c7b74eebf40b5c1fbe1de01aa1edc8827a79fb1efd999616bc20dcaf77ba4
-    # via camelot-py
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   camelot-py
 pypika==0.51.1 \
     --hash=sha256:77985b4d7ce71b9905255bf12468cf598349e98837c037541cfc240e528aec46 \
     --hash=sha256:c30c7c1048fbf056fd3920c5a2b88b0c29dd190a9b2bee971fd17e4abe4d0ebe
-    # via chromadb
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   chromadb
 pyproject-hooks==1.3.3 \
     --hash=sha256:5fc53fdac9f7bd63fbcdc868fb5f90b4784d78a53a3d3388cd738b807441a20b \
     --hash=sha256:defda19b854fa0d3bd4f76ea4ddcba8abd7dcfcdd585a6690ade050744fc5f43
-    # via build
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   build
 pystemmer==2.2.0.3 \
     --hash=sha256:033a3d2a78d8ff03520da9d7a419599e91455f875b9bac51245ec4b24ea5de9c \
     --hash=sha256:09d236633ba63ab312e8d763a23803dcef4d2192c3cc3760f14bb749393413c6 \
@@ -3298,15 +3520,20 @@ pystemmer==2.2.0.3 \
     --hash=sha256:fa584c6890c18ec379bf597bc71fed902d900827c63f615d45ad24b2cc4cad9a \
     --hash=sha256:fe861224607410ea36c363ae0c77fd8a34efcf94663f1f9422fcf8e55869aeb8 \
     --hash=sha256:ff3feeac41968fd8b50e9d6b8a03a5f15b27e765a0826f06dc32155f8f22909c
-    # via llama-index-retrievers-bm25
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-retrievers-bm25
 pytesseract==0.3.13 \
     --hash=sha256:4bf5f880c99406f52a3cfc2633e42d9dc67615e69d8a509d74867d3baddb5db9 \
     --hash=sha256:7a99c6c2ac598360693d83a416e36e0b33a67638bb9d77fdcac094a3589d4b34
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 python-dateutil==2.9.0.post0 \
     --hash=sha256:37dd54208da7e1cd875388217d5e00ebd4179249f90fb72437e91a35459a0ad3 \
     --hash=sha256:a8b2bc7bffae282281c8140a97d3aa9c14da0b136dfe83f850eea9a5f7470427
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   kubernetes
     #   matplotlib
     #   pandas
@@ -3314,6 +3541,7 @@ python-dotenv==1.2.4 \
     --hash=sha256:42269a8a5b3fd54ffa6f3d84b18abed50064717576b4ecf03dc4a55d8aa04fdc \
     --hash=sha256:f0d53e69935a851c0dcc78f3ab7aaccd8cabef0b92382b576b824212902873c0
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   pydantic-settings
     #   uvicorn
@@ -3392,6 +3620,7 @@ pyyaml==6.0.3 \
     --hash=sha256:fa160448684b4e94d80416c0fa4aac48967a969efe22931448d853ada8baf926 \
     --hash=sha256:fc09d0aa354569bc501d4e787133afc08552722d3ab34836a80547331bb5d4a0
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   datasets
     #   huggingface-hub
@@ -3404,15 +3633,20 @@ pyyaml==6.0.3 \
 ragas==0.4.3 \
     --hash=sha256:1eb1f61dbc8613ad014fdb8d630cbe9a1caec1ea01664a106993cb756128c001 \
     --hash=sha256:ef1d75f674c294e9a6e7d8e9ad261b6bf4697dad1c9cbd1a756ba7a6b4849a38
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 rank-bm25==0.2.2 \
     --hash=sha256:096ccef76f8188563419aaf384a02f0ea459503fdf77901378d4fd9d87e5e51d \
     --hash=sha256:7bd4a95571adadfc271746fa146a4bcfd89c0cf731e49c3d1ad863290adbe8ae
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 referencing==0.37.0 \
     --hash=sha256:381329a9f99628c9069361716891d34ad94af76e461dcb0335825aecc7692231 \
     --hash=sha256:44aefc3142c5b842538163acb373e24cce6632bd54bdb01b21ad5863489f50d8
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   jsonschema
     #   jsonschema-specifications
 regex==2026.9.29 \
@@ -3547,6 +3781,7 @@ regex==2026.9.29 \
     --hash=sha256:fdd88ed5e20b1bcdd234421e454962c971aa44b653bdb7f1ea9ef683e90fb649 \
     --hash=sha256:fe3fa1dd453ed5c7f5ea23a26218329790ed7197a99b90e94330e313959a7f52
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   nltk
     #   tiktoken
     #   transformers
@@ -3554,6 +3789,7 @@ requests==2.34.2 \
     --hash=sha256:2a0d60c172f83ac6ab31e4554906c0f3b3588d37b5cb939b1c061f4907e278e0 \
     --hash=sha256:f288924cae4e29463698d6d60bc6a4da69c89185ad1e0bcc4104f584e960b9ed
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   kubernetes
     #   langchain-community
@@ -3565,15 +3801,20 @@ requests==2.34.2 \
 requests-oauthlib==2.0.0 \
     --hash=sha256:7dd8a5c40426b779b0868c404bdef9768deccf22749cde15852df527e6269b36 \
     --hash=sha256:b3dffaebd884d8cd778494369603a9e7b58d29111bf6b41bdc2dcd87203af4e9
-    # via kubernetes
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   kubernetes
 requests-toolbelt==1.0.0 \
     --hash=sha256:7681a0a3d047012b5bdc0ee37d7f8f07ebe76ab08caeccfc3921ce23c88d5bc6 \
     --hash=sha256:cccfdd665f0a24fcf4726e690f65639d272bb0637b9b92dfd91a5568ccf6bd06
-    # via langsmith
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langsmith
 rich==15.0.0 \
     --hash=sha256:33bd4ef74232fb73fe9279a257718407f169c09b78a87ad3d296f548e27de0bb \
     --hash=sha256:edd07a4824c6b40189fb7ac9bc4c52536e9780fbbfbddf6f1e2502c31b068c36
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   ragas
 rpds-py==2026.6.3 \
@@ -3694,6 +3935,7 @@ rpds-py==2026.6.3 \
     --hash=sha256:f90938e92afda60266da758ee7d363447f7f0138c9559f9e1811629580582d90 \
     --hash=sha256:faa679d19a6696fd54259ad321251ad77a13e70e03dd834daa762a44fb6196ef
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   jsonschema
     #   referencing
 safetensors==0.8.0 \
@@ -3714,7 +3956,9 @@ safetensors==0.8.0 \
     --hash=sha256:fabaf3e0f18a6618d9b36560682562157f77c2b71fcffc7b432be2baed9d753d \
     --hash=sha256:fcdd41ec4628fee5799f807c73c353629130fbd942aa23d83c623dd6c9d52d78 \
     --hash=sha256:fd6f3f93c9a0a7cc2788ee63fb763353d4bd2e89b0751bc78fcf7dda00bea774
-    # via transformers
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   transformers
 scikit-learn==1.9.1 \
     --hash=sha256:09f4d73049cd63575157f6b1060e06a8c83a4bd3488dbfaeedf35ccba7aad712 \
     --hash=sha256:0c0f8b5d09b44101cea2767f300680bada1ea27f976fe4b48b83950a4f55a49a \
@@ -3759,7 +4003,9 @@ scikit-learn==1.9.1 \
     --hash=sha256:e4c20a6c017d820faa7ac8c783e3d0c6a9a2e297bf9f55332ca17cdf7fd4d04d \
     --hash=sha256:e5d7b18a5b9dca241a74695f3275fa4c895a9dadc72b3d8df5fa9d1083c9b83e \
     --hash=sha256:ffbcbbbb44202fbe9bc64bced25a145759adb9ef010b3d37a8064958ac13df2a
-    # via sentence-transformers
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   sentence-transformers
 scikit-network==0.33.5 \
     --hash=sha256:2408d3f4c81256a3193d536aad4a6ffcfbb05d096abe6a9cc0b6b5e275df876d \
     --hash=sha256:2866b16aed9ef25ba42cb2f2e44ef2ad079337f336ce48d0604b55fa4af87688 \
@@ -3782,7 +4028,9 @@ scikit-network==0.33.5 \
     --hash=sha256:ced625228be1632595d11adaf22d61d1d4c788909cd4d8c364e720b2814aac7f \
     --hash=sha256:eb2770c61eec21e915b3dcac03f36ca5450cb8fe2bb99a8733f7daa37037820e \
     --hash=sha256:f9f2d98059cd79bdb935ff6a638f1c3a12b0b1cb7ace9e1d3fb35476eeeaabaa
-    # via ragas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   ragas
 scipy==1.17.1 \
     --hash=sha256:010f4333c96c9bb1a4516269e33cb5917b08ef2166d5556ca2fd9f082a9e6ea0 \
     --hash=sha256:02ae3b274fde71c5e92ac4d54bc06c42d80e399fec704383dcd99b301df37458 \
@@ -3846,6 +4094,7 @@ scipy==1.17.1 \
     --hash=sha256:f8885db0bc2bffa59d5c1b72fad7a6a92d3e80e7257f967dd81abb553a90d293 \
     --hash=sha256:fcb310ddb270a06114bb64bbe53c94926b943f5b7f0842194d585c65eb4edd76
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   scikit-learn
     #   scikit-network
     #   sentence-transformers
@@ -3853,24 +4102,28 @@ sentence-transformers==6.1.0 \
     --hash=sha256:299025df51550dc1a38f05be27a9b0bf881c4e5e70542b3b7757d05e00aa3868 \
     --hash=sha256:eb8122f4d180f552eda26dc3d77e84e8c11dc2b1d456a406b9f24abb70ceeadd
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   llama-index-embeddings-huggingface
 setuptools==84.0.0 \
     --hash=sha256:51a52592b3b99e102b609654876bd65f19f999935166d1352678931132b0c670 \
     --hash=sha256:f4695c21257f0d9b537ec2692c941d02ee143b7cc1276941349a546573b2ef73
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   llama-index-core
     #   torch
 six==1.17.0 \
     --hash=sha256:4721f391ed90541fddacab5acf947aa0d3dc7d27b2e1e8eda2be8970586c3274 \
     --hash=sha256:ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   kubernetes
     #   python-dateutil
 sniffio==1.3.1 \
     --hash=sha256:2f6da418d1f1e0fddd844478f41680e794e6051915791a034ff65e5f100525a2 \
     --hash=sha256:f4324edc670a0f49750a81b895f35c3adb843cca46f0530f79fc1babb23789dc
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langsmith
     #   openai
 sqlalchemy==2.1.2 \
@@ -3947,26 +4200,33 @@ sqlalchemy==2.1.2 \
     --hash=sha256:f6aa93c574aa16f3bb7f2c9cdca7ddaf3077c2981d922464b97e8de1381a467a \
     --hash=sha256:fb2870b1f7aef4a22da04a5fa9fc7bbd76e2c694f5ff32fb90f27ff84342a8fe
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-community
     #   llama-index-core
 starlette==1.7.0 \
     --hash=sha256:67f8e99895493dd2911a03f11314af6ceebeae4e704bb9f43dfc6a9db151c93e \
     --hash=sha256:c79f74ea63cff761804fbbfb182f1e0b440c2d07b164d24700c5a1bab5d6ff5d
-    # via fastapi
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   fastapi
 sympy==1.14.0 \
     --hash=sha256:d3d3fe8df1e5a0b42f0e7bdf50541697dbe7d23746e894990c030e2b05e72517 \
     --hash=sha256:e091cc3e99d2141a0ba2847328f5479b05d94a6635cb96148ccb3f34671bd8f5
-    # via torch
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   torch
 tabulate==0.10.0 \
     --hash=sha256:e2cfde8f79420f6deeffdeda9aaec3b6bc5abce947655d17ac662b126e48a60d \
     --hash=sha256:f0b0622e567335c8fabaaa659f1b33bcb6ddfe2e496071b743aa113f8774f2d3
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   camelot-py
 tenacity==9.1.4 \
     --hash=sha256:6095a360c919085f28c6527de529e76a06ad89b23659fa881ae0649b867a9d55 \
     --hash=sha256:adb31d4c263f2bd041081ab33b498309a57c77f9acf2db65aadf0898179cf93a
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   langchain-community
     #   langchain-core
@@ -3974,7 +4234,9 @@ tenacity==9.1.4 \
 threadpoolctl==3.7.0 \
     --hash=sha256:61348cfb77d53b9242e0017029244b559b810c142ced65b4e21eeca1843959a7 \
     --hash=sha256:cd8b60b5641b45c67bbf73c64c843235fc2d8a480c87389f52f5dbee893b86be
-    # via scikit-learn
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   scikit-learn
 tiktoken==0.14.0 \
     --hash=sha256:087538c080e5ff421abd3a0785ed63c5111d06af98e6cd0d374dbe5969147ca3 \
     --hash=sha256:10f31e63e40313f2e518d87f7086cfa44e45f64cc14d8ae14103b41220c30a14 \
@@ -4041,13 +4303,16 @@ tiktoken==0.14.0 \
     --hash=sha256:f5e7665f6624e052e5e7f6a36919ab69279decdc976d7b16b4fa15e1897d0513 \
     --hash=sha256:f702e0aeeb6506e57687e881c59e844ebe8f0a6a097ddafe20e3ab25f387be4e
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-openai
     #   llama-index-core
     #   ragas
 tinytag==2.3.2 \
     --hash=sha256:021d711cdbdbf840d3b67b976cb34dadc58d2fcfd490eb74ef9602b37b991414 \
     --hash=sha256:ebaf957915266b9c20414a10f8c5170a345aa039a794650d39d66e7d6b96199f
-    # via llama-index-core
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   llama-index-core
 tokenizers==0.23.2 \
     --hash=sha256:12f0835dc2ee694746a76adf7b1567d4346a4a502ebe93fb1f5f80ea49799b78 \
     --hash=sha256:2e96f5699d5249c9c64aa8412e044f727aae3a4098cf830f9901ec1afc361cde \
@@ -4067,6 +4332,7 @@ tokenizers==0.23.2 \
     --hash=sha256:eb2f9c8a24da020ea8c11a01a19c1c2547912d92121ae4a01cfbca46125dee40 \
     --hash=sha256:f486f402f6f9abee5bb032553736813af0c710a86b2e0ca592634c55cea1f835
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   sentence-transformers
     #   transformers
@@ -4095,11 +4361,14 @@ torch==2.14.1 \
     --hash=sha256:e65d5fe136e533b23c2d134377f7f126721c7c78dd75b3dbb735af082a8aeb85 \
     --hash=sha256:ef1276fd07adb8d463ac402a24ea7482e45c9a42df8ebdac211aa757779200ba \
     --hash=sha256:f68f5476e2bc0e8f60b74f7ca21acda885c4477af6392f8977e4f0d1ea1aa162
-    # via sentence-transformers
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   sentence-transformers
 tqdm==4.70.1 \
     --hash=sha256:c293e525e6fef9c20e8728fd4612df02a0aa31bb5fe91ecd93e123b1b7bffa73 \
     --hash=sha256:cefd0eca11b2a37a3aee776544d4f4ae913f02688135b5556b8788dfa474afc4
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   datasets
     #   huggingface-hub
@@ -4112,17 +4381,21 @@ tqdm==4.70.1 \
 transformers==5.18.0 \
     --hash=sha256:d79e5a515a572ee3deb33eb0d578be47d91e70c75d54cf21bf6eede6edef14a9 \
     --hash=sha256:d89c206e42e841af7cd314b3d2b21c03e977d819cdb4aef65ada048769a644df
-    # via sentence-transformers
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   sentence-transformers
 truststore==0.10.4 \
     --hash=sha256:9d91bd436463ad5e4ee4aba766628dd6cd7010cf3e2461756b3303710eebc301 \
     --hash=sha256:adaeaecf1cbb5f4de3b1959b42d41f6fab57b2b1666adb59e89cb0b53361d981
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   httpcore2
     #   httpx2
 typer==0.9.4 \
     --hash=sha256:aa6c4a4e2329d868b80ecbaf16f807f2b54e192209d7ac9dd42691d63f7a54eb \
     --hash=sha256:f714c2d90afae3a7929fcd72a3abb08df305e1ff61719381384211c4070af57f
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   chromadb
     #   instructor
     #   ragas
@@ -4131,13 +4404,11 @@ typing-extensions==4.16.0 \
     --hash=sha256:481caa481374e813c1b176ada14e97f1f67a4539ce9cfeb3f350d78d6370c2e8 \
     --hash=sha256:dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e907eb4db6f1a43e5
     # via
-    #   aiohttp
-    #   aiosignal
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   anyio
     #   chromadb
     #   fastapi
     #   grpcio
-    #   httpx2
     #   huggingface-hub
     #   langchain-core
     #   langchain-protocol
@@ -4151,10 +4422,8 @@ typing-extensions==4.16.0 \
     #   opentelemetry-semantic-conventions
     #   pydantic
     #   pydantic-core
-    #   referencing
     #   sentence-transformers
     #   sqlalchemy
-    #   starlette
     #   torch
     #   typer
     #   typing-inspect
@@ -4163,23 +4432,28 @@ typing-inspect==0.9.0 \
     --hash=sha256:9ee6fc59062311ef8547596ab6b955e1b8aa46242d854bfc78f4f6b0eff35f9f \
     --hash=sha256:b23fc42ff6f6ef6954e4852c1fb512cdd18dbea03134f91f856a95ccc9461f78
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   dataclasses-json
     #   llama-index-core
 typing-inspection==0.4.4 \
     --hash=sha256:547274fa6b0a561ccf549cc9524b999a578e737d015d8709d021f9d0d13bea47 \
     --hash=sha256:65b8397ba37ccbce054456aaccddfc91e6e3083c92824df348d96ca832f3f147
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   fastapi
     #   pydantic
     #   pydantic-settings
 tzdata==2026.4 \
     --hash=sha256:c2169a8b0a7a5e9674da5a135ccdfb2b3e671b333ed9fed17b41f73c34476e81 \
     --hash=sha256:f1b8bd365d8d210c55353f4d7f8d6d8561c0ba50d704b700d195a9424bba0d79
-    # via pandas
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   pandas
 urllib3==2.8.0 \
     --hash=sha256:0cf3cae568d36aa9576b28dfb35f11328f1cb974ca7647d9475ebb86c75ac6e3 \
     --hash=sha256:63bf2ead4c879426ebf22ef2a781eeb4aa3b4ae798a0435506f8687fd5bb9b63
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   kubernetes
     #   requests
 uuid-utils==0.17.1 \
@@ -4278,12 +4552,14 @@ uuid-utils==0.17.1 \
     --hash=sha256:f9f9f6835ab3163818156022c627eda60c38c874b369642b249b483384021743 \
     --hash=sha256:fa1a1c9a72ef9757176c069f7bd8014b7f4abf5f9930ec62b883dc864ba28092
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langchain-core
     #   langsmith
 uvicorn==0.54.0 \
     --hash=sha256:505bdb0f318731d45f1f712071fc781a8981f6847a31c902c9f5e652d4f67faf \
     --hash=sha256:a2e33cbfaa0306f8e6b0c13e0cb89d7d7a2da3e62b90c66e18c33d9807b28620
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   -r requirements.in
     #   chromadb
 watchfiles==1.3.0 \
@@ -4320,11 +4596,15 @@ watchfiles==1.3.0 \
     --hash=sha256:eb94e40b9a0db19636b5e3fed0a9803452ecc7381df13b385272abb779ee83ca \
     --hash=sha256:ec3cd4bb181a7b6329134204c2277c7144ab5f62cce9c5335d6f901ee7ce8d6a \
     --hash=sha256:f0c9865240e065a2247f4b5248528ae3d01e0e8ae071462c250c884dc16e3ee3
-    # via uvicorn
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   uvicorn
 websocket-client==1.9.2 \
     --hash=sha256:0fcb57545848be86992e128218fd96dd87a6769ffdb1a968dff79632b85604d0 \
     --hash=sha256:e1a673830a9c7bfa47b1cd3d5e4178f4c9651d80a4eab02c9c23a1c3ec6250ce
-    # via kubernetes
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   kubernetes
 websockets==16.1.1 \
     --hash=sha256:01fbdcbac298efe19360b94bc0039c8f746f0220ba570f327577bfee81059175 \
     --hash=sha256:024193f8551a2b0eafbdd160911012c4e6c228c28430c84433253299a9e42d6a \
@@ -4436,6 +4716,7 @@ websockets==16.1.1 \
     --hash=sha256:fce6c48559c86d1ac3632ccb1bebc7d5442fbe79bd9bb0e40379ee54be2a4051 \
     --hash=sha256:fd46fff7eb62c24804d234f0051c7a8ea81285ad63e0337d3dcf33ca82aee58a
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   langgraph-sdk
     #   langsmith
     #   uvicorn
@@ -4542,12 +4823,15 @@ wrapt==2.5.0 \
     --hash=sha256:fe09aac4837ec720af606a493e814dcc3f65631984e1b7231b589efcf9917024 \
     --hash=sha256:ff909b934b1958e31784d412abab5cbb0709fdbc01c86f22965e1d15331371ba
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   deprecated
     #   llama-index-core
 xlrd==2.0.2 \
     --hash=sha256:08b5e25de58f21ce71dc7db3b3b8106c1fa776f3024c54e45b45b374e89234c9 \
     --hash=sha256:ea762c3d29f4cca48d82df517b6d89fbce4db3107f9d78713e48cd321d5c9aa9
-    # via -r requirements.in
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   -r requirements.in
 xxhash==4.0.1 \
     --hash=sha256:0163b5d259de23ae9e07b7eabf435ce4704f6f205589a2b154e6af4be985ce1b \
     --hash=sha256:03600a8987849b2bef7be795a60a6052b635c63fa98b718b08ca5ee823691cfc \
@@ -4764,6 +5048,7 @@ xxhash==4.0.1 \
     --hash=sha256:ff48915bf1871a1f19f74c11834c6329443d306cedc0c05fe7fe617810422a80 \
     --hash=sha256:ffa44b4c7c5d0ffa31356b4428659516c0e47647825c74079a296b3857b6d99d
     # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
     #   datasets
     #   langgraph
     #   langsmith
@@ -4906,7 +5191,9 @@ yarl==1.25.1 \
     --hash=sha256:f53dcd26694f148f738edc052b5a69234833e739f10f4c3287bdfd8ec0f7b326 \
     --hash=sha256:f61964f235a43738bfac50da46fc4254943a7eea3051aeb0b6fc7c992c29fadc \
     --hash=sha256:fe01645169a2112aa1d4ebc3e4c5f029c5c8f97adfc32e5d37c993b39a994d75
-    # via aiohttp
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   aiohttp
 zstandard==0.25.0 \
     --hash=sha256:011d388c76b11a0c165374ce660ce2c8efa8e5d87f34996aa80f9c0816698b64 \
     --hash=sha256:01582723b3ccd6939ab7b3a78622c573799d5d8737b534b86d0e06ac18dbde4a \
@@ -5007,4 +5294,6 @@ zstandard==0.25.0 \
     --hash=sha256:f67e8f1a324a900e75b5e28ffb152bcac9fbed1cc7b43f99cd90f395c4375344 \
     --hash=sha256:fd7a5004eb1980d3cefe26b2685bcb0b17989901a70a1040d1ac86f1d898c551 \
     --hash=sha256:ffef5a74088f1e09947aecf91011136665152e0b4b359c42be3373897fb39b01
-    # via langsmith
+    # via
+    #   -c C:/Users/Igormelo/scratch_constraints.txt
+    #   langsmith

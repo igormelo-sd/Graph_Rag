@@ -13,7 +13,8 @@ from pathlib import Path
 _HERE = Path(__file__).resolve().parent
 sys.path[:] = [entry for entry in sys.path if not entry or Path(entry).resolve() != _HERE]
 sys.path.insert(0, str(_HERE.parent))
-from comparacao.common import ROOT, config, apply_profile, fingerprint, graph_modules, pack_results
+from comparacao.common import (ROOT, config, apply_profile, fingerprint, index_fingerprint, graph_modules,
+                               pack_results, search_text)
 from comparacao.variants import FROZEN, REGISTRY
 
 VARIANTS = tuple(REGISTRY)
@@ -82,8 +83,14 @@ def corpus_snapshot(settings):
 
 
 def experiment_signature(settings, snapshot=None):
-    return {"profile": fingerprint(settings), "corpus": snapshot or corpus_snapshot(settings),
-            "pipeline": PIPELINE}
+    """`profile`: todos os parâmetros (identifica a rodada); `index`: só os que mudam o índice."""
+    return {"profile": fingerprint(settings), "index": index_fingerprint(settings),
+            "corpus": snapshot or corpus_snapshot(settings), "pipeline": PIPELINE}
+
+
+def index_identity(experiment):
+    """Parte da assinatura que precisa coincidir com o índice gravado."""
+    return {key: (experiment or {}).get(key) for key in ("index", "corpus", "pipeline")}
 
 
 def simple_rag(settings):
@@ -115,7 +122,8 @@ def prepare():
                     dict(node.metadata)) for node in nodes]
     rag = simple_rag(settings)
     # Vetores calculados uma única vez; a pasta do GraphRAG recebe a mesma cópia.
-    count = rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment)
+    texts = [search_text(chunk.text, chunk.metadata, settings.get("contextual_embedding", False)) for chunk in chunks]
+    count = rag.index_chunks(chunks, settings["chunk_size"], settings["chunk_overlap"], experiment, texts=texts)
     digest = publish_indices(experiment, count)
     return {"chunks": count, "footnote_rows_removed": footnotes, "short_fragments_joined": fragments,
             "small_tables_merged": small_tables, "profile": experiment["profile"],
@@ -128,7 +136,7 @@ def load_experiment_nodes(rag, expected, payload=None):
     """Valida perfil, corpus e IDs antes de carregar qualquer modelo."""
     from llama_index.core.schema import TextNode
     payload = payload or rag.load_index()
-    if payload.get("experiment") != expected:
+    if index_identity(payload.get("experiment")) != index_identity(expected):
         raise ValueError("Perfil ou corpus mudou. Execute comparacao/run.py preparar novamente.")
     metadata = [item.get("metadata") for item in payload["chunks"]]
     identities = [item.get("node_id") if isinstance(item, dict) else None for item in metadata]
@@ -158,7 +166,7 @@ class Session:
         self.payload = self.rag.load_index()
         self.nodes = load_experiment_nodes(self.rag, self.expected, self.payload)
         self.by_id = {node.node_id: node for node in self.nodes}
-        self.bm25 = BM25Index(self.payload["chunks"]) if settings["retrieval_mode"] == "hybrid" else None
+        self.bm25 = BM25Index(self.payload["chunks"], settings.get("contextual_embedding", False))             if settings["retrieval_mode"] == "hybrid" else None
         self.reranker = Reranker(settings["reranker"]) if settings["reranker"] else None
         self._initial = {}
         # Busca literal no corpus tabular inteiro (sem o teto de linhas do índice), comum às versões.

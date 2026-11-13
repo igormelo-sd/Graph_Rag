@@ -46,10 +46,19 @@ class SimpleRAG:
         return [normalize(vector) for vector in self.embedder.get_text_embedding_batch(texts)]
 
     def embed_query(self, question: str) -> list[float]:
-        return normalize(self.embedder.get_query_embedding(question))
+        # A mesma pergunta é buscada mais de uma vez (índice inteiro e subconjuntos): embute uma só vez.
+        cache = self.__dict__.setdefault("_query_cache", {})
+        if question not in cache:
+            if len(cache) > 256:
+                cache.clear()
+            cache[question] = normalize(self.embedder.get_query_embedding(question))
+        return cache[question]
 
-    def index_chunks(self, chunks, size=1024, overlap=200, experiment=None) -> int:
-        vectors = self.embed([chunk.text for chunk in chunks])
+    def index_chunks(self, chunks, size=1024, overlap=200, experiment=None, texts=None) -> int:
+        """`texts` (opcional) é o que se embute no lugar de `chunk.text`, por exemplo com cabeçalho."""
+        if texts is not None and len(texts) != len(chunks):
+            raise ValueError("Um texto de embedding por trecho.")
+        vectors = self.embed(list(texts) if texts is not None else [chunk.text for chunk in chunks])
         save_index(self.index_path, chunks, vectors, embedding_model=self.embedding_model,
                    size=size, overlap=overlap, experiment=experiment)
         return len(chunks)
@@ -57,8 +66,10 @@ class SimpleRAG:
     def load_index(self) -> dict:
         return load_index(self.index_path, self.embedding_model)
 
-    def search(self, question: str, top_k: int = 5, payload: dict | None = None) -> list[dict]:
-        """`payload` permite reutilizar um índice já carregado e validado em lotes."""
+    def search(self, question: str, top_k: int = 5, payload: dict | None = None, subset=None) -> list[dict]:
+        """`payload` permite reutilizar um índice já carregado e validado em lotes.
+
+        `subset` (posições no índice) restringe a busca a esses trechos."""
         if not question.strip():
             raise ValueError("A pergunta não pode estar vazia.")
         if top_k <= 0:
@@ -66,6 +77,10 @@ class SimpleRAG:
         payload = payload or self.load_index()
         # Normaliza de novo: embed_query pode ser substituído por implementações externas.
         query = normalize(self.embed_query(question))
+        if subset is not None:
+            subset = list(subset)
+            return rank_by_cosine(query, [payload["chunks"][i] for i in subset],
+                                  [payload["vectors"][i] for i in subset], top_k) if subset else []
         return rank_by_cosine(query, payload["chunks"], payload["vectors"], top_k)
 
     def answer(self, question: str, results: list[dict]) -> str:

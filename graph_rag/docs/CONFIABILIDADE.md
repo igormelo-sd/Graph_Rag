@@ -143,7 +143,7 @@ se fossem equivalentes. Nenhuma avaliação foi executada nesta implementação.
 
 `requirements.in` e `requirements-dev.in` são as entradas editáveis.
 `requirements.txt` e `requirements-dev.txt` fixam dependências diretas e transitivas
-com hashes, resolvidas para **Windows x64 e Python 3.11**, usando uv 0.12.22.
+com hashes, resolvidas para **Windows x64 e Python 3.13** (regenerados em 13/11/2026 com uv 0.13.8; antes, Python 3.11 e uv 0.12.22).
 `.python-version` registra o alvo. A compatibilidade do código ainda não foi testada.
 
 ```powershell

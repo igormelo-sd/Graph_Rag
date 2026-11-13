@@ -39,7 +39,16 @@ def load_profile(path: Path) -> dict:
     settings.setdefault("ontology_filter", False)
     # Busca literal no corpus tabular inteiro (linhas além do teto de 1.000, códigos, células), comum às versões.
     settings.setdefault("structured_lookup", False)
-    for flag in ("ontology_filter", "structured_lookup"):
+    # Cabeçalho (documento, tabela, seção) no texto embutido e no BM25; exige reindexar.
+    settings.setdefault("contextual_embedding", False)
+    # Trechos de dicionários de variáveis para perguntas de definição ou estrutura.
+    settings.setdefault("dictionary_routing", False)
+    # Expansão do grafo guiada pelos recortes da pergunta que o contexto ainda não sustenta.
+    settings.setdefault("gap_planning", False)
+    # Candidatos do grafo por PageRank personalizado (NetworkX) a partir dos trechos iniciais.
+    settings.setdefault("graph_ppr", False)
+    for flag in ("ontology_filter", "structured_lookup", "contextual_embedding", "dictionary_routing", "gap_planning",
+                 "graph_ppr"):
         if type(settings[flag]) is not bool:
             raise ValueError(f"Configuração inválida: {flag}.")
     if not isinstance(settings["reranker"], str):

@@ -20,6 +20,7 @@ SCORE_FLOOR = 0.02  # escore mínimo absoluto, para perguntas com iniciais fraco
 
 LINKED_RELATIONS = ("DICIONARIO_DE", "TEM_NOTA")  # vínculos documentais explícitos
 LINKED_CAP = 2  # contexto vinculado aceito sem passar pelo limiar
+GAP_CAP = 2     # evidências de recortes da pergunta sem apoio, também sem o limiar
 
 
 def is_linked(item):
@@ -52,8 +53,9 @@ def accept_extras(question, initial, candidates, reranker, max_per_table):
                   if item.score >= threshold]
     # Vinculados (dicionário e notas) primeiro, sem limiar, e depois os aprovados pelo reranker.
     linked = [item for item in candidates if is_linked(item)][:LINKED_CAP]
-    linked_ids = {item.node_id for item in linked}
-    scored = linked + [item for item in scored if item.node_id not in linked_ids]
+    gaps = [item for item in candidates if item.metadata.get("graph_origin") == "gap"][:GAP_CAP]
+    linked_ids = {item.node_id for item in linked + gaps}
+    scored = linked + gaps + [item for item in scored if item.node_id not in linked_ids]
     per_table = defaultdict(int)
     for item in initial:
         if item.metadata.get("type") == "table" and item.metadata.get("table_key"):

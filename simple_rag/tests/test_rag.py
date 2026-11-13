@@ -86,6 +86,22 @@ class RAGTests(unittest.TestCase):
             self.rag.search("Pergunta", top_k=0)
         self.assertIn("Não há trechos", self.rag.answer("Pergunta", []))
 
+    def test_embedding_text_can_differ_from_stored_text_and_queries_are_embedded_once(self):
+        captured = []
+        self.rag.embed = Mock(side_effect=lambda texts: captured.extend(texts) or [[1, 0], [0, 1]])
+        self.rag.index_chunks(chunks(), texts=["Documento: a | Livros: empréstimo por 14 dias.", "Documento: b | Almoço."])
+        self.assertTrue(captured[0].startswith("Documento: a |"))
+        stored = json.loads(self.index.read_text(encoding="utf-8"))
+        self.assertEqual(stored["chunks"][0]["text"], "Livros: empréstimo por 14 dias.")  # o contexto mostra o texto original
+        with self.assertRaisesRegex(ValueError, "Um texto de embedding por trecho"):
+            self.rag.index_chunks(chunks(), texts=["só um"])
+        self.rag._embedder = SimpleNamespace(get_query_embedding=Mock(return_value=[1, 0]))
+        payload = self.rag.load_index()
+        self.rag.search("Pergunta?", 1, payload)
+        self.rag.search("Pergunta?", 1, payload, subset=[1])
+        self.rag._embedder.get_query_embedding.assert_called_once_with("Pergunta?")
+        self.assertEqual(self.rag.search("Pergunta?", 1, payload, subset=[])[:1], [])
+
 
 if __name__ == "__main__":
     unittest.main()

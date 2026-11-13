@@ -5,6 +5,7 @@ recebem exatamente os mesmos trechos iniciais.
 """
 import re
 import unicodedata
+from pathlib import Path
 
 STOPWORDS = frozenset(
     "a ao aos as com da das de do dos e em entre foi na nas no nos o os ou para pela pelas pelo pelos "
@@ -20,10 +21,12 @@ def tokenize(text):
 
 
 class BM25Index:
-    def __init__(self, chunks):
+    def __init__(self, chunks, contextual=False):
+        from comparacao.common import search_text
         from rank_bm25 import BM25Okapi
         self.chunks = chunks
-        self.bm25 = BM25Okapi([tokenize(chunk["text"]) or ["_"] for chunk in chunks])
+        self.bm25 = BM25Okapi([tokenize(search_text(chunk["text"], chunk.get("metadata"), contextual)) or ["_"]
+                               for chunk in chunks])
 
     def search(self, question, limit):
         scores = self.bm25.get_scores(tokenize(question))
@@ -97,6 +100,26 @@ def ontology_filter(question, ranking):
     return [node.item for node in filter_candidates(wrapped, question)]
 
 
+DICTIONARY_PREFIXES = ("dicvar_", "dic_variaveis_")
+DICTIONARY_TOP = 3
+DEFINITIONAL = re.compile(
+    r"\b(defin\w*|signific\w*|dicionario|variaveis|variavel|conceit\w*|hierarq\w*|nomenclatura|classific\w*|regionaliza\w*)\b")
+
+
+def is_definitional(question):
+    """Pergunta sobre definição, variável ou estrutura de uma classificação (intenção, não conteúdo do corpus)."""
+    plain = "".join(char for char in unicodedata.normalize("NFKD", question.lower()) if not unicodedata.combining(char))
+    return bool(DEFINITIONAL.search(plain))
+
+
+def dictionary_positions(payload):
+    """Posições, no índice, dos trechos de dicionários de variáveis (`dicvar_*`, `dic_variaveis_*`)."""
+    if "_dictionary" not in payload:
+        payload["_dictionary"] = [index for index, chunk in enumerate(payload["chunks"])
+                                  if Path(str(chunk.get("source", ""))).stem.lower().startswith(DICTIONARY_PREFIXES)]
+    return payload["_dictionary"]
+
+
 EXACT_METHODS = ("structured_exact", "structured_catalogue")
 EXACT_CAP = 2  # linhas exatas (código, célula, município) que passam à frente do ranking
 
@@ -117,10 +140,21 @@ def initial_ranking(question, rag, payload, settings, bm25=None, reranker=None, 
     dense = rag.search(question, pool, payload)
     found = structured(question) if structured is not None else []
     exact = [item for item in found if item["metadata"].get("retrieval_method") in EXACT_METHODS][:EXACT_CAP]
+    # Perguntas de definição vão também aos dicionários de variáveis, que são pequenos e quase nunca
+    # aparecem entre os candidatos gerais (D014, D016). Igual para todas as versões.
+    routed = []
+    if settings.get("dictionary_routing") and payload is not None and is_definitional(question):
+        routed = rag.search(question, DICTIONARY_TOP, payload, subset=dictionary_positions(payload))
     if settings["retrieval_mode"] == "hybrid":
-        ranking = rrf_fuse({"vetorial": dense, "bm25": bm25.search(question, pool)}, settings["rrf_k"])
+        rankings = {"vetorial": dense, "bm25": bm25.search(question, pool)}
+        if routed:
+            rankings["dicionario"] = routed
+        ranking = rrf_fuse(rankings, settings["rrf_k"])
     else:
         ranking = [{**item, "ranks": {"vetorial": position}} for position, item in enumerate(dense, 1)]
+        present = {node_id(item) for item in ranking}
+        ranking += [{**item, "ranks": {"dicionario": position}}
+                    for position, item in enumerate(routed, 1) if node_id(item) not in present]
     if settings.get("ontology_filter"):
         ranking = ontology_filter(question, ranking)
     if reranker is not None:

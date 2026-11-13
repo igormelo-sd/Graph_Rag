@@ -18,7 +18,8 @@ for directory in (IMPLEMENTATION.parent, IMPLEMENTATION, IMPLEMENTATION / "src")
 NEEDS_GRAPH = IMPLEMENTATION.name == "graph_rag"
 # Arquivos inteiros que dependem de módulos de grafo ou de graph_rag/scripts.
 GRAPH_ONLY_FILES = {"test_graph_paths.py", "test_graph_patterns.py", "test_graph_relevance.py",
-                    "test_index_artifact.py", "test_statistical_graph.py", "test_dictionary_links.py"}
+                    "test_index_artifact.py", "test_statistical_graph.py", "test_dictionary_links.py",
+                    "test_gap_planning.py"}
 # Testes de grafo dentro de arquivos que também cobrem módulos compartilhados.
 GRAPH_ONLY_TESTS = {
     "test_oversized_community_summary_is_rewritten_not_truncated",

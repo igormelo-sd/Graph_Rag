@@ -40,7 +40,7 @@ tests_shared/
 
 ## Instalação
 
-Python 3.11 / Windows x64 para o conjunto de dependências fixadas. No PowerShell, na raiz:
+Python 3.13 / Windows x64 para o conjunto de dependências fixadas. No PowerShell, na raiz:
 
 ```powershell
 python -m venv .venv
@@ -79,7 +79,7 @@ Não colete as pastas `tests` em conjunto: há arquivos e módulos homônimos en
 
 ## Estado de verificação
 
-A presença das suítes não demonstra que passaram, e a resolução dos locks (alvo Python 3.11/Windows) não comprova compatibilidade do aplicativo. O registro do que foi executado na refatoração está em [REFATORACAO.md](docs/REFATORACAO.md).
+A presença das suítes não demonstra que passaram, e a resolução dos locks (alvo Python 3.13/Windows) não comprova compatibilidade do aplicativo. O registro do que foi executado na refatoração está em [REFATORACAO.md](docs/REFATORACAO.md).
 
 ## Licença
 

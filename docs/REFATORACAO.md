@@ -128,3 +128,12 @@ O comportamento está coberto por regressões em `graph_rag/tests`.
   `simple_rag` 7 e `comparacao` 59 passam; `tests_shared` 105 passam (inclui o hash do corpus e a identidade dos módulos). Python 3.13.
 - **Depuração:** um teste apontava para o corpus no lugar antigo e foi corrigido; `pyflakes`
   não achou nomes indefinidos; foram removidos imports que ficaram mortos.
+- **Dependências (13/11/2026):** os locks (`requirements.txt`, `requirements-dev.txt` e as cópias em `graph_rag/`) foram
+  regenerados com `uv pip compile` para Python 3.13/Windows, com hashes e **fixados nas versões do ambiente em que
+  tudo foi testado** (`--constraint` do `pip freeze`); `uv pip install --dry-run --require-hashes` contra esse
+  ambiente resultou em "Would make no changes". `.python-version` e `lock_dependencies.ps1` passaram a 3.13.
+- **NetworkX no grafo (13/11/2026):** `GraphRetriever` guarda a adjacência num `networkx.MultiDiGraph` (antes, dicionários
+  `_outgoing/_incoming`); o armazenamento do LlamaIndex continua. Verificado contra as saídas anteriores nas 20 perguntas de
+  desenvolvimento (80 de 80 pools idênticos). `retrieve_ppr` usa `nx.pagerank` com personalização; `community_search` já usava
+  `nx.community`.
+- **Suítes (13/11/2026):** `shared` 105, `graph_rag` 307, `simple_rag_src` 221 (13 pulados), `simple_rag` 8, `comparacao` 70.
