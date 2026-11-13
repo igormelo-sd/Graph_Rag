@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "data": "2026-11-13",
-  "status": "congelada",
+  "status": "substituída",
   "descricao": "v4: simple_rag e graph_rag sobre o mesmo código, índice e ranking; o grafo soma-se ao ranking no mesmo orçamento de extras.",
   "codigo": {
     "commit": "7de83dc328fc591b1b27ce2805e806512bc8d08e",
@@ -177,5 +177,7 @@
     "execucoes_previstas": 350,
     "medida_principal": "referências do gabarito no contexto, comparação pareada por pergunta (comparacao/avaliacao/comparar.py); qualidade das respostas por rubrica humana cega",
     "execucao": "cada versão em seu processo (avaliar --versoes simple_rag | lexical_rag | graph_rag), mesma --saida"
-  }
+  },
+  "substituida_por": "comparacao/avaliacao/congelamento_20261113_gpt54mini.json",
+  "motivo_da_substituicao": "Modelo de resposta trocado de gpt-4o-mini para gpt-5.4-mini antes de terminar as rodadas do teste. Foram gravadas 98 respostas com gpt-4o-mini (r1: simple_rag 50, lexical_rag 48), arquivadas como v4_gpt4omini_teste_parcial_20261113_r1; não entram na análise. A tag v4-congelamento-20261113 é mantida."
 }

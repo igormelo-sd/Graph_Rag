@@ -269,6 +269,25 @@ Rodadas no desenvolvimento (referências do gabarito no contexto, de 39 / marcad
 - **Limites:** uma rodada por configuração; 39 referências (±1 é ruído); marcadores são triagem automática; sem rubrica humana;
   várias decisões (roteamento, corte das linhas lexicais, pool de entidades) foram tomadas olhando o próprio desenvolvimento.
 
+## Troca do modelo de resposta para `gpt-5.4-mini` (13/11/2026)
+
+Antes de concluir as rodadas do conjunto de teste, o modelo de resposta passou de `gpt-4o-mini` para `gpt-5.4-mini`
+(a página de modelos da OpenAI marca o `gpt-4o-mini` como "deprecated", o que ameaça a reprodutibilidade). O índice não muda
+(o modelo de resposta não faz parte da identidade do índice) e a medida principal automática, as referências do gabarito
+no contexto, não depende do modelo, porque a recuperação é determinística.
+
+- **Temperatura:** a fábrica de LLM usa **1,0** com este modelo, e não 0; o perfil passou a declarar `temperature: 1.0`.
+  As respostas deixam de ser quase determinísticas e variam mais entre rodadas.
+- **Custo:** ~US$ 0,29 por versão e rodada de 50 perguntas (6.462 tokens de entrada e 207 de saída por resposta, medidos em 6
+  perguntas de desenvolvimento a US$ 0,75 e US$ 4,50 por milhão); ~US$ 2,02 para as 350 execuções previstas, contra US$ 0,36.
+- **Comparação rápida de modelos** (6 perguntas de desenvolvimento, mesmo prompt e mesmo contexto; tempo mediano e marcadores
+  de 10): `gpt-4o-mini` 2,2 s e 8; `gpt-5-mini` 14,0 s e 7; `gpt-5` 22,7 s e 10; `gpt-5` com raciocínio mínimo 7,7 s e 10;
+  `gpt-5.4-mini` 1,3 s e 10. Amostra pequena: serve para tempo e custo, não para concluir sobre qualidade.
+- **Efeito no tempo total:** pequeno, porque a geração é 2 a 3 s dos 20 a 35 s por pergunta (o resto é o reranker na CPU).
+- **Congelamento:** `congelamento_20261113_gpt54mini.json` substitui `congelamento_20261113.json`. As 98 respostas já gravadas
+  com `gpt-4o-mini` ficaram arquivadas e fora da análise. As rodadas do desenvolvimento (`r1` a `r9`) foram feitas com
+  `gpt-4o-mini`; suas referências no contexto valem para qualquer modelo, mas os marcadores, não.
+
 ## Resultados anteriores à v4 (registro histórico)
 
 As seções abaixo descrevem as rodadas de 26/10 a 05/11/2026, feitas com a organização anterior:
