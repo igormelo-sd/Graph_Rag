@@ -1,0 +1,255 @@
+{
+  "ficha_id": "c6ee4872712464d5",
+  "chave": {
+    "T002": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T003": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T005": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T006": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T007": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T009": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T012": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T016": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T017": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T020": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T023": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T024": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T029": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T031": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T032": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T036": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T040": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T041": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T042": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T045": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T046": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T047": {
+      "A": "simple_rag",
+      "B": "graph_rag",
+      "C": "lexical_rag"
+    },
+    "T048": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T049": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T051": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T052": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T055": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T057": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T058": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T059": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T061": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T064": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T065": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T070": {
+      "A": "simple_rag",
+      "B": "graph_rag",
+      "C": "lexical_rag"
+    },
+    "T071": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T072": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T074": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    },
+    "T076": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T077": {
+      "A": "simple_rag",
+      "B": "graph_rag",
+      "C": "lexical_rag"
+    },
+    "T078": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T079": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T085": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T087": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T093": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T094": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T095": {
+      "A": "lexical_rag",
+      "B": "graph_rag",
+      "C": "simple_rag"
+    },
+    "T096": {
+      "A": "graph_rag",
+      "B": "lexical_rag",
+      "C": "simple_rag"
+    },
+    "T097": {
+      "A": "lexical_rag",
+      "B": "simple_rag",
+      "C": "graph_rag"
+    },
+    "T098": {
+      "A": "simple_rag",
+      "B": "lexical_rag",
+      "C": "graph_rag"
+    },
+    "T099": {
+      "A": "graph_rag",
+      "B": "simple_rag",
+      "C": "lexical_rag"
+    }
+  }
+}
