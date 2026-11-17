@@ -315,13 +315,11 @@ agregando as rodadas por pergunta).
 - **Qualidade das respostas (r1, 150 respostas, rubrica de 0 a 8, `pontuar_tres.py`):** `simple_rag` 5,52; `lexical_rag` 5,50;
   `graph_rag` 5,50. `graph_rag` contra `simple_rag`: -0,02 (IC95% de -0,40 a +0,44; 5 perguntas a favor, 7 contra, 38 empates;
   p = 0,77). Por categoria, o grafo foi melhor em *limites* (+1,0, 2 perguntas) e *integração* (+0,3) e pior em *síntese* (-0,6) e
-  *numérica* (-0,6), com poucas perguntas por categoria. **Não há diferença de qualidade detectável.** O grafo colocou mais
+  *numérica* (-0,6), com poucas perguntas por categoria. Não há diferença de qualidade detectável: o grafo colocou mais
   referências no contexto, mas isso não se traduziu em respostas melhores. Recuperação marcada "sim": 28, 28 e 29 de 50.
-- **Ressalva importante sobre a avaliação:** foi uma **avaliação assistida por IA** (ChatGPT, 17/11/2026), não humana, sobre uma
-  única rodada (r1). O próprio registro indica: cegamento não estrito na T002; ajustes de gabarito aceitos nas T059 e T072
-  (mais de uma leitura da comparação); revisão humana pendente. Os dados, a chave e o registro estão em
-  [`resultados_publicados/avaliacao_assistida_ia_r1/`](resultados_publicados/avaliacao_assistida_ia_r1/LEIA-ME.md). Trate o
-  resultado como indicativo até uma revisão humana.
+- **Método da avaliação de qualidade:** rubrica de `avaliacao/rubrica.md` aplicada com assistência de IA, sem revisão humana,
+  em uma única rodada (r1); ajustes de gabarito aceitos nas T059 e T072 e cegamento não estrito na T002. Dados, chave e registro
+  em [`resultados_publicados/avaliacao_assistida_ia_r1/`](resultados_publicados/avaliacao_assistida_ia_r1/LEIA-ME.md).
 - **Custo:** a r1 (150 respostas) custou US$ 0,71 no painel da OpenAI.
 - **Execução:** a r3 do `graph_rag` foi interrompida em 18 de 50 perguntas (processo encerrado) e retomada no dia seguinte
   com a mesma pasta de saída; o manifesto de retomada preserva as respostas já gravadas.

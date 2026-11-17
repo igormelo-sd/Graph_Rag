@@ -79,7 +79,7 @@ Não colete as pastas `tests` em conjunto: há arquivos e módulos homônimos en
 
 ## Resultado do experimento
 
-No teste congelado (50 perguntas, 3 rodadas), o `graph_rag` teve 42 de 94 referências do gabarito no contexto contra 37 do `simple_rag` (p = 0,125; diferença não significativa). Na qualidade das respostas (rubrica 0 a 8, avaliação assistida por IA, uma rodada, revisão humana pendente), `graph_rag` e `simple_rag` ficaram empatados: 5,50 contra 5,52. Detalhes, respostas e arquivos usados no embedding: [comparacao/README.md](comparacao/README.md) e [comparacao/resultados_publicados](comparacao/resultados_publicados/LEIAME.md).
+No teste congelado (50 perguntas, 3 rodadas), o `graph_rag` teve 42 de 94 referências do gabarito no contexto contra 37 do `simple_rag` (p = 0,125; diferença não significativa). Na qualidade das respostas (rubrica de 0 a 8, uma rodada), `graph_rag` e `simple_rag` ficaram empatados: 5,50 contra 5,52. Detalhes, respostas e arquivos usados no embedding: [comparacao/README.md](comparacao/README.md) e [comparacao/resultados_publicados](comparacao/resultados_publicados/LEIAME.md).
 
 ## Estado de verificação
 

@@ -42,6 +42,6 @@ O índice vetorial (`indice/`) não é versionado; reconstrua com `preparar` usa
 
 ## Avaliação de qualidade (r1)
 
-`avaliacao_assistida_ia_r1/`: ficha preenchida por IA (ChatGPT, 17/11/2026) para as 150 respostas da r1, com a chave A/B/C,
+`avaliacao_assistida_ia_r1/`: ficha preenchida com assistência de IA para as 150 respostas da r1, com a chave A/B/C,
 verificação do corpus e `pontuacao.json` (saída de `comparacao/avaliacao/pontuar_tres.py`). Rubrica de 0 a 8:
-simple_rag 5,52; lexical_rag 5,50; graph_rag 5,50, sem diferença detectável. **Não é avaliação humana**; requer revisão humana.
+simple_rag 5,52; lexical_rag 5,50; graph_rag 5,50, sem diferença detectável. Sem revisão humana.
