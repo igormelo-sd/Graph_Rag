@@ -1,0 +1,97 @@
+{
+  "rodadas": [
+    "v4b_teste_20261113_r1",
+    "v4b_teste_20261113_r2",
+    "v4b_teste_20261113_r3"
+  ],
+  "split": "teste",
+  "perguntas": 50,
+  "resumo": {
+    "simple_rag": {
+      "referencias_no_contexto": 37,
+      "referencias": 94,
+      "recuperacao_mediana_s": 16.3,
+      "contexto_mediano_tokens": 3654,
+      "extras_aceitos_media": null
+    },
+    "graph_rag": {
+      "referencias_no_contexto": 42,
+      "referencias": 94,
+      "recuperacao_mediana_s": 33.1,
+      "contexto_mediano_tokens": 3818,
+      "extras_aceitos_media": 4.08
+    }
+  },
+  "pares": [
+    {
+      "primeira": "simple_rag",
+      "segunda": "graph_rag",
+      "diferenca_total": -5,
+      "intervalo_95": [
+        -10,
+        0
+      ],
+      "perguntas_a_favor": 1,
+      "perguntas_contra": 6,
+      "empates": 43,
+      "p_sinais": 0.125,
+      "por_categoria": {
+        "factual": {
+          "diferenca": 0.0,
+          "referencias": 13,
+          "perguntas": 12
+        },
+        "integracao": {
+          "diferenca": -4.0,
+          "referencias": 26,
+          "perguntas": 10
+        },
+        "limites": {
+          "diferenca": 0.0,
+          "referencias": 10,
+          "perguntas": 8
+        },
+        "numerica": {
+          "diferenca": -1.0,
+          "referencias": 15,
+          "perguntas": 12
+        },
+        "sintese": {
+          "diferenca": 0.0,
+          "referencias": 30,
+          "perguntas": 8
+        }
+      },
+      "perguntas_que_diferem": {
+        "T042": [
+          0,
+          1
+        ],
+        "T051": [
+          0,
+          1
+        ],
+        "T052": [
+          0,
+          1
+        ],
+        "T055": [
+          0,
+          1
+        ],
+        "T070": [
+          0,
+          1
+        ],
+        "T071": [
+          2,
+          1
+        ],
+        "T085": [
+          1,
+          2
+        ]
+      }
+    }
+  ]
+}
