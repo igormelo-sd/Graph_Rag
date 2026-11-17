@@ -288,6 +288,37 @@ no contexto, não depende do modelo, porque a recuperação é determinística.
   com `gpt-4o-mini` ficaram arquivadas e fora da análise. As rodadas do desenvolvimento (`r1` a `r9`) foram feitas com
   `gpt-4o-mini`; suas referências no contexto valem para qualquer modelo, mas os marcadores, não.
 
+## Resultado do teste congelado v4 (16-17/11/2026)
+
+Perfil e código congelados em `avaliacao/congelamento_20261113_gpt54mini.json` (tag `v4-congelamento-20261113-gpt54mini`).
+Conjunto de teste de 50 perguntas (`avaliacao/teste.jsonl`), `gpt-5.4-mini`, `text-embedding-3-small`. Execuções: r1 com
+`simple_rag`, `lexical_rag` e `graph_rag`; r2 e r3 com `simple_rag` e `graph_rag`; **350 execuções, nenhuma com erro**.
+Respostas, análise, arquivos do embedding e manifesto de hashes: [`resultados_publicados/`](resultados_publicados/LEIAME.md).
+
+Medida automática: referências do gabarito presentes no contexto enviado ao modelo (94 no total; `avaliacao/comparar.py`,
+agregando as rodadas por pergunta).
+
+| Versão | Referências no contexto | Recuperação | Contexto |
+|---|---|---|---|
+| `simple_rag` | 37 de 94 | 16 s | 3.654 tokens |
+| `lexical_rag` (só r1) | 39 de 94 | 30 s | 3.948 tokens |
+| `graph_rag` | 42 de 94 | 33 s | 3.818 tokens |
+
+- **`graph_rag` contra `simple_rag`:** +5 referências (IC95% de 0 a +10 por bootstrap sobre as perguntas); 6 perguntas a favor,
+  1 contra, 43 empates; teste dos sinais exato p = 0,125. A diferença vem da categoria *integração* (+4) e de uma pergunta
+  *numérica* (+1); factual, limites e síntese não mudaram.
+- **`graph_rag` contra `lexical_rag` (r1):** +3 (IC95% de 0 a +7), p = 0,25. O controle lexical, sem grafo, fica entre os dois.
+- **Leitura:** a tendência favorece o grafo, mas **não é estatisticamente significativa** ao nível de 5%, e o intervalo
+  toca o zero. No desenvolvimento a ordem foi inversa (`graph_rag` 4 referências abaixo do `simple_rag`), o que mostra a
+  instabilidade da diferença com 50 perguntas. Não há prova de que o grafo melhore o sistema.
+- **Limites da medida:** conta presença no contexto, não qualidade da resposta nem correção numérica. A qualidade depende
+  da avaliação cega pela rubrica (`avaliacao/rubrica.md`), cuja ficha da r1 foi gerada e ainda não foi preenchida.
+- **Custo:** a r1 (150 respostas) custou US$ 0,71 no painel da OpenAI.
+- **Execução:** a r3 do `graph_rag` foi interrompida em 18 de 50 perguntas (processo encerrado) e retomada no dia seguinte
+  com a mesma pasta de saída; o manifesto de retomada preserva as respostas já gravadas.
+- **Limitação do índice:** tabelas com mais de 1.000 linhas foram truncadas na ingestão (ver acima); quatro arquivos do
+  corpus são afetados (`arquivos_embedding.csv`).
+
 ## Resultados anteriores à v4 (registro histórico)
 
 As seções abaixo descrevem as rodadas de 26/10 a 05/11/2026, feitas com a organização anterior:

@@ -77,6 +77,10 @@ Instale antes `pip install --require-hashes -r requirements-dev.txt`. Cada suít
 
 Não colete as pastas `tests` em conjunto: há arquivos e módulos homônimos entre as implementações. As suítes usam modelos simulados e não demonstram qualidade semântica em produção.
 
+## Resultado do experimento
+
+No teste congelado (50 perguntas, 3 rodadas), o `graph_rag` teve 42 de 94 referências do gabarito no contexto contra 37 do `simple_rag` (p = 0,125; diferença não significativa; mede o contexto, não a qualidade da resposta). Detalhes, respostas e arquivos usados no embedding: [comparacao/README.md](comparacao/README.md) e [comparacao/resultados_publicados](comparacao/resultados_publicados/LEIAME.md).
+
 ## Estado de verificação
 
 A presença das suítes não demonstra que passaram, e a resolução dos locks (alvo Python 3.13/Windows) não comprova compatibilidade do aplicativo. O registro do que foi executado na refatoração está em [REFATORACAO.md](docs/REFATORACAO.md).
