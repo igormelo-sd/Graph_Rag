@@ -3,3 +3,6 @@
 
 # Corpus: bytes exatos (hashes em comparacao/avaliacao/manifesto_corpus.json); sem conversao de fim de linha.
 data/** -text
+
+# Resultados publicados: bytes exatos para os hashes de MANIFESTO.json.
+comparacao/resultados_publicados/** -text
