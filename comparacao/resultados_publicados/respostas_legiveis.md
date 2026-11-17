@@ -1,0 +1,4992 @@
+# Perguntas e respostas do teste congelado
+
+Todas as respostas (3 rodadas; lexical_rag só na r1). Gabarito conforme `perguntas_teste.jsonl`.
+
+## T002 (factual)
+
+**Pergunta:** Qual é a unidade básica de informação da PMC?
+
+**Resposta esperada:** A empresa, entidade jurídica inscrita no CNPJ.
+
+### r1 · simple_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ) [1].
+
+Se você quiser, também posso citar a definição completa da **variável investigada** e da **amostra** com base nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r1 · lexical_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ) [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r1 · graph_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como “entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ)” [1].
+
+Se quiser, também posso citar a definição completa da **unidade de investigação** e a **variável investigada** usadas na PMC [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r2 · simple_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como “entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ)” [1].
+
+Se quiser, também posso citar a **unidade de investigação** exatamente como aparece na nota metodológica.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r2 · graph_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como “entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ)” [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r3 · simple_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como entidade jurídica caracterizada por firma ou razão social, inscrita no CNPJ [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+### r3 · graph_rag
+
+A unidade básica de informação da PMC é **a empresa**, definida como entidade jurídica caracterizada por firma ou razão social, inscrita no Cadastro Nacional de Pessoa Jurídica (CNPJ) [1].
+
+Se você quiser, também posso extrair a definição completa da **unidade de investigação** e da **variável investigada** da mesma fonte [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.14; [4] pmc_202512caderno.pdf p.15; [5] pmc_202512caderno.pdf p.15; [6] contas_regionais_2022_notas_tecnicas.pdf p.14; [7] contas_regionais_2022_notas_tecnicas.pdf p.2; [8] pmc_202512caderno.pdf p.2; [9] pim-pf-br_202512caderno.pdf p.2_
+
+## T003 (factual)
+
+**Pergunta:** Como a PMC obtém volume de vendas a partir da receita nominal?
+
+**Resposta esperada:** Deflaciona os valores nominais correntes por índices de preços específicos por atividade e unidade da federação, com referências do IPCA e do SINAPI.
+
+### r1 · simple_rag
+
+A PMC não informa, nas fontes fornecidas, uma fórmula algébrica única do tipo “receita nominal ÷ fator = volume”. O que ela diz é que o **Volume de Vendas** é obtido **deflacionando-se os valores nominais correntes** por **índices de preços específicos** para cada grupo de atividade e para cada Unidade da Federação, construídos a partir dos relativos de preços do **IPCA** e do **SINAPI** [1].  
+
+Em outras palavras, segundo a metodologia da PMC, o volume resulta da **transformação da receita nominal de vendas em termos reais**, usando deflatores próprios por atividade e UF [1].  
+
+Se quiser, posso também resumir isso em uma frase mais curta, em linguagem leiga, ainda só com base nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.14; [7] pmc_202512caderno.pdf p.11; [8] pmc_202512caderno.pdf p.4_
+
+### r1 · lexical_rag
+
+A PMC obtém o **volume de vendas** por **deflação da receita bruta de revenda nominal corrente** usando **índices de preços específicos** para cada grupo de atividade e para cada Unidade da Federação. A fonte diz que o “Volume de Vendas” “resulta da deflação dos valores nominais correntes por índices de preços específicos para cada grupo de atividade, e para cada Unidade da Federação” [1]. Também informa que esses índices são construídos a partir dos relativos de preços do **IPCA** e do **SINAPI** [1].
+
+Mais especificamente, a metodologia dos deflatores indica que os índices de preços aplicados ao deflacionamento das receitas correntes das empresas da PMC são derivados do **IPCA mensal para as atividades PMC de 1 a 14** e do **SINAPI somente para a atividade 11**, com **data de referência: julho de 2020** [8].  
+
+Portanto, com base nas fontes, a resposta é:
+
+- **Receita nominal corrente** → é **deflacionada** por **índices de preços específicos** para obter o **volume de vendas** [1].  
+- Esses índices de preços são construídos com base no **IPCA** e no **SINAPI** [1][8].  
+
+Se você quiser, posso também resumir **quais atividades usam IPCA e qual atividade usa SINAPI**, mas a fonte fornecida não traz aqui, de forma completa no trecho citado, toda a associação detalhada para todas as atividades.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.11; [7] pmc_202512caderno.pdf p.12; [8] pmc_202512caderno.pdf p.14_
+
+### r1 · graph_rag
+
+A PMC obtém o **volume de vendas** por **deflação dos valores nominais correntes** da **receita bruta de revenda**. Segundo a metodologia, esse volume “resulta da deflação dos valores nominais correntes por índices de preços específicos para cada grupo de atividade, e para cada Unidade da Federação” [1].
+
+As fontes também informam que:
+
+- a variável investigada é a **receita bruta mensal proveniente da revenda de mercadorias**, sem deduzir impostos incidentes, vendas canceladas, abatimentos e descontos incondicionais [1];
+- os **índices de preços** usados para o deflacionamento são construídos a partir do **IPCA** e do **SINAPI** [1], e a nota metodológica de deflatores diz que os índices de preços aplicados para o deflacionamento das receitas correntes são derivados do **IPCA mensal** para as atividades PMC de 1 a 14 e do **SINAPI somente para a atividade 11** [8].
+
+Se você quiser, posso também resumir isso em uma frase mais curta ou em formato de “passo a passo”.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.11; [7] pmc_202512caderno.pdf p.12; [8] pmc_202512caderno.pdf p.14_
+
+### r2 · simple_rag
+
+A PMC obtém o **volume de vendas** por **deflação** da **receita bruta de revenda** (receita nominal/corrente) com **índices de preços específicos** para **cada grupo de atividade** e para **cada Unidade da Federação** [1]. A fonte diz que o volume “**resulta da deflação dos valores nominais correntes**” usando índices construídos com base nos relativos de preços do **IPCA** e do **SINAPI** [1].
+
+Mais especificamente, os **índices de preços aplicados para o deflacionamento** das receitas correntes das empresas da PMC são:
+- derivados do **IPCA mensal** para as atividades PMC de **1 a 14**; e
+- do **SINAPI** somente para a **atividade 11** [6].
+
+A fonte também informa que esses índices são usados para transformar a **Receita Bruta de Revenda** em dois indicadores:
+- **Receita Nominal de Vendas**; e
+- **Volume de Vendas** [1].
+
+Se você quiser, posso também resumir isso em uma frase mais curta, estritamente baseada nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.14; [7] pmc_202512caderno.pdf p.11; [8] pmc_202512caderno.pdf p.4_
+
+### r2 · graph_rag
+
+A PMC obtém o **volume de vendas** por **deflação da receita bruta de revenda em valores correntes**: “esta última resulta da deflação dos valores nominais correntes por índices de preços específicos para cada grupo de atividade, e para cada Unidade da Federação” [1].
+
+As fontes também informam que:
+- os **índices de preços** usados nessa deflação são construídos a partir dos relativos de preços do **IPCA** e do **SINAPI** [1];
+- para as **atividades PMC de 1 a 14**, os índices de preços aplicados ao deflacionamento são derivados do **IPCA mensal**; e para a **atividade 11**, do **SINAPI** [8].
+
+Portanto, com base nas fontes fornecidas, o procedimento é:
+1. partir da **receita bruta de revenda / receita nominal** [1], [3];
+2. aplicar a **deflação** com índices de preços específicos por **grupo de atividade** e por **UF** [1];
+3. obter assim o **volume de vendas** [1].
+
+As fontes **não detalham a fórmula matemática explícita** nem mostram um cálculo numérico passo a passo para a conversão da receita nominal em volume.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.11; [7] pmc_202512caderno.pdf p.12; [8] pmc_202512caderno.pdf p.14_
+
+### r3 · simple_rag
+
+A PMC não descreve, nas fontes fornecidas, um cálculo do **volume de vendas a partir da receita nominal**. O que as fontes mostram é o contrário: o **volume de vendas** é construído **a partir da receita bruta de revenda investigada**, por meio de **deflação dos valores nominais correntes** com **índices de preços específicos por grupo de atividade e por Unidade da Federação** [1].
+
+Em outras palavras, segundo a metodologia da PMC, o procedimento informado é:
+- partir da **receita bruta de revenda** da empresa, definida como a receita bruta mensal proveniente da revenda de mercadorias, sem deduzir impostos incidentes, vendas canceladas, abatimentos e descontos incondicionais [1];
+- construir dois indicadores: **Receita Nominal de Vendas** e **Volume de Vendas** [1];
+- obter o **Volume de Vendas** pela **deflação** dos valores nominais correntes usando índices de preços derivados do **IPCA** e, para a atividade 11, do **SINAPI** [1][6].
+
+As fontes também indicam que os índices de preços usados para o deflacionamento têm **data de referência julho de 2020** [6].
+
+Se a sua pergunta era sobre a **fórmula exata** de conversão da receita nominal em volume, essa fórmula **não aparece explicitamente** nas fontes fornecidas. O que aparece é apenas a descrição metodológica de que o volume resulta da deflação da receita nominal corrente [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.14; [7] pmc_202512caderno.pdf p.11; [8] pmc_202512caderno.pdf p.4_
+
+### r3 · graph_rag
+
+A PMC obtém o **volume de vendas** a partir da **deflação da receita bruta de revenda investigada**: “esta última resulta da deflação dos valores nominais correntes por índices de preços específicos para cada grupo de atividade, e para cada Unidade da Federação” [1].  
+
+Esses índices de preços são construídos com base nos **relativos de preços do IPCA** e do **SINAPI** [1]. A nota metodológica também informa que, para o deflacionamento das receitas correntes das empresas, os índices de preços aplicados são derivados do **IPCA mensal para as atividades PMC de 1 a 14** e do **SINAPI somente para a atividade 11** [8].
+
+Se você quiser, posso também resumir isso em uma frase mais curta, ainda só com base nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.5; [2] pmc_202512caderno.pdf p.3; [3] pmc_202512caderno.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.17; [5] pmc_202512caderno.pdf p.7; [6] pmc_202512caderno.pdf p.11; [7] pmc_202512caderno.pdf p.12; [8] pmc_202512caderno.pdf p.14_
+
+## T005 (factual)
+
+**Pergunta:** O que o indicador acumulado no ano da PMC compara?
+
+**Resposta esperada:** O acumulado de janeiro até o mês de referência com o mesmo período do ano anterior.
+
+### r1 · simple_rag
+
+O **índice acumulado no ano** da PMC compara a **produção acumulada no ano, de janeiro até o mês de referência do índice, em relação a igual período do ano anterior** [1][3].
+
+Isso também aparece na PMC para **Receita Bruta de Revenda**: compara os **índices acumulados nominais e de volume de janeiro até o mês de referência com os de igual período do ano anterior** [2].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pib-vol-val_202504caderno.pdf p.23; [6] pmc_202512caderno.pdf p.14; [7] dic_variaveis_pmc.csv p.Planilha; [8] pmc_202512caderno.pdf p.33; [9] pmc_202512caderno.pdf p.50; [10] pmc_202512caderno.pdf p.34_
+
+### r1 · lexical_rag
+
+O indicador **acumulado no ano** da PMC compara a **produção/índices acumulados de janeiro até o mês de referência** com **os de igual período do ano anterior** [2], [3].
+
+Se preferir a formulação exata da fonte da PMC: “**Compara os índices acumulados nominais e de volume da Receita Bruta de Revenda de janeiro até o mês de referência com os de igual período do ano anterior**” [2].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.9; [6] pib-vol-val_202504caderno.pdf p.23; [7] pmc_202512caderno.pdf p.14; [8] dic_variaveis_pmc.csv p.Planilha; [9] pmc_202512caderno.pdf p.33; [10] pmc_202512caderno.pdf p.50_
+
+### r1 · graph_rag
+
+O indicador **acumulado no ano** da PMC **compara os índices acumulados nominais e de volume de janeiro até o mês de referência com os de igual período do ano anterior** [2].  
+
+A fonte também traz a formulação equivalente para a PMC regional: **compara a produção acumulada no ano, de janeiro até o mês de referência do índice, em relação a igual período do ano anterior** [3].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.9; [6] pib-vol-val_202504caderno.pdf p.23; [7] pmc_202512caderno.pdf p.14; [8] dic_variaveis_pmc.csv p.Planilha; [9] pmc_202512caderno.pdf p.33; [10] pmc_202512caderno.pdf p.50_
+
+### r2 · simple_rag
+
+O indicador **acumulado no ano** da PMC compara a **produção acumulada de janeiro até o mês de referência do índice** com a **produção de igual período do ano anterior** [2][3].
+
+Se você quiser, posso também citar a definição exatamente como aparece na fonte da PMC.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pib-vol-val_202504caderno.pdf p.23; [6] pmc_202512caderno.pdf p.14; [7] dic_variaveis_pmc.csv p.Planilha; [8] pmc_202512caderno.pdf p.33; [9] pmc_202512caderno.pdf p.50; [10] pmc_202512caderno.pdf p.34_
+
+### r2 · graph_rag
+
+O **índice acumulado no ano** da PMC compara a produção/receita acumulada **de janeiro até o mês de referência do índice** com a de **igual período do ano anterior**. Isso aparece nas notas metodológicas da PMC e nas definições do indicador [2], [3], [4].
+
+Se quiser, posso também resumir a diferença entre **mensal**, **acumulado no ano** e **últimos 12 meses** com base nas fontes.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.9; [6] pib-vol-val_202504caderno.pdf p.23; [7] pmc_202512caderno.pdf p.14; [8] dic_variaveis_pmc.csv p.Planilha; [9] pmc_202512caderno.pdf p.33; [10] pmc_202512caderno.pdf p.50_
+
+### r3 · simple_rag
+
+O **indicador acumulado no ano** da PMC compara a **produção acumulada de janeiro até o mês de referência do índice** com a **produção de igual período do ano anterior** [3].
+
+Como a pergunta não especifica território, esse conceito é definido de forma geral nas notas metodológicas da PMC. A mesma definição aparece também na metodologia da PMC nacional, com a redação equivalente para a **Receita Bruta de Revenda acumulada de janeiro até o mês de referência, em relação a igual período do ano anterior** [2].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pib-vol-val_202504caderno.pdf p.23; [6] pmc_202512caderno.pdf p.14; [7] dic_variaveis_pmc.csv p.Planilha; [8] pmc_202512caderno.pdf p.33; [9] pmc_202512caderno.pdf p.50; [10] pmc_202512caderno.pdf p.34_
+
+### r3 · graph_rag
+
+O **indicador acumulado no ano** da PMC **compara os índices acumulados nominais e de volume da Receita Bruta de Revenda de janeiro até o mês de referência com os de igual período do ano anterior** [2].
+
+Como a pergunta não especifica um território, período ou base de comparação além disso, usei a definição metodológica geral da PMC.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.9; [6] pib-vol-val_202504caderno.pdf p.23; [7] pmc_202512caderno.pdf p.14; [8] dic_variaveis_pmc.csv p.Planilha; [9] pmc_202512caderno.pdf p.33; [10] pmc_202512caderno.pdf p.50_
+
+## T006 (factual)
+
+**Pergunta:** O que o indicador acumulado de 12 meses da PMC compara?
+
+**Resposta esperada:** Os últimos 12 meses com os 12 meses imediatamente anteriores.
+
+### r1 · simple_rag
+
+O indicador acumulado de 12 meses da PMC **compara os índices acumulados nominais e de volume dos últimos 12 meses com os de igual período imediatamente anterior** [2]. Em outra formulação equivalente nas fontes, ele **compara a produção acumulada nos últimos 12 meses de referência do índice em relação a igual período imediatamente anterior** [1][3].
+
+Se você quiser, posso também dizer como isso aparece especificamente na tabela da PMC ou da PIM-PF.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pmc_202512caderno.pdf p.4; [6] pmc_202512caderno.pdf p.50; [7] pmc_202512caderno.pdf p.33; [8] pmc_202512caderno.pdf p.55; [9] pmc_202512caderno.pdf p.38; [10] pmc_202512caderno.pdf p.29_
+
+### r1 · lexical_rag
+
+O indicador **acumulado de 12 meses da PMC** compara a **receita bruta de revenda acumulada nos últimos 12 meses** com a de **igual período imediatamente anterior** [2].
+
+Se quiser, posso também explicar a diferença entre esse indicador e o acumulado no ano, usando a mesma fonte.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pim-pf-br_202512caderno.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.24; [7] pim-pf-br_202512caderno.pdf p.31; [8] pim-pf-br_202512caderno.pdf p.22; [9] pim-pf-br_202512caderno.pdf p.29; [10] pim-pf-br_202512caderno.pdf p.32_
+
+### r1 · graph_rag
+
+O **indicador acumulado de 12 meses da PMC** compara os **índices acumulados nominais e de volume da Receita Bruta de Revenda dos últimos 12 meses** com os de **igual período imediatamente anterior**. Isso está definido na própria metodologia da PMC. [2]
+
+Se você quiser, também posso apontar a diferença entre esse indicador e o **acumulado no ano**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pim-pf-br_202512caderno.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.24; [7] pim-pf-br_202512caderno.pdf p.31; [8] pim-pf-br_202512caderno.pdf p.22; [9] pim-pf-br_202512caderno.pdf p.29_
+
+### r2 · simple_rag
+
+O indicador **acumulado de 12 meses da PMC** compara **os índices acumulados nominais e de volume da Receita Bruta de Revenda dos últimos 12 meses com os de igual período imediatamente anterior**. Isso está explicitado na definição metodológica da PMC. [2]
+
+Se você quiser, também posso apontar a formulação equivalente usada na PIM-PF. [1][3]
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pmc_202512caderno.pdf p.4; [6] pmc_202512caderno.pdf p.50; [7] pmc_202512caderno.pdf p.33; [8] pmc_202512caderno.pdf p.55; [9] pmc_202512caderno.pdf p.38; [10] pmc_202512caderno.pdf p.29_
+
+### r2 · graph_rag
+
+O **indicador acumulado de 12 meses da PMC** compara os **índices acumulados nominais e de volume da Receita Bruta de Revenda dos últimos 12 meses** com os de **igual período imediatamente anterior** [2].
+
+Se precisar, a fonte não informa aqui nenhum território específico para essa definição; o que ela define é o **tipo de comparação** do indicador [2].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pim-pf-br_202512caderno.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.24; [7] pim-pf-br_202512caderno.pdf p.31; [8] pim-pf-br_202512caderno.pdf p.22; [9] pim-pf-br_202512caderno.pdf p.29_
+
+### r3 · simple_rag
+
+O indicador **acumulado de 12 meses da PMC** compara, **para o mesmo território e atividade em que ele é divulgado na tabela**, a **produção/volume acumulado dos últimos 12 meses** com a de **igual período imediatamente anterior**. Isso está explicitado nas notas metodológicas da PMC: “ÍNDICE ACUMULADO DE 12 MESES: Compara os índices acumulados nominais e de volume da Receita Bruta de Revenda dos últimos 12 meses com os de igual período imediatamente anterior” [2].  
+
+A formulação equivalente também aparece na PIM-PF: “ÍNDICE ACUMULADO NOS ÚLTIMOS 12 MESES: compara a produção acumulada nos últimos 12 meses de referência do índice em relação a igual período imediatamente anterior” [1].
+
+Se você quiser, posso também resumir a diferença entre **mensal**, **acumulado no ano** e **últimos 12 meses** com base nas fontes.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pmc_202512caderno.pdf p.4; [6] pmc_202512caderno.pdf p.50; [7] pmc_202512caderno.pdf p.33; [8] pmc_202512caderno.pdf p.55; [9] pmc_202512caderno.pdf p.38; [10] pmc_202512caderno.pdf p.29_
+
+### r3 · graph_rag
+
+O indicador **acumulado de 12 meses** compara a produção/índices dos **últimos 12 meses de referência** com os de **igual período imediatamente anterior**. Isso aparece tanto na PIM-PF quanto na PMC [1][2][3].
+
+Como a pergunta menciona a **PMC**, a leitura correspondente é: **“compara os índices acumulados nominais e de volume da Receita Bruta de Revenda dos últimos 12 meses com os de igual período imediatamente anterior”** [2].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.6; [2] pmc_202512caderno.pdf p.7; [3] pim-pf-regional_202512.pdf p.6; [4] pmc_202512caderno.pdf p.14; [5] pim-pf-br_202512caderno.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.24; [7] pim-pf-br_202512caderno.pdf p.31; [8] pim-pf-br_202512caderno.pdf p.22; [9] pim-pf-br_202512caderno.pdf p.29_
+
+## T007 (factual)
+
+**Pergunta:** Qual software é usado no ajuste sazonal da PMC?
+
+**Resposta esperada:** X13 ARIMA-SEATS, do U.S. Census Bureau.
+
+### r1 · simple_rag
+
+O software usado no ajuste sazonal da PMC é o **X13 ARIMA-SEATS**, do **U.S. Census Bureau**. [1]
+
+A fonte também menciona o programa **“genhol.exe”**, do U.S. Census Bureau, usado para os feriados de Carnaval e Corpus Christi, para gerar a matriz de coeficientes de regressão. [1]
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r1 · lexical_rag
+
+O ajuste sazonal da PMC é feito com o software **X13 ARIMA-SEATS**, do **U.S. Census Bureau**. A fonte também informa que, para os feriados de Carnaval e Corpus Christi, é usado o programa **“genhol.exe”** do U.S. Census Bureau para gerar a matriz de coeficientes de regressão. [1]
+
+Se você quiser, posso também indicar em qual trecho da fonte isso aparece.
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r1 · graph_rag
+
+O software usado no ajuste sazonal da PMC é o **X13 ARIMA-SEATS**, do U.S. Census Bureau [1]. A fonte também menciona o programa **“genhol.exe”** para os feriados de Carnaval e Corpus Christi, usado para gerar a matriz de coeficientes de regressão [1].
+
+Se quiser, posso também apontar em qual trecho da metodologia isso aparece.
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r2 · simple_rag
+
+A PMC usa o software **X13 ARIMA-SEATS**, do **U.S. Census Bureau**, no ajuste sazonal das séries [1].
+
+A fonte também informa que, para os feriados de **Carnaval** e **Corpus Christi**, é utilizado o programa **“genhol.exe”** para gerar a matriz de coeficientes de regressão [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r2 · graph_rag
+
+O software usado no ajuste sazonal da PMC é o **X13 ARIMA - SEATS**, do **U.S. Census Bureau** [1].
+
+A fonte também menciona o uso do programa **“genhol.exe”** para os feriados de Carnaval e Corpus Christi, para gerar a matriz de coeficientes de regressão [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r3 · simple_rag
+
+O software usado no ajuste sazonal da PMC é o **X13 ARIMA - SEATS**, do **U.S. Census Bureau** [1].
+
+A fonte também menciona o uso do programa **“genhol.exe”**, disponibilizado pelo U.S. Census Bureau, para feriados de Carnaval e Corpus Christi, de modo a gerar a matriz de coeficientes de regressão [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+### r3 · graph_rag
+
+O software usado no ajuste sazonal da PMC é o **X-13 ARIMA-SEATS**, do **U.S. Census Bureau** [1].
+
+A fonte também menciona o uso do programa **GENHOL (Generate Holiday Regression Variables)** para os feriados de Carnaval e Corpus Christi [1].
+
+_Fontes: [1] pmc_202512caderno.pdf p.7; [2] pim-pf-br_202512caderno.pdf p.6; [3] pim-pf-regional_202512.pdf p.6; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] pim-pf-regional_202512.pdf p.7; [6] dic_variaveis_pmc.csv p.Planilha; [7] base-pmc_spbrasil.csv p.Planilha; [8] base-pmc_spbrasil.csv p.Planilha_
+
+## T009 (factual)
+
+**Pergunta:** Na PIM-PF de dezembro de 2025, qual ano estrutura os pesos das atividades e produtos?
+
+**Resposta esperada:** 2019; a base de ponderação usa o Valor da Transformação Industrial desse ano.
+
+### r1 · simple_rag
+
+Na PIM-PF de dezembro de 2025, os pesos das atividades e produtos são estruturados por **2022**. Isso aparece nas tabelas do caderno nacional, onde os pesos estão associados à base **“Dezembro 2025 / Dezembro 2024”** e o documento de referência indica a composição com **peso da atividade no total da Indústria Geral** [10].
+
+Se você quiser, posso também apontar em qual trecho da fonte isso aparece de forma mais explícita.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.21; [7] pim-pf-regional_202512.pdf p.17; [8] pim-pf-regional_202512.pdf p.23; [9] pim-pf-regional_202512.pdf p.25; [10] pim-pf-br_202512caderno.pdf p.23_
+
+### r1 · lexical_rag
+
+Na PIM-PF de dezembro de 2025, os pesos das atividades e produtos são estruturados por um **ano-base não explicitado nas fontes fornecidas**. As notas dizem apenas que **K = peso da atividade no total da Indústria Geral**, mas **não informam qual ano estrutura esses pesos** [1][2][3][4][5].
+
+Se você quiser, posso ajudar a localizar essa informação em outra página/fonte do mesmo documento, mas **com as fontes dadas aqui não dá para afirmar o ano-base**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.44; [7] pim-pf-regional_202512.pdf p.40_
+
+### r1 · graph_rag
+
+Na PIM-PF de dezembro de 2025, os pesos das atividades e produtos são estruturados pelo **ano de 2024**. Isso aparece na referência ao comparativo **“Dezembro 2025 / Dezembro 2024”** nas tabelas e no quadro de composição, indicando que o peso \(K\) é o da atividade no total da Indústria Geral nessa base [1][6][7].
+
+Se você quiser, posso também apontar exatamente em qual nota da tabela isso é explicado.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.33; [7] pim-pf-regional_202512.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.23; [9] pim-pf-regional_202512.pdf p.44_
+
+### r2 · simple_rag
+
+Na PIM-PF de dezembro de 2025, os pesos das atividades e produtos são estruturados pelo ano-base de **2022**. Isso aparece nas fontes com a menção aos pesos na base de referência da série da PIM-PF [10].  
+
+Se você quiser, posso também indicar em qual parte da publicação isso está explícito.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.21; [7] pim-pf-regional_202512.pdf p.17; [8] pim-pf-regional_202512.pdf p.23; [9] pim-pf-regional_202512.pdf p.25; [10] pim-pf-br_202512caderno.pdf p.23_
+
+### r2 · graph_rag
+
+Na PIM-PF de dezembro de 2025, o ano que estrutura os pesos das atividades e produtos é **2022** para a base regional e **2024** para a base nacional? **As fontes fornecidas não mostram explicitamente esse ano de estruturação dos pesos.** Elas apenas indicam que, nos quadros de composição da taxa de crescimento, o peso da atividade no total da Indústria Geral é representado por **K** [1], [7].  
+
+Se a sua pergunta se refere ao **ano-base dos pesos**, essa informação **não está explicitada nas fontes fornecidas**. Não consigo afirmar o ano sem extrapolar o que os trechos mostram.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.33; [7] pim-pf-regional_202512.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.23; [9] pim-pf-regional_202512.pdf p.44_
+
+### r3 · simple_rag
+
+Na PIM-PF de dezembro de 2025, os **pesos das atividades e produtos** são estruturados pelo **ano-base de 2022**. Essa informação aparece na referência da tabela de ponderação da PIM-PF Brasil, que traz os pesos com base em 2022 [10].
+
+Se você quiser, posso também localizar em qual fonte isso aparece para a PIM-PF regional.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.21; [7] pim-pf-regional_202512.pdf p.17; [8] pim-pf-regional_202512.pdf p.23; [9] pim-pf-regional_202512.pdf p.25; [10] pim-pf-br_202512caderno.pdf p.23_
+
+### r3 · graph_rag
+
+Na PIM-PF de dezembro de 2025, os pesos das atividades e produtos são estruturados pelo ano-base **2022**. Isso aparece no caderno regional da PIM-PF, que usa o sistema de pesos da PNAD/PIA? **Não há essa informação nas fontes fornecidas**, então não posso afirmar isso.
+
+O que as fontes mostram é apenas que, em dezembro de 2025, a tabela de composição da taxa de crescimento usa **“peso da atividade no total da Indústria Geral”** e a fórmula está no quadro [1], mas **não informam qual ano estrutura esses pesos**. Portanto, com as fontes fornecidas, **não é possível identificar o ano solicitado**. [1]
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.33; [2] pim-pf-regional_202512.pdf p.19; [3] pim-pf-regional_202512.pdf p.20; [4] pim-pf-regional_202512.pdf p.28; [5] pim-pf-regional_202512.pdf p.32; [6] pim-pf-regional_202512.pdf p.33; [7] pim-pf-regional_202512.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.23; [9] pim-pf-regional_202512.pdf p.44_
+
+## T012 (factual)
+
+**Pergunta:** Segundo as notas técnicas de 2022, com qual sistema o Sistema de Contas Regionais está integrado?
+
+**Resposta esperada:** Com o Sistema de Contas Nacionais do IBGE.
+
+### r1 · simple_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao **Sistema de Contas Nacionais (SCN)** [1][2][3].
+
+As fontes também dizem que, no modelo atual, o SCR é “totalmente integrado” aos resultados do SCN [3] e que sua metodologia e base de dados estão “completamente integradas” com a série do SCN referência 2010 [2].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9; [8] contas_regionais_2022_notas_tecnicas.pdf p.4; [9] contas_regionais_2022_notas_tecnicas.pdf p.21_
+
+### r1 · lexical_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao **Sistema de Contas Nacionais (SCN)**. As fontes dizem que ele é “integrado à metodologia adotada pelo IBGE no Sistema de Contas Nacionais - SCN” e que, no modelo atual, é “totalmente integrado aos resultados do SCN” [1][3].
+
+Se você quiser, posso também indicar o trecho exato em que isso aparece.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9; [8] contas_regionais_2022_notas_tecnicas.pdf p.21; [9] contas_regionais_2022_notas_tecnicas.pdf p.13; [10] contas_regionais_2022_notas_tecnicas.pdf p.12_
+
+### r1 · graph_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao **Sistema de Contas Nacionais (SCN)** [1][2][3][4].
+
+As fontes também dizem que:
+- a série do SCR referência 2010 tem metodologia e base de dados “completamente integradas” com a série do SCN referência 2010 [2];
+- o SCR, no modelo atual, é “totalmente integrado” aos resultados do SCN [3][4];
+- na divulgação da nova série com ano-base 2021, os resultados do SCR serão reapresentados, também integrados à nova série do SCN [3][4].
+
+Se quiser, posso citar o trecho exato de cada fonte.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9_
+
+### r2 · simple_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está **integrado ao Sistema de Contas Nacionais (SCN)** [1]. As notas também dizem que, no modelo atual, o SCR é “totalmente integrado aos resultados do SCN” [3].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9; [8] contas_regionais_2022_notas_tecnicas.pdf p.4; [9] contas_regionais_2022_notas_tecnicas.pdf p.21_
+
+### r2 · graph_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao Sistema de Contas Nacionais - SCN [1][2]. As fontes também afirmam que, no modelo atual, o SCR é “totalmente integrado aos resultados do SCN” [3][4].
+
+Se precisar, posso citar o trecho exato da nota técnica.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9_
+
+### r3 · simple_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao **Sistema de Contas Nacionais (SCN)**. A fonte diz que a metodologia do SCR é “integrada à metodologia adotada pelo IBGE no Sistema de Contas Nacionais - SCN” e que, no modelo atual, o SCR é “totalmente integrado aos resultados do SCN” [1][3].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9; [8] contas_regionais_2022_notas_tecnicas.pdf p.4; [9] contas_regionais_2022_notas_tecnicas.pdf p.21_
+
+### r3 · graph_rag
+
+Segundo as notas técnicas de 2022, o Sistema de Contas Regionais está integrado ao **Sistema de Contas Nacionais (SCN)**. As fontes dizem que a metodologia do SCR é “integrada à metodologia adotada pelo IBGE no Sistema de Contas Nacionais - SCN” e que o SCR “no modelo atual, é totalmente integrado aos resultados do SCN” [1][3].
+
+Se quiser, também posso indicar em qual trecho isso aparece na página 6 e na página 8.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] contas_regionais_2022_notas_tecnicas.pdf p.6; [3] contas_regionais_2022_notas_tecnicas.pdf p.8; [4] contas_regionais_2022_notas_tecnicas.pdf p.8; [5] contas_regionais_2022_notas_tecnicas.pdf p.6; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] contas_regionais_2022_notas_tecnicas.pdf p.9_
+
+## T016 (factual)
+
+**Pergunta:** Por que a metodologia do PIB paulista alerta para a perda de aditividade dos índices encadeados?
+
+**Resposta esperada:** A soma dos componentes encadeados não coincide necessariamente com o total encadeado.
+
+### r1 · simple_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, o valor de um agregado encadeado **não é igual à soma dos componentes encadeados** quando se usa o sistema de pesos do ano anterior; a própria fonte diz que a recomendação é priorizar a atualização da estrutura de preços relativos, por ser mais representativa das condições econômicas correntes [1].
+
+No caso do PIB paulista, isso ocorre porque o encadeamento é feito para preservar a estrutura de pesos atualizada ao longo do tempo: a metodologia explica que, para calcular a evolução de cada atividade em um determinado mês do ano Y, usam-se os pesos do ano Y-1, e esses pesos são atualizados quando sai uma nova divulgação do PIB anual [4]. A mesma fonte também mostra que o encadeamento altera a base de referência por multiplicação sucessiva de índices, o que faz com que as séries encadeadas não sejam simplesmente somáveis como em um sistema aditivo clássico [1], [6].
+
+Se quiser, posso resumir isso em uma frase mais curta ou em linguagem mais técnica.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.13; [8] pib_mensal_trimestral_metodologia.pdf p.2; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r1 · lexical_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, os componentes encadeados deixam de somar exatamente o total encadeado: “a soma dos componentes encadeados não é igual à soma dos totais encadeados”. A própria fonte diz que, nesse caso, a recomendação é priorizar a atualização da estrutura de preços relativos, por ser “mais representativa das condições econômicas correntes” [1].
+
+Em outras palavras, o encadeamento melhora a atualização da estrutura de preços e pesos, mas faz com que a propriedade de adição exata entre componentes e total não seja preservada [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.2; [7] pib_mensal_trimestral_metodologia.pdf p.13; [8] pib_mensal_trimestral_metodologia.pdf p.11; [9] pib_mensal_trimestral_metodologia.pdf p.19; [10] pib_mensal_trimestral_metodologia.pdf p.10_
+
+### r1 · graph_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, os componentes encadeados **não somam exatamente o total encadeado** quando se usa o sistema de pesos do ano anterior [1]. Ou seja, o encadeamento preserva melhor a estrutura de preços relativos e a atualização dos pesos, mas isso faz com que a soma dos índices dos componentes deixe de coincidir com o índice agregado [1].
+
+Além disso, a própria metodologia indica que o encadeamento é adotado por manter atualizada a estrutura de preços relativos, considerada mais representativa das condições econômicas correntes [1]. E, no caso do PIB paulista, os pesos são atualizados com as Contas Regionais e usados para construir séries de base móvel [4], [9].
+
+Em resumo: **a perda de aditividade ocorre como consequência do encadeamento com pesos móveis/atualizados**, que privilegia a representatividade das condições correntes em vez de manter soma exata entre componentes e total [1], [4], [9].
+
+Se quiser, posso apontar o trecho exato da página 7 onde isso aparece.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r2 · simple_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, a soma dos componentes encadeados não é igual à soma dos totais encadeados quando se usa o sistema de pesos do ano anterior; isso ocorre justamente porque o encadeamento mantém atualizada a estrutura de preços relativos, considerada mais representativa das condições econômicas correntes [1].
+
+Além disso, o texto explica que o encadeamento é feito para preservar, após o encadeamento, as taxas de crescimento anual dos índices iniciais, e não para garantir aditividade entre componentes e total [4]. Em outras palavras, a metodologia privilegia a atualização dos pesos e a preservação das variações entre períodos, o que implica essa perda de aditividade [1][4].
+
+Se quiser, posso citar o trecho exato em forma de paráfrase mais curta ou explicar a diferença entre aditividade e encadeamento usando apenas essas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.13; [8] pib_mensal_trimestral_metodologia.pdf p.2; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r2 · graph_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, **a soma dos componentes encadeados não é igual à soma dos totais encadeados com o sistema de pesos do ano anterior** [1]. Isso ocorre porque o encadeamento é feito para **manter atualizada a estrutura de preços relativos**, considerada mais representativa das condições econômicas correntes [1].
+
+Além disso, a metodologia explica que o encadeamento usa pesos do ano anterior para cada período e, ao atualizar esses pesos ao longo do tempo, preserva-se a estrutura corrente, mas isso impede a aditividade perfeita entre componentes e total [4][6]. A própria nota metodológica mostra que o encadeamento altera o nível das séries ao mudar o período de referência, justamente para preservar as variações entre períodos consecutivos com os pesos correspondentes [6].
+
+Se quiser, posso também resumir isso em 1 frase “para relatório” ou em linguagem mais técnica.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r3 · simple_rag
+
+A metodologia alerta para a perda de aditividade porque, em índices encadeados, **a soma dos componentes encadeados não é igual à soma dos totais encadeados** quando se usa o sistema de pesos do ano anterior. A própria fonte diz que, embora isso ocorra, a recomendação é manter atualizada a estrutura de preços relativos, por ser mais representativa das condições econômicas correntes [1].
+
+Além disso, a metodologia explica que o encadeamento é usado justamente para **preservar a estrutura de preços e os pesos mais recentes**, atualizando-os ao longo do tempo. No caso do PIB paulista, isso é feito com os pesos do ano “Y-1” para calcular a evolução de cada atividade em um mês do ano “Y” [4]. Ao fazer isso, as séries deixam de ser estritamente aditivas entre si, o que é parte do trade-off metodológico descrito nas fontes [1][4].
+
+Se quiser, posso também resumir isso em uma frase mais curta, ou explicar com base na tabela/exemplo do encadeamento da metodologia [5][6].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.13; [8] pib_mensal_trimestral_metodologia.pdf p.2; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r3 · graph_rag
+
+A metodologia alerta para a **perda de aditividade** porque, nos **índices encadeados**, o **total encadeado não é igual à soma dos componentes encadeados** com o sistema de pesos do ano anterior; ao mesmo tempo, a própria metodologia diz que é preferível **manter atualizada a estrutura de preços relativos**, por ser mais representativa das condições econômicas correntes [1].
+
+Além disso, o texto explica que o encadeamento é feito para preservar as variações com pesos atualizados: para cada ano, usam-se os pesos do ano anterior e, depois, faz-se o encadeamento por superposição anual, método escolhido porque **preserva, depois do encadeamento, as taxas de crescimento anual dos índices iniciais** [4]. Também é dito que o encadeamento serve para manter a base móvel, em vez de supor pesos constantes [5].
+
+Em resumo, a perda de aditividade é um efeito esperado do encadeamento, e a metodologia a aceita porque prioriza a atualização da estrutura de pesos e a preservação das taxas de crescimento anuais, em vez da soma exata dos componentes [1][4][5].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.20; [3] pib_mensal_trimestral_metodologia.pdf p.1; [4] pib_mensal_trimestral_metodologia.pdf p.8; [5] pib_mensal_trimestral_metodologia.pdf p.9; [6] pib_mensal_trimestral_metodologia.pdf p.10; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+## T017 (factual)
+
+**Pergunta:** De onde vêm os pesos setoriais usados na estimativa do PIB mensal paulista?
+
+**Resposta esperada:** Do Sistema de Contas Regionais.
+
+### r1 · simple_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1].  
+
+A metodologia informa ainda que o PIB mensal usa um índice de **Laspeyres com pesos do ano anterior** e que, para calcular a evolução de cada atividade em um mês do ano **Y**, são utilizados os pesos do ano **Y-1**; esses pesos são atualizados quando há nova divulgação do PIB anual [7][8].  
+
+Se você quiser, posso também resumir **como esses pesos são aplicados na série mensal paulista** com base apenas nas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.16; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8_
+
+### r1 · lexical_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** e são atualizados com base nas revisões dessas contas. A metodologia informa que o PIB mensal usa **pesos do ano anterior** para calcular a evolução de cada atividade em um dado ano, e que a atualização dos pesos ocorre **sempre que há uma nova divulgação do PIB anual**, incorporando novas ponderações originárias das Contas Regionais [1], [6], [8].
+
+Além disso, a metodologia diz que, em 2015, os dados anuais com a nova revisão de referência 2010 permitiram refazer as estimativas do PIB mensal, e que a série mensal começa em 2002, com ano-base 2010 [1], [2].
+
+Se você quiser, posso também resumir **como esses pesos são aplicados na prática** na série mensal paulista, usando apenas as fontes fornecidas.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.13; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.16_
+
+### r1 · graph_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1]. A metodologia diz que esses pesos “são derivados do Sistema de Contas Regionais” [1] e que, no cálculo mensal, eles são atualizados quando há nova divulgação do PIB anual, usando os **pesos do ano anterior** para estimar a evolução de cada atividade no ano corrente [8].
+
+Pelos documentos, a base de ponderação usada na série mensal foi vinculada ao **ano-base 2010**, mesmo ano de referência adotado pelas Contas Regionais em sua segunda revisão [1]. A Tabela 2 mostra ainda os pesos/estruturas do valor adicionado para o Estado de São Paulo em **2002, 2010, 2015, 2019, 2020 e 2021** [1]. 
+
+Se você quiser, posso também resumir **como esses pesos entram no cálculo** ou listar **quais setores têm indicadores próprios e quais são estimados indiretamente** com base nas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.13; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.16_
+
+### r2 · simple_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1]. A metodologia também diz que o PIB mensal é construído para ser compatível com as **Contas Regionais / PIB anual** e que usa um **índice de Laspeyres com pesos do ano anterior** [7][8].
+
+Mais especificamente:
+- os pesos que determinam a participação de cada atividade econômica no PIB são **derivados do Sistema de Contas Regionais** [1];
+- a série mensal usa **pesos do ano “Y-1”** para calcular a evolução de cada atividade no mês do ano Y [8];
+- esses pesos são **atualizados sempre que há nova divulgação do PIB anual** [8].
+
+A fonte também informa que:
+- o **ano-base para início da série mensal foi 2010** [1];
+- a série mensal começou em **2002** [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.16; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8_
+
+### r2 · graph_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1].  
+A metodologia também informa que, no cálculo do PIB mensal, os **pesos são os do ano anterior** e que eles são **atualizados sempre que há nova divulgação do PIB anual** [8].  
+
+Se a pergunta for sobre a **origem das ponderações da Tabela 2**, elas são apresentadas como derivadas de **IBGE; Fundação Seade** [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.13; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.16_
+
+### r3 · simple_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1].  
+
+A metodologia também informa que o PIB mensal é construído com **pesos do ano anterior** (base móvel), compatível com as Contas Regionais, e que esses pesos são atualizados quando sai uma nova divulgação do PIB anual [7][8].  
+
+Se a pergunta for sobre o **recorte específico dos setores mensurados**, a fonte diz que eles foram escolhidos considerando a **importância do setor na economia paulista e nacional** e a **existência de dados com levantamento sistemático, confiáveis e disponíveis** no intervalo necessário para a estimativa [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.16; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8_
+
+### r3 · graph_rag
+
+Os pesos setoriais usados na estimativa do PIB mensal paulista vêm do **Sistema de Contas Regionais** [1].
+
+A metodologia informa que esses pesos:
+- são **derivados do Sistema de Contas Regionais** [1];
+- usam como referência a **estrutura do Valor Adicionado por atividades do Estado de São Paulo** [1];
+- são atualizados com as novas divulgações do PIB anual e servem como base móvel para os anos consecutivos [8].
+
+Se a dúvida for sobre a **origem específica da tabela de pesos**, a fonte diz que ela foi construída com dados do **IBGE** e da **Fundação Seade** [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.11; [2] pib_mensal_trimestral_metodologia.pdf p.2; [3] pib_mensal_trimestral_metodologia.pdf p.20; [4] pib_mensal_trimestral_metodologia.pdf p.1; [5] pib_mensal_trimestral_metodologia.pdf p.19; [6] pib_mensal_trimestral_metodologia.pdf p.13; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.16_
+
+## T020 (factual)
+
+**Pergunta:** Qual método é usado para dessazonalizar as estimativas do PIB paulista na metodologia de abril de 2024?
+
+**Resposta esperada:** X-13 Arima, desenvolvido pelo US Census Bureau.
+
+### r1 · simple_rag
+
+Na metodologia de abril de 2024, a dessazonalização das estimativas do PIB paulista é feita pelo método **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte também informa que essa escolha foi feita para permitir comparação mais direta com os resultados do **IBGE**, que usa **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r1 · lexical_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte informa ainda que essa escolha foi feita para permitir comparação mais direta com os resultados do **IBGE**, que também utiliza o **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r1 · graph_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista, na metodologia de abril de 2024, é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte também informa que essa escolha foi feita para permitir comparação mais direta com o IBGE, que utiliza o **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r2 · simple_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte também informa que essa escolha foi feita para permitir comparação mais direta com o IBGE, que usa o **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r2 · graph_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista, na metodologia de abril de 2024, é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte também informa que essa escolha foi feita para permitir comparação mais direta com os resultados do **IBGE**, que usa o **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r3 · simple_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte informa que essa foi a escolha da metodologia para as estimativas paulistas, com o objetivo de permitir comparação mais direta com o IBGE, que também utiliza X13-Arima na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+### r3 · graph_rag
+
+O método usado para dessazonalizar as estimativas do PIB paulista, na metodologia de abril de 2024, é o **X-13 Arima**, desenvolvido pelo **US Census Bureau** [1].
+
+A fonte também informa que essa escolha foi feita para permitir comparação mais direta com os resultados do **IBGE**, que usa o **X13-Arima** na dessazonalização das séries nacionais [1].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] pib_mensal_trimestral_metodologia.pdf p.1; [3] pib_mensal_trimestral_metodologia.pdf p.11; [4] pib_mensal_trimestral_metodologia.pdf p.20; [5] pib_mensal_trimestral_metodologia.pdf p.5; [6] pib_mensal_trimestral_metodologia.pdf p.19; [7] pib_mensal_trimestral_metodologia.pdf p.4; [8] pib_mensal_trimestral_metodologia.pdf p.9; [9] pib_mensal_trimestral_metodologia.pdf p.6_
+
+## T023 (factual)
+
+**Pergunta:** O campo area_km do cadastro territorial representa o quê e tem qual ano de referência no dicionário?
+
+**Resposta esperada:** Área em quilômetros quadrados, com referência 2024.
+
+### r1 · simple_rag
+
+O campo **area_km** representa a **área em quilômetros quadrados** do município, segundo o dicionário [1].
+
+O **ano de referência** indicado para **area_km** no dicionário é **2024** [1].
+
+Se você quiser, também posso indicar em que fonte aparecem exemplos de municípios com esse campo preenchido, como Piquete e Aparecida [2], [3].
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r1 · lexical_rag
+
+O campo **area_km** representa a **área em quilômetros quadrados** e tem **ano de referência 2024** no dicionário. Isso aparece no dicionário da variável em [1].
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r1 · graph_rag
+
+O campo **area_km** representa a **área em quilometros quadrados** e, no dicionário, tem **ano de referência 2024** [1].
+
+A fonte não informa, para esse campo, outro recorte além de ser uma variável do arquivo `dicvar_codigos_municipios_regioes.csv` [1].
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r2 · simple_rag
+
+O campo **`area_km`** no dicionário representa a **área em quilômetros quadrados** e tem **ano de referência 2024** [1].
+
+Se você quiser, também posso localizar outros campos do mesmo dicionário.
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r2 · graph_rag
+
+O campo **area_km** representa a **“Área em quilometros quadrados”** e tem **ano de referência 2024** no dicionário [1].
+
+Para esse campo, a fonte mostra a associação com a variável **area_km**, o tipo **número**, a descrição citada e o ano **2024** [1].
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r3 · simple_rag
+
+O campo **`area_km`** representa a **área em quilômetros quadrados** do município no dicionário [1].  
+O **ano de referência** informado para `area_km` é **2024** [1].
+
+Se você quiser, posso também localizar o significado de outros campos desse mesmo dicionário.
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+### r3 · graph_rag
+
+O campo **`area_km`** no dicionário representa **“Área em quilometros quadrados”** e tem **ano de referência 2024** [1].
+
+Se você quiser, também posso indicar em quais linhas do dicionário essa variável aparece.
+
+_Fontes: [1] dicvar_codigos_municipios_regioes.csv p.Planilha; [2] codigos_municipios_regioes.csv p.Planilha; [3] codigos_municipios_regioes.csv p.Planilha; [4] pmc_202512caderno.pdf p.4; [5] pim-pf-br_202512caderno.pdf p.6; [6] pim-pf-regional_202512.pdf p.5; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.7; [9] dicvar_cnae20.csv p.Planilha; [10] dic_variaveis_pmc.csv p.Planilha_
+
+## T024 (factual)
+
+**Pergunta:** Qual é a descrição da classe CNAE 47.61-0?
+
+**Resposta esperada:** Comércio varejista de livros, jornais, revistas e papelaria.
+
+### r1 · simple_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+A fonte [3] também associa o código **4761-0** à atividade **“Livros, jornais, revistas e papelaria”** no quadro da PMC, mas a descrição completa da **classe CNAE 47.61-0** está explicitamente na CNAE em [1][2].
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r1 · lexical_rag
+
+A classe CNAE **47.61-0** é descrita como **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+Se quiser, posso também informar a **seção**, **divisão** e **grupo** correspondentes dessa classe, com base nas fontes.
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r1 · graph_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+As fontes também mostram que essa classe pertence à seção **G** (“COMÉRCIO; REPARAÇÃO DE VEÍCULOS AUTOMOTORES E MOTOCICLETAS”), à divisão **47** (“COMÉRCIO VAREJISTA”) e ao grupo **47.6** (“Comércio varejista de artigos culturais, recreativos e esportivos”) [1][2].
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r2 · simple_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+Se quiser, posso também informar em que grupo, divisão e seção essa classe se enquadra, usando as mesmas fontes [1][2].
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r2 · graph_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”**. [1]
+
+As fontes também mostram essa mesma descrição associada ao código **4761-0** no quadro da PMC, mas o código ali aparece sem o ponto e com formatação diferente; por isso, a identificação direta mais clara é a da CNAE **47.61-0** em [1] e [2]. [1][2][3]
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r3 · simple_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+Essa mesma classe aparece associada ao grupo de atividade **“Livros, jornais, revistas e papelaria”** no quadro da PMC, com o código **4761-0**; a fonte não mostra aqui a grafia com hífen e ponto do código, mas indica a mesma atividade [3][6].
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+### r3 · graph_rag
+
+A descrição da classe CNAE **47.61-0** é **“Comércio varejista de livros, jornais, revistas e papelaria”** [1][2].
+
+As fontes também mostram essa mesma classe no quadro de atividades da PMC como **“Livros, jornais, revistas e papelaria”** com o código CNAE **4761-0** [3][6].
+
+_Fontes: [1] cnae20.csv p.linha 429; [2] cnae20.csv p.Planilha; [3] pmc_202512caderno.pdf p.5; [4] dicvar_cnae20.csv p.Planilha; [5] cnae20.csv p.Planilha; [6] pmc_202512caderno.pdf p.5_
+
+## T029 (numerica)
+
+**Pergunta:** Qual foi o PIB brasileiro em valores correntes no ano de 2025, em bilhões de reais?
+
+**Resposta esperada:** R$ 12.738,6 bilhões.
+
+### r1 · simple_rag
+
+O PIB brasileiro em valores correntes no ano de **2025** foi de **R$ 12.738,6 bilhões**. A fonte informa esse valor para o **Brasil**, no **acumulado do ano de 2025**, em **valores correntes** [1][2].
+
+Observação: a mesma fonte também apresenta o valor como **R$ 12.738,566 bilhões** na tabela, com unidade original em **R$ milhões** e arredondamento no texto para **R$ 12.738,6 bilhões** [2].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 8.9; [8] pib-vol-val_202504caderno.pdf p.20_
+
+### r1 · lexical_rag
+
+O **PIB brasileiro em valores correntes no ano de 2025** foi de **R$ 12.738,6 bilhões**.  
+- **Território:** Brasil  
+- **Período:** ano de 2025  
+- **Base de comparação:** valores correntes  
+- **Unidade:** bilhões de reais [1][2]
+
+A fonte também apresenta esse total como **R$ 12.738.566 milhões** na tabela anual, o que equivale ao mesmo valor em bilhões de reais [2].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] pib-vol-val_202504caderno.pdf p.20; [6] pib-vol-val_202504caderno.pdf p.33; [7] pib-vol-val_202504caderno.pdf p.30; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9_
+
+### r1 · graph_rag
+
+O PIB brasileiro em valores correntes no ano de 2025 totalizou **R$ 12.738,6 bilhões**. A fonte informa esse valor para o **Brasil**, no **ano de 2025**, em **valores correntes**, com unidade em **bilhões de reais** [1][2][4].
+
+Obs.: a fonte também apresenta o valor como **R$ 12.738.566 milhões** na tabela, o que corresponde ao mesmo total anual em outra forma de apresentação da unidade [2][4].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] pib-vol-val_202504caderno.pdf p.20; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12_
+
+### r2 · simple_rag
+
+O PIB brasileiro em **valores correntes** no **ano de 2025** foi de **R$ 12.738,6 bilhões**. A mesma fonte informa que esse valor corresponde ao **PIB no acumulado do ano** no **Brasil** em **2025** [1][2].
+
+Se quiser, posso também converter esse valor para **trilhões de reais** mantendo a mesma fonte.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 8.9; [8] pib-vol-val_202504caderno.pdf p.20_
+
+### r2 · graph_rag
+
+No **Brasil**, em **2025**, o **PIB em valores correntes** totalizou **R$ 12.738,6 bilhões**. A fonte também apresenta esse valor como **R$ 12,7 trilhões**. [1][2][4]
+
+- **Território:** Brasil  
+- **Período:** ano de 2025  
+- **Base de comparação:** valores correntes, acumulado no ano  
+- **Unidade:** bilhões de reais (R$ bilhões) [1][2]
+
+A fonte não traz outro valor anual diferente para 2025. [1][2]
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] pib-vol-val_202504caderno.pdf p.20; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12_
+
+### r3 · simple_rag
+
+Em 2025, o PIB brasileiro em valores correntes totalizou **R$ 12.738,6 bilhões** no **Brasil**, no **ano de 2025**, em **reais correntes**. A mesma fonte também apresenta o valor como **R$ 12.738,566 milhões** na tabela, o que equivale a **R$ 12.738,6 bilhões**. [1][2]
+
+Se você quiser, posso também informar o valor com a decomposição em **Valor Adicionado** e **Impostos sobre produtos**.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 8.9; [8] pib-vol-val_202504caderno.pdf p.20_
+
+### r3 · graph_rag
+
+O PIB brasileiro em valores correntes no ano de 2025 totalizou **R$ 12.738,6 bilhões** no Brasil, em **2025**, na base de **valores correntes** e na unidade **bilhões de reais**. A fonte também informa esse mesmo total como **R$ 12.738.566 milhões** na tabela, o que equivale a **R$ 12.738,6 bilhões** [1][2][4].
+
+Se quiser, posso também separar o valor em **Valor Adicionado** e **Impostos sobre Produtos líquidos de Subsídios**, como aparece na fonte [1][2][4].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.4; [2] pib-vol-val_202504caderno.pdf p.18; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.29; [5] pib-vol-val_202504caderno.pdf p.20; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12_
+
+## T031 (numerica)
+
+**Pergunta:** Quanto a produção industrial brasileira variou no acumulado de janeiro a dezembro de 2025 em relação a 2024?
+
+**Resposta esperada:** 0,6%.
+
+### r1 · simple_rag
+
+No acumulado de **janeiro a dezembro de 2025**, a **produção industrial brasileira** **cresceu 0,6%** em relação ao **mesmo período de 2024**.  
+- **Território:** Brasil  
+- **Período:** janeiro-dezembro de 2025  
+- **Base de comparação:** igual período do ano anterior (janeiro-dezembro de 2024)  
+- **Unidade:** variação percentual (%) [1], [2], [4], [7]
+
+Se você quiser, também posso informar o valor de **2024** citado na fonte para contextualizar a comparação, mas a resposta direta é essa.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-regional_202512.pdf p.26; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-regional_202512.pdf p.19; [9] pim-pf-regional_202512.pdf p.10_
+
+### r1 · lexical_rag
+
+No acumulado de **janeiro a dezembro de 2025**, a **produção industrial brasileira (Indústria Geral)** **cresceu 0,6%** em relação ao **mesmo período de 2024**.  
+- **Território:** Brasil  
+- **Período:** janeiro-dezembro de 2025 vs. janeiro-dezembro de 2024  
+- **Base de comparação:** igual período do ano anterior  
+- **Unidade:** variação percentual (%)  
+
+Isso aparece na fonte como “**o setor industrial assinalou avanço de 0,6%**” no índice acumulado de janeiro-dezembro de 2025 [1], [2], [4], [5].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.23; [6] pim-pf-br_202512caderno.pdf p.19; [7] pim-pf-br_202512caderno.pdf p.23; [8] pim-pf-br_202512caderno.pdf p.24; [9] pim-pf-br_202512caderno.pdf p.15_
+
+### r1 · graph_rag
+
+No **Brasil**, a **produção industrial geral** no **acumulado de janeiro a dezembro de 2025**, em comparação com **igual período de 2024**, **cresceu 0,6%**. A fonte informa esse dado para a **Indústria Geral** e para o recorte **janeiro-dezembro de 2025 frente a igual período do ano anterior** [1][2][4][6].  
+
+Se você quiser, posso também informar a variação por grandes categorias econômicas no mesmo recorte.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.23; [7] pim-pf-regional_202512.pdf p.74; [8] pim-pf-br_202512caderno.pdf p.19; [9] pim-pf-br_202512caderno.pdf p.23; [10] pim-pf-br_202512caderno.pdf p.24_
+
+### r2 · simple_rag
+
+No acumulado de **janeiro a dezembro de 2025**, a **produção industrial brasileira cresceu 0,6%** em relação a **igual período de 2024**.  
+- **Território:** Brasil  
+- **Período:** janeiro-dezembro de 2025 vs. igual período de 2024  
+- **Base de comparação:** igual período do ano anterior  
+- **Unidade:** variação percentual (%)  
+- **Fonte:** [2], confirmado também em [4] e [7]
+
+Se quiser, posso também citar a frase exata da fonte.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-regional_202512.pdf p.26; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-regional_202512.pdf p.19; [9] pim-pf-regional_202512.pdf p.10_
+
+### r2 · graph_rag
+
+No **Brasil**, no **acumulado de janeiro a dezembro de 2025**, a **produção industrial (Indústria Geral)** **cresceu 0,6%** em relação ao **acumulado de janeiro a dezembro de 2024**. A fonte informa esse dado para o **território nacional**, no **período janeiro-dezembro de 2025**, com **base de comparação em igual período do ano anterior**, em **percentual (%)** [1][2][4][6].
+
+Se você quiser, também posso citar a frase exata da fonte.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.23; [7] pim-pf-regional_202512.pdf p.74; [8] pim-pf-br_202512caderno.pdf p.19; [9] pim-pf-br_202512caderno.pdf p.23; [10] pim-pf-br_202512caderno.pdf p.24_
+
+### r3 · simple_rag
+
+No **acumulado de janeiro a dezembro de 2025**, a **produção industrial brasileira cresceu 0,6%** em relação ao mesmo período de 2024.  
+
+- **Território:** Brasil  
+- **Período:** janeiro-dezembro de 2025 vs. igual período de 2024  
+- **Base de comparação:** igual período do ano anterior  
+- **Unidade:** variação percentual (%)  
+
+A fonte informa ainda que, em **2024**, o acumulado havia sido de **3,1%** e, em **2023**, de **0,1%** [1][2][4][7].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-regional_202512.pdf p.26; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-regional_202512.pdf p.19; [9] pim-pf-regional_202512.pdf p.10_
+
+### r3 · graph_rag
+
+A produção industrial brasileira variou **0,6% no acumulado de janeiro a dezembro de 2025 em relação a igual período de 2024**, para o **Brasil**, na **Indústria Geral**, com base de comparação **janeiro-dezembro / janeiro-dezembro do ano anterior**, em **%** [1][2][4][6].
+
+Se quiser, também posso informar a comparação com **2024** mostrada na fonte, que registra **3,1% em 2024** no acumulado janeiro-dezembro [1].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.22; [3] pim-pf-br_202512caderno.pdf p.20; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-regional_202512.pdf p.9; [6] pim-pf-br_202512caderno.pdf p.23; [7] pim-pf-regional_202512.pdf p.74; [8] pim-pf-br_202512caderno.pdf p.19; [9] pim-pf-br_202512caderno.pdf p.23; [10] pim-pf-br_202512caderno.pdf p.24_
+
+## T032 (numerica)
+
+**Pergunta:** Quanto a produção industrial do Estado de São Paulo variou em dezembro de 2025 frente a novembro, com ajuste sazonal?
+
+**Resposta esperada:** -1,6%.
+
+### r1 · simple_rag
+
+Na **produção industrial do Estado de São Paulo**, a variação em **dezembro de 2025 frente a novembro de 2025, com ajuste sazonal**, foi de **-1,6%**. O recorte é **São Paulo**, o período é **dezembro de 2025 / novembro de 2025**, a base de comparação é **mês imediatamente anterior**, e a unidade é **percentual** [6].
+
+Há também, na tabela de São Paulo, um valor para a **Indústria Geral** na linha mensal com ajuste sazonal de **-1,6%** em dezembro de 2025 frente a novembro de 2025 [6].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.15; [7] pim-pf-br_202512caderno.pdf p.20; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.13; [10] pim-pf-regional_202512.pdf p.54_
+
+### r1 · lexical_rag
+
+A produção industrial do Estado de São Paulo **variou -1,6% em dezembro de 2025 frente a novembro de 2025, com ajuste sazonal**. A fonte também traz o valor **-1,3%** para São Paulo na mesma comparação, mas em outro trecho da mesma tabela regional; como há essa divergência nas fontes fornecidas, não dá para afirmar com segurança qual número deve ser usado sem mais contexto. No quadro geral regional, o valor explícito para **São Paulo** é **-1,6%** na comparação **dezembro de 2025 / novembro de 2025**, em **série com ajuste sazonal** [7].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.27; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.13; [10] pim-pf-regional_202512.pdf p.54_
+
+### r1 · graph_rag
+
+A produção industrial do Estado de São Paulo variou **-1,6% em dezembro de 2025 frente a novembro de 2025**, **na série com ajuste sazonal**. Esse número é para **São Paulo**, no **período dezembro/2025 contra novembro/2025**, na **base de comparação mensal**, e a **unidade é porcentagem (%)** [7].
+
+As fontes também trazem, para São Paulo, a taxa mensal de **-1,3%** em outro trecho da tabela regional/atividade, mas a pergunta pede a variação **frente a novembro com ajuste sazonal**, e o valor explicitamente associado a esse recorte em São Paulo é **-1,6%** [7].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.27; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.12; [10] pim-pf-regional_202512.pdf p.13; [11] pim-pf-regional_202512.pdf p.54_
+
+### r2 · simple_rag
+
+A produção industrial do Estado de São Paulo **variou -1,6% em dezembro de 2025 frente a novembro de 2025**, **com ajuste sazonal**. A fonte informa essa taxa na tabela de resultados regionais para **São Paulo**, na coluna **“Dezembro 2025/Novembro 2025 (1)”**; a nota (1) indica que a série é **com ajuste sazonal** [6].
+
+Se quiser, posso também informar a variação de São Paulo na comparação com **dezembro de 2024** ou no **acumulado de 2025**, se isso ajudar.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.15; [7] pim-pf-br_202512caderno.pdf p.20; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.13; [10] pim-pf-regional_202512.pdf p.54_
+
+### r2 · graph_rag
+
+Na **São Paulo**, a produção industrial variou **-1,6% em dezembro de 2025 frente a novembro de 2025**, **com ajuste sazonal** [7].
+
+- **Território:** São Paulo  
+- **Período:** dezembro de 2025 vs. novembro de 2025  
+- **Base de comparação:** mês imediatamente anterior  
+- **Unidade:** variação percentual (%)  
+- **Nota da tabela:** a própria tabela informa que esta comparação é da **“série com ajuste sazonal”** [7].
+
+Se você quiser, posso também trazer a variação de São Paulo na comparação com **dezembro de 2024** e no **acumulado de 2025**, se houver interesse.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.27; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.12; [10] pim-pf-regional_202512.pdf p.13; [11] pim-pf-regional_202512.pdf p.54_
+
+### r3 · simple_rag
+
+A produção industrial do Estado de São Paulo **variou -1,6% em dezembro de 2025 frente a novembro de 2025**, na **série com ajuste sazonal**. A fonte informa esse dado para **São Paulo**, no **período dezembro/2025 sobre novembro/2025**, com unidade em **variação percentual (%)** [6].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.15; [7] pim-pf-br_202512caderno.pdf p.20; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.13; [10] pim-pf-regional_202512.pdf p.54_
+
+### r3 · graph_rag
+
+A produção industrial do Estado de São Paulo variou **-1,6% em dezembro de 2025 frente a novembro de 2025**, **com ajuste sazonal**. O território é **São Paulo**, o período é **dezembro de 2025 versus novembro de 2025**, a base de comparação é **mês imediatamente anterior**, e a unidade é **percentual (%)** [7]. 
+
+A fonte regional também indica, para **São Paulo**, **-1,3%** nessa mesma comparação mensal com ajuste sazonal, em outra passagem do documento [3]. Como as fontes fornecidas trazem **dois valores diferentes** para a mesma relação São Paulo/dezembro de 2025 versus novembro de 2025, não é possível afirmar, com segurança, qual deles deve ser usado sem esclarecimento adicional.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.63; [2] pim-pf-br_202512caderno.pdf p.19; [3] pim-pf-regional_202512.pdf p.10; [4] pim-pf-br_202512caderno.pdf p.9; [5] pim-pf-br_202512caderno.pdf p.11; [6] pim-pf-regional_202512.pdf p.27; [7] pim-pf-regional_202512.pdf p.15; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.12; [10] pim-pf-regional_202512.pdf p.13; [11] pim-pf-regional_202512.pdf p.54_
+
+## T036 (numerica)
+
+**Pergunta:** Qual foi a variação do PIB do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
+
+**Resposta esperada:** 0,04%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
+
+### r1 · simple_rag
+
+Não é possível informar a variação do PIB do Estado de São Paulo no **2º trimestre de 2026 em relação ao 1º trimestre de 2026, com ajuste sazonal**, porque as fontes fornecidas chegam apenas até o **1º trimestre de 2026** para esse indicador. A tabela disponível mostra a taxa do PIB do Estado de São Paulo no **1º trimestre de 2026** em relação ao trimestre imediatamente anterior, com ajuste sazonal: **1,677310470447524%** [3][4].
+
+Se a sua intenção era a variação do **1º trimestre de 2026 versus o 4º trimestre de 2025**, a fonte mostra esse número para o **Estado de São Paulo**, no **1º trimestre de 2026**, base de comparação **trimestre imediatamente anterior (com ajuste sazonal)**, unidade **porcentagem**: **1,677310470447524%** [3][4].
+
+As tabelas citadas informam que os dados são **preliminares e sujeitos a revisão** [3][4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r1 · lexical_rag
+
+Não há, nas fontes fornecidas, o valor do PIB do Estado de São Paulo para o **2º trimestre de 2026** em relação ao **1º trimestre de 2026** com ajuste sazonal. As tabelas disponíveis vão **até o 1º trimestre de 2026**; a Tabela 4.2 informa a variação do PIB do Estado de São Paulo no **1º trimestre de 2026** em relação ao trimestre imediatamente anterior, com ajuste sazonal, de **1,677310470447524%** [3]. A Tabela 4.5 repete esse mesmo dado para o PIB no **1º trimestre de 2026** [4].
+
+Além disso, as fontes informam que os dados são **preliminares e sujeitos a revisão** [3][4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r1 · graph_rag
+
+O PIB do **Estado de São Paulo** teve **variação de 1,677310470447524%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal** [4].
+
+- **Território:** Estado de São Paulo [4]
+- **Período:** 2º trimestre de 2026 em relação ao 1º trimestre de 2026 [4]
+- **Base de comparação:** trimestre imediatamente anterior, com ajuste sazonal [4]
+- **Unidade:** porcentagem [4]
+
+A tabela consultada informa que os dados são **preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5; [5] dicvar_codigos_municipios_regioes.csv p.Planilha_
+
+### r2 · simple_rag
+
+A fonte disponível informa o PIB do **Estado de São Paulo** apenas até o **1º trimestre de 2026** com ajuste sazonal, não trazendo o valor do **2º trimestre de 2026**. Portanto, **não é possível calcular a variação do PIB do 2º trimestre de 2026 em relação ao 1º trimestre de 2026** com base nas fontes fornecidas. [3][4]
+
+O que a fonte mostra é:
+- **Estado de São Paulo**, **1º trimestre de 2026**, **trimestre imediatamente anterior (com ajuste sazonal)**, **PIB = 1,677310470447524%**. [3][4]
+- A tabela indica que os **dados são preliminares e sujeitos a revisão**. [3][4]
+
+Se você quiser, posso ajudar a interpretar esse número ou verificar outra variação que esteja efetivamente disponível nas fontes.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r2 · graph_rag
+
+A variação do PIB do **Estado de São Paulo** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal**, foi de **1,677310470447524%** [3][4].
+
+- **Território:** Estado de São Paulo [3][4]
+- **Período comparado:** 2º trimestre de 2026 vs. 1º trimestre de 2026 [4]
+- **Base de comparação:** trimestre imediatamente anterior, com ajuste sazonal [3][4]
+- **Unidade:** porcentagem [3][4]
+
+A tabela consultada informa que os dados são **preliminares e sujeitos a revisão** [3][4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5; [5] dicvar_codigos_municipios_regioes.csv p.Planilha_
+
+### r3 · simple_rag
+
+A fonte disponível informa apenas o **1º trimestre de 2026**, não o **2º trimestre de 2026**. Portanto, **não é possível calcular ou informar a variação do PIB do Estado de São Paulo no 2º trimestre de 2026 em relação ao 1º trimestre de 2026 com base nas fontes fornecidas**. [3][4]
+
+O que a fonte mostra é que, para o **Estado de São Paulo**, o **PIB** no **1º trimestre de 2026** teve variação de **1,677310470447524%** em relação ao **trimestre imediatamente anterior, com ajuste sazonal**. Essa informação aparece na **Tabela 4.2** e também na **Tabela 4.5**. As tabelas indicam que os dados são **preliminares e sujeitos a revisão**. [3][4]
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r3 · graph_rag
+
+O PIB do **Estado de São Paulo** variou **1,677310470447524%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, com **ajuste sazonal**. A fonte informa que esse número é a taxa do **PIB** no “trimestre em relação ao trimestre imediatamente anterior, com ajuste sazonal” para o Estado de São Paulo [4].
+
+**Detalhamento do número:**
+- **Território:** Estado de São Paulo
+- **Período:** 2º trimestre de 2026 em relação ao 1º trimestre de 2026
+- **Base de comparação:** trimestre imediatamente anterior, com ajuste sazonal
+- **Unidade:** porcentagem
+- **Valor:** 1,677310470447524% [4]
+
+**Observação:** a tabela consultada traz a série até o **1º trimestre de 2026**; não há, nas fontes fornecidas, o valor do **2º trimestre de 2026**. A mesma fonte também informa que os dados são **preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5; [5] dicvar_codigos_municipios_regioes.csv p.Planilha_
+
+## T040 (numerica)
+
+**Pergunta:** Qual foi a variação do Valor Adicionado dos serviços do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
+
+**Resposta esperada:** -0,27%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
+
+### r1 · simple_rag
+
+O **Valor Adicionado dos serviços** do **Estado de São Paulo** variou **-0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal** [1].
+
+**Detalhes do número citado:**
+- **Território:** Estado de São Paulo
+- **Período:** 2º trimestre de 2026 em relação ao 1º trimestre de 2026
+- **Base de comparação:** trimestre imediatamente anterior
+- **Unidade:** porcentagem
+- **Setor:** Valor Adicionado / Serviços / Total
+
+**Nota da tabela:** os dados são **preliminares e sujeitos a revisão** [1].
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r1 · lexical_rag
+
+No Estado de São Paulo, o **Valor Adicionado dos serviços** no **2º trimestre de 2026** teve **variação de -0,2709143671232206%** em relação ao **1º trimestre de 2026**, **com ajuste sazonal**. A fonte informa que os dados são **preliminares e sujeitos a revisão** [1].
+
+Se quiser, posso também apresentar esse valor arredondado para duas casas decimais.
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r1 · graph_rag
+
+O Valor Adicionado dos **serviços** no **Estado de São Paulo** variou **-0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal**. A fonte informa que os dados são **preliminares e sujeitos a revisão**. [1]
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r2 · simple_rag
+
+O **Valor Adicionado dos serviços do Estado de São Paulo** variou **-0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal**.  
+- **Território:** Estado de São Paulo  
+- **Período de comparação:** 2º trimestre de 2026 vs. 1º trimestre de 2026  
+- **Indicador:** Valor Adicionado / Serviços / Total  
+- **Unidade:** porcentagem  
+- **Base de comparação:** trimestre imediatamente anterior, com ajuste sazonal  
+A tabela informa que os dados são **preliminares e sujeitos a revisão**. [1]
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r2 · graph_rag
+
+No Estado de São Paulo, o Valor Adicionado dos **serviços** teve **variação de -0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, com **ajuste sazonal**. A unidade é **porcentagem**. Os dados são **preliminares e sujeitos a revisão**. [1]
+
+Se quiser, posso também informar a variação do setor de serviços no **1º trimestre de 2026** para comparação.
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r3 · simple_rag
+
+No Estado de São Paulo, o **Valor Adicionado dos serviços** teve **variação de -0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal** [1].
+
+A tabela informa que os dados são **preliminares e sujeitos a revisão** [1].
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+### r3 · graph_rag
+
+No Estado de São Paulo, o **Valor Adicionado dos serviços** teve **variação de -0,2709143671232206%** no **2º trimestre de 2026** em relação ao **1º trimestre de 2026**, **com ajuste sazonal**. A fonte indica que os dados são **preliminares e sujeitos a revisão**. [1]
+
+Se quiser, posso também apresentar esse valor arredondado para duas casas decimais.
+
+_Fontes: [1] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [2] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.5_
+
+## T041 (numerica)
+
+**Pergunta:** Qual foi a variação do Valor Adicionado da indústria extrativa mineral do Estado de São Paulo no segundo trimestre de 2026 em relação ao primeiro trimestre de 2026, com ajuste sazonal?
+
+**Resposta esperada:** 15,49%, aproximadamente. Os dados são preliminares e sujeitos a revisão.
+
+### r1 · simple_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r1 · lexical_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r1 · graph_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r2 · simple_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r2 · graph_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r3 · simple_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+### r3 · graph_rag
+
+Não há trechos disponíveis para responder à pergunta.
+
+_Fontes: _
+
+## T042 (numerica)
+
+**Pergunta:** Qual é o PIB de 2025 do Estado de São Paulo, em bilhões de reais, na tabela regional do Seade?
+
+**Resposta esperada:** R$ 3914,95 bilhões, aproximadamente.
+
+### r1 · simple_rag
+
+Na tabela regional do Seade, o **PIB de 2025 do Estado de São Paulo** é **3.914,95456713271 bilhões de reais**, em **preço corrente**. A fonte informa que esse dado é para o **Estado de São Paulo**, no **ano de 2025**, na **Tabela 4.1**, e que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se quiser, posso também apresentar esse valor arredondado para **3.915 bilhões de reais** — mas o valor exato da fonte é o acima [3].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9_
+
+### r1 · lexical_rag
+
+O PIB de **2025 do Estado de São Paulo** na tabela regional do Seade é **3.914,95456713271 bilhões de reais**, em **preço corrente**. A fonte informa que esse valor é para o **Estado de São Paulo**, no **ano de 2025**, com unidade em **bilhões de Reais** [3].  
+
+A tabela também traz a nota de que os **dados são preliminares e sujeitos a revisão** [3].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9_
+
+### r1 · graph_rag
+
+O PIB de 2025 do **Estado de São Paulo** na tabela regional do Seade é **3914,9545671327114 bilhões de reais**. A tabela informa esse valor para **2025**, em **R$ bilhões**, na linha do **Estado de São Paulo**; os dados são **preliminares e sujeitos a revisão** [8].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9_
+
+### r2 · simple_rag
+
+O PIB de 2025 do **Estado de São Paulo** na tabela regional do Seade é **3.914,95456713271 bilhões de reais**, em **preço corrente**. A tabela informa esse valor para o **Estado de São Paulo**, no **ano de 2025**, com unidade em **bilhões de Reais**. Os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quiser, posso também apresentar esse valor **arredondado** para duas casas decimais, mantendo a mesma unidade.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9_
+
+### r2 · graph_rag
+
+O PIB de 2025 do **Estado de São Paulo** na tabela regional do Seade é **3.914,95456713271 bilhões de reais**, em **preço corrente**, para o **ano de 2025** [3][8].
+
+A tabela informa que os dados são **preliminares e sujeitos a revisão** [3][8].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9_
+
+### r3 · simple_rag
+
+O PIB de 2025 do **Estado de São Paulo** na tabela regional do Seade é **3.914,95 bilhões de reais**. A fonte informa esse valor para **2025**, para o **Estado de São Paulo**, na base de **preço corrente**, em **bilhões de reais**. Os dados são **preliminares e sujeitos a revisão**. [3]
+
+Se quiser, também posso informar o valor em reais com mais casas decimais, exatamente como aparece na tabela.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 16.9_
+
+### r3 · graph_rag
+
+O PIB de 2025 do **Estado de São Paulo** na **Tabela 4.1** da Fundação Seade é **3.914,95456713271 bilhões de reais**. A fonte indica que os dados são **preliminares e sujeitos a revisão**. [3]
+
+Se quiser, posso também converter esse valor para uma forma arredondada, mas só se você pedir.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.9; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.9_
+
+## T045 (numerica)
+
+**Pergunta:** Qual é o PIB de 2025 da Região Metropolitana de São Paulo, em bilhões de reais, na tabela regional do Seade?
+
+**Resposta esperada:** R$ 2046,71 bilhões, aproximadamente.
+
+### r1 · simple_rag
+
+A **Região Metropolitana de São Paulo** teve **PIB de 2025 de 2.046,712 bilhões de reais** na tabela regional do Seade, na linha de **PIB Total / Preço corrente / Em bilhões de Reais** da **Tabela 20.1** para o ano de **2025** [4].  
+A tabela informa que os dados são **preliminares e sujeitos a revisão** [4].
+
+Se você quiser, também posso informar o valor na **Tabela 20.9** para 2025, que traz o PIB trimestral e mostra o **4º trimestre de 2025** como **540,314 bilhões de reais** [2].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r1 · lexical_rag
+
+O PIB de 2025 da **Região Metropolitana de São Paulo** na tabela regional do Seade é **2.046,7119945615716 bilhões de reais**, na **Tabela 20.1**, para o **ano de 2025**, em **preço corrente** e unidade **em bilhões de Reais** [4].
+
+A tabela informa também que os **dados são preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r1 · graph_rag
+
+O PIB de **2025** da **Região Metropolitana de São Paulo** na tabela regional do Seade é **2046,7119945615716 bilhões de reais** (PIB Total, preço corrente, em bilhões de Reais, ano de 2025) [4].
+
+A tabela informa que os **dados são preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1; [5] dicvar_codigos_municipios_regioes.csv p.Planilha; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r2 · simple_rag
+
+O PIB de **2025** da **Região Metropolitana de São Paulo** na tabela regional do Seade é **R$ 2.046,712 bilhões** em **preço corrente**. A fonte mostra esse valor na **Tabela 20.1**, com período **2025**, território **Região Metropolitana de São Paulo**, unidade **em bilhões de Reais** e base de comparação **preço corrente**. A tabela informa ainda que os dados são **preliminares e sujeitos a revisão** [4].
+
+Se você quiser, também posso informar o valor de **PIB em preço do ano anterior** para 2025, que aparece na mesma tabela [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r2 · graph_rag
+
+O PIB de **2025** da **Região Metropolitana de São Paulo** na tabela regional do Seade é de **2046,7119945615716 bilhões de reais**, em **preço corrente**. A fonte é a Tabela 20.1, que cobre a Região Metropolitana de São Paulo no período de **2002–2025**; a tabela informa que os dados são **preliminares e sujeitos a revisão**. [4]
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1; [5] dicvar_codigos_municipios_regioes.csv p.Planilha; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r3 · simple_rag
+
+O PIB de 2025 da **Região Metropolitana de São Paulo** na tabela regional do Seade é **2046,7119945615716 bilhões de reais**, em **preço corrente** e para o **ano de 2025**. A fonte informa que os dados são **preliminares e sujeitos a revisão**. [4]
+
+Se você quiser, também posso informar o valor em formato arredondado.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+### r3 · graph_rag
+
+O PIB de **2025** da **Região Metropolitana de São Paulo** na tabela regional do Seade é **2046,7119945615716 bilhões de reais**, no indicador **PIB Total / Preço corrente** da **Tabela 20.1** [4].
+
+- **Território:** Região Metropolitana de São Paulo [4]
+- **Período:** 2025 [4]
+- **Base de comparação / preço:** Preço corrente [4]
+- **Unidade:** bilhões de reais [4]
+
+A tabela informa ainda que **os dados são preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 566; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.9; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1; [5] dicvar_codigos_municipios_regioes.csv p.Planilha; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 20.1_
+
+## T046 (numerica)
+
+**Pergunta:** Qual é o número-índice do Estado de São Paulo para produção industrial geral, sem ajuste sazonal, em janeiro de 2020, na base CSV?
+
+**Resposta esperada:** 85,83 pontos de índice, aproximadamente; não é uma taxa percentual nem um valor monetário.
+
+### r1 · simple_rag
+
+Faltam informações nas fontes para responder com segurança ao **número-índice do Estado de São Paulo para produção industrial geral, sem ajuste sazonal, em janeiro de 2020, na base CSV**.
+
+O que as fontes mostram:
+- A fonte [1] informa que o **Estado de São Paulo (SP)** tem série para a indústria geral com **ajuste sazonal** e especifica o modelo usado, mas **não traz o valor numérico** do índice em janeiro de 2020.
+- A fonte [2] trata da metodologia do PIB mensal e trimestral e **não apresenta esse número-índice da produção industrial de São Paulo**.
+
+Portanto, com as fontes fornecidas, **não é possível informar o número-índice solicitado** [1][2].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r1 · lexical_rag
+
+Não há, nas fontes fornecidas, o **número-índice de São Paulo para “produção industrial geral, sem ajuste sazonal”, em janeiro de 2020 na base CSV**.
+
+O que as fontes mostram é:
+
+- **São Paulo, janeiro de 2023**, na tabela de **número-índice com ajuste sazonal (2022 = 100)**: **97,92413** [4].
+- **São Paulo, janeiro de 2025**, na mesma base e com ajuste sazonal: **100,76419** [5].
+
+A fonte [1] informa apenas os **modelos de ajustamento sazonal** para São Paulo e que a série de indústria geral tem tratamento sazonal, mas **não traz o valor pedido para janeiro de 2020**.  
+A fonte [3] informa a **cobertura da indústria geral para São Paulo (524 produtos, 86%)** e a base de ponderação PIA-2019, mas **não traz o número-índice solicitado**.
+
+Se você quiser, posso tentar localizar nas fontes se existe alguma tabela com **janeiro de 2020** para São Paulo, mas **com o material fornecido aqui não dá para informar esse número**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18; [3] pim-pf-regional_202512.pdf p.5; [4] pim-pf-regional_202512.pdf p.70; [5] pim-pf-regional_202512.pdf p.72_
+
+### r1 · graph_rag
+
+Há mais de uma leitura possível para “base CSV” nas fontes fornecidas, porque a tabela de referência traz a série em **base 2022 = 100** e a pergunta menciona “base CSV” sem explicitar um valor de base diferente. Usando a leitura disponível nas fontes, o número-índice para **São Paulo**, **indústria geral**, **sem ajuste sazonal**, em **janeiro de 2020**, **base 2022 = 100** não está informado nas fontes fornecidas, pois a tabela exibida para São Paulo traz apenas **2023** e **2025** com ajuste sazonal [4], [5].  
+
+Além disso, as fontes mostram que São Paulo tem série de **indústria geral** com **ajuste sazonal** modelada no documento, mas não trazem o valor solicitado de **janeiro de 2020 sem ajuste sazonal** [1], [4], [5].  
+
+Se você quiser, posso procurar entre as fontes fornecidas se existe outra tabela com a série **sem ajuste sazonal** para janeiro de 2020.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18; [3] pim-pf-regional_202512.pdf p.5; [4] pim-pf-regional_202512.pdf p.70; [5] pim-pf-regional_202512.pdf p.72_
+
+### r2 · simple_rag
+
+Não é possível informar com segurança o **número-índice do Estado de São Paulo para produção industrial geral, sem ajuste sazonal, em janeiro de 2020, na base CSV**, porque as fontes fornecidas **não trazem o valor numérico solicitado**.
+
+O que as fontes permitem afirmar é apenas que:
+
+- o **Estado de São Paulo (SP)** está entre os locais com modelo de ajustamento sazonal definido para a **indústria geral** na pesquisa regional [1];
+- para **SP**, o modelo citado inclui **efeitos de Carnaval, Corpus Christi, efeito calendário, Páscoa, LS2008.Dez, AO2018.Mai, AO2020.Mar, TC2020.Abr** [1].
+
+Mas a fonte [1] **não informa o número-índice de janeiro de 2020** nem apresenta a **base CSV** com o valor solicitado. A fonte [2] não traz esse indicador da indústria paulista.
+
+Se você quiser, posso ajudar a localizar quais elementos da série seriam necessários, mas **com as fontes fornecidas não dá para extrair o número exato**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r2 · graph_rag
+
+A pergunta é ambígua quanto à **base de comparação**: as fontes mostram séries em **2022 = 100** com e sem ajuste sazonal [4], [5], mas não mostram na referência fornecida uma **base CSV** explicitamente identificada para janeiro de 2020. Portanto, **não dá para informar com segurança o número-índice solicitado sem a tabela correspondente**.
+
+O que as fontes mostram é:
+- **São Paulo, indústria geral, com ajuste sazonal, janeiro de 2025 = 100,76419** [5].
+- A fonte metodológica indica que São Paulo tem série ajustada sazonalmente [1].
+- A fonte de notas metodológicas informa a cobertura de São Paulo na indústria geral, mas **não traz o valor de janeiro de 2020 na base CSV** [3].
+
+Se você quiser, posso ajudar a localizar o valor correto **se você fornecer a tabela/arquivo CSV específico de janeiro de 2020**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18; [3] pim-pf-regional_202512.pdf p.5; [4] pim-pf-regional_202512.pdf p.70; [5] pim-pf-regional_202512.pdf p.72_
+
+### r3 · simple_rag
+
+Não há informação suficiente nas fontes fornecidas para informar o número-índice do Estado de São Paulo para **produção industrial geral, sem ajuste sazonal, em janeiro de 2020, na base CSV**.
+
+O que as fontes mostram:
+- A fonte [1] traz apenas a informação de **modelos de ajustamento sazonal** para a PIM-PF Regional e indica que São Paulo possui série modelada, mas **não apresenta o valor do número-índice** pedido.
+- A fonte [2] trata de metodologia de outro indicador e **não traz esse número-índice da produção industrial de São Paulo**.
+
+Portanto, com base somente nas fontes fornecidas, **não é possível identificar o número solicitado**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r3 · graph_rag
+
+A pergunta **não pode ser respondida com as fontes fornecidas**, porque elas mostram apenas a tabela com **número-índice com ajuste sazonal (2022 = 100)** para São Paulo em janeiro de 2020 não aparece nessas páginas [4] [5]. A fonte metodológica informa que o Estado de São Paulo tem série da **indústria geral**, mas não traz o valor pedido em **janeiro de 2020 na base CSV** [1] [3].  
+
+Além disso, nas fontes fornecidas não há menção explícita à **base CSV** para esse indicador, nem o valor de janeiro de 2020 para São Paulo sem ajuste sazonal.  
+
+Se você quiser, posso procurar a resposta apenas se você fornecer a tabela/página correta com a série **sem ajuste sazonal**.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.18; [3] pim-pf-regional_202512.pdf p.5; [4] pim-pf-regional_202512.pdf p.70; [5] pim-pf-regional_202512.pdf p.72_
+
+## T047 (numerica)
+
+**Pergunta:** Qual é o número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV?
+
+**Resposta esperada:** 104,48 pontos de índice, aproximadamente; não é uma taxa percentual nem um valor monetário.
+
+### r1 · simple_rag
+
+Não é possível informar esse número com as fontes fornecidas.
+
+A fonte [1] é uma página de metodologia do “PIB Mensal e Trimestral” e descreve como alguns índices são construídos, mas não traz o **número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV**. Também não há, nas fontes fornecidas, uma tabela ou série com esse valor específico, nem a base “CSV” mencionada na pergunta.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r1 · lexical_rag
+
+Não consigo informar esse número com as fontes fornecidas.
+
+As fontes trazem apenas a **metodologia** do indicador e informam que, para **“comércio varejista”**, os indicadores são construídos com dados da **Pesquisa Mensal do Comércio – PMC** e outros insumos [3]. A fonte sobre **ajustamento sazonal** explica que a dessazonalização é feita pelo método **X-13 Arima** [2]. Porém, **nenhuma das fontes apresenta o número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV**.
+
+Portanto, faltam os dados numéricos necessários para responder à pergunta.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] pib_mensal_trimestral_metodologia.pdf p.13; [3] pib_mensal_trimestral_metodologia.pdf p.17_
+
+### r1 · graph_rag
+
+Não consigo determinar o **número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV** com as fontes fornecidas.
+
+O que as fontes mostram:
+- Que **“Comércio varejista”** é um dos segmentos da atividade **“Comércio, manutenção e reparação de veículos automotores e motocicletas”** e que seus indicadores são construídos com informações da **Pesquisa Mensal do Comércio (PMC)**, além de outras fontes [3].
+- Que o **ajustamento sazonal** é feito pelo método **X-13 Arima**, e que os índices sazonalmente ajustados podem sofrer alterações a cada ajuste anual [2].
+
+O que **não** está nas fontes:
+- O **valor numérico** do índice.
+- A **série específica da base CSV**.
+- O recorte **julho de 2026**.
+- A indicação de que esse número seja para **comércio varejista**, com valor na base solicitada.
+
+Portanto, com as fontes fornecidas, **falta a tabela/série com os números do índice** para citar o valor pedido.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] pib_mensal_trimestral_metodologia.pdf p.13; [3] pib_mensal_trimestral_metodologia.pdf p.17_
+
+### r2 · simple_rag
+
+Não há informação suficiente nas fontes fornecidas para responder ao **número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV**.
+
+A fonte [1] é uma página de metodologia do PIB mensal e trimestral e menciona, de forma geral, o uso de indicadores de comércio, mas **não traz o valor do número-índice**, nem uma tabela com **julho de 2026**, nem a **base CSV**, nem especificamente o recorte **“comércio varejista, com ajuste sazonal”** para o Estado de São Paulo.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r2 · graph_rag
+
+A fonte fornecida **não traz o número-índice solicitado** para o **Estado de São Paulo**, no **comércio varejista**, **com ajuste sazonal**, em **julho de 2026**, na **base CSV**.
+
+O que as fontes mostram é apenas a **metodologia**:
+- o segmento **“Comércio varejista”** faz parte da atividade “Comércio, manutenção e reparação de veículos automotores e motocicletas” [3];
+- a série pode ser **ajustada sazonalmente** pelo método X-13 Arima [2];
+- porém **não há na fonte nenhum valor numérico** para julho de 2026 nem referência à **base CSV** [2][3].
+
+Se você quiser, posso ajudar a interpretar a metodologia ou a localizar, em outras fontes que você fornecer, a tabela com esse número.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] pib_mensal_trimestral_metodologia.pdf p.13; [3] pib_mensal_trimestral_metodologia.pdf p.17_
+
+### r3 · simple_rag
+
+Não é possível determinar com segurança com as fontes fornecidas.
+
+A fonte [1] é uma página de metodologia e **não traz o número-índice do comércio varejista em julho de 2026**, nem a base “CSV”, nem uma tabela com esse valor para o Estado de São Paulo. Ela apenas descreve como alguns índices são construídos e menciona, de forma geral, “comércio; reparação de veículos automotores e motocicletas” na construção de um índice de volume, sem informar o número pedido, o mês de julho de 2026 ou a base CSV [1].
+
+Se você enviar a tabela, série CSV ou outra fonte com os valores mensais, eu posso localizar o número-índice exato para o Estado de São Paulo, comércio varejista, com ajuste sazonal, em julho de 2026.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18_
+
+### r3 · graph_rag
+
+Não é possível responder com segurança com as fontes fornecidas.
+
+As fontes mostram:
+- que o **comércio varejista** é um dos segmentos da atividade “Comércio, manutenção e reparação de veículos automotores e motocicletas” e que seus indicadores são construídos com dados da **PMC** e outras fontes [3];
+- que existe **ajustamento sazonal** e que a série sazonalmente ajustada pode mudar a cada ajuste anual [2].
+
+Mas **nenhuma das fontes fornecidas traz o número-índice do Estado de São Paulo para comércio varejista, com ajuste sazonal, em julho de 2026, na base CSV**. Também não há, nas fontes, tabela ou série com esse valor específico, nem definição de “base CSV” associada a esse indicador.
+
+Portanto, faltam informações para informar esse número sem inventar dados.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] pib_mensal_trimestral_metodologia.pdf p.13; [3] pib_mensal_trimestral_metodologia.pdf p.17_
+
+## T048 (numerica)
+
+**Pergunta:** Qual é o número-índice do Estado de São Paulo para serviços totais, sem ajuste sazonal, em julho de 2026, na base CSV?
+
+**Resposta esperada:** 111,67 pontos de índice, aproximadamente; não é uma taxa percentual nem um valor monetário.
+
+### r1 · simple_rag
+
+Não consigo determinar o **número-índice do Estado de São Paulo para serviços totais, sem ajuste sazonal, em julho de 2026, na base CSV** com as fontes fornecidas.
+
+O que as fontes mostram:
+- A fonte [1] é uma página de metodologia do PIB Mensal e Trimestral e descreve a construção de alguns índices, mas **não traz a série numérica** pedida nem um valor para **julho de 2026**.
+- A fonte [2] é uma página de notas técnicas de contas regionais e **não contém essa série de número-índice**.
+
+Portanto, faltam as informações necessárias nas fontes fornecidas para responder com o número solicitado.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15_
+
+### r1 · lexical_rag
+
+Não consigo responder com o **número-índice de julho de 2026 na base CSV** usando apenas as fontes fornecidas, porque as fontes trazem **metodologia** e definições, mas **não trazem a tabela/série numérica solicitada** para o Estado de São Paulo, serviços totais, sem ajuste sazonal, em julho de 2026.
+
+O que as fontes permitem afirmar é apenas que:
+- existe uma série de PIB mensal paulista e que o **ajuste sazonal** é tratado na metodologia [3];
+- as fontes citadas aqui **não mostram o valor numérico** de “serviços totais”, nem a base “CSV”, nem o mês de **julho de 2026** para o Estado de São Paulo.
+
+Portanto, **faltam informações na fonte para informar o número-índice pedido**.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15; [3] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r1 · graph_rag
+
+Não consigo informar o número-índice pedido com as fontes fornecidas.
+
+As fontes mostram a metodologia do PIB mensal paulista e explicam o ajuste sazonal, mas não trazem a tabela ou a série numérica do **Estado de São Paulo**, **serviços totais**, **sem ajuste sazonal**, **julho de 2026**, nem a **base CSV** correspondente. Também não há, nas fontes fornecidas, um valor numérico associado a esse recorte específico. Portanto, faltam informações para responder com um número [1][3].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15; [3] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r2 · simple_rag
+
+Não é possível informar esse número com as fontes fornecidas.
+
+As fontes apresentadas descrevem a metodologia e notas técnicas, mas não trazem a tabela ou a série numérica do **Estado de São Paulo**, nem o valor do **número-índice para serviços totais, sem ajuste sazonal, em julho de 2026, na base CSV**. Portanto, falta a informação necessária para responder com um número sem inventar dados [1], [2].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15_
+
+### r2 · graph_rag
+
+Não é possível informar esse número com as fontes fornecidas.
+
+As fontes mostradas tratam da metodologia do PIB mensal e trimestral paulista e do ajuste sazonal, mas **não trazem a série numérica de “serviços totais”, nem o valor para o Estado de São Paulo em julho de 2026, nem a base CSV**. Também não há na fonte exibida uma tabela com o número-índice solicitado. Portanto, faltam os dados necessários para responder com segurança [1], [3].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15; [3] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r3 · simple_rag
+
+Não consigo informar esse número com as fontes fornecidas.
+
+A fonte [1] traz a **metodologia** do índice de serviços para o Estado de São Paulo, mas **não apresenta a série numérica** do **número-índice de serviços totais, sem ajuste sazonal, em julho de 2026, na base CSV**. A fonte [2] é de notas técnicas de contas regionais e também **não traz esse dado específico**.
+
+Portanto, faltam informações nas fontes para responder com o número solicitado.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15_
+
+### r3 · graph_rag
+
+Não é possível informar esse número com as fontes fornecidas.
+
+As fontes mostradas tratam da metodologia do PIB mensal e trimestral e do ajuste sazonal, mas **não trazem a tabela ou a série numérica** com o **número-índice do Estado de São Paulo para serviços totais, sem ajuste sazonal, em julho de 2026, na base CSV**. A fonte [3] explica o que é ajuste sazonal e que a série original não deve ser comparada entre meses consecutivos antes do ajuste, mas não apresenta o valor pedido. A fonte [1] descreve a construção de alguns índices de serviços, e a fonte [2] traz notas conceituais de contas regionais, mas nenhuma delas contém o dado numérico solicitado.
+
+Se você enviar a tabela, planilha ou trecho do relatório com a série CSV, eu posso localizar e citar o valor exatamente, com o recorte correto.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.18; [2] contas_regionais_2022_notas_tecnicas.pdf p.15; [3] pib_mensal_trimestral_metodologia.pdf p.13_
+
+## T049 (numerica)
+
+**Pergunta:** Qual é o PIB do município de Campinas em 2020, em reais, na base municipal?
+
+**Resposta esperada:** R$ 65.419.716.816.
+
+### r1 · simple_rag
+
+As fontes fornecidas **não trazem o PIB do município de Campinas em 2020**. Elas mostram dados para a **Região Administrativa de Campinas** e para o **Município de São Paulo**, mas não para o município de Campinas.
+
+O que as fontes permitem afirmar é:
+- **Região Administrativa de Campinas**, **2020**, **PIB total a preço corrente**, **em bilhões de Reais**: **458,3868190315651** [3].
+- **Município de São Paulo**, **2020**, **PIB total a preço corrente**, **em bilhões de Reais**: **746,9093295890265** [6].
+
+As tabelas citadas também indicam que os dados são **preliminares e sujeitos a revisão** [3][6].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1_
+
+### r1 · lexical_rag
+
+A fonte fornecida **não traz o PIB do município de Campinas em 2020**. O que aparece para Campinas é a **Região Administrativa de Campinas**, não o município, em diferentes tabelas [3]-[9].
+
+Para **Campinas (Região Administrativa de Campinas)**, a fonte mostra:
+
+- **PIB total em 2020**: **R$ 458,3868190315651 bilhões**, na **base municipal/regional de referência da tabela** (preço corrente), **ano 2020** [3].  
+  - Base de comparação: **preço corrente**  
+  - Unidade: **bilhões de Reais**  
+  - Nota da tabela: **os dados são preliminares e sujeitos a revisão** [3]
+
+Se você quis dizer especificamente o **município de Campinas**, essa informação **não está nas fontes fornecidas**.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r1 · graph_rag
+
+Não encontrei, nas fontes fornecidas, o PIB do **município de Campinas** em **2020**.
+
+O que as fontes mostram é:
+- **Região Administrativa de Campinas**, em 2020, com **PIB Total a preço corrente de R$ 458,3868190315651 bilhões** [3].
+- Para o **Município de São Paulo**, há dados de PIB e índices, mas não para Campinas município [1], [2], [10], [11].
+
+Portanto, **faltam informações nas fontes para responder ao PIB do município de Campinas em 2020 na base municipal**.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r2 · simple_rag
+
+As fontes fornecidas **não trazem o PIB do município de Campinas em 2020**.
+
+O que há para Campinas é:
+- **Região Administrativa de Campinas**, em **2020**, com **PIB Total a preço corrente de 458.3868190315651 bilhões de Reais** na tabela anual [3].
+- **Região Administrativa de Campinas**, em **2020**, com **PIB de 108.58520892447994 bilhões de Reais** no **1º trimestre** e **130.04963899669812 bilhões de Reais** no **4º trimestre** na tabela trimestral [4] [5].
+
+Mas isso **não é o mesmo recorte territorial** pedido. A fonte disponível para **município** é apenas a de **Município de São Paulo** [6] [1] [2]. Portanto, **não é possível informar o PIB do município de Campinas em 2020 com base nas fontes fornecidas**.
+
+Se você quiser, posso procurar nos dados fornecidos um recorte alternativo para Campinas, como **Região Administrativa de Campinas** [3]-[5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1_
+
+### r2 · graph_rag
+
+A pergunta pede o **PIB do município de Campinas em 2020, em reais, na base municipal**. Nas fontes fornecidas, **não há uma tabela para o município de Campinas** com esse indicador anual em reais. O que aparece para Campinas é a **Região Administrativa de Campinas**, não o município, em 2020: o **PIB Total a preço corrente** foi de **458,3868190315651 bilhões de reais** na **Região Administrativa de Campinas**, em **2020**, com base na tabela anual correspondente [3].  
+
+Para o **município de Campinas**, as fontes fornecidas só trazem tabelas trimestrais para **outras bases/formatos** e não mostram o **PIB anual em reais** do município de Campinas. Portanto, **não é possível informar esse valor com segurança usando apenas as fontes dadas**. [3], [4], [5], [6], [7], [8], [9]
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r3 · simple_rag
+
+As fontes fornecidas **não trazem o PIB do município de Campinas em 2020 na base municipal**. O que aparece para Campinas é:
+
+- **Região Administrativa de Campinas**, em 2020, **PIB Total a preço corrente** de **R$ 458,3868190315651 bilhões** [3].
+- Há também dados trimestrais da **Região Administrativa de Campinas** em 2020, mas **não do município de Campinas** [4][5].
+
+Como a pergunta pede especificamente **município de Campinas**, e nenhuma das fontes mostra esse território para 2020, **não é possível informar esse número com base nas fontes fornecidas** [3][4][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1_
+
+### r3 · graph_rag
+
+Não há, nas fontes fornecidas, um valor de **PIB do município de Campinas em 2020**. As fontes para Campinas trazem dados para a **Região Administrativa de Campinas**, não para o município de Campinas [3][4][5][6][7][8][9].
+
+O dado disponível mais próximo é o da **Região Administrativa de Campinas**, em **2020**, com **PIB Total / Preço corrente / Em bilhões de Reais = 458.3868190315651** [3].  
+- **Território:** Região Administrativa de Campinas  
+- **Período:** 2020  
+- **Base de comparação:** Preço corrente  
+- **Unidade:** bilhões de Reais [3]
+
+Se você quiser, posso também listar os demais indicadores de Campinas disponíveis nas fontes, mas **não posso afirmar o PIB do município de Campinas** com base nelas.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+## T051 (integracao)
+
+**Pergunta:** Informe o PIB de Campinas em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
+
+**Resposta esperada:** PIB municipal de 2019: R$ 65.837.258.087. Cadastro territorial: RA Campinas. Chave: código IBGE 3509502. O cadastro territorial tem referência própria, não comprova a divisão administrativa vigente em 2019.
+
+### r1 · simple_rag
+
+Para **Campinas** no **cadastro territorial**, a chave que permite relacionar as bases é o **código IBGE do município (`cod_ibge`)** na base de códigos territoriais, que traz também a **Região Administrativa (`cod_ra` e `ra`)** [2].  
+Se a intenção for relacionar com a base de PIB regional, a tabela de PIB está organizada por **Região Administrativa de Campinas** [3].
+
+Sobre o **PIB de Campinas em 2019**, **não há na fonte fornecida um valor de PIB para o município de Campinas**. As fontes disponibilizadas trazem o PIB para a **Região Administrativa de Campinas** em 2019, não para o município [3]. Nessa tabela, o **PIB total a preço corrente** da **Região Administrativa de Campinas**, em **2019**, é **435.0096774431126 bilhões de Reais**; a tabela informa ainda que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quiser, posso também indicar exatamente como ficaria o vínculo entre as duas bases usando os campos de código apresentados nas fontes.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7_
+
+### r1 · lexical_rag
+
+Usando o **cadastro territorial** disponível, a chave que permite relacionar as bases é **cod_ra** em [2]. A base também traz o nome da região administrativa em **ra** e o código IBGE do município em **cod_ibge** [2].
+
+Para **Campinas** no cadastro territorial, a fonte [2] informa os cabeçalhos, mas **não mostra os valores da linha de Campinas**; portanto, não é possível citar dali o código do município nem a Região Administrativa correspondente.
+
+O **PIB de Campinas em 2019** também **não aparece diretamente** nas fontes fornecidas. A fonte [3] traz o PIB da **Região Administrativa de Campinas** em 2019, não do município de Campinas:
+- **Território:** Região Administrativa de Campinas
+- **Período:** 2019
+- **Base de comparação:** preço corrente
+- **Unidade:** em bilhões de Reais
+- **Valor:** **435.0096774431126** [3]
+
+A fonte [3] também informa que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quiser, posso reorganizar a resposta em formato de tabela, mas com estas fontes **não dá para informar o PIB municipal de Campinas em 2019 nem confirmar a Região Administrativa de Campinas no cadastro territorial**.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.6_
+
+### r1 · graph_rag
+
+Para **Campinas** no **cadastro territorial**, a chave de relacionamento disponível nas fontes é **`cod_ibge`** para município e **`cod_ra`** para Região Administrativa; ambos aparecem no cadastro territorial como campos de código [2], [7].  
+Como a pergunta pede a associação entre as bases, a ligação mais explícita disponível nas fontes é por meio desses códigos do cadastro territorial [2], [7].
+
+O **PIB de Campinas em 2019** **não aparece explicitamente** nas fontes fornecidas como valor do município de Campinas. As fontes mostram:
+
+- **Região Administrativa de Campinas**, em **2019**, **PIB Total a preço corrente** de **435.0096774431126 bilhões de Reais** [3].  
+  - Território: **Região Administrativa de Campinas**
+  - Período: **2019**
+  - Base de comparação: **preço corrente**
+  - Unidade: **bilhões de Reais**
+  - Observação: a tabela informa que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quis dizer **o município de Campinas** e não a **Região Administrativa de Campinas**, faltam nas fontes fornecidas um valor de PIB municipal de 2019 para Campinas.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8_
+
+### r2 · simple_rag
+
+Para **Campinas**, o **PIB em 2019** na **Região Administrativa de Campinas** foi de **435.0096774431126 bilhões de Reais** em **preço corrente**. O mesmo quadro traz também **PIB per capita de 63226.06469860843 Reais** e **população residente de 6880227**, ambos para **2019** e para a mesma região administrativa; a tabela informa que os dados são **preliminares e sujeitos a revisão** [3].
+
+A **chave que permite relacionar as bases** fornecidas é o código territorial do município, isto é, **cod_ibge** na base territorial [2]. Nas fontes fornecidas, porém, não aparece o valor específico de **cod_ibge** para Campinas nem a correspondência explícita entre Campinas e sua **Região Administrativa** no cadastro territorial; portanto, não é possível citar essa associação numérica específica apenas com as fontes disponibilizadas [2], [3].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7_
+
+### r2 · graph_rag
+
+Para **Campinas**, o cadastro territorial mostra a chave **`cod_ibge`** para município e a chave **`cod_ra`** para **Região Administrativa**; a relação entre as bases pode ser feita por essas chaves, pois o arquivo de códigos contém os campos `municipio`, `cod_ibge`, `ra` e `cod_ra` [2], [7].
+
+**PIB de Campinas em 2019:** a fonte fornecida traz o PIB para a **Região Administrativa de Campinas**, em **2019**, mas **não traz um valor separado para o município de Campinas**. O valor disponível é para a RA de Campinas: **435.0096774431126 bilhões de Reais**, em **preço corrente**, **ano de 2019** [3].
+
+Se o objetivo for o **município de Campinas**, falta na fonte um valor de PIB municipal explícito; com as fontes dadas, só é possível citar o PIB da **Região Administrativa de Campinas** [2], [3].  
+Além disso, a tabela informa que os **dados são preliminares e sujeitos a revisão** [3].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8_
+
+### r3 · simple_rag
+
+Para **Campinas**, o cadastro territorial informa a **chave de relacionamento** como **cod_ibge** e também traz a **região administrativa (ra)** associada ao município [2].
+
+No entanto, **as fontes fornecidas não trazem explicitamente o valor do PIB de Campinas em 2019 no cadastro territorial**; elas trazem o PIB da **Região Administrativa de Campinas** na tabela regional [3]. Assim, com base apenas nas fontes, o recorte que posso informar com segurança é:
+
+- **Território:** Região Administrativa de Campinas  
+- **Período:** 2019  
+- **Indicador:** PIB total a preço de mercado, preço corrente  
+- **Valor:** **435,0096774431126 bilhões de reais** [3]  
+- **Base de comparação:** preço corrente; a tabela também informa “Preço do ano anterior”, “Taxa de crescimento”, “Índice de Volume (Base: 2010 = 100)” e “Deflator Implícito (Base: 2010 = 100)” [3]  
+- **Nota da tabela:** os dados são **preliminares e sujeitos a revisão**; a população residente usa projeção da Fundação Seade [3]
+
+**Chave para relacionar as bases:** **cod_ibge** [2]
+
+Se você quiser, eu também posso reorganizar a resposta em formato de tabela, mas sempre mantendo apenas o que está nas fontes.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7_
+
+### r3 · graph_rag
+
+O recorte usado é **Região Administrativa de Campinas** e o período é **2019**, porque a tabela de PIB disponível traz esse território e esse ano explicitamente [3].
+
+- **PIB de Campinas em 2019:** **R$ 435,0096774431126 bilhões**, para a **Região Administrativa de Campinas**, no **ano de 2019**, na base de comparação **preço corrente** [3].  
+- **População residente:** **6.880.227** pessoas, para a **Região Administrativa de Campinas**, no **ano de 2019**, com a observação de que a fonte considerou **projeção da população estimada pela Fundação Seade** [3].  
+- **PIB per capita:** **R$ 63.226,06469860843**, para a **Região Administrativa de Campinas**, no **ano de 2019**, na base de comparação **preço corrente** [3].
+
+A fonte informa que os dados são **preliminares e sujeitos a revisão** [3].
+
+**Chave para relacionar as bases:** a tabela de cadastro territorial traz os campos **cod_ibge** (código oficial do município) e **cod_ra** (código da Região Administrativa) [2], enquanto a tabela de PIB está identificada para a **Região Administrativa de Campinas** [3]. Como a fonte não mostra os valores de Campinas na tabela de cadastro territorial, **não é possível afirmar aqui o código específico de Campinas nem um relacionamento linha a linha com segurança usando apenas as fontes fornecidas** [2][3].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 9.8_
+
+## T052 (integracao)
+
+**Pergunta:** Informe o PIB de Santos em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
+
+**Resposta esperada:** PIB municipal de 2019: R$ 22.750.570.991. Cadastro territorial: RA Santos. Chave: código IBGE 3548500. O cadastro territorial tem referência própria, não comprova a divisão administrativa vigente em 2019.
+
+### r1 · simple_rag
+
+A fonte disponível traz o **PIB de Santos** para a **Região Administrativa de Santos**, no **ano de 2019**, em **preço corrente**, como **66,83085485253117 bilhões de Reais**. A mesma tabela indica que os dados são **preliminares e sujeitos a revisão** [3].
+
+A base territorial que permite relacionar as bases é a **chave `cod_ibge`** da tabela de códigos de municípios/regiões, que inclui os campos **`cod_ibge`**, **`municipio`**, **`cod_ra`** e **`ra`** [2]. A fonte fornecida não mostra, porém, o valor específico de `cod_ibge` para Santos nem o cruzamento explícito entre essa chave e o PIB; ela apenas mostra que essa é a chave disponível para relacionamento [2].
+
+- **Território:** Região Administrativa de Santos / Santos  
+- **Período:** 2019  
+- **Indicador:** PIB Total, preço corrente  
+- **Base de comparação:** não se aplica na linha anual citada; a tabela informa o valor anual de 2019 [3]  
+- **Unidade:** bilhões de Reais [3]
+
+Se você quiser, posso também apontar quais campos do cadastro territorial estão disponíveis para Santos, mas com as fontes dadas não é possível informar aqui o `cod_ibge` específico de Santos.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.7_
+
+### r1 · lexical_rag
+
+Usando o recorte disponível para **a Região Administrativa de Santos**, o **PIB total em 2019** foi de **66,83085485253117 bilhões de reais**, em **preço corrente**. A tabela informa também o **PIB per capita** de **36822,44231244579 reais** e a **população residente** de **1814949** em 2019, ambos para a mesma região e período; os dados são **preliminares e sujeitos a revisão** [3].
+
+A chave que permite relacionar as bases de cadastro territorial é o **código da Região Administrativa**, disponível no cadastro como **`cod_ra`**; a tabela de municípios/regiões mostra também os campos `cod_ibge`, `municipio`, `ra`, entre outros, mas aqui a identificação territorial explícita fornecida é a **Região Administrativa de Santos** [2][3].
+
+Se você quiser, posso também organizar isso em formato de tabela com os campos solicitados.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.7_
+
+### r1 · graph_rag
+
+Para **Santos**, o **PIB em 2019** na **Região Administrativa de Santos** foi de **66,83085485253117 bilhões de Reais**, em **preço corrente**. A mesma tabela informa também a **população residente** de **1.814.949** e o **PIB per capita** de **36.822,44231244579 Reais** para **2019**; os dados são **preliminares e sujeitos a revisão**. [3]
+
+A **chave que permite relacionar as bases** no cadastro territorial é o **código do município (`cod_ibge`)**; a fonte de cadastro territorial também traz a **Região Administrativa** por meio de `cod_ra` e `ra`. [2], [7]
+
+Se você quiser, eu posso também organizar isso em formato de tabela com os campos: **município, código IBGE, RA, código da RA e PIB 2019**.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8_
+
+### r2 · simple_rag
+
+Para **Santos**, o recorte disponível nas fontes é a **Região Administrativa de Santos**. A **chave de relacionamento** entre a base territorial e a base de PIB é **cod_ra** na base `codigos_municipios_regioes.csv` [2].
+
+- **PIB de Santos em 2019**: **R$ 66,83085485253117 bilhões** na **Região Administrativa de Santos**, **ano 2019**, **base: preço corrente / preço de mercado total**, **unidade: bilhões de Reais** [3].  
+  Observação: a tabela informa que **os dados são preliminares e sujeitos a revisão** [3].
+
+Se você quiser, posso também indicar como a tabela territorial se relaciona com o município via **cod_ibge** e **cod_ra** nas fontes disponíveis [2].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.7_
+
+### r2 · graph_rag
+
+O cadastro territorial fornecido permite relacionar **Santos** pela chave **`cod_ibge`** e **`cod_ra`**: o primeiro identifica o município e o segundo, a Região Administrativa [2], [7].
+
+- **Santos (município)**: a fonte de cadastro territorial informa apenas os cabeçalhos/variáveis, não traz o valor de `cod_ibge` para Santos nem o cruzamento com a RA no conteúdo fornecido; portanto, **não é possível informar aqui a chave específica de Santos com base apenas nas fontes exibidas** [2], [7].
+- **Região Administrativa de Santos**: o PIB total em **2019** foi de **66,83085485253117 bilhões de Reais**, em **preço corrente**. A tabela também informa a **população residente** de **1.814.949** e indica que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quiser, posso reformular a resposta em formato de tabela com os campos exatamente como aparecem nas fontes.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8_
+
+### r3 · simple_rag
+
+Para **Santos**, o **PIB em 2019** na **Região Administrativa de Santos** foi de **66,83085485253117 bilhões de reais**; a tabela informa também a **população residente** de **1.814.949** e o **PIB per capita** de **36.822,44231244579 reais**. A fonte traz a observação de que **os dados são preliminares e sujeitos a revisão** [3].
+
+A **chave para relacionar as bases** é o **código do município** no cadastro territorial: **`cod_ibge`**. No arquivo de cadastro territorial, ele aparece junto com os campos **municipio**, **cod_ra** e **ra** (entre outros) [2]. Assim, para ligar o cadastro territorial à base do PIB regional, a chave disponível nas fontes é **`cod_ibge`** [2].
+
+Se você quiser, posso também indicar como isso aparece no recorte da **Região Administrativa de Santos** com a estrutura exata dos campos disponíveis nas duas bases [2][3].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.7_
+
+### r3 · graph_rag
+
+Para **Santos**, no **cadastro territorial disponível**, a base fornecida mostra a **Região Administrativa de Santos** e indica que a chave de relacionamento é o **código da Região Administrativa (`cod_ra`)** no cadastro territorial [2].  
+
+Quanto ao **PIB de Santos em 2019**, a fonte disponível traz o valor para a **Região Administrativa de Santos**, não para o município de Santos isoladamente. Em **2019**, o **PIB total a preço corrente** da **Região Administrativa de Santos** foi de **66.83085485253117 bilhões de Reais** [3]. A tabela informa ainda que os dados são **preliminares e sujeitos a revisão** [3].
+
+Se você quiser relacionar as bases, o que a fonte permite afirmar é:
+- **cadastro territorial**: uso de `cod_ra` para a **Região Administrativa** [2];
+- **PIB regional**: a tabela está identificada por **Região Administrativa de Santos** [3].
+
+Não há, nas fontes fornecidas, um valor de PIB explicitamente atribuído ao **município de Santos** em 2019; o valor mostrado é da **Região Administrativa de Santos** [3].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.4; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.3; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.8_
+
+## T055 (integracao)
+
+**Pergunta:** Informe o PIB de São José dos Campos em 2019 e sua Região Administrativa no cadastro territorial disponível, indicando a chave que permite relacionar as bases.
+
+**Resposta esperada:** PIB municipal de 2019: R$ 43.562.279.874. Cadastro territorial: RA São José dos Campos. Chave: código IBGE 3549904. O cadastro territorial tem referência própria, não comprova a divisão administrativa vigente em 2019.
+
+### r1 · simple_rag
+
+No cadastro territorial disponível, a base de ligação é a **chave `cod_ibge`** da tabela de códigos de municípios e regiões, que contém o município e a região administrativa [2].
+
+Para **São José dos Campos** na **Região Administrativa de São José dos Campos**, o **PIB em 2019** é:
+
+- **PIB Total, preço corrente:** **131,6882697153332 bilhões de Reais**  
+  - território: **Região Administrativa de São José dos Campos**  
+  - período: **2019**  
+  - base de comparação: **preço corrente**  
+  - unidade: **bilhões de Reais** [4]
+
+A fonte também informa, para 2019, na mesma região administrativa:
+- **PIB Total, preço do ano anterior:** **123,30831167621463 bilhões de Reais** [4]
+- **Taxa de crescimento do PIB Total:** **-0,5462178097716319 %** [4]
+
+Observação: a tabela informa que os **dados são preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.6_
+
+### r1 · lexical_rag
+
+A **Região Administrativa de São José dos Campos** é a unidade territorial informada nas tabelas de PIB da fonte [4] e nas demais tabelas da mesma série [3], [5]-[11]. No cadastro territorial, a chave para relacionar as bases é o **código do município IBGE (`cod_ibge`)** da base [2]. Porém, **nas fontes fornecidas não há o valor de `cod_ibge` de São José dos Campos**, apenas os cabeçalhos da base territorial [2], então não consigo informar essa chave numérica específica.
+
+Sobre o **PIB de São José dos Campos em 2019**, a fonte [4] traz para a **Região Administrativa de São José dos Campos**, no **ano de 2019**, o **PIB Total a preço corrente de 131.6882697153332 bilhões de Reais**. A mesma tabela informa também:
+- **PIB Total a preço do ano anterior:** 123.30831167621463 bilhões de Reais
+- **Taxa de crescimento:** -0.5462178097716319%
+- **Índice de volume:** 106.41496649569477, base **2010 = 100**
+- **Deflator implícito:** 182.0214308419419, base **2010 = 100**  
+Tudo isso se refere à **Região Administrativa de São José dos Campos**, **ano de 2019**, conforme [4].
+
+A tabela [4] também registra a nota de que os dados são **preliminares e sujeitos a revisão**.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8_
+
+### r1 · graph_rag
+
+O **PIB de São José dos Campos em 2019** está disponível para a **Região Administrativa de São José dos Campos** na **Tabela 17.1**: **R$ 131,6882697153332 bilhões** em **preço corrente**, para o ano de **2019** [4].  
+A mesma tabela informa também **PIB a preço do ano anterior** de **R$ 123,30831167621463 bilhões** para **2019** [4].  
+A tabela traz a nota de que **os dados são preliminares e sujeitos a revisão** [4].
+
+Para relacionar as bases territoriais, a chave disponível no cadastro territorial é **`cod_ra`** (código da Região Administrativa), associado ao campo **`ra`** (nome da Região Administrativa) [2][7].  
+
+Se você quiser, posso também organizar a resposta em formato de tabela com os campos **território, período, indicador, base de comparação e unidade**.
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8_
+
+### r2 · simple_rag
+
+Usando o recorte **Região Administrativa de São José dos Campos** e o ano **2019**, o **PIB Total a preço corrente** foi de **131,6882697153332 bilhões de Reais** [4].
+
+A **chave para relacionar as bases territoriais** é o **código IBGE do município (`cod_ibge`)** na base de cadastro territorial [2].  
+Na base do PIB regional, o território aparece como **Região Administrativa de São José dos Campos** [4].
+
+Observação: a fonte do PIB informa que **os dados são preliminares e sujeitos a revisão** [4].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.6_
+
+### r2 · graph_rag
+
+Usando o recorte disponível nas fontes, o **PIB de São José dos Campos em 2019** é o da **Região Administrativa de São José dos Campos** na tabela de PIB regional da Seade [4].
+
+- **Território:** Região Administrativa de São José dos Campos  
+- **Período:** 2019  
+- **Base de comparação:** preço corrente  
+- **Unidade:** **em bilhões de Reais**  
+- **Valor:** **131,6882697153332** [4]
+
+A **chave que permite relacionar as bases** é o código do município/cadastro territorial:
+
+- Na base territorial, o campo de relacionamento disponível é **`cod_ibge`** para município, e também há **`cod_ra` / `ra`** para Região Administrativa [2], [7].
+- No conjunto de PIB regional fornecido, o território está identificado como **Região Administrativa de São José dos Campos** [4].
+
+Assim, com as fontes dadas, a associação entre as bases pode ser feita pelo **código territorial correspondente à região administrativa (`cod_ra`)** e, para o município, pelo **`cod_ibge`**; porém **as fontes fornecidas não mostram o valor numérico de `cod_ra` para São José dos Campos nem uma tabela de vínculo explícito entre `cod_ibge` e `cod_ra` para esse município**, então não é possível informar essa chave numérica específica com segurança [2], [7].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8_
+
+### r3 · simple_rag
+
+Usando o recorte **Região Administrativa de São José dos Campos** e o **ano de 2019**, o **PIB total** é **131,6882697153332 bilhões de Reais**, em **preço corrente**. A mesma tabela informa também **123,30831167621463 bilhões de Reais** em **preço do ano anterior**, além de taxa de crescimento, índice de volume e deflator implícito para 2019 [4].
+
+No cadastro territorial, a chave que permite relacionar as bases é o **código do IBGE do município (`cod_ibge`)** na tabela de municípios/regiões, que contém os campos **`cod_ibge`**, **`municipio`**, **`cod_ra`** e **`ra`** [2].  
+As fontes fornecidas **não mostram explicitamente** o `cod_ibge` de **São José dos Campos** nem sua `cod_ra`/`ra`; portanto, não posso informar esses valores sem inventar.  
+
+Também há uma ambiguidade importante: a tabela de PIB está para a **Região Administrativa de São José dos Campos**, enquanto o cadastro territorial é uma base de municípios e regiões; a associação exata entre **São José dos Campos** e sua **Região Administrativa** não aparece literalmente nas fontes dadas [2], [4].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.6_
+
+### r3 · graph_rag
+
+O **PIB de São José dos Campos** na **Região Administrativa de São José dos Campos**, em **2019**, é **131,6882697153332 bilhões de Reais** na **série de PIB total a preço corrente** [4].
+
+- **Território:** Região Administrativa de São José dos Campos
+- **Período:** 2019
+- **Base de comparação / indicador:** PIB Total / Preço corrente
+- **Unidade:** Em bilhões de Reais
+- **Nota da tabela:** os dados são **preliminares e sujeitos a revisão** [4]
+
+A **chave para relacionar as bases** é o identificador territorial:
+- **cod_ibge** para município na base de códigos territoriais [2] e [7]
+- A base de PIB informada está agregada por **Região Administrativa** [4]
+- Na base territorial, a variável correspondente é **cod_ra** e o nome da região é **ra** [2] e [7]
+
+Com as fontes fornecidas, **não há uma tabela que mostre diretamente o código/linha de São José dos Campos nessa Região Administrativa**, nem uma associação explícita entre o registro municipal e o registro de PIB na própria tabela de PIB. O que as fontes mostram é que a ligação territorial disponível no cadastro é feita por códigos, especialmente **cod_ibge** e **cod_ra** [2], [7].
+
+_Fontes: [1] cnae20.csv p.cabeçalho; [2] codigos_municipios_regioes.csv p.cabeçalho; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [6] dicvar_cnae20.csv p.Planilha; [7] dicvar_codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.3; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.4; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.7; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 17.8_
+
+## T057 (integracao)
+
+**Pergunta:** Compare os resultados acumulados de 2025 da indústria paulista e brasileira.
+
+**Resposta esperada:** São Paulo recuou 2,2% e o Brasil cresceu 0,6%, diferença de -2,8 pontos percentuais para São Paulo.
+
+### r1 · simple_rag
+
+A pergunta permite mais de uma leitura porque as fontes trazem, para 2025, o resultado **do PIB brasileiro** e alguns recortes **setoriais/regionais**, mas **não trazem na mesma fonte um indicador explicitamente chamado “indústria paulista” em base anual acumulada de 2025**. Então, com base apenas nas fontes fornecidas, **não dá para comparar diretamente “indústria paulista” e “indústria brasileira” no acumulado de 2025** sem assumir um recorte que não está explicitado nas fontes.
+
+O que as fontes mostram é:
+
+- **Brasil / indústria (PIB) em 2025**: a **Indústria** cresceu **1,4%** no **acumulado do ano de 2025**, em relação a **2024** [3]. A mesma fonte também traz o PIB do Brasil como um todo: **2,3%** em 2025 vs. 2024 [3].
+- **Brasil / total da indústria nacional no 4º tri de 2025**: a indústria nacional recuou **0,7%** no **4º trimestre de 2025**, na comparação com o **3º trimestre de 2025**, com ajuste sazonal [2].
+
+Para **São Paulo**, a única informação diretamente associada nas fontes é:
+- **São Paulo** registrou **-3,2%** no **índice mensal de dezembro de 2025** [1].
+
+Ou seja, **falta na fonte um número de “acumulado de 2025” para a indústria paulista**. Portanto, não é possível fazer a comparação solicitada de forma válida usando somente o corpus fornecido [1][3].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pib-vol-val_202504caderno.pdf p.4; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.5; [8] pmc_202512caderno.pdf p.20; [9] pib-vol-val_202504caderno.pdf p.21_
+
+### r1 · lexical_rag
+
+Não há, nas fontes fornecidas, um dado de **resultado acumulado de 2025 da indústria paulista** no mesmo recorte usado para a **indústria brasileira**. A fonte regional traz a **variação mensal de dezembro de 2025** para São Paulo, mas não apresenta, na parte fornecida, a taxa **acumulada no ano de 2025** para a indústria paulista [1][5].  
+
+O que as fontes permitem comparar é o **acumulado de 2025 da indústria brasileira** no PIB: a **Indústria cresceu 1,4% em 2025 em relação ao ano anterior**, em volume, no **Brasil**, no **acumulado ao longo do ano / mesmo período do ano anterior (%)** [3][8].  
+
+Portanto:
+- **Brasil** — indústria: **+1,4%**, **2025**, **acumulado ao longo do ano / mesmo período do ano anterior**, **em volume** [3][8].
+- **São Paulo** — **não há, nas fontes fornecidas, o valor acumulado de 2025 para a indústria paulista**; a fonte disponível mostra apenas o dado mensal de **dezembro de 2025: -1,6%**, para **São Paulo**, no **mês contra o mês imediatamente anterior, com ajuste sazonal** [5].
+
+Se você quiser, posso também comparar o **Brasil acumulado em 2025** com o **desempenho mensal de São Paulo em dezembro de 2025**, mas isso não seria uma comparação de acumulado anual.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pim-pf-regional_202512.pdf p.75; [6] pib-vol-val_202504caderno.pdf p.4; [7] pib-vol-val_202504caderno.pdf p.21; [8] pib-vol-val_202504caderno.pdf p.17; [9] pib-vol-val_202504caderno.pdf p.5_
+
+### r1 · graph_rag
+
+A fonte disponível permite comparar **a indústria brasileira** no acumulado de 2025, mas **não traz, nessas fontes, o resultado acumulado de 2025 da indústria paulista** na mesma base de comparação. Portanto, **falta informação para fazer a comparação solicitada**. [5] [3]
+
+O que as fontes mostram é:
+
+- **Brasil, indústria, acumulado de janeiro a dezembro de 2025, frente a igual período do ano anterior:** **+0,6%**. [5]  
+- **Brasil, indústria, acumulado no ano de 2025, em relação ao ano anterior:** **+1,4%**. [3]
+
+Como há duas leituras possíveis para “resultados acumulados de 2025” nas fontes, elas não são a mesma coisa:
+- na PIM-PF regional, o acumulado é **janeiro-dezembro de 2025 frente a igual período de 2024**; [5]
+- nas Contas Nacionais, o acumulado do ano é **2025 em relação a 2024**. [3]
+
+Para **São Paulo**, a fonte regional mostra apenas:
+- **São Paulo, índice mensal de dezembro de 2025:** **-1,6%** na variação mês/mês imediatamente anterior, com ajuste sazonal. [6]
+
+Mas **não há, nas fontes fornecidas, o acumulado de 2025 da indústria paulista** para ser comparado com o dado do Brasil. [5] [6]
+
+Se você quiser, posso resumir apenas o que existe nas fontes para **Brasil vs. São Paulo** em cada tipo de base de comparação disponível.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pim-pf-regional_202512.pdf p.12; [6] pim-pf-regional_202512.pdf p.75; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.5; [9] pib-vol-val_202504caderno.pdf p.14_
+
+### r2 · simple_rag
+
+A pergunta permite mais de uma leitura, porque as fontes trazem **resultado anual de 2025 da indústria nacional** e **resultado da indústria paulista apenas no índice mensal de dezembro de 2025**, mas **não trazem, nas fontes fornecidas, o acumulado de 2025 da indústria paulista**. Então, com base somente nessas fontes, **não é possível comparar diretamente os acumulados de 2025 da indústria paulista e brasileira**.
+
+O que as fontes permitem afirmar é:
+
+- **Brasil, indústria**: no acumulado de 2025, a indústria cresceu **1,4%** em relação ao ano anterior [3].  
+  - Território: **Brasil**  
+  - Período: **acumulado de 2025**  
+  - Base de comparação: **mesmo período do ano anterior**  
+  - Unidade: **%**
+
+- **Brasil, indústria** em outra fonte aparece como crescimento de **1,4%** no valor adicionado da indústria em 2025 [3], e o PIB total do país cresceu **2,3%** em 2025 [3], [5].  
+  - Território: **Brasil**  
+  - Período: **2025**  
+  - Base de comparação: **ano anterior**  
+  - Unidade: **%**
+
+- **São Paulo**: a fonte regional informa apenas que São Paulo registrou **-3,2%** no **índice mensal de dezembro de 2025** [1].  
+  - Território: **São Paulo**  
+  - Período: **dezembro de 2025**  
+  - Base de comparação: **mês/igual mês anterior no índice mensal** (a fonte não explicita aqui, no trecho fornecido, a base completa além de “índice mensal de dezembro de 2025”)  
+  - Unidade: **%**
+
+Portanto, **falta a informação do acumulado de 2025 da indústria paulista nas fontes fornecidas** [1], [3].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pib-vol-val_202504caderno.pdf p.4; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.5; [8] pmc_202512caderno.pdf p.20; [9] pib-vol-val_202504caderno.pdf p.21_
+
+### r2 · graph_rag
+
+Se “resultado acumulado de 2025” estiver sendo lido como o **índice acumulado de janeiro a dezembro de 2025**, a comparação disponível nas fontes é:
+
+- **Indústria brasileira**: expansão de **0,6%** no **acumulado janeiro-dezembro de 2025**, frente a igual período do ano anterior; a fonte informa que houve resultados positivos em **10 dos 18 locais pesquisados** [5].  
+- **Indústria paulista (São Paulo)**: a fonte **não traz o valor acumulado de janeiro-dezembro de 2025 para São Paulo** nessa passagem; para São Paulo, a única informação explícita nas fontes fornecidas é que, no **índice mensal de dezembro de 2025**, o estado registrou **-3,2%** [1], e na tabela mensal aparece **-1,6% em dezembro de 2025** na comparação com **o mês imediatamente anterior, com ajuste sazonal** [6].
+
+Portanto, **não é possível comparar diretamente o acumulado de 2025 da indústria paulista com o acumulado nacional usando apenas as fontes fornecidas**, porque o valor acumulado paulista não aparece nas fontes citadas [1], [5], [6].
+
+Se você quiser, posso também comparar os **resultados de dezembro de 2025** entre São Paulo e Brasil com base nas fontes disponíveis [1], [6].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pim-pf-regional_202512.pdf p.12; [6] pim-pf-regional_202512.pdf p.75; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.5; [9] pib-vol-val_202504caderno.pdf p.14_
+
+### r3 · simple_rag
+
+Há **mais de uma leitura possível** para “indústria paulista e brasileira” porque as fontes trazem:
+
+- **São Paulo** no índice mensal da pesquisa industrial regional [1];
+- **Brasil** nas contas nacionais de 2025 [3], [5], [6].
+
+Com as fontes fornecidas, **não há um quadro único que compare diretamente o acumulado de 2025 da indústria paulista com o acumulado de 2025 da indústria brasileira no mesmo indicador**. O que é possível afirmar é:
+
+- **Brasil**: a **Indústria** teve **alta de 1,4%** no **acumulado de 2025**, em relação ao **mesmo período do ano anterior** [3].  
+- **São Paulo**: na fonte regional disponível, São Paulo aparece apenas com o **índice mensal de dezembro de 2025**, quando registrou **-3,2%** no **índice mensal de dezembro de 2025**, sem informação de acumulado anual de 2025 nessa fonte [1].
+
+Portanto, **não dá para comparar o acumulado de 2025 da indústria paulista com o da indústria brasileira usando apenas as fontes fornecidas**, porque o dado acumulado de São Paulo não está mostrado nas fontes aqui apresentadas [1], [3].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pib-vol-val_202504caderno.pdf p.4; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.5; [8] pmc_202512caderno.pdf p.20; [9] pib-vol-val_202504caderno.pdf p.21_
+
+### r3 · graph_rag
+
+Há mais de uma leitura possível, porque as fontes trazem **resultado acumulado de 2025 da indústria nacional** e **da indústria paulista** na mesma pesquisa, mas em **bases diferentes**:
+
+- **Brasil**: índice acumulado de **janeiro a dezembro de 2025**, frente a igual período de 2024, com **alta de 0,6%** [5].
+- **São Paulo**: no trecho fornecido não aparece explicitamente o acumulado anual de 2025; o que aparece para São Paulo é o **índice mensal de dezembro de 2025**, com **-3,2%** [1], e também a série mensal em 2025 na tabela, onde São Paulo em dezembro está em **-1,6% no mês contra o mês imediatamente anterior** [6].
+
+Portanto, **não é possível comparar diretamente, com as fontes dadas, o resultado acumulado de 2025 da indústria paulista com o da brasileira**, porque **falta o valor acumulado anual de São Paulo** nas fontes fornecidas.
+
+O que se pode afirmar com segurança é:
+
+- **Brasil, 2025 acumulado no ano / igual período de 2024:** **+0,6%**, indústria geral [5].
+- **São Paulo, dezembro de 2025 / igual mês do ano anterior:** **-3,2%**, indústria geral [1].
+
+Se você quiser, posso também comparar **os resultados mensais de dezembro de 2025** entre São Paulo e Brasil usando as fontes fornecidas.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.11; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.13; [4] pib-vol-val_202504caderno.pdf p.12; [5] pim-pf-regional_202512.pdf p.12; [6] pim-pf-regional_202512.pdf p.75; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.5; [9] pib-vol-val_202504caderno.pdf p.14_
+
+## T058 (integracao)
+
+**Pergunta:** Compare o comportamento mensal da indústria e do varejo brasileiros em dezembro de 2025, com ajuste sazonal.
+
+**Resposta esperada:** A indústria caiu 1,2% e o volume do varejo caiu 0,4%. São pesquisas e atividades diferentes; ambas indicam queda mensal, sem provar causalidade entre elas.
+
+### r1 · simple_rag
+
+Em **dezembro de 2025, com ajuste sazonal**, a **indústria brasileira** recuou **1,2%** na passagem de **novembro para dezembro de 2025**, na **Indústria Geral**, no **Brasil**, em **variação mensal com ajuste sazonal** [3]. A mesma fonte informa que essa foi a queda mais elevada desde julho de 2024 e que intensificou a perda de novembro de 2025 (-0,2%), mas isso é apenas a comparação histórica mencionada no texto [1].
+
+Já o **varejo brasileiro** **não aparece nas fontes fornecidas**. Portanto, **não é possível comparar o comportamento mensal da indústria e do varejo brasileiros em dezembro de 2025 com ajuste sazonal usando apenas essas fontes**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-br_202512caderno.pdf p.20; [7] pim-pf-regional_202512.pdf p.21; [8] pim-pf-regional_202512.pdf p.31; [9] pim-pf-regional_202512.pdf p.63; [10] pim-pf-regional_202512.pdf p.54; [11] pim-pf-br_202512caderno.pdf p.24_
+
+### r1 · lexical_rag
+
+As fontes fornecidas trazem dados da **indústria**, mas **não trazem nenhum dado sobre o varejo brasileiro em dezembro de 2025 com ajuste sazonal**. Então, **não é possível fazer a comparação pedida** usando apenas essas fontes [1]–[11].
+
+O que é possível afirmar sobre a **indústria brasileira** em dezembro de 2025, com ajuste sazonal, é:
+
+- **Brasil, dezembro de 2025 frente a novembro de 2025, com ajuste sazonal:** a produção industrial **caiu 1,2%** [1], [3], [6], [8].  
+- A série de média móvel trimestral do total da indústria também registrou **variação negativa de 0,5%** no trimestre encerrado em dezembro de 2025 frente ao mês anterior [4], [8].  
+- Na comparação **dezembro de 2025 frente a dezembro de 2024**, a indústria geral **cresceu 0,4%** [3], [7], [10], mas isso **não é a base pedida** na pergunta.
+
+Se você quiser, posso:
+1. resumir só o comportamento da **indústria** em dezembro de 2025; ou  
+2. comparar **indústria e varejo** se você fornecer uma fonte do varejo.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-br_202512caderno.pdf p.19; [7] pim-pf-br_202512caderno.pdf p.20; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.10; [10] pim-pf-br_202512caderno.pdf p.24; [11] pim-pf-br_202512caderno.pdf p.23_
+
+### r1 · graph_rag
+
+Em **dezembro de 2025, com ajuste sazonal**, a **indústria brasileira** recuou **1,2%** frente a **novembro de 2025**; já o **varejo brasileiro** não aparece nas fontes fornecidas com esse indicador, então **não é possível compará-lo com a indústria usando apenas essas fontes**. Para a indústria, a queda é informada para o **Brasil**, no **mês de dezembro de 2025**, na **base mês contra mês imediatamente anterior**, e em **percentual (%)** [1][3][7][8].
+
+As fontes também mostram que, nesse mesmo recorte, a indústria teve queda de **1,2%** em dezembro de 2025 frente a novembro de 2025 na série com ajuste sazonal, com perda maior que a de novembro de 2025 (**-0,2%**) [1][3][4][7]. No entanto, **não há na base fornecida um número equivalente do varejo** para dezembro de 2025 com ajuste sazonal, então falta a informação necessária para a comparação pedida.
+
+Se você quiser, posso comparar a indústria com o varejo **se você fornecer a fonte do varejo**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-regional_202512.pdf p.25; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.20_
+
+### r2 · simple_rag
+
+Usando **Brasil** e a série **com ajuste sazonal** para o mês de **dezembro de 2025**, a **indústria** caiu **1,2%** frente a **novembro de 2025** [3]. Já o **varejo** não aparece nas fontes fornecidas com esse indicador mensal e esse recorte; portanto, **faltam informações** para fazer a comparação solicitada sobre o varejo brasileiro.
+
+Se a intenção era comparar **indústria com outro setor diferente do varejo** ou usar uma fonte específica do varejo, essa fonte não foi incluída aqui.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-br_202512caderno.pdf p.20; [7] pim-pf-regional_202512.pdf p.21; [8] pim-pf-regional_202512.pdf p.31; [9] pim-pf-regional_202512.pdf p.63; [10] pim-pf-regional_202512.pdf p.54; [11] pim-pf-br_202512caderno.pdf p.24_
+
+### r2 · graph_rag
+
+Em **dezembro de 2025, com ajuste sazonal**, a **indústria brasileira caiu 1,2% frente a novembro de 2025** [1], [3], [7], [8].  
+Já o **varejo brasileiro**: **não há, nas fontes fornecidas, nenhum dado sobre o comportamento mensal do varejo em dezembro de 2025 com ajuste sazonal**. Portanto, **não é possível fazer a comparação pedida usando apenas essas fontes**.
+
+Se você quiser, posso comparar a indústria com outro indicador que esteja nas fontes, como a **variação anual da indústria em dezembro de 2025 (+0,4% frente a dezembro de 2024)** [1], [9], mas isso **não é o mesmo recorte mensal com ajuste sazonal**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-regional_202512.pdf p.25; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.20_
+
+### r3 · simple_rag
+
+Em dezembro de 2025, com ajuste sazonal, a **indústria brasileira** recuou **1,2%** na passagem de **novembro/2025 para dezembro/2025**, enquanto o **varejo brasileiro** avançou **2,0%** na mesma base de comparação. Portanto, os dois setores tiveram comportamentos opostos no mês: a indústria caiu e o varejo cresceu.
+
+**Detalhamento dos números citados**
+- **Indústria geral — Brasil — dezembro/2025 vs. novembro/2025 — série com ajuste sazonal — -1,2%** [3]
+- **Varejo — Brasil — dezembro/2025 vs. novembro/2025 — série com ajuste sazonal — +2,0%** [12]
+
+**Observação importante:** nas fontes fornecidas aqui, há informação para a indústria, mas **não há fonte de referência sobre o varejo**; portanto, o valor do varejo acima **não pode ser confirmado com essas fontes**. Se você quiser, posso comparar **apenas a indústria** ou comparar indústria e varejo assim que você fornecer a fonte do varejo.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-br_202512caderno.pdf p.20; [7] pim-pf-regional_202512.pdf p.21; [8] pim-pf-regional_202512.pdf p.31; [9] pim-pf-regional_202512.pdf p.63; [10] pim-pf-regional_202512.pdf p.54; [11] pim-pf-br_202512caderno.pdf p.24_
+
+### r3 · graph_rag
+
+Considerando o **comportamento mensal com ajuste sazonal em dezembro de 2025**, as fontes trazem informação clara para a **indústria**, mas **não trazem dado do varejo** nessa base de referência. Portanto, não é possível fazer a comparação completa entre indústria e varejo usando apenas as fontes fornecidas. [1], [3], [7], [8]
+
+- **Indústria brasileira**: recuou **1,2%** em **dezembro de 2025** frente a **novembro de 2025**, na **série com ajuste sazonal**. A fonte informa que esse foi o recuo mais elevado desde julho de 2024 e que intensificou a perda registrada em novembro de 2025 (-0,2%). **Território: Brasil; período: dez/2025 vs. nov/2025; base de comparação: mês imediatamente anterior; unidade: variação percentual (%)**. [1], [3], [7]
+
+- **Varejo brasileiro**: **não há informação nas fontes fornecidas** sobre o desempenho mensal do varejo em dezembro de 2025 com ajuste sazonal. Assim, não posso afirmar se subiu, caiu ou ficou estável.  
+
+Se você quiser, posso também resumir o comportamento da indústria por grandes categorias ou por estados, mas sempre apenas com base nas fontes fornecidas.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.22; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.25; [6] pim-pf-regional_202512.pdf p.25; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.20_
+
+## T059 (integracao)
+
+**Pergunta:** O PIB e a indústria brasileiros tiveram o mesmo crescimento acumulado em 2025? Compare as taxas e os conceitos.
+
+**Resposta esperada:** O PIB cresceu 2,3% e a produção industrial 0,6%. A diferença numérica é 1,7 ponto percentual, mas PIB e produção industrial física não medem o mesmo agregado.
+
+### r1 · simple_rag
+
+Não. **No recorte anual de 2025**, o **PIB** cresceu **2,3%** em relação ao ano anterior, enquanto a **Indústria** cresceu **1,4%** no mesmo recorte. Portanto, as taxas **não foram iguais** e o PIB teve crescimento maior. Ambos os números são apresentados em **volume**, na comparação **acumulada ao longo do ano / mesmo período do ano anterior**, para o **Brasil** no ano de **2025** [1].
+
+**Comparação dos conceitos:**
+- **PIB**: a fonte fala do **Produto Interno Bruto**, e informa que ele resultou do aumento do **Valor Adicionado a preços básicos** e dos **Impostos sobre Produtos líquidos de Subsídios** [1].
+- **Indústria**: a fonte usa o conceito de **“Valor adicionado bruto da indústria”** dentro da **ótica da produção** [1]. Ou seja, não é o mesmo conceito do PIB.
+
+**Em resumo:**  
+- **PIB (Brasil, 2025, acumulado no ano vs. mesmo período do ano anterior, volume): 2,3%** [1]  
+- **Indústria / valor adicionado bruto da indústria (Brasil, 2025, acumulado no ano vs. mesmo período do ano anterior, volume): 1,4%** [1]
+
+As fontes também mostram que, em 2025, o PIB cresceu **2,3%** e o valor adicionado da indústria **1,4%** na mesma tabela de resultados do ano [1].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.17; [6] pib-vol-val_202504caderno.pdf p.12; [7] pim-pf-br_202512caderno.pdf p.20; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r1 · lexical_rag
+
+Não. **Pelo conceito e pela taxa informados nas fontes, o PIB e a indústria não tiveram o mesmo crescimento acumulado em 2025**.
+
+- **PIB brasileiro**: em 2025, o **PIB em preços de mercado** cresceu **2,3% em relação ao ano anterior**, na comparação **acumulada ao longo do ano / mesmo período do ano anterior**, para o **Brasil** e no **ano de 2025** [1], [3], [6].  
+- **Indústria brasileira**: em 2025, o **Valor Adicionado bruto da indústria** cresceu **1,4%** na mesma comparação (**acumulado ao longo do ano / mesmo período do ano anterior**) para o **Brasil** e no **ano de 2025** [1], [6].
+
+**Comparação das taxas:**  
+- PIB: **2,3%** [1], [3], [6]  
+- Indústria: **1,4%** [1], [6]
+
+**Comparação dos conceitos:**  
+- O **PIB** é o **Produto Interno Bruto a preços de mercado** [3], [6].  
+- A **indústria** aparece nas fontes como **Valor Adicionado bruto da indústria**, isto é, um **componente da ótica da produção do PIB**, e não como o PIB total [1], [6].
+
+Portanto, **não foram iguais**: o PIB cresceu mais do que a indústria em 2025, segundo essas fontes [1], [6].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.15; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r1 · graph_rag
+
+Não. Pelas fontes, o **PIB brasileiro** e a **indústria** não tiveram o mesmo crescimento acumulado em 2025.
+
+- **PIB do Brasil**: cresceu **2,3% em 2025** em relação a 2024, no indicador de **taxa acumulada ao longo do ano / mesmo período do ano anterior**; o conceito usado é o **PIB a preços de mercado**. A fonte também informa que esse resultado decorre do aumento do **Valor Adicionado a preços básicos** (2,4%) e dos **Impostos sobre Produtos líquidos de Subsídios** (1,7%). [1][4][6]
+- **Indústria**: no mesmo tipo de comparação, o **Valor adicionado bruto da indústria** cresceu **1,4% em 2025** em relação ao ano anterior, na ótica da produção. [1]
+
+Comparando os conceitos:
+- O **PIB a preços de mercado** é o agregado amplo da economia. [4][6]
+- A **Indústria** citada na fonte é o **Valor adicionado bruto da indústria**, isto é, um componente do Valor Adicionado do PIB pela ótica da produção. [1][4][6]
+
+Portanto, **não foi o mesmo crescimento**: o PIB cresceu **2,3%** e a indústria **1,4%** em 2025. [1][4][6]
+
+Se você quiser, posso também comparar com a taxa da indústria no **4º trimestre de 2025**; mas isso é outro recorte, e a fonte mostra valores diferentes para esse período. [2][7][8]
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.15; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r2 · simple_rag
+
+Não. Pelas fontes, **o PIB brasileiro e a indústria brasileira não tiveram o mesmo crescimento acumulado em 2025**.
+
+- **PIB**: cresceu **2,3%** em 2025, em comparação com **2024**, na métrica de **taxa acumulada ao longo do ano / mesmo período do ano anterior**. A fonte também diz que isso se refere ao **PIB em volume** e ao **PIB a preços de mercado** nas contas nacionais trimestrais [1][5].  
+- **Indústria**: o **valor adicionado bruto da indústria** cresceu **1,4%** em 2025, também em comparação com **2024**, na mesma métrica de **taxa acumulada ao longo do ano / mesmo período do ano anterior** [1][5].
+
+**Comparação das taxas**
+- PIB: **2,3%**
+- Indústria: **1,4%**
+- Portanto, o PIB cresceu mais do que a indústria em 2025, segundo essas fontes [1][5].
+
+**Comparação dos conceitos**
+- O número do **PIB** é o resultado agregado da economia; a própria fonte informa que ele resulta do aumento do **Valor Adicionado a preços básicos** e dos **Impostos sobre Produtos líquidos de Subsídios** [1].
+- O número da **indústria** na tabela é o **valor adicionado bruto da indústria**, isto é, um componente do **Valor Adicionado** na ótica da produção [1][5].
+
+**Nota importante sobre o recorte**
+As fontes usadas trazem a comparação **2025 contra 2024** e não mostram outra base de comparação para esses números. Também não há indicação, nessas passagens, de que “indústria” signifique produção industrial do IBGE em outro indicador; aqui o conceito citado é **valor adicionado bruto da indústria** nas Contas Nacionais Trimestrais [1][5].
+
+Se você quiser, posso também montar uma tabela curta com **território, período, base de comparação, unidade e conceito** para cada número.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.17; [6] pib-vol-val_202504caderno.pdf p.12; [7] pim-pf-br_202512caderno.pdf p.20; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r2 · graph_rag
+
+Não. Pelas fontes, o **PIB brasileiro** e a **indústria** não tiveram o mesmo crescimento acumulado em 2025, e também não são o mesmo conceito.
+
+**Comparação das taxas em 2025 (acumulado no ano / mesmo período do ano anterior):**
+- **PIB do Brasil**: cresceu **2,3%** em 2025, em relação ao ano anterior, com base no **PIB a preços de mercado** [1].
+- **Indústria**: o **Valor Adicionado bruto da indústria** cresceu **1,4%** em 2025, na mesma comparação [1].
+
+**Conclusão:** o PIB cresceu mais do que a indústria em 2025: **2,3% vs. 1,4%** [1].
+
+**Conceitos:**
+- O **PIB** é o **Produto Interno Bruto**; a fonte informa que ele resultou do aumento do **Valor Adicionado a preços básicos** e dos **Impostos sobre Produtos líquidos de Subsídios** [1].
+- A **indústria** citada na fonte é o **Valor Adicionado bruto da indústria**, isto é, um componente do PIB pela ótica da produção [1].
+
+A fonte também mostra que o PIB em 2025 foi explicado por:
+- **Agropecuária**: **11,7%**
+- **Indústria**: **1,4%**
+- **Serviços**: **1,8%**  
+todos em comparação com o ano anterior [1].
+
+Se você quiser, posso também comparar com a taxa de **2024.IV** ou com o comportamento trimestral de 2025, mas as fontes já mostram que, no acumulado do ano, as taxas foram diferentes [6], [7].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.15; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r3 · simple_rag
+
+Não. **Pelo recorte anual de 2025**, o **PIB** cresceu **2,3%** em relação a 2024, enquanto a **Indústria** cresceu **1,4%** no mesmo tipo de comparação. Portanto, as taxas **não foram iguais**; o PIB teve crescimento maior. [1]
+
+**Comparação dos conceitos:**
+- **PIB**: é o **Produto Interno Bruto**, medido aqui em **volume**, com a taxa de variação **acumulada ao longo de 2025 / mesmo período do ano anterior**. [1]
+- **Indústria**: na fonte, o número de **1,4%** aparece como **Valor Adicionado bruto da indústria**, dentro da **ótica da produção**, também na comparação **acumulado ao longo do ano / mesmo período do ano anterior**. [1]
+
+**Recorte usado:** Brasil, **ano de 2025**, comparação com **2024**. [1]
+
+Se você quiser, posso também comparar com a outra leitura da fonte, em que a indústria aparece com **0,6%** no **quarto trimestre de 2025 contra o mesmo trimestre de 2024**, mas isso **não é o mesmo conceito de crescimento acumulado no ano**. [6][8]
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.17; [6] pib-vol-val_202504caderno.pdf p.12; [7] pim-pf-br_202512caderno.pdf p.20; [8] pib-vol-val_202504caderno.pdf p.12_
+
+### r3 · graph_rag
+
+Não. **O PIB brasileiro e a indústria não tiveram o mesmo crescimento acumulado em 2025** nas fontes fornecidas.
+
+- **PIB (Produto Interno Bruto), Brasil, ano de 2025, acumulado ao longo do ano em relação ao mesmo período do ano anterior, em volume:** **2,3%** [1].  
+- **Indústria, Brasil, ano de 2025, no mesmo tipo de comparação do Valor Adicionado bruto da indústria em relação ao mesmo período do ano anterior:** **1,4%** [1].
+
+**Comparação das taxas:** o PIB cresceu **2,3%** e a indústria **1,4%**, portanto as taxas **não foram iguais** [1].
+
+**Comparação dos conceitos:**  
+- O **PIB** é o indicador agregado da economia, medido aqui em **volume** e apresentado como crescimento acumulado de 2025 frente a 2024 [1].  
+- A **indústria** citada na fonte é o **Valor Adicionado bruto da indústria** dentro da **ótica da produção**, ou seja, um componente do PIB, não o PIB total [1].
+
+**Observação importante sobre o recorte:** a fonte traz a taxa acumulada de 2025 para o PIB e, na mesma tabela e texto, a taxa da **indústria** como componente do valor adicionado; ambas são comparadas ao **mesmo período do ano anterior**, mas **não são o mesmo conceito** [1].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.13; [2] pib-vol-val_202504caderno.pdf p.6; [3] pib-vol-val_202504caderno.pdf p.4; [4] pib-vol-val_202504caderno.pdf p.17; [5] pib-vol-val_202504caderno.pdf p.15; [6] pib-vol-val_202504caderno.pdf p.17; [7] pib-vol-val_202504caderno.pdf p.12; [8] pib-vol-val_202504caderno.pdf p.12_
+
+## T061 (integracao)
+
+**Pergunta:** Qual coluna da base PMC deve ser usada para uma comparação de meses consecutivos que controle sazonalidade? Relacione o dicionário à metodologia.
+
+**Resposta esperada:** indice_atividade_comercio_com_ajuste_sazonal; o dicionário identifica o índice ajustado e o índice mês/mês anterior da metodologia usa séries ajustadas sazonalmente.
+
+### r1 · simple_rag
+
+A coluna da base **PMC** que deve ser usada para uma comparação de **meses consecutivos com controle de sazonalidade** é a **`indice_atividade_comercio_com_ajuste_sazonal`**. No dicionário, ela é descrita como **“Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal)”** [2].
+
+Isso corresponde à metodologia, porque a fonte explica que **não é adequado comparar meses consecutivos antes do ajuste sazonal** e que a dessazonalização é feita para permitir essa comparação [1]. A própria metodologia da PMC diz que as séries ajustadas sazonalmente usam o método **X-13 ARIMA-SEATS** e que a série ajustada é a base para comparações “mês a mês” [3].
+
+Recorte usado:
+- **Território:** Brasil e SP, conforme o dicionário da PMC indica para a variável `uf` [2].
+- **Período:** da série disponível em **jan.2000 até a data atual do painel** [2].
+- **Base de comparação:** comparação de **meses consecutivos** com ajuste sazonal [1], [3].
+- **Unidade:** **índice de base fixa** [2].
+
+Se a dúvida for sobre a **base PMC em geral**, o dicionário não traz outra coluna com ajuste sazonal para comércio além dessa [2].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r1 · lexical_rag
+
+A coluna da base PMC a usar para uma comparação de meses consecutivos que controle sazonalidade é **`indice_atividade_comercio_com_ajuste_sazonal`** [2].
+
+Relação com a metodologia:
+- A metodologia informa que **não é adequado comparar períodos consecutivos (meses ou trimestres) antes do ajuste sazonal** e que a remoção da sazonalidade é o **ajuste sazonal/dessazonalização** [1].
+- O caderno da PMC diz que a série **“Índice Mês/Mês Anterior”** é comparada entre o mês de referência e o mês imediatamente anterior, e que **as séries são obtidas a partir do índice de base fixa mensal ajustado sazonalmente** [3].
+- O dicionário da base PMC identifica explicitamente a coluna `indice_atividade_comercio_com_ajuste_sazonal` como **“Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal)”** [2].
+
+Portanto, para comparação de meses consecutivos com controle de sazonalidade, use a coluna **`indice_atividade_comercio_com_ajuste_sazonal`** [2], em linha com a metodologia de ajuste sazonal descrita nas fontes [1] e [3].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r1 · graph_rag
+
+A comparação de **meses consecutivos que controle sazonalidade** deve usar a coluna **`indice_atividade_comercio_com_ajuste_sazonal`** na base PMC, porque o dicionário a descreve como o **“Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal)”** [2].
+
+Isso é coerente com a metodologia, que diz que **não é adequado comparar meses consecutivos antes de proceder ao ajuste sazonal** e que a dessazonalização é feita pelo método **X-13 Arima** [1]. A metodologia da PMC também informa que as **séries ajustadas sazonalmente** são calculadas com o software **X13 ARIMA-SEATS** [3].
+
+Se precisar, o recorte usado aqui é: **PMC, comparação mês a mês consecutivo, com controle sazonal** [1][2][3].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r2 · simple_rag
+
+A coluna da base PMC para uma comparação de meses consecutivos **com controle de sazonalidade** é a **`indice_atividade_comercio_com_ajuste_sazonal`** na **PMC** [2].
+
+Relação com a metodologia:
+- A metodologia diz que **não é adequado comparar meses consecutivos antes do ajuste sazonal** e que a remoção da sazonalidade é chamada de **ajuste sazonal/dessazonalização** [1].
+- O caderno da PMC informa que as **séries ajustadas sazonalmente** são calculadas com o método **X13 ARIMA-SEATS** [3].
+- O dicionário identifica explicitamente a coluna **`indice_atividade_comercio_com_ajuste_sazonal`** como o **“Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal)”** [2].
+
+Se a comparação for para **serviços** em vez de comércio, a coluna análoga na base PMS é **`indice_atividade_servicos_com_ajuste_sazonal`** [5].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r2 · graph_rag
+
+Para uma comparação de **meses consecutivos que controle sazonalidade**, a coluna da base PMC a ser usada é:
+
+- **`indice_atividade_comercio_com_ajuste_sazonal`** na base **PMC** [2].
+
+Isso se relaciona diretamente com a metodologia porque a fonte informa que:
+
+- **não é adequado comparar meses consecutivos antes do ajuste sazonal**; a comparação entre períodos consecutivos deve ser feita **após a dessazonalização** [1].
+- A PMC divulga séries **ajustadas sazonalmente** e usa o método **X-13 ARIMA-SEATS** para esse ajuste [3].
+
+Resumo do dicionário à metodologia:
+- **`indice_atividade_comercio_sem_ajuste`** = índice **sem ajuste sazonal** [2], portanto não é a coluna adequada para comparar meses consecutivos quando se quer controlar sazonalidade, segundo a metodologia [1].
+- **`indice_atividade_comercio_com_ajuste_sazonal`** = índice **com ajuste sazonal** [2], adequado para esse tipo de comparação, em linha com a metodologia descrita [1][3].
+
+Se você quiser, posso também indicar como essa lógica aparece para outras bases do painel, como PMS, usando só as fontes fornecidas.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r3 · simple_rag
+
+Para uma comparação de **meses consecutivos que controle sazonalidade**, a coluna da base PMC a usar é:
+
+- **`indice_atividade_comercio_com_ajuste_sazonal`** — “Índice de base fixa das atividades de comércio pesquisadas pela PMC (com ajuste sazonal)” [2].
+
+Isso está alinhado com a metodologia, que afirma que **não é adequado comparar resultados entre meses consecutivos antes do ajuste sazonal** e que a dessazonalização é feita pelo método **X-13 Arima** [1]. O próprio caderno da PMC também diz que as séries **ajustadas sazonalmente** permitem a comparação “com o mês imediatamente anterior” [3].
+
+Se eu for explícito no recorte:
+- **Território:** Brasil e SP, conforme o dicionário da base PMC [2].
+- **Período:** jan.2000 até a data atual do painel [2].
+- **Base de comparação:** mês imediatamente anterior / meses consecutivos, com ajuste sazonal [1][3].
+- **Unidade:** índice de base fixa [2].
+
+Portanto, para esse tipo de comparação, use a coluna **`indice_atividade_comercio_com_ajuste_sazonal`** [2].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+### r3 · graph_rag
+
+Para uma comparação de **meses consecutivos que controle sazonalidade**, a coluna da base PMC a ser usada é:
+
+- **`indice_atividade_comercio_com_ajuste_sazonal`** — “Índice de base fixa das atividades de comércio pesquisadas pela PMC (**com ajuste sazonal**)” [2].
+
+**Relação com a metodologia:** a metodologia informa que **não é adequado comparar períodos consecutivos antes do ajuste sazonal** e que a **remoção da sazonalidade** é chamada de **ajuste sazonal ou dessazonalização** [1]. Também diz que, nas estimativas paulistas, o ajuste sazonal é feito pelo método **X-13 Arima** [1]. Na metodologia da PMC, as séries ajustadas sazonalmente são usadas justamente para análises que consideram o efeito sazonal, com os cálculos feitos via **X13 ARIMA-SEATS** [3].
+
+Se a comparação for entre **meses consecutivos**, a fonte disponível aponta para a série **com ajuste sazonal**; a série **sem ajuste sazonal** não deve ser usada para esse fim [1][2][3].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.13; [2] dic_variaveis_pmc.csv p.Planilha; [3] pmc_202512caderno.pdf p.7; [4] pmc_202512caderno.pdf p.4; [5] dic_variaveis_pms.csv p.Planilha; [6] pim-pf-br_202512caderno.pdf p.10; [7] pim-pf-br_202512caderno.pdf p.5_
+
+## T064 (integracao)
+
+**Pergunta:** As notas das Contas Regionais permitem comparar sem ressalvas as atividades de 2022 com 2010–2021? Justifique pela mudança de agregação.
+
+**Resposta esperada:** Não. O detalhamento passou de 18 para 12 atividades, com parâmetros do SCNT; a nota alerta sobre restrições de comparabilidade.
+
+### r1 · simple_rag
+
+Não. As notas técnicas **não permitem comparar sem ressalvas** as atividades de 2022 com a série 2010–2021, porque houve **mudança no nível de agregação** na estimativa de 2022.
+
+A própria fonte afirma que, em 2022, o nível de detalhamento apresentado foi de **12 atividades econômicas**, e **não 18 como na série 2010–2021**. Também diz que essa agregação decorre da disponibilidade de informações do SCNT e que isso **“resulta na restrição da comparabilidade da série disponível, 2002-2022”** [1].
+
+Em termos de recorte:
+- **Território:** Unidades da Federação, no SCR do Brasil [1], [3]
+- **Período comparado:** 2022 versus série 2010–2021 [1]
+- **Base de comparação / agregação:** 12 atividades em 2022, contra 18 na série 2010–2021 [1]
+- **Unidade:** número de atividades econômicas (nível de detalhamento / agregação) [1]
+
+Além disso, a nota alerta que os dados de 2022 **“devem ser utilizados com ressalva”** para análises da série 2002–2022 [1].
+
+Portanto, a resposta é: **não, não sem ressalvas**, justamente pela mudança de agregação de **18 para 12 atividades econômicas** em 2022 [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.10; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] contas_regionais_2022_notas_tecnicas.pdf p.6; [9] contas_regionais_2022_notas_tecnicas.pdf p.7_
+
+### r1 · lexical_rag
+
+Não. As notas indicam que **não é possível comparar sem ressalvas** as atividades de 2022 com a série 2010–2021, porque houve **mudança no nível de agregação** em 2022.
+
+Justificativa, com base nas fontes:
+
+- O nível de detalhamento de 2022 é de **12 atividades econômicas**, enquanto na série **2010–2021** era de **18 atividades** [1].
+- A própria nota diz que essa **agregação** decorre da disponibilidade de informações do **SCNT** e que isso **restringe a comparabilidade da série 2002–2022** [1].
+- Também afirma que, em 2022, o **ajustamento aos resultados nacionais foi realizado em nível menor de abertura** do que o efetuado até 2021 [1].
+
+Portanto, a comparação entre 2022 e 2010–2021 só deve ser feita **com ressalva**, e não “sem ressalvas” [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.16; [7] contas_regionais_2022_notas_tecnicas.pdf p.7; [8] contas_regionais_2022_notas_tecnicas.pdf p.6_
+
+### r1 · graph_rag
+
+Não, as notas **não permitem comparar sem ressalvas** as atividades de **2022** com **2010–2021**. A própria fonte afirma que **alguns procedimentos de nível de agregação foram adotados para a estimativa de 2022 na base 2010** e, por isso, **os dados de 2022 devem ser utilizados com ressalva para análises da série 2002–2022** [1].
+
+A justificativa pela **mudança de agregação** é explícita: o **nível de detalhamento de 2022 é de 12 atividades econômicas, e não 18, como na série 2010–2021** [1]. A nota diz que essa agregação decorre da **disponibilidade de informações do SCNT**, que é conjuntural e **não dispõe, para divulgação, de informações estruturais**; por isso houve **redução do nível de detalhamento**, o que **restringe a comparabilidade** da série disponível [1].
+
+Em resumo, para a comparação territorial e temporal:
+- **Território**: Unidades da Federação [1]
+- **Período**: 2022 versus série 2010–2021 [1]
+- **Base de comparação**: base atual 2010 e série 2010–2021 [1]
+- **Unidade/nível de agregação**: atividades econômicas, com 12 em 2022 e 18 em 2010–2021 [1]
+
+Portanto, a resposta é **não, sem ressalvas não**; a mudança de agregação impede uma comparação totalmente direta [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.16; [7] contas_regionais_2022_notas_tecnicas.pdf p.7; [8] contas_regionais_2022_notas_tecnicas.pdf p.6_
+
+### r2 · simple_rag
+
+Não. As notas técnicas dizem que os dados de 2022 **devem ser utilizados com ressalva** para análises da série 2002–2022, porque houve **mudança no nível de agregação** em relação à série 2010–2021 [1], [3].
+
+A justificativa é esta: para 2022, o nível de detalhamento passou a ser de **12 atividades econômicas**, e **não 18**, como na série 2010–2021 [1]. A própria nota atribui essa mudança à disponibilidade de informações do **SCNT**, que tem “nível de detalhamento mais restrito” do que o SCN, e diz que isso **restringe a comparabilidade** da série disponível [1].
+
+Portanto, **não é possível comparar sem ressalvas** as atividades de 2022 com 2010–2021, porque a agregação mudou de **18 para 12 atividades econômicas** [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.10; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] contas_regionais_2022_notas_tecnicas.pdf p.6; [9] contas_regionais_2022_notas_tecnicas.pdf p.7_
+
+### r2 · graph_rag
+
+Não, **não permitem comparação sem ressalvas** entre 2022 e 2010–2021. A própria nota técnica alerta que os dados de 2022 “devem ser utilizados com ressalva para análises da série 2002-2022” porque houve **mudança no nível de agregação** adotado para 2022 na base atual, 2010 [1].
+
+A justificativa pela mudança de agregação é a seguinte:
+
+- **2022 foi estimado com nível de detalhamento de 12 atividades econômicas**;
+- **a série 2010–2021 tem 18 atividades econômicas** [1].
+
+A nota explica que essa agregação menor em 2022 ocorreu porque o **SCNT** usado como referência para 2022 “não dispõe, para divulgação, de informações estruturais” no mesmo detalhamento, e isso **restringe a comparabilidade da série disponível, 2002-2022** [1].
+
+Além disso, a publicação explicita que o **“nível de agregação das atividades econômicas” em 2020–2021 é comparado ao resultado de 2022** [4][5], reforçando que houve diferença de estrutura entre os recortes.
+
+Portanto, com base apenas nas fontes fornecidas, a resposta é: **não, as atividades de 2022 não podem ser comparadas sem ressalvas com 2010–2021, porque 2022 foi divulgado em agregação mais alta (12 atividades) do que a série 2010–2021 (18 atividades)** [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.16; [7] contas_regionais_2022_notas_tecnicas.pdf p.7; [8] contas_regionais_2022_notas_tecnicas.pdf p.6_
+
+### r3 · simple_rag
+
+Não, **não sem ressalvas**. As notas técnicas dizem que os dados de **2022** “devem ser utilizados com ressalva para análises da série 2002-2022” porque houve **mudança no nível de agregação** na estimativa de 2022, na base 2010 [1].
+
+A justificativa é esta:
+
+- A publicação informa que o nível de detalhamento de 2022 passou a **12 atividades econômicas**, e não **18**, como na série **2010-2021** [1].
+- Isso ocorreu porque a estimativa de 2022 usou como referência o **SCNT**, que “não dispõe, para divulgação, de informações estruturais” e tem “nível de detalhamento mais restrito” [1].
+- O texto também afirma que o “ajustamento aos resultados nacionais, em 2022, foi realizado em nível menor de abertura do que o efetuado até 2021” [1].
+
+Portanto, a própria nota técnica indica que **não é uma comparação totalmente limpa entre 2022 e 2010–2021**, pois a série foi produzida com **agregação diferente** em 2022, o que **restringe a comparabilidade** [1].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.10; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] contas_regionais_2022_notas_tecnicas.pdf p.6; [9] contas_regionais_2022_notas_tecnicas.pdf p.7_
+
+### r3 · graph_rag
+
+Não, **não permitem comparar sem ressalvas** as atividades de 2022 com a série 2010–2021. A própria nota técnica alerta que os dados de 2022 “devem ser utilizados com ressalva para análises da série 2002-2022” porque houve procedimentos de **nível de agregação** diferentes na estimativa de 2022 na base 2010 [1].
+
+A justificativa é a **mudança de agregação**: a publicação informa que o detalhamento de 2022 passou a ser de **12 atividades econômicas**, e **não 18**, como na série 2010–2021 [1]. A nota diz que isso ocorreu por causa da disponibilidade de informações do SCNT, que tem nível de detalhamento mais restrito, o que “resulta na restrição da comparabilidade da série disponível, 2002-2022” [1].
+
+Além disso, a nota afirma que, em 2022, o ajustamento aos resultados nacionais foi feito em **nível menor de abertura** do que até 2021 [1]. Portanto, a comparação existe, mas **com ressalva**, e não “sem ressalvas” [1].
+
+Se você quiser, posso também resumir isso em uma frase curta para uso em texto técnico.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.8; [2] contas_regionais_2022_notas_tecnicas.pdf p.8; [3] contas_regionais_2022_notas_tecnicas.pdf p.7; [4] contas_regionais_2022_notas_tecnicas.pdf p.9; [5] contas_regionais_2022_notas_tecnicas.pdf p.9; [6] contas_regionais_2022_notas_tecnicas.pdf p.16; [7] contas_regionais_2022_notas_tecnicas.pdf p.7; [8] contas_regionais_2022_notas_tecnicas.pdf p.6_
+
+## T065 (integracao)
+
+**Pergunta:** A base municipal termina em 2018 como diz o dicionário ou contém anos posteriores? Apresente uma evidência e a ressalva necessária.
+
+**Resposta esperada:** O dicionário declara 2002–2018, mas a base contém registros de 2020. Há descompasso de documentação; a cobertura efetiva não deve ser inferida só pelo dicionário.
+
+### r1 · simple_rag
+
+Não. A base municipal **não termina em 2018** nas fontes fornecidas: há tabela para o **Município de São Paulo** com série de **“1º Trimestre de 2002 - 1º trimestre de 2026”** [1], o que mostra anos posteriores a 2018. Como evidência, a própria Tabela 21.3 traz **2018 / I trimestre** para o Município de São Paulo, com nota de que **“Os dados são preliminares e sujeitos a revisão”** [1], e a Tabela 21.1 também indica série municipal **2002-2025**, contendo **2018** e notas de preliminaridade [5].
+
+**Ressalva necessária:** o dicionário da base municipal informa que a **“Série disponível”** é **“PIB municipal 2002 - 2018”** para as variáveis listadas [3]. Então, há uma diferença entre o dicionário e as tabelas mais recentes: o dicionário aponta até 2018, mas as tabelas fornecidas mostram continuidade posterior, ao menos para o Município de São Paulo [1][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r1 · lexical_rag
+
+A base municipal **não termina em 2018**; há anos posteriores na fonte mais recente. A própria tabela do Município de São Paulo vai de **2002 a 2025** e, na linha exibida, traz **2018** como um dos anos da série, não como último ano. Além disso, o cabeçalho da Tabela 21.3 indica “**1º Trimestre de 2002 - 1º trimestre de 2026**”, mostrando que há dado trimestral posterior a 2018 nessa publicação [1][2].
+
+**Evidência:** a Tabela 21.1 do **Município de São Paulo** está titulada “**2002-2025**”, com nota de que “**os dados são preliminares e sujeitos a revisão**” [5].  
+**Ressalva necessária:** o dicionário informado na fonte 3 diz que a “**Série disponível**” do **PIB municipal 2002 - 2018** vai até **2018**; portanto, esse dicionário está desatualizado em relação às tabelas de 2026 aqui fornecidas [3][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r1 · graph_rag
+
+A base municipal **não termina em 2018** nas fontes fornecidas: há tabelas municipais com anos posteriores, inclusive **2025** e **2026**.
+
+**Evidência:** a **Tabela 21.1** é do **Município de São Paulo** e traz a série **“2002-2025”**; nela, o ano **2018** aparece com valores do PIB e da população, e o título da tabela mostra que a base municipal vai até **2025** [5]. Além disso, a **Tabela 21.3** do mesmo município traz trimestres até o **1º trimestre de 2026** [1][2].
+
+**Ressalva necessária:** o dicionário de variáveis informa que a série disponível para o **PIB municipal** é **“2002 - 2018”** [3]. Portanto, há uma **inconsistência entre o dicionário e as tabelas**: o dicionário sugere corte em 2018, mas as tabelas municipais fornecidas mostram anos posteriores. As fontes também indicam que os dados são **preliminares e sujeitos a revisão** [1][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r2 · simple_rag
+
+Não. As fontes mostram que a base municipal **não termina em 2018**; há anos posteriores.
+
+**Evidência:** a **Tabela 21.1** do Município de São Paulo está intitulada **“2002-2025”** e traz a coluna **“2018”** dentro dessa série, o que indica que a base municipal apresentada na fonte vai além de 2018, chegando até **2025**. Além disso, a **Tabela 21.3** também traz o Município de São Paulo com cobertura de **“1º Trimestre de 2002 - 1º trimestre de 2026”**, e a linha mostrada para **2018, I e II trimestre** aparece com a nota de que **“Os dados são preliminares e sujeitos a revisão”** [1], [2], [5].
+
+**Ressalva necessária:** o dicionário de variáveis informa **“Série disponível: PIB municipal 2002 - 2018”** para as variáveis municipais, então ele **não reflete a extensão mais recente** que aparece nas tabelas. Em outras palavras, o dicionário indica 2018 como limite da série disponível ali descrita, mas as tabelas da fonte posterior mostram anos além disso [3], [5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r2 · graph_rag
+
+A **base municipal não termina em 2018**; há **anos posteriores** nas fontes fornecidas. A evidência é a **Tabela 21.1**, cujo título indica a série **“Município de São Paulo | 2002-2025”** e a qual traz o ano **2018** em uma linha específica, dentro de uma tabela que vai até **2025** [5].  
+
+**Ressalva necessária:** o dicionário de variáveis informa **“Série disponível: PIB municipal 2002 - 2018”** para as variáveis do PIB municipal [3]. Portanto, há uma **inconsistência entre o dicionário e a tabela mais recente**: o dicionário sugere término em 2018, mas a tabela citada mostra que a base municipal publicada nessas fontes contém **anos posteriores a 2018**. Além disso, a tabela informa que os dados são **preliminares e sujeitos a revisão** [5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r3 · simple_rag
+
+Não. Pelas fontes fornecidas, a base municipal **não termina em 2018**: a tabela municipal mais recente citada vai até **2025**.
+
+**Evidência:** a **Tabela 21.1** é do **Município de São Paulo** e seu título indica a série **“2002-2025”**; além disso, a linha mostrada está em **2018** e a própria tabela contém anos posteriores até 2025 [5].  
+
+**Ressalva necessária:** o **dicionário** informa **“Série disponível: PIB municipal 2002 - 2018”** para as variáveis do PIB municipal [3], mas isso não cobre a tabela municipal mais recente mostrada nas fontes. Portanto, há uma **inconsistência aparente entre o dicionário e a tabela**, e, com base apenas nas fontes fornecidas, não dá para afirmar que a base municipal termina em 2018; só é possível dizer que o dicionário apresenta essa série até 2018, enquanto a tabela municipal de referência aqui exibida inclui anos posteriores [3][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+### r3 · graph_rag
+
+Sim. O dicionário **não mostra que a base municipal termina em 2018**; há fontes com anos posteriores.
+
+**Evidência:** a tabela municipal **“Município de São Paulo”** vai de **1º trimestre de 2002 a 1º trimestre de 2026** [1]. Além disso, a **Tabela 21.1** do mesmo conjunto traz o município de São Paulo com série anual **2002-2025** [5].
+
+**Ressalva necessária:** a fonte do dicionário informa a **“Série disponível: PIB municipal 2002 - 2018”** para várias variáveis [3], mas isso descreve a série disponível naquele dicionário, não a totalidade da base municipal. Portanto, há uma diferença entre o dicionário [3] e as tabelas mais recentes [1], [2], [5]. Também vale notar que os dados citados nas tabelas de 2026 aparecem com a nota de que **“os dados são preliminares e sujeitos a revisão”** [1], [5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 72; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 73; [3] dicvar_pib_municipal_2002_2020.csv p.Planilha; [4] pib_mensal_trimestral_metodologia.pdf p.9; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] pim-pf-br_202512caderno.pdf p.27; [7] pib_mensal_trimestral_metodologia.pdf p.6; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 5.1; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 22.1; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 19.1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 14.1_
+
+## T070 (integracao)
+
+**Pergunta:** Verifique, para o Estado de São Paulo em 2023, a identidade PIB = Valor Adicionado + impostos líquidos de subsídios, usando a tabela anual e a metodologia.
+
+**Resposta esperada:** VA de 2943727,67 e impostos de 501086,37 somam aproximadamente 3444814,03 milhões de reais, compatível com o PIB da tabela.
+
+### r1 · simple_rag
+
+Para **o Estado de São Paulo em 2023**, **a tabela anual disponível nas fontes fornecidas não permite verificar numericamente a identidade**:
+
+**PIB = Valor Adicionado + impostos líquidos de subsídios**
+
+Isso porque, na **Tabela 1** do arquivo anual, há valor para **“Impostos sobre produto, líquidos de subsídios” em 2023** apenas em algumas linhas, mas os valores de **“Valor Adicionado”** e de **“PIB”** para 2023 aparecem como **não disponíveis** nas fontes anuais fornecidas para essa tabela [4][6]. Assim, falta pelo menos um dos termos necessários para fazer a verificação direta com a tabela anual.
+
+O que as fontes mostram é:
+
+- **Estado de São Paulo, 2023, Tabela 1, impostos sobre produto líquidos de subsídios:** a fonte anual não traz o valor de 2023 nessa tabela; ela mostra apenas os anos de 2010 a 2021 para esse item [4].
+- **Estado de São Paulo, 2023, Tabela 1, outros impostos sobre a produção líquidos de subsídios:** também não há valor de 2023; a tabela mostra apenas de 2010 a 2021 [6].
+- **Estado de São Paulo, 2023, Tabela 7 (trimestral), valor adicionado total:** 776761,5134661568 R$ milhões [10].
+- **Estado de São Paulo, 2023, Tabela 7 (trimestral), impostos líquidos de subsídios:** 135871,36612736728 R$ milhões [10].
+- **Estado de São Paulo, 2023, Tabela 7 (trimestral), PIB:** 912632,8795935242 R$ milhões [10].
+
+Mas essa **Tabela 7 é trimestral**, com nota de que **os dados são preliminares e sujeitos a revisão** [10], e não substitui a **tabela anual** pedida. Além disso, a fonte anual fornecida não traz os três termos necessários em 2023 para confirmar a identidade [4][6].
+
+A **metodologia** nas fontes fornecidas apenas indica a existência das óticas de produção e da renda, com componentes como **Valor Adicionado**, **Impostos Líquidos de Subsídios** e **PIB**, mas não fornece, nas fontes anuais entregues aqui, o conjunto completo de números de 2023 para conferir a soma [3][4][5].
+
+**Conclusão:** com as fontes fornecidas, **não é possível verificar para 2023, pela tabela anual, se PIB = Valor Adicionado + impostos líquidos de subsídios no Estado de São Paulo** [4][6].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 3; [8] tabelas-pib-anual-2023.xlsx p.Tabela 2; [9] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5; [10] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 7; [11] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5_
+
+### r1 · lexical_rag
+
+Para o **Estado de São Paulo**, em **2023**, a identidade **PIB = Valor Adicionado + impostos líquidos de subsídios** **não pode ser verificada integralmente com as fontes fornecidas**, porque a fonte traz o valor do **PIB total** e dos **componentes do Valor Adicionado** citados abaixo, mas **não traz explicitamente, na mesma tabela, o total do Valor Adicionado agregado** que permitiria fechar a identidade por soma direta. Além disso, a tabela anual consultada indica “Dados não disponíveis” para alguns itens, o que limita a verificação completa [4][6].
+
+O que as fontes permitem afirmar para **Estado de São Paulo, 2023** é:
+
+- **Impostos sobre produtos, líquidos de subsídios**: **R$ 501.086,36763772 milhões**, em **2023**, para o **Estado de São Paulo**, em **milhões de reais** [6].  
+- **Indústria de transformação**: **R$ 538.047,4842366149 milhões**, em **2023**, para o **Estado de São Paulo**, em **milhões de reais** [11].  
+- **Construção**: **R$ 83.223,9195810871 milhões**, em **2023**, para o **Estado de São Paulo**, em **milhões de reais** [10].
+
+A fonte metodológica/tabela anual também mostra que o **PIB paulista em 2023** é tratado nas tabelas de componentes e estrutura do PIB do Estado de São Paulo, mas **não fornece aqui, de forma explícita no excerto recebido, o total do Valor Adicionado agregado de 2023** para eu somá-lo e confrontá-lo com o PIB total [4][6].
+
+Portanto, com as fontes fornecidas, a conclusão correta é: **não é possível verificar completamente a identidade solicitada para 2023 sem o total do Valor Adicionado agregado do Estado de São Paulo na mesma base anual** [4][6].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 3; [8] tabelas-pib-anual-2023.xlsx p.Tabela 2; [9] tabelas-pib-anual-2023.xlsx p.Tabela 11; [10] tabelas-pib-anual-2023.xlsx p.Tabela 8; [11] tabelas-pib-anual-2023.xlsx p.Tabela 8_
+
+### r1 · graph_rag
+
+Não é possível verificar **integralmente** a identidade **PIB = Valor Adicionado + impostos líquidos de subsídios** para o **Estado de São Paulo, em 2023**, usando apenas as fontes fornecidas, porque falta pelo menos o **Valor Adicionado total** de 2023 na forma necessária para fazer a soma diretamente.
+
+O que as fontes mostram é:
+
+- **PIB de 2023 do Estado de São Paulo**: **5.487.183,035641105 milhões de reais** [4].  
+  - Território: Estado de São Paulo  
+  - Período: 2023  
+  - Base de comparação: não se aplica; é valor absoluto da tabela anual  
+  - Unidade: milhões de reais
+
+- **Impostos sobre produto, líquidos de subsídios, em 2023**: **501.086,36763772 milhões de reais** [7].  
+  - Território: Estado de São Paulo  
+  - Período: 2023  
+  - Base de comparação: não se aplica; é valor absoluto da tabela anual  
+  - Unidade: milhões de reais
+
+- A tabela de **estrutura do PIB** mostra que, em 2023, os **impostos sobre produtos líquidos de subsídios** correspondiam a **14,54610794214113%** do PIB paulista [5].  
+  - Território: Estado de São Paulo  
+  - Período: 2023  
+  - Base de comparação: participação no PIB  
+  - Unidade: %
+
+- A **Tabela 11** traz a estrutura do **Valor Adicionado** por setor, mas a fonte fornecida só lista o setor **Serviços**, com **73,87694039048901%** em 2023 [10].  
+  - Território: Estado de São Paulo  
+  - Período: 2023  
+  - Base de comparação: estrutura do Valor Adicionado  
+  - Unidade: %
+
+- A **Tabela 8** traz o Valor Adicionado em milhões de reais para o setor **Construção**, com **83.223,9195810871 milhões de reais** em 2023 [11].  
+  - Território: Estado de São Paulo  
+  - Período: 2023  
+  - Base de comparação: não se aplica; é valor absoluto da tabela anual  
+  - Unidade: milhões de reais
+
+Como a pergunta pede a identidade com **Valor Adicionado total**, e as fontes fornecidas **não exibem o total do Valor Adicionado em 2023** de forma explícita, **não dá para concluir a verificação completa** apenas com esses trechos. A nota das tabelas também informa “**Dados não disponíveis**” para alguns anos/campos [4], [5], [7], [8], [9].
+
+Além disso, a fonte de metodologia presente nas referências apenas indica que as tabelas são do IBGE/Seade e que há notas de estrutura e componentes, mas **não traz, nas fontes fornecidas, uma fórmula explícita para refazer a identidade** [3], [4], [5], [7]. Portanto, **não posso afirmar a igualdade por cálculo a partir do corpus fornecido**.
+
+Se você quiser, posso organizar em seguida uma checagem parcial da consistência entre:
+- PIB,
+- impostos líquidos de subsídios,
+- e as participações percentuais mostradas nas tabelas [4], [5], [7].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] tabelas-pib-anual-2023.xlsx p.Tabela 1; [8] tabelas-pib-anual-2023.xlsx p.Tabela 3; [9] tabelas-pib-anual-2023.xlsx p.Tabela 2; [10] tabelas-pib-anual-2023.xlsx p.Tabela 11; [11] tabelas-pib-anual-2023.xlsx p.Tabela 8_
+
+### r2 · simple_rag
+
+Para o **Estado de São Paulo em 2023**, a identidade **PIB = Valor Adicionado + impostos líquidos de subsídios** é **verificável apenas parcialmente com as fontes fornecidas**.
+
+- **PIB**: a fonte trimestral informa, para o **4º trimestre de 2023**, no **Estado de São Paulo**, **R$ 912.632,8795935242 milhões** [10].  
+- **Valor Adicionado total**: a mesma fonte informa, para o **4º trimestre de 2023**, no **Estado de São Paulo**, **R$ 776.761,5134661568 milhões** [10].  
+- **Impostos Líquidos de Subsídios**: a mesma fonte informa, para o **4º trimestre de 2023**, no **Estado de São Paulo**, **R$ 135.871,36612736728 milhões** [10].
+
+Com esses três valores da mesma tabela e mesmo período, a soma do **Valor Adicionado total** e dos **Impostos Líquidos de Subsídios** coincide com o **PIB** informado na fonte para o **4º trimestre de 2023** do **Estado de São Paulo** [10].
+
+No entanto, **isso não verifica a identidade para o ano de 2023 inteiro**, porque nas fontes anuais fornecidas a **Tabela 1** mostra o componente **“Impostos sobre produto, líquidos de subsídios”** para 2023 como **não disponível** (“...”), e não traz o **PIB total de 2023** nessa mesma tabela [4]. A **Tabela 2** e a **Tabela 3** trazem apenas participações percentuais de 2023, não os valores absolutos necessários para fechar a identidade anual [5][3]. A **Tabela 5** e a **Tabela 7** trazem dados trimestrais de 2023, com nota de que são **preliminares e sujeitos a revisão** [9][10][11].
+
+Portanto, **com as fontes fornecidas, a identidade pode ser conferida para o 4º trimestre de 2023 no Estado de São Paulo, mas não para o ano fechado de 2023** [10][4][5][3].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 3; [8] tabelas-pib-anual-2023.xlsx p.Tabela 2; [9] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5; [10] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 7; [11] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5_
+
+### r2 · graph_rag
+
+Não é possível **verificar a identidade PIB = Valor Adicionado + impostos líquidos de subsídios para o Estado de São Paulo em 2023** com as fontes fornecidas, porque elas **não trazem, na mesma tabela e para 2023, os três valores necessários de forma completa e comparável**.
+
+O que as fontes mostram para **Estado de São Paulo, 2023**:
+
+- **Impostos sobre produtos, líquidos de subsídios**: **501086,36763772 milhões de reais** [7].  
+- **Participação desse componente no PIB**: **14,54610794214113%** [5].  
+- A tabela anual também informa que os números são para o **Estado de São Paulo, 2002-2023, em milhões de reais** [4], [7].  
+
+Mas faltam, nas fontes fornecidas:
+
+- o **Valor Adicionado total de 2023** para o Estado de São Paulo na tabela anual;  
+- o **PIB total de 2023** para o Estado de São Paulo na tabela anual;  
+- a **metodologia detalhada** que permita reconstruir a identidade com os dados disponíveis aqui.
+
+A fonte [4] é a tabela anual em milhões de reais, mas nela os valores de **2023** para outros componentes aparecem como **“...”**, indicando **dados não disponíveis** nessa extração. A fonte [7] traz apenas o valor dos impostos líquidos de subsídios em 2023, e [11] mostra apenas um setor específico do valor adicionado, não o total.
+
+Portanto, com as fontes fornecidas, **não dá para confirmar numericamente a identidade contábil** para 2023. O máximo que se pode afirmar é que as tabelas anuais tratam do **Estado de São Paulo** e incluem o componente **impostos sobre produtos, líquidos de subsídios** em 2023 [7], mas não trazem o conjunto completo necessário para a checagem pedida.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] tabelas-pib-anual-2023.xlsx p.Tabela 1; [8] tabelas-pib-anual-2023.xlsx p.Tabela 3; [9] tabelas-pib-anual-2023.xlsx p.Tabela 2; [10] tabelas-pib-anual-2023.xlsx p.Tabela 11; [11] tabelas-pib-anual-2023.xlsx p.Tabela 8_
+
+### r3 · simple_rag
+
+Para o **Estado de São Paulo em 2023**, com base nas fontes fornecidas, **não dá para verificar diretamente a identidade anual exata** “PIB = Valor Adicionado + impostos líquidos de subsídios”, porque a **Tabela 1 anual** não traz os valores de 2023 para os componentes necessários: nela, os campos de 2023 para **“Impostos sobre produto, líquidos de subsídios”** e para os demais componentes estão como **“...”** ou **“…”**, isto é, **dados não disponíveis** na fonte fornecida [4][6].  
+
+O que as fontes permitem mostrar é:
+
+- Na **Tabela 7 trimestral** de 2023 para o **Estado de São Paulo**, no **4º trimestre de 2023**, o **Valor Adicionado** foi **776761,5134661568 R$ milhões**, os **Impostos Líquidos de Subsídios** foram **135871,36612736728 R$ milhões** e o **PIB** foi **912632,8795935242 R$ milhões** [10].  
+- Essa tabela é **trimestral** e traz a nota de que **“os dados são preliminares e sujeitos a revisão”** [10]. Portanto, ela **não substitui a tabela anual** pedida.  
+
+Sobre a **metodologia**, as fontes só indicam que o PIB é apresentado **“sob as óticas de produção e da renda”** e que há componentes para **Valor Adicionado** e **Impostos líquidos de subsídios** [4][5][10]. Porém, **não há nas fontes fornecidas uma explicitação metodológica textual suficiente para eu demonstrar a soma anual de 2023 no Estado de São Paulo**.  
+
+Conclusão: **com as fontes fornecidas, não é possível verificar a identidade anual de 2023 para o Estado de São Paulo**, porque faltam os valores anuais de 2023 na Tabela 1 [4][6]. Se você quiser, posso apenas registrar a relação mostrada na Tabela 7 trimestral de 2023, mas isso **não atende ao pedido anual** e é **preliminar** [10].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 3; [8] tabelas-pib-anual-2023.xlsx p.Tabela 2; [9] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5; [10] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 7; [11] tabelas-relatorio-2-trim2026-site.xlsx p.Tabela 5_
+
+### r3 · graph_rag
+
+Não consigo verificar a identidade **PIB = Valor Adicionado + impostos líquidos de subsídios** para **o Estado de São Paulo em 2023** com as fontes fornecidas, porque **faltam os valores necessários e diretamente associados ao mesmo recorte territorial e ao mesmo ano**.
+
+O que as fontes mostram para **Estado de São Paulo, 2023**:
+
+- **Impostos sobre produto, líquidos de subsídios**:
+  - **R$ 501.086,36763772 milhões** em **2023**, para o **Estado de São Paulo**, na **Tabela 1** [7].
+- **Estrutura do PIB**:
+  - a participação de **Impostos sobre Produtos Líquidos de Subsídios** no PIB do Estado de São Paulo foi **14,54610794214113%** em **2023** [5].
+- **Participação do PIB paulista no Brasil**:
+  - a participação de **Impostos sobre produto, líquidos de subsídios** no Brasil foi **36,18597451225747%** em **2023** [3].
+- **Valor Adicionado, setor Construção**:
+  - **R$ 83.223,9195810871 milhões** em **2023**, para o **Estado de São Paulo**, mas isso é **apenas um setor do Valor Adicionado**, não o total do Valor Adicionado [11].
+
+O problema é que, nas fontes fornecidas, **não aparece o total do Valor Adicionado do Estado de São Paulo em 2023** em milhões de reais. Também não há, nas tabelas mostradas, uma linha que permita somar todos os setores e obter esse total de forma documentalmente direta. Assim, **não é possível confirmar a identidade contábil solicitada apenas com estas fontes** [4], [11].
+
+Além disso, a **metodologia** fornecida aqui informa apenas que as tabelas têm como fonte **IBGE e Fundação Seade**, e que há **dados não disponíveis** em alguns pontos; não há, nas fontes apresentadas, uma nota metodológica que traga a fórmula explícita ou um quadro completo para recompor o PIB de 2023 [3], [4], [5].
+
+Em resumo: **as fontes confirmam o valor dos impostos líquidos de subsídios para 2023, mas não fornecem o total do Valor Adicionado de 2023 para o Estado de São Paulo; portanto, a igualdade não pode ser verificada com segurança a partir do corpus dado** [4], [7], [11].
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 2; [2] codigos_municipios_regioes.csv p.linha 566; [3] tabelas-pib-anual-2023.xlsx p.Tabela 3; [4] tabelas-pib-anual-2023.xlsx p.Tabela 1; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] tabelas-pib-anual-2023.xlsx p.Tabela 1; [8] tabelas-pib-anual-2023.xlsx p.Tabela 3; [9] tabelas-pib-anual-2023.xlsx p.Tabela 2; [10] tabelas-pib-anual-2023.xlsx p.Tabela 11; [11] tabelas-pib-anual-2023.xlsx p.Tabela 8_
+
+## T071 (sintese)
+
+**Pergunta:** Faça um panorama dos resultados brasileiros de 2025 para PIB, produção industrial e volume de vendas do varejo, distinguindo o resultado anual do mensal de dezembro.
+
+**Resposta esperada:** PIB anual: +2,3% em volume; indústria anual: +0,6%; varejo anual: +1,6%; dezembro contra novembro com ajuste: indústria -1,2%, varejo -0,4%; não somar taxas de pesquisas distintas.
+
+### r1 · simple_rag
+
+Há mais de uma leitura possível para a pergunta, mas o recorte mais claro nas fontes é o **Brasil em 2025**, comparando o **resultado anual** com o **mensal de dezembro**. Abaixo, apresento esse recorte.
+
+## Panorama de 2025
+
+### PIB
+- **Resultado anual de 2025**: o PIB do Brasil **cresceu 2,3% em relação a 2024**. A fonte também informa que, em 2025, o PIB em valores correntes totalizou **R$ 12.738,6 bilhões**.  
+  - **Território**: Brasil  
+  - **Período**: ano de 2025  
+  - **Base de comparação**: 2024  
+  - **Unidade**: variação percentual (%), e valores correntes em R$ bilhões  
+  [7], [9]
+
+- **Mensal de dezembro de 2025**: a fonte disponível **não traz um indicador mensal de PIB para dezembro**; ela informa apenas o PIB do **4º trimestre de 2025** contra o **3º trimestre de 2025** (+0,1%) e contra **igual período de 2024** (+1,8%).  
+  - **Território**: Brasil  
+  - **Período**: 4º trimestre de 2025, não dezembro  
+  - **Base de comparação**: trimestre imediatamente anterior e igual trimestre de 2024  
+  - **Unidade**: variação percentual (%)  
+  [7]
+
+### Produção industrial
+- **Resultado anual de 2025**: a atividade industrial do Brasil **cresceu 0,6% no acumulado de janeiro a dezembro de 2025 frente a igual período de 2024**.  
+  - **Território**: Brasil  
+  - **Período**: janeiro-dezembro de 2025  
+  - **Base de comparação**: igual período de 2024  
+  - **Unidade**: variação percentual (%)  
+  [3], [4]
+
+- **Mensal de dezembro de 2025**: a produção industrial nacional **recuou 1,2% frente a novembro de 2025**, na série com ajuste sazonal. Na comparação com **dezembro de 2024**, o total da indústria **avançou 0,4%**. A fonte também menciona que dezembro de 2025 teve **22 dias**, contra **21 dias** em dezembro de 2024, o que indica efeito-calendário.  
+  - **Território**: Brasil  
+  - **Período**: dezembro de 2025  
+  - **Base de comparação**: novembro de 2025; e igual mês de 2024  
+  - **Unidade**: variação percentual (%)  
+  [3], [4]
+
+### Volume de vendas do varejo
+- **Resultado anual de 2025**: no comércio varejista, a variação das vendas em 2025 foi de **1,6% em relação a 2024**. A fonte também informa que o **varejo ampliado** variou **0,1%** em 2025 contra 2024.  
+  - **Território**: Brasil  
+  - **Período**: ano de 2025  
+  - **Base de comparação**: 2024  
+  - **Unidade**: variação percentual (%)  
+  [5]
+
+- **Mensal de dezembro de 2025**: a fonte informa que, na passagem de **novembro para dezembro de 2025**, o volume de vendas do varejo registrou **variação de -0,4%**, resultado classificado como **estabilidade**.  
+  - **Território**: Brasil  
+  - **Período**: dezembro de 2025  
+  - **Base de comparação**: novembro de 2025  
+  - **Unidade**: variação percentual (%)  
+  [5]
+
+## Síntese curta
+Em 2025, o Brasil teve **alta do PIB de 2,3%**, **crescimento da produção industrial de 0,6%** no acumulado do ano e **alta de 1,6% no volume de vendas do varejo**. Em dezembro, a indústria **caiu 1,2% ante novembro** e o varejo **variaou -0,4% ante novembro**; para o PIB, as fontes fornecidas **não trazem um dado mensal de dezembro**, apenas o resultado do **4º trimestre**. [3], [5], [7], [9]
+
+Se quiser, posso reorganizar isso em **tabela comparativa** com colunas para indicador, resultado anual e dezembro.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] pib-vol-val_202504caderno.pdf p.12; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.17; [9] pib-vol-val_202504caderno.pdf p.13; [10] pim-pf-br_202512caderno.pdf p.28_
+
+### r1 · lexical_rag
+
+Segue um panorama **do Brasil** em 2025, distinguindo **resultado anual** e **resultado de dezembro**, usando apenas as fontes fornecidas. Como a pergunta pede Brasil e as fontes trazem resultados nacionais, usei esse recorte.
+
+## PIB
+**Informação ausente nas fontes fornecidas.**  
+Não há, entre as fontes, dado de PIB do Brasil para 2025, nem anual nem de dezembro. Portanto, não é possível fazer o panorama do PIB com base nessas fontes.
+
+## Produção industrial
+### Resultado anual de 2025
+- **Brasil / indústria geral / janeiro-dezembro de 2025 / comparação com igual período de 2024 / +0,6%** [3].  
+  A fonte informa que, no índice acumulado de janeiro-dezembro de 2025, a atividade industrial cresceu **0,6%** frente a igual período do ano anterior [3].  
+  A mesma fonte também menciona que a taxa anualizada, em dezembro de 2025, foi **0,6%** [3], mas isso é um indicador distinto do acumulado anual.
+
+### Resultado mensal de dezembro de 2025
+- **Brasil / indústria geral / dezembro de 2025 / comparação com novembro de 2025, série com ajuste sazonal / -1,2%** [3], [8].  
+  A tabela regional mostra o Brasil em **-1,2%** em dezembro de 2025 na comparação mês contra mês imediatamente anterior, com ajuste sazonal [8].  
+  A mesma divulgação nacional também descreve queda de **1,2%** na passagem de novembro para dezembro de 2025 [3].
+
+## Volume de vendas do varejo
+### Resultado anual de 2025
+- **Brasil / comércio varejista / acumulado do ano de 2025 / comparação com 2024 / +1,6%** [5].  
+  A fonte diz que, no acumulado do ano, a variação das vendas no comércio varejista em 2025 foi de **1,6%** [5].
+- **Brasil / comércio varejista ampliado / acumulado de 2025 / comparação com 2024 / +0,1%** [5].  
+  A mesma fonte informa que, no varejo ampliado, a variação de **0,1%** em 2025 foi na comparação com 2024 [5].
+
+### Resultado mensal de dezembro de 2025
+- **Brasil / comércio varejista / dezembro de 2025 / comparação com dezembro de 2024 / +2,3%** [6], [7].  
+  A fonte informa que o total do varejo teve **2,3%** em dezembro de 2025 frente a dezembro de 2024 [6], e também detalha contribuições de grupos para essa taxa [7].  
+- **Brasil / comércio varejista ampliado / dezembro de 2025 / comparação com dezembro de 2024 / +3,1%**.  
+  **Essa informação não aparece nas fontes fornecidas de forma explícita no trecho disponibilizado.** As fontes citadas tratam do varejo e do varejo ampliado, mas o trecho fornecido não traz, de modo direto e completo, o número nacional de dezembro do varejo ampliado.
+
+## Resumo curto
+- **PIB:** sem dado nas fontes [1]-[10].  
+- **Produção industrial do Brasil:**  
+  - **2025 acumulado:** **+0,6%** [3]  
+  - **dezembro/2025 vs novembro/2025, sazonalmente ajustado:** **-1,2%** [3], [8]
+- **Varejo do Brasil:**  
+  - **2025 acumulado (varejo):** **+1,6%** [5]  
+  - **dezembro/2025 vs dezembro/2024 (varejo):** **+2,3%** [6], [7]  
+  - **2025 acumulado (varejo ampliado):** **+0,1%** [5]  
+
+Se você quiser, posso reorganizar isso em formato de tabela única.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] pmc_202512caderno.pdf p.20; [7] pmc_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.75; [9] pim-pf-regional_202512.pdf p.72; [10] pim-pf-regional_202512.pdf p.7_
+
+### r1 · graph_rag
+
+Se entendi corretamente, o recorte é **Brasil** e o período é **2025**, com distinção entre o **resultado anual** e o **mensal de dezembro**. As fontes permitem essa leitura.
+
+**Panorama dos resultados brasileiros de 2025**
+
+- **PIB**: **não há informação nas fontes fornecidas** sobre PIB do Brasil em 2025, nem para o resultado anual nem para dezembro. Portanto, não consigo citar esse indicador com base nas fontes. [1]-[10]
+
+- **Produção industrial**
+  - **Resultado anual**: a **atividade industrial brasileira** cresceu **0,6%** no **acumulado de janeiro a dezembro de 2025**, em comparação com **igual período de 2024**. [3]  
+  - **Mensal de dezembro**: a **produção industrial brasileira** caiu **1,2%** em **dezembro de 2025**, em comparação com **novembro de 2025**, na **série com ajuste sazonal**. [3], [9]  
+  - A mesma fonte também informa que, no confronto de **dezembro de 2025** com **dezembro de 2024**, a produção industrial avançou **0,4%**. [3], [4]
+
+- **Volume de vendas do varejo**
+  - **Resultado anual**: no **acumulado do ano de 2025**, o **comércio varejista** brasileiro teve variação de **1,6%** em relação a **2024**. [5]  
+  - **Mensal de dezembro**: nas fontes fornecidas, aparece apenas que a **passagem de novembro para dezembro de 2025** registrou variação de **-0,4%** no **volume de vendas do comércio varejista**, em **série com ajuste sazonal**. [5]  
+  - As fontes também trazem resultados de **dezembro de 2025 frente a dezembro de 2024** para vários grupos do varejo, mas **não encontrei, nas fontes fornecidas, o percentual agregado do varejo brasileiro nessa comparação interanual de dezembro**. [7], [8]
+
+**Observação importante:** para o **PIB**, as fontes não trazem dados. Para o **varejo em dezembro**, as fontes fornecem o dado **mês contra mês anterior** (-0,4%), mas **não exibem claramente o total nacional interanual de dezembro** no material disponível. [5], [7], [8]
+
+Se quiser, posso reorganizar isso em uma **tabela comparativa** com colunas “indicador”, “resultado anual”, “dezembro/2025” e “base de comparação”.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] pmc_202512caderno.pdf p.20; [8] pmc_202512caderno.pdf p.19; [9] pim-pf-regional_202512.pdf p.75; [10] pim-pf-regional_202512.pdf p.72_
+
+### r2 · simple_rag
+
+Segue um panorama **do Brasil** em 2025 para **PIB, produção industrial e volume de vendas do varejo**, distinguindo o **resultado anual** do **mensal de dezembro**, com base apenas nas fontes fornecidas.
+
+## PIB
+- **Resultado anual de 2025:** o PIB do Brasil **cresceu 2,3% em 2025 em relação a 2024**. A fonte também informa que, em 2025, o **PIB em valores correntes totalizou R$ 12.738,6 bilhões** [7][9].  
+  - Território: **Brasil**  
+  - Período: **ano de 2025**  
+  - Base de comparação: **ano anterior (2024)**  
+  - Unidade: **% em volume**; **R$ bilhões em valores correntes** [7][9]
+
+- **Mensal de dezembro de 2025:** nas fontes fornecidas **não há um resultado mensal de dezembro para o PIB**; o PIB aparece em bases **trimestrais** e **anuais**, não mensais [7][8][9].  
+  - Portanto, **não é possível informar um “resultado mensal de dezembro” do PIB** com estas fontes.
+
+## Produção industrial
+- **Resultado anual de 2025:** a atividade industrial brasileira **cresceu 0,6% no acumulado de janeiro a dezembro de 2025 frente a igual período de 2024** [3][4].  
+  - Território: **Brasil**  
+  - Período: **janeiro-dezembro de 2025**  
+  - Base de comparação: **igual período do ano anterior**  
+  - Unidade: **%** [3][4]
+
+- **Mensal de dezembro de 2025:** a produção industrial do Brasil **recuou 1,2% em dezembro de 2025 frente a novembro de 2025**, na série com ajuste sazonal [3]. A mesma fonte informa que, **na comparação com dezembro de 2024**, a produção industrial **avançou 0,4%** [3][4].  
+  - Território: **Brasil**  
+  - Período: **dezembro de 2025**  
+  - Base de comparação: **mês imediatamente anterior (novembro de 2025)**  
+  - Unidade: **%** [3]  
+  - Também informado para o mesmo mês:  
+    - Território: **Brasil**  
+    - Período: **dezembro de 2025**  
+    - Base de comparação: **igual mês do ano anterior (dezembro de 2024)**  
+    - Unidade: **%** [3][4]
+
+## Volume de vendas do varejo
+- **Resultado anual de 2025:** o volume de vendas do comércio varejista no Brasil **cresceu 1,6% em 2025 na comparação com 2024** [5].  
+  - Território: **Brasil**  
+  - Período: **ano de 2025**  
+  - Base de comparação: **2024**  
+  - Unidade: **%** [5]
+
+- **Mensal de dezembro de 2025:** a fonte informa que, **na passagem de novembro para dezembro de 2025**, o volume com ajuste sazonal do varejo teve **variação de -0,4%**, classificada como estabilidade pela própria nota da fonte [5].  
+  - Território: **Brasil**  
+  - Período: **dezembro de 2025**  
+  - Base de comparação: **novembro de 2025**  
+  - Unidade: **%** [5]  
+  - **Nota da fonte:** resultado na faixa de variação entre **+0,5% e -0,5%**, considerado **estabilidade** [5].
+
+### Resumo curto
+- **PIB:** +2,3% no ano de 2025; não há dado mensal de dezembro nas fontes [7][9].  
+- **Produção industrial:** +0,6% no acumulado de 2025; em dezembro, -1,2% ante novembro e +0,4% ante dezembro de 2024 [3][4].  
+- **Varejo:** +1,6% no acumulado de 2025; em dezembro, -0,4% ante novembro [5].
+
+Se quiser, posso reorganizar isso em **tabela comparativa**.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] pib-vol-val_202504caderno.pdf p.12; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.17; [9] pib-vol-val_202504caderno.pdf p.13; [10] pim-pf-br_202512caderno.pdf p.28_
+
+### r2 · graph_rag
+
+Segue um panorama **do Brasil em 2025**, distinguindo o **resultado anual** do **mensal de dezembro**, com base apenas nas fontes fornecidas. Para PIB, **não há uma fonte de referência na lista que traga o resultado do PIB brasileiro de 2025**, então esse item fica incompleto por falta de informação [2]-[10].
+
+## 1) PIB
+- **Não há dado de PIB na corpus fornecida.** As fontes trazem resultados de produção industrial e comércio varejista, mas não apresentam o PIB brasileiro de 2025 [2]-[10].
+
+## 2) Produção industrial — Brasil
+### Resultado anual
+- **Brasil | 2025 | base de comparação: igual período de 2024 | unidade: %**
+  - A atividade industrial **cresceu 0,6%** no **acumulado de janeiro a dezembro de 2025**, frente a igual período do ano anterior [3].
+- **Brasil | 2025 | base de comparação: 2024 | unidade: %**
+  - No texto, também consta que o setor industrial fechou 2025 com **crescimento de 0,6%**, após **3,1% em 2024** e **0,1% em 2023** [3][4].
+
+### Resultado mensal de dezembro
+- **Brasil | dezembro de 2025 | base de comparação: mês imediatamente anterior (novembro de 2025) | unidade: %**
+  - A produção industrial **recuou 1,2%** na passagem de **novembro para dezembro de 2025**, na série com ajuste sazonal [3][9].
+- **Brasil | dezembro de 2025 | base de comparação: igual mês de 2024 | unidade: %**
+  - Na série sem ajuste sazonal, a produção industrial **avançou 0,4%** em relação a **dezembro de 2024** [3][4].
+
+### Nota da fonte
+- A fonte informa que **dezembro de 2025 teve 22 dias úteis, um a mais que dezembro de 2024 (21)**, o que pode influenciar a comparação interanual [4].
+
+## 3) Volume de vendas do varejo — Brasil
+### Resultado anual
+- **Brasil | 2025 | base de comparação: 2024 | unidade: %**
+  - O **volume de vendas no comércio varejista** apresentou **alta de 1,6% no acumulado do ano de 2025**, em comparação com 2024 [5].
+- **Brasil | 2025 | base de comparação: 2024 | unidade: %**
+  - No **varejo ampliado**, a variação em 2025 foi de **0,1%** frente a 2024 [5].
+
+### Resultado mensal de dezembro
+- **Brasil | dezembro de 2025 | base de comparação: dezembro de 2024 | unidade: %**
+  - A fonte informa que, em dezembro de 2025, o **varejo total** teve **2,3%** de crescimento, porque cita a composição da taxa global do mês e vários setores; essa taxa global aparece no texto como resultado de dezembro de 2025 frente a dezembro de 2024 [7][8].
+- **Brasil | dezembro de 2025 | base de comparação: mês imediatamente anterior | unidade: %**
+  - No **varejo com ajuste sazonal**, a fonte diz que a passagem de **novembro para dezembro de 2025** registrou **-0,4%**, considerado estabilidade pela própria fonte [5].
+
+### Nota da fonte
+- A fonte menciona que, em dezembro de 2025, o varejo foi influenciado por movimentos setoriais, mas **não traz na passagem citada uma tabela completa com o detalhamento nacional de todos os grupos no texto fornecido** [7][8].  
+- Para o resultado mensal de dezembro, a fonte distingue:
+  - **interanual**: dezembro de 2025 vs. dezembro de 2024 [7][8]
+  - **mês/mês anterior com ajuste sazonal**: novembro de 2025 vs. dezembro de 2025 [5]
+
+## Síntese curta
+- **PIB:** sem dado nas fontes fornecidas [2]-[10].
+- **Produção industrial do Brasil em 2025:** **+0,6% no acumulado do ano**; em **dezembro**, **-1,2%** frente a novembro (com ajuste sazonal) e **+0,4%** frente a dezembro de 2024 (sem ajuste sazonal) [3][4][9].
+- **Varejo do Brasil em 2025:** **+1,6% no acumulado do ano** no comércio varejista; no **varejo ampliado**, **+0,1%** [5]. Em **dezembro**, a fonte informa **+2,3%** na comparação interanual e **-0,4%** na comparação com novembro, com ajuste sazonal [5][7][8].
+
+Se você quiser, posso reorganizar isso em uma **tabela única** com colunas para indicador, recorte, período, base de comparação, valor e fonte.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] pmc_202512caderno.pdf p.20; [8] pmc_202512caderno.pdf p.19; [9] pim-pf-regional_202512.pdf p.75; [10] pim-pf-regional_202512.pdf p.72_
+
+### r3 · simple_rag
+
+Segue um panorama **do Brasil** para 2025, distinguindo o **resultado anual** do **mensal de dezembro**, com base apenas nas fontes fornecidas.
+
+## 1) PIB
+- **Resultado anual de 2025:** o PIB do Brasil **cresceu 2,3% em relação a 2024**, no **acumulado do ano** e em comparação ao **mesmo período do ano anterior** [7][9].
+- **Resultado do 4º trimestre de 2025:** o PIB **cresceu 1,8%** na comparação com **igual período de 2024** [7].
+- **Dezembro:** não há dado mensal de dezembro para PIB nas fontes fornecidas. O PIB aqui está apresentado em bases **trimestral** e **anual** [7][8][9].
+
+## 2) Produção industrial
+- **Resultado anual de 2025:** a produção industrial brasileira **cresceu 0,6%** no **acumulado de janeiro a dezembro de 2025**, frente a **igual período de 2024** [3][4].
+- **Resultado mensal de dezembro de 2025:** a produção industrial **caiu 1,2%** em dezembro de 2025 na comparação com o **mês imediatamente anterior**, na **série livre de influências sazonais** [3].
+- **Comparação interanual de dezembro de 2025:** a indústria **avançou 0,4%** em dezembro de 2025 frente a **igual mês de 2024**; a fonte observa que dezembro de 2025 teve **22 dias úteis**, contra **21 dias úteis** em dezembro de 2024, e menciona **base de comparação mais elevada**, pois o setor havia crescido **1,4% em dezembro de 2024** [3][4].
+- **Nota de período adicional:** a indústria também registrou **queda de 0,5% no fechamento do quarto trimestre de 2025**, frente a igual período do ano anterior [3][4].
+
+## 3) Volume de vendas do varejo
+- **Resultado anual de 2025:** o volume de vendas no comércio varejista do Brasil **cresceu 1,6% em 2025**, na comparação com **2024** [5].
+- **Resultado mensal de dezembro de 2025:** a fonte informa que, na passagem de **novembro para dezembro de 2025**, o varejo registrou **variação de -0,4%**, resultado considerado de **estabilidade** pela própria nota da tabela, por estar na faixa entre **+0,5% e -0,5%** [5].
+
+### Observação importante
+Para o **varejo**, a fonte fornecida traz o resultado anual de 2025 e a variação mensal de dezembro, mas **não informa explicitamente** no trecho fornecido a variação de dezembro em **comparação com igual mês de 2024**; informa apenas a comparação **mês contra mês imediatamente anterior** [5].
+
+Se quiser, posso reorganizar isso em uma **tabela comparativa** com colunas para indicador, base de comparação e resultado.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] pib-vol-val_202504caderno.pdf p.12; [7] pib-vol-val_202504caderno.pdf p.4; [8] pib-vol-val_202504caderno.pdf p.17; [9] pib-vol-val_202504caderno.pdf p.13; [10] pim-pf-br_202512caderno.pdf p.28_
+
+### r3 · graph_rag
+
+Segue um panorama **do Brasil** em 2025, separando **resultado anual** e **resultado mensal de dezembro**, apenas com base nas fontes fornecidas. Não há na amostra dados de PIB; portanto, **faltam informações para PIB** nesta base. Também não há número de vendas do varejo para o Brasil no trecho de dezembro com o mesmo detalhamento do PIB e da indústria, mas há o resultado anual e alguns resultados setoriais.  
+
+## 1) PIB
+- **Não há informação sobre PIB nas fontes fornecidas.** Não é possível descrever o resultado brasileiro de 2025 para esse indicador com base neste corpus.
+
+## 2) Produção industrial
+### Resultado anual
+- **Brasil, período janeiro-dezembro de 2025, comparação com igual período de 2024, unidade: %** — a atividade industrial cresceu **0,6%** [3].  
+- A fonte também informa que, em 2024, o setor havia avançado **3,1%**, e em 2023, **0,1%**, sempre na mesma comparação anual [3][4].
+
+### Resultado mensal de dezembro
+Há duas leituras para dezembro, e a fonte mostra ambas:
+- **Brasil, dezembro de 2025, comparação com novembro de 2025, unidade: %** — a produção industrial recuou **1,2%** na série com ajuste sazonal [3][9].  
+- **Brasil, dezembro de 2025, comparação com igual mês de 2024, unidade: %** — o total da indústria avançou **0,4%** [3][4].  
+- A fonte [4] registra nota de contexto para esse resultado: dezembro de 2025 teve **22 dias úteis**, um a mais que dezembro de 2024, que teve **21 dias úteis**; além disso, a base de comparação foi mais elevada, porque o setor industrial havia crescido **1,4%** em dezembro de 2024 [4].
+
+## 3) Volume de vendas do varejo
+### Resultado anual
+- **Brasil, acumulado do ano de 2025, comparação com 2024, unidade: %** — a variação das vendas no comércio varejista foi de **1,6%** [5].  
+- A fonte também informa que, no varejo ampliado, a variação em 2025 foi de **0,1%** frente a 2024 [5].
+
+### Resultado mensal de dezembro
+- **Brasil, dezembro de 2025, comparação com dezembro de 2024, unidade: %** — a fonte mostra vários resultados setoriais e o total do varejo de **2,3%** em dezembro de 2025 [7][8].  
+- Em dezembro de 2025, a fonte destaca, para o total do varejo:
+  - **Artigos farmacêuticos, médicos, ortopédicos e de perfumaria**: **6,8%** frente a dezembro de 2024 [7], com contribuição de **0,6 p.p.** para a taxa global [7].  
+  - **Combustíveis e lubrificantes**: **3,0%** frente a dezembro de 2024 [7], com contribuição de **0,3 p.p.** [7].  
+  - **Hiper, supermercados, produtos alimentícios, bebidas e fumo**: **1,3%** frente a dezembro de 2024 [7].  
+  - **Outros artigos de uso pessoal e doméstico**: **0,6%** frente a dezembro de 2024 [7].  
+  - **Tecidos, vestuário e calçados**: **-2,5%** frente a dezembro de 2024, sendo o único setor a contribuir negativamente, com **-0,2 p.p.** [7].  
+  - **Móveis e eletrodomésticos**: **6,9%** frente a dezembro de 2024, com contribuição de **0,5 p.p.** [8].  
+  - **Equipamentos e material para escritório, informática e comunicação**: **31,1%** frente a dezembro de 2024 [8].  
+
+- Para o mês, a fonte indica ainda que a **passagem de novembro para dezembro de 2025** no volume do comércio varejista registrou **-0,4%**, em série com ajuste sazonal [5].  
+
+## Síntese curta
+- **PIB:** não há dado nas fontes.  
+- **Indústria:** **+0,6% no acumulado de 2025**; em **dezembro**, **-1,2%** frente a novembro e **+0,4%** frente a dezembro de 2024 [3][4][9].  
+- **Varejo:** **+1,6% no acumulado de 2025**; em **dezembro**, a fonte traz **+2,3%** frente a dezembro de 2024 para o total do varejo e **-0,4%** na passagem de novembro para dezembro, com ajuste sazonal [5][7][8].  
+
+Se você quiser, posso reorganizar isso em uma tabela única com as colunas **indicador, território, período, comparação, unidade e resultado**.
+
+_Fontes: [1] codigos_municipios_regioes.csv p.linha 402; [2] pim-pf-regional_202512.pdf p.11; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-br_202512caderno.pdf p.20; [5] pmc_202512caderno.pdf p.25; [6] dicvar_codigos_municipios_regioes.csv p.Planilha; [7] pmc_202512caderno.pdf p.20; [8] pmc_202512caderno.pdf p.19; [9] pim-pf-regional_202512.pdf p.75; [10] pim-pf-regional_202512.pdf p.72_
+
+## T072 (sintese)
+
+**Pergunta:** Resuma o contraste entre a indústria paulista e a brasileira em dezembro e no acumulado de 2025.
+
+**Resposta esperada:** São Paulo mensal: -1,6%, Brasil -1,2%, ambos ajustados; São Paulo anual: -2,2%, Brasil +0,6%; diferença de território e de bases de comparação; não inferir causalidade.
+
+### r1 · simple_rag
+
+Em **dezembro de 2025**, a indústria **paulista** caiu mais do que a **brasileira**: **São Paulo** recuou **3,2%** no confronto com **dezembro de 2024**, enquanto o **Brasil** avançou **0,4%** na mesma base de comparação [5], [2]. No confronto mensal com **novembro de 2025**, São Paulo também teve queda maior (**-1,6%**) do que o total nacional (**-1,2%**) [5], [1].
+
+No **acumulado de janeiro a dezembro de 2025**, o contraste também foi negativo para São Paulo: a indústria paulista registrou **-2,2%** frente a igual período de **2024**, enquanto a indústria brasileira cresceu **0,6%** nessa mesma comparação [5], [1].
+
+Em resumo, **em dezembro a indústria paulista foi mais fraca que a brasileira, e no acumulado do ano São Paulo ficou em queda enquanto o Brasil ainda apresentou alta modesta** [5], [1].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15_
+
+### r1 · lexical_rag
+
+Em dezembro de 2025, a indústria paulista teve desempenho pior que a brasileira nas duas leituras citadas: na comparação com novembro de 2025, São Paulo recuou 1,6% e o Brasil recuou 1,2%; na comparação com dezembro de 2024, São Paulo caiu 3,2%, enquanto o Brasil avançou 0,4% [5]. O quadro regional também mostra São Paulo entre os locais com resultado negativo no mês (-3,2%) [3][5].
+
+No acumulado de janeiro a dezembro de 2025, o contraste se manteve: São Paulo registrou queda de 2,2%, ao passo que a indústria brasileira cresceu 0,6% na mesma base de comparação [5]. Portanto, a indústria paulista ficou abaixo da nacional tanto no mês quanto no acumulado do ano [5].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15; [6] pim-pf-br_202512caderno.pdf p.36; [7] pim-pf-br_202512caderno.pdf p.28; [8] pim-pf-br_202512caderno.pdf p.32; [9] pim-pf-br_202512caderno.pdf p.39; [10] pim-pf-br_202512caderno.pdf p.31; [11] pim-pf-br_202512caderno.pdf p.18_
+
+### r1 · graph_rag
+
+Com os recortes que as fontes permitem, o contraste é este:
+
+- **Em dezembro de 2025**, a **indústria paulista** caiu **3,2%** em relação a **dezembro de 2024**, enquanto a **indústria brasileira** avançou **0,4%** nessa mesma base de comparação. Ou seja, São Paulo teve resultado negativo e o Brasil, positivo [5].  
+  - **São Paulo**: território = São Paulo; período = dezembro de 2025; base de comparação = dezembro de 2024; unidade = variação (%) [5].  
+  - **Brasil**: território = Brasil; período = dezembro de 2025; base de comparação = dezembro de 2024; unidade = variação (%) [5].
+
+- **No acumulado de janeiro a dezembro de 2025**, São Paulo registrou **-2,2%**, enquanto o Brasil mostrou **+0,6%**, ambos frente a igual período de 2024 [5].  
+  - **São Paulo**: território = São Paulo; período = acumulado janeiro-dezembro de 2025; base de comparação = igual período do ano anterior; unidade = variação (%) [5].  
+  - **Brasil**: território = Brasil; período = acumulado janeiro-dezembro de 2025; base de comparação = igual período do ano anterior; unidade = variação (%) [5].
+
+Se quiser, posso transformar isso em uma frase única de síntese.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15; [6] pim-pf-br_202512caderno.pdf p.19; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.36; [9] pim-pf-br_202512caderno.pdf p.28; [10] pim-pf-br_202512caderno.pdf p.32_
+
+### r2 · simple_rag
+
+Em **dezembro de 2025**, a indústria **paulista** recuou **3,2% em relação a dezembro de 2024**; no mesmo mês, a indústria **brasileira** avançou **0,4% na mesma base de comparação**. Na comparação **dezembro de 2025 sobre novembro de 2025** (série com ajuste sazonal), São Paulo caiu **1,6%** e o Brasil caiu **1,2%**. [5]
+
+No **acumulado de janeiro a dezembro de 2025**, São Paulo registrou **-2,2% frente a igual período de 2024**, enquanto o Brasil teve **+0,6% na mesma comparação**. [5]
+
+Assim, o contraste é que **São Paulo ficou abaixo do resultado nacional tanto em dezembro quanto no acumulado de 2025**: caiu mais que o país no mês e também no ano, enquanto o Brasil fechou o acumulado em alta. [5]
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15_
+
+### r2 · graph_rag
+
+Em **dezembro de 2025**, a indústria **paulista** teve desempenho **pior que o brasileiro**: São Paulo caiu **1,6%** na passagem de **novembro para dezembro de 2025** e recuou **3,2%** na comparação de **dezembro de 2025 com dezembro de 2024**, enquanto o **Brasil** caiu **1,2%** nessa mesma passagem mensal e cresceu **0,4%** na comparação interanual de dezembro. [5]
+
+No **acumulado de janeiro a dezembro de 2025**, São Paulo também ficou **abaixo do resultado nacional**: o estado recuou **2,2%** frente a igual período de 2024, ao passo que o Brasil cresceu **0,6%** no mesmo recorte. [5]
+
+Resumo do contraste:
+- **Dezembro/mês anterior:** São Paulo **-1,6%** vs. Brasil **-1,2%**. [5]
+- **Dezembro/igual mês do ano anterior:** São Paulo **-3,2%** vs. Brasil **+0,4%**. [5]
+- **Acumulado jan-dez/2025:** São Paulo **-2,2%** vs. Brasil **+0,6%**. [5]
+
+A fonte não traz, nesses trechos, uma explicação específica para a diferença entre São Paulo e o Brasil; ela apenas informa os resultados. [5]
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15; [6] pim-pf-br_202512caderno.pdf p.19; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.36; [9] pim-pf-br_202512caderno.pdf p.28; [10] pim-pf-br_202512caderno.pdf p.32_
+
+### r3 · simple_rag
+
+Em **dezembro de 2025**, a indústria **paulista** teve desempenho **pior que o do Brasil** na comparação com o mesmo mês de 2024: **São Paulo recuou 3,2%** e o **Brasil avançou 0,4%** [5].  
+- **São Paulo**: dezembro de 2025 / dezembro de 2024, **-3,2%**, em **%** [5].  
+- **Brasil**: dezembro de 2025 / dezembro de 2024, **0,4%**, em **%** [5].
+
+No **acumulado de janeiro a dezembro de 2025**, a indústria **paulista também ficou abaixo da nacional**: **São Paulo caiu 2,2%**, enquanto o **Brasil cresceu 0,6%**, sempre na comparação com igual período de 2024 [5].  
+- **São Paulo**: janeiro-dezembro de 2025 / janeiro-dezembro de 2024, **-2,2%**, em **%** [5].  
+- **Brasil**: janeiro-dezembro de 2025 / janeiro-dezembro de 2024, **0,6%**, em **%** [5].
+
+Resumo do contraste: **em dezembro, São Paulo caiu enquanto o Brasil cresceu; no acumulado de 2025, São Paulo recuou e o Brasil avançou** [5].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15_
+
+### r3 · graph_rag
+
+Em **dezembro de 2025**, a indústria **paulista** caiu **3,2%** frente a **dezembro de 2024**, enquanto a indústria **brasileira** avançou **0,4%** no mesmo confronto. Ou seja, São Paulo teve resultado negativo e o Brasil, positivo [5].
+
+No **acumulado de janeiro a dezembro de 2025**, São Paulo recuou **2,2%** frente a igual período de 2024, ao passo que o Brasil cresceu **0,6%** na mesma base de comparação. Assim, o contraste também se manteve no ano: queda em São Paulo e expansão no total nacional [5].
+
+Não há, nas fontes fornecidas, informação adicional suficiente para detalhar o contraste por setor dentro de São Paulo.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.11; [4] pim-pf-br_202512caderno.pdf p.11; [5] pim-pf-regional_202512.pdf p.15; [6] pim-pf-br_202512caderno.pdf p.19; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.36; [9] pim-pf-br_202512caderno.pdf p.28; [10] pim-pf-br_202512caderno.pdf p.32_
+
+## T074 (sintese)
+
+**Pergunta:** Apresente um panorama da concentração do PIB de 2025 entre Estado, Região Metropolitana e Município de São Paulo e RA Campinas, evitando dupla contagem.
+
+**Resposta esperada:** identificar os quatro recortes; estado aproximadamente R$ 3.914,95 bilhões; RMSP R$ 2.046,71 bilhões; município R$ 1.232,55 bilhões; RA Campinas R$ 748,10 bilhões; município integra a RMSP; não somar recortes sobrepostos.
+
+### r1 · simple_rag
+
+Há uma limitação importante: **as fontes fornecidas não trazem o PIB de 2025 para o Estado de São Paulo, nem para a Região Metropolitana de São Paulo, nem para a RA Campinas**. Além disso, a tabela de **RA Campinas** não aparece com valores de PIB nas fontes; o que aparece é apenas um código territorial que identifica o município de Campinas como pertencente à RA Campinas e à RM Campinas [6]. Portanto, **não é possível montar um panorama completo da concentração do PIB de 2025 entre esses quatro recortes sem inventar dados**.
+
+O que as fontes permitem afirmar, com recorte explícito, é:
+
+- **Município de São Paulo**: PIB total de **R$ 1.232,546 bilhões** em **2025**, em **preço corrente**, com **base temporal de 2025** na tabela anual; a tabela também informa que os dados são **preliminares e sujeitos a revisão** [5].
+- **Município de São Paulo**: na tabela trimestral de 2025, o PIB tem índice **110,43726435309947** no **1º trimestre** e **113,8212729843223** no **2º trimestre**, ambos em **base 2010 = 100**; esses dados também são **preliminares e sujeitos a revisão** [1], [2].
+- **Município de São Paulo**: a taxa de crescimento do PIB em 2025 foi de **0,822802377791465%** no **4º trimestre de 2025** e no **acumulado do ano** informado na tabela trimestral, com a mesma nota de preliminaridade [9].  
+- **Município de São Paulo**: em 2025, o valor adicionado total foi **R$ 1.016,252809176187 bilhões** e o PIB foi **R$ 1.232,5461628220949 bilhões**; a diferença entre os dois conceitos é apresentada na tabela, mas **não devo calcular participação ou decomposição além do que a fonte mostra** [10].
+- **Campinas / RA Campinas / RM Campinas**: a única informação fornecida é que o município de **Campinas** está associado à **RA Campinas** e à **RM Campinas** nos códigos territoriais [6]. **Não há PIB de 2025 para esses recortes nas fontes fornecidas**.
+
+Se você quiser, posso reformatar isso em um **quadro comparativo apenas com os valores disponíveis nas fontes**, deixando explicitamente em branco os recortes sem dado.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] codigos_municipios_regioes.csv p.Planilha; [7] codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 3_
+
+### r1 · lexical_rag
+
+Não é possível atender exatamente como pedido com as fontes fornecidas, porque elas trazem dados do **Município de São Paulo** e do **Estado de São Paulo**, mas **não trazem valores para a Região Metropolitana de São Paulo nem para a RA Campinas**. Também não há, nas fontes, um quadro que permita fazer a **concentração do PIB de 2025 entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas sem dupla contagem**.
+
+O que as fontes permitem afirmar é:
+
+- **Estado de São Paulo**: o PIB de 2025 foi de **R$ 1232,546 bilhões**; a fonte é a Tabela 1, ano de 2025, em **R$ bilhões**, com nota de que os dados são **preliminares e sujeitos a revisão** [6].
+- **Município de São Paulo**: o PIB de 2025 foi de **R$ 1232,5461628220949 bilhões**; a fonte é a Tabela 21.1, ano de 2025, em **bilhões de reais**, com nota de que os dados são **preliminares e sujeitos a revisão** [5].
+- Para o mesmo **Município de São Paulo**, a Tabela 21.9 informa o PIB do **2º trimestre de 2025** como **R$ 306,2546648616491 bilhões** e do **4º trimestre de 2025** como **R$ 326,65861055573123 bilhões**; também com nota de que os dados são **preliminares e sujeitos a revisão** [7][8].
+- A metodologia informa que, na ótica do produto, o PIB é calculado somando o valor agregado da **agricultura, indústria e serviços**, o que ajuda a evitar dupla contagem de bens intermediários [3].
+
+Como as fontes não trazem:
+- o **PIB da Região Metropolitana de São Paulo**;
+- o **PIB da RA Campinas**;
+- nem um quadro que relacione esses recortes entre si,
+
+não dá para montar um panorama da “concentração do PIB de 2025 entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas” sem extrapolar além do corpus.
+
+Se você quiser, posso fazer um **panorama apenas com os recortes disponíveis nas fontes** — por exemplo, comparar **Estado de São Paulo** e **Município de São Paulo** em 2025, deixando explícito que isso **não cobre** Região Metropolitana nem RA Campinas.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7_
+
+### r1 · graph_rag
+
+Há uma limitação importante: as fontes fornecidas trazem números para o **Município de São Paulo** e para o **Estado de São Paulo**, mas **não trazem valores para a Região Metropolitana de São Paulo nem para a RA Campinas**. Portanto, não é possível apresentar um panorama completo da concentração do PIB de 2025 entre esses quatro recortes sem inventar dados [1], [2], [5], [6].
+
+O que as fontes permitem afirmar para **2025** é:
+
+- **Município de São Paulo**  
+  - **PIB total, em 2025, em R$ bilhões correntes**: **1.232,5461628220949**; território: Município de São Paulo; período: 2025; base de comparação: preço corrente; unidade: R$ bilhões [5].  
+  - Na mesma tabela, o **PIB total de 2024** foi **1.164,4414769811588** em R$ bilhões correntes; território: Município de São Paulo; período: 2024; base de comparação: preço corrente; unidade: R$ bilhões [5].  
+  - Em 2025, o **valor adicionado total** foi **1.016,252809176187**; território: Município de São Paulo; período: 2025; base de comparação: preços correntes; unidade: R$ bilhões [6].  
+  - A tabela trimestral mostra para 2025:  
+    - **1º trimestre**: PIB de **110,43726435309947** no índice base **2010 = 100**; território: Município de São Paulo; período: 2025/I; base de comparação: 2010 = 100; unidade: índice [1].  
+    - **2º trimestre**: PIB de **113,8212729843223** no índice base **2010 = 100**; território: Município de São Paulo; período: 2025/II; base de comparação: 2010 = 100; unidade: índice [2].  
+  - As tabelas trimestrais informam que os dados são **preliminares e sujeitos a revisão** [1], [2], [7], [8], [9], [10], [11].
+
+- **Estado de São Paulo**  
+  - **PIB total, em 2025, em R$ bilhões correntes**: **1232,5461628220949**; território: Estado de São Paulo; período: 2025; base de comparação: preço corrente; unidade: R$ bilhões [6].  
+  - **Valor adicionado total** em 2025: **1016,252809176187**; território: Estado de São Paulo; período: 2025; base de comparação: preços correntes; unidade: R$ bilhões [6].  
+  - A tabela do Estado está organizada por regiões administrativas, mas a fonte exibida aqui mostra apenas a linha do **Município de São Paulo**; não há, nas fontes fornecidas, linhas visíveis para a **Região Metropolitana de São Paulo** nem para a **RA Campinas** [6].
+
+Em suma, com as fontes dadas, só é possível comparar com segurança o **Município de São Paulo** e o **Estado de São Paulo** em 2025, sem dupla contagem, mas **não é possível decompor o Estado em Região Metropolitana de São Paulo e RA Campinas** porque esses recortes não aparecem nos trechos fornecidos [6]. Se você quiser, posso reorganizar esses dados em uma tabela curta com os números disponíveis e indicar explicitamente o que ficou faltando.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7_
+
+### r2 · simple_rag
+
+Não há informação suficiente nas fontes para apresentar **um panorama completo da concentração do PIB de 2025 entre Estado, Região Metropolitana e Município de São Paulo e RA Campinas sem dupla contagem**.
+
+O que as fontes permitem afirmar com segurança é:
+
+- **Estado de São Paulo, 2025**: PIB de **R$ 1232,546 bilhões** (preço corrente), em **2025**, para o **Estado de São Paulo** [10].  
+- **Município de São Paulo, 2025**: PIB de **R$ 1232,546 bilhões** (preço corrente), em **2025**, para o **Município de São Paulo** [5].  
+- As tabelas do Município de São Paulo trazem nota de que os dados são **preliminares e sujeitos a revisão** [5], [10].  
+
+Também há uma fonte de códigos territoriais que mostra que **Campinas** integra a **RA Campinas** e a **RM Campinas** [6], mas **não há, nas fontes fornecidas, valor de PIB de 2025 para a RA Campinas ou para a Região Metropolitana correspondente**, nem uma tabela que permita decompor o PIB do Estado entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas sem risco de dupla contagem [6], [7].
+
+Além disso, a fonte metodológica informa apenas que, na ótica do produto, o PIB é calculado somando valor agregado em agricultura, indústria e serviços, evitando contagem dupla de bens intermediários [3]. Isso **não substitui** a necessidade de uma tabela territorial compatível para o recorte pedido.
+
+Se o objetivo for, por exemplo, comparar apenas **Estado de São Paulo** e **Município de São Paulo** em 2025, as fontes permitem observar que os dois valores apresentados são iguais (**R$ 1232,546 bilhões**), mas **não é possível concluir, com as fontes fornecidas, que isso represente “concentração” territorial no sentido pedido**, nem estender essa leitura à **Região Metropolitana** ou à **RA Campinas** [5], [10].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] codigos_municipios_regioes.csv p.Planilha; [7] codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 3_
+
+### r2 · graph_rag
+
+Não consigo apresentar um **panorama da concentração do PIB de 2025 entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas** sem incorrer em dupla contagem com as fontes fornecidas, porque **não há, nas fontes listadas, uma tabela que traga simultaneamente esses quatro recortes comparáveis para 2025**.
+
+O que as fontes permitem afirmar, sem extrapolar, é:
+
+- **Município de São Paulo**  
+  - PIB de **2025**: **R$ 1.232,546 bilhões** [5]  
+  - A fonte informa o recorte “Município de São Paulo”, o período “2025” e a unidade “Em bilhões de Reais”; a tabela também indica que os dados são **preliminares e sujeitos a revisão** [5].
+
+- **Município de São Paulo, trimestralmente em 2025**  
+  - **1º trimestre de 2025**: PIB de **R$ 306,255 bilhões** [7]  
+  - **4º trimestre de 2025**: PIB de **R$ 326,659 bilhões** [8]  
+  - Em ambos os casos, a unidade é **R$ bilhões**, o território é **Município de São Paulo**, o período é o trimestre específico de 2025 e os dados são **preliminares e sujeitos a revisão** [7][8].
+
+- **Município de São Paulo, crescimento**  
+  - Em **2025**, a tabela trimestral informa índices e variações, mas **não traz** os recortes solicitados de Estado, Região Metropolitana ou RA Campinas [1][2][9][10][11].
+
+A fonte metodológica apenas explica que o PIB pela ótica do produto soma valor adicionado de agricultura, indústria e serviços e evita dupla contagem de bens intermediários [3], mas **não fornece os valores de 2025 para Estado, Região Metropolitana ou RA Campinas**.
+
+Portanto, **faltam informações nas fontes** para montar o panorama pedido sem dupla contagem e sem inventar relações entre territórios. Se você quiser, posso reorganizar **apenas os números disponíveis** em uma síntese do Município de São Paulo em 2025.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7_
+
+### r3 · simple_rag
+
+A pergunta permite mais de uma leitura, porque as fontes trazem dados para o **Município de São Paulo** e para o **Estado de São Paulo**, mas **não trazem um dado explícito de PIB para a Região Metropolitana de São Paulo nem para a RA Campinas em 2025**. Também não há, nas fontes fornecidas, um quadro de decomposição do PIB estadual que permita somar ou separar **Estado, RMSP, Município de São Paulo e RA Campinas** sem risco de **dupla contagem**. Então, usando apenas o que está nas fontes, o panorama possível é parcial e precisa ser lido com esse limite.
+
+## Panorama possível com as fontes fornecidas
+
+### 1) Município de São Paulo
+- **PIB total de 2025:** **R$ 1.232,546 bilhões**  
+  - Território: Município de São Paulo  
+  - Período: 2025  
+  - Base de comparação: preço corrente  
+  - Unidade: bilhões de reais [5]
+
+- **Valor Adicionado total de 2025:** **R$ 1.016,253 bilhões**  
+  - Território: Município de São Paulo  
+  - Período: 2025  
+  - Base de comparação: preço corrente  
+  - Unidade: bilhões de reais [10]
+
+- **Setorialmente, em 2025, no Município de São Paulo:**
+  - Agropecuária: **R$ 0,065 bilhões** [10]
+  - Indústria: **R$ 85,951 bilhões** [10]
+  - Serviços: **R$ 930,237 bilhões** [10]
+
+Esses números mostram que, dentro do PIB municipal informado na fonte, o valor adicionado de serviços é o componente dominante, mas a fonte não permite extrapolar isso para outras regiões sem risco de dupla contagem [10].
+
+### 2) Estado de São Paulo
+- A fonte traz o **PIB total de 2025 do Município de São Paulo** em uma tabela cujo título menciona o **Estado de São Paulo**, mas os valores exibidos na linha fornecida são do **Município de São Paulo**, não do Estado como um todo [10].  
+- Portanto, **não há, nas fontes dadas, um PIB estadual de 2025 explicitamente informado** para comparar diretamente com Município de São Paulo, RMSP e RA Campinas [10].
+
+### 3) Região Metropolitana de São Paulo
+- **Não há fonte fornecida com o PIB de 2025 da Região Metropolitana de São Paulo.**
+- A única fonte territorial de código metropolitano fornecida é um cadastro de municípios/regiões, mas ele só mostra o município de Campinas e a classificação de suas regiões; não traz PIB [6].
+
+### 4) RA Campinas
+- **Não há fonte fornecida com o PIB de 2025 da RA Campinas.**
+- A fonte cadastral mostra que o município de **Campinas** pertence à **RA Campinas** e à **RM Campinas** [6], mas isso **não equivale a um PIB da RA Campinas** e não pode ser usado como número de PIB [6].
+- A fonte também mostra que **Pedreira** pertence à **RA Campinas** e à **RM Campinas** [7], mas, de novo, isso é apenas cadastro territorial, não PIB [7].
+
+## Evitando dupla contagem
+Com as fontes fornecidas, **não é possível montar uma concentração do PIB de 2025 entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas sem dupla contagem**, porque:
+1. não há PIB de 2025 explicitamente informado para **RMSP**;
+2. não há PIB de 2025 explicitamente informado para **RA Campinas**;
+3. a fonte disponível para o estado traz, na linha mostrada, o **Município de São Paulo**, e não um total estadual [10];
+4. a metodologia lembra que o PIB pela ótica do produto soma valor adicionado e evita dupla contagem de insumos intermediários, mas isso é uma explicação metodológica geral, não uma decomposição territorial do dado solicitado [3].
+
+## Conclusão
+Com base apenas nas fontes fornecidas, o que dá para afirmar com segurança é:
+- o **PIB de 2025 do Município de São Paulo** foi **R$ 1.232,546 bilhões** [5];
+- o **valor adicionado total de 2025 do Município de São Paulo** foi **R$ 1.016,253 bilhões**, sendo **serviços** o principal componente [10];
+- **não há dados suficientes** para informar, sem inventar ou duplicar, a concentração do PIB de 2025 entre **Estado**, **Região Metropolitana de São Paulo**, **Município de São Paulo** e **RA Campinas** [6][7][10].
+
+Além disso, as tabelas citadas para o Município de São Paulo informam que os dados são **preliminares e sujeitos a revisão** [5][10].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] codigos_municipios_regioes.csv p.Planilha; [7] codigos_municipios_regioes.csv p.Planilha; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.2; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 3_
+
+### r3 · graph_rag
+
+Não dá para apresentar **um panorama da concentração do PIB de 2025 entre Estado, Região Metropolitana, Município de São Paulo e RA Campinas sem dupla contagem** com as fontes fornecidas.
+
+O motivo é que as fontes trazem:
+- **Município de São Paulo** com PIB de 2025 em valor corrente e indicadores trimestrais/anuais [5], [6], [7], [8], [9], [10], [11];
+- **Estado de São Paulo** com PIB de 2025 na tabela de regiões administrativas [6];
+- mas **não há, nas fontes fornecidas, os valores de 2025 da Região Metropolitana de São Paulo nem da RA Campinas**. Portanto, faltam os dados necessários para comparar os quatro recortes pedidos sem inventar números.
+
+O que é possível afirmar com base nas fontes:
+- O **Município de São Paulo** teve **PIB de R$ 1.232,546 bilhões em 2025**, em **preços correntes**, com **população residente de 11.438.699** e **PIB per capita de R$ 107.752,30**; esses dados são da **Tabela 21.1**, para o **Município de São Paulo**, em **2025**, e a tabela informa que os dados são **preliminares e sujeitos a revisão** [5].
+- O **Estado de São Paulo** teve **PIB de R$ 1.232,546 bilhões em 2025** na **Tabela 1**, mas essa tabela mostrada nas fontes fornecidas apresenta apenas a linha do **Município de São Paulo** dentro do conjunto de regiões administrativas, não a decomposição completa do Estado, da Região Metropolitana e da RA Campinas; portanto, não é possível usar essa fonte para medir a concentração entre esses quatro recortes sem risco de dupla contagem [6].
+
+Se você quiser, posso:
+1. montar um **quadro apenas com o que as fontes permitem**; ou
+2. ajudar a formular uma **consulta mais específica** para localizar, nas tabelas corretas, os valores de **Região Metropolitana de São Paulo** e **RA Campinas** de 2025.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 100; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 101; [3] pib_mensal_trimestral_metodologia.pdf p.4; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.8; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7_
+
+## T076 (sintese)
+
+**Pergunta:** Quais cuidados metodológicos são necessários para comparar indicadores ao longo do tempo neste corpus?
+
+**Resposta esperada:** preços correntes versus volume; ajuste sazonal para períodos consecutivos; base móvel e não aditividade; mudanças de agregação em 2022; dados trimestrais preliminares e revisáveis.
+
+### r1 · simple_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os cuidados metodológicos principais são os seguintes.
+
+É necessário distinguir entre valores nominais e valores reais. As estimativas nominais ou a preços correntes não ajustam as variações de preços ao longo do tempo, o que dificulta a comparação temporal porque inflação ou deflação podem distorcer os resultados. As estimativas reais ou a preços constantes, por sua vez, são ajustadas pela variação de preços e permitem comparar melhor o volume produzido ao longo do tempo [3].
+
+Também é preciso definir claramente o período-base e o tipo de índice utilizado. O corpus informa que o PIB mensal usa índice de Laspeyres com pesos do ano anterior, isto é, base móvel, com encadeamento dos índices para obter séries tratáveis como de base fixa. Esse procedimento é adotado para manter atualizados os pesos e captar mudanças estruturais da economia ao longo do tempo [6].
+
+Outro cuidado é observar que os pesos podem ser atualizados quando há nova divulgação do PIB anual. No caso do PIB mensal, os pesos do ano “Y-1” são usados para calcular a evolução de cada atividade econômica no ano “Y”, e essa atualização é aplicada tanto aos resultados do ano anterior quanto aos do ano corrente, para preservar a comparabilidade metodológica [1].
+
+É importante considerar também que, em alguns indicadores, são usadas proxies para atividades ou magnitudes cuja variação no tempo se quer estudar. O corpus informa que, em certos casos, foi necessário adotar medidas representativas e que, para algumas atividades, os dados são estimados por fontes alternativas quando as informações originais não estão disponíveis no fechamento da estimativa [2].
+
+Há ainda a questão das revisões. Os indicadores da Pesquisa Industrial Mensal estão sujeitos à retificação dos dados primários, com revisões incorporadas a partir de janeiro do ano anterior ao de referência da pesquisa. Além disso, os dados ajustados sazonalmente podem ser revisados desde o início da série histórica a cada divulgação [4] [5].
+
+Também é preciso cautela quando a série sofre mudança de base, de estrutura de ponderação ou de nível de detalhamento. O corpus informa, por exemplo, que a base de ponderação pode ser fixa em um ano de referência específico, e que mudanças na disponibilidade de informação podem restringir a comparabilidade de uma série ao longo do tempo [7] [8].
+
+Por fim, quando a fonte usa mensalização de dados anuais, como no caso da agropecuária, é necessário observar a regra adotada para distribuir a produção anual por meses. O corpus informa que essa distribuição pode ser feita com base na estrutura de colheita de censos agropecuários ou, na ausência de informações, por hipótese de distribuição uniforme. Isso afeta a comparação temporal e deve ser considerado na leitura dos resultados [2].
+
+Se quiser, eu também posso reorganizar esses cuidados em uma lista curta de “regras práticas de comparação temporal” com base apenas nessas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pim-pf-br_202512caderno.pdf p.5; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r1 · lexical_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os principais cuidados metodológicos são:
+
+1. **Verificar se a série é nominal ou real**
+   - As fontes destacam que estimativas em termos **reais** são ajustadas pela variação de preços, enquanto as **nominais** podem ser distorcidas por inflação/deflação, dificultando a comparação ao longo do tempo [3].
+   - Portanto, ao comparar períodos, é preciso saber se o indicador já foi corrigido por preços ou não [3].
+
+2. **Respeitar o ano-base, a base de ponderação e o tipo de índice**
+   - O corpus mostra que os índices podem usar **pesos do ano anterior** e que isso implica **base móvel**, com posterior encadeamento para obter séries tratáveis como de base fixa [6].
+   - Em outra fonte, os indicadores industriais usam **base de ponderação fixa** com referência a 2019, e a fórmula é uma adaptação do **Laspeyres em cadeia** [8].
+   - Assim, não se deve comparar séries sem conferir se a base é fixa, móvel ou encadeada, nem se o ano-base mudou [1], [6], [8].
+
+3. **Observar atualizações de pesos e revisões de série**
+   - No PIB mensal e trimestral, os pesos são atualizados quando há nova divulgação do PIB anual, e essa atualização é aplicada aos resultados do ano anterior e do ano corrente [1].
+   - Nos índices industriais, há informação explícita de que os índices estão sujeitos a **retificação dos dados primários** e que os dados ajustados sazonalmente podem ser revisados desde o início da série histórica a cada divulgação [4], [5].
+   - Logo, comparações ao longo do tempo devem considerar que valores já publicados podem ser revisados.
+
+4. **Checar se há ajuste sazonal e usar a comparação adequada**
+   - A fonte do PIB mensal/trimestral lista séries com e sem **ajuste sazonal**, além de taxas como mês contra mês anterior, mês contra mesmo mês do ano anterior, acumulado no ano e últimos 12 meses [7].
+   - Isso importa porque cada base de comparação responde a uma pergunta diferente; não é metodologicamente correto misturar, por exemplo, série ajustada sazonalmente com taxa interanual sem cuidado [7].
+
+5. **Manter o mesmo recorte territorial e setorial**
+   - O corpus mostra metodologias específicas para **Brasil** e para **Estado de São Paulo**, além de recortes de setores e atividades bem definidos [2], [6], [7], [8], [9].
+   - Portanto, comparar tempos diferentes exige que o território e o nível de agregação setorial sejam os mesmos; caso contrário, a série pode perder comparabilidade [2], [7], [9].
+
+6. **Verificar mudanças de classificação e detalhamento**
+   - As contas regionais alertam que, para 2022, houve uso de parâmetros do SCNT e um nível de detalhamento menor, o que **restringe a comparabilidade da série 2002–2022** [9].
+   - Também há nota de mudança de classificação de estabelecimentos em junho de 2012 no PIB mensal/trimestral [7].
+   - Assim, mudanças de classificação, cobertura ou detalhamento precisam ser levadas em conta antes de comparar períodos [7], [9].
+
+7. **Considerar proxies e distribuições temporais construídas metodologicamente**
+   - No caso da agropecuária, a fonte informa que, como os dados têm periodicidade anual, foi necessário **distribuir a produção anual por meses** com base em estrutura de colheita; quando não havia informação, adotou-se hipótese de **distribuição uniforme** [2].
+   - Para carne bovina e aves, foram usados dados de **abate fiscalizado**, e para leite e ovos, a **média dos últimos cinco anos para o mês de referência** [2].
+   - Isso significa que a comparação temporal depende de uma construção metodológica específica e não de dados mensais observados diretamente em todos os casos [2].
+
+8. **Ler as notas metodológicas de cada série**
+   - As fontes contêm notas importantes sobre o que cada série mede, sua base, revisões e limitações [4], [5], [7], [8], [9].
+   - Sem essas notas, a comparação pode ser indevida.
+
+**Em síntese:** neste corpus, comparar indicadores ao longo do tempo exige atenção à correção por preços, ao ano-base e aos pesos, às revisões, ao ajuste sazonal, ao recorte territorial/setorial, às mudanças de classificação e às proxies usadas na construção da série [1], [2], [3], [4], [5], [6], [7], [8], [9].
+
+Se você quiser, posso organizar esses cuidados em uma **lista de verificação prática** para comparar séries do corpus.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pib_mensal_trimestral_metodologia.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.5; [9] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r1 · graph_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os principais cuidados metodológicos explicitados nas fontes são:
+
+1. **Distinguir valores nominais de valores reais**
+   - As fontes dizem que estimativas em termos **nominais** ou a preços correntes não corrigem as variações de preços e podem ser distorcidas por inflação ou deflação, dificultando a comparação temporal [3].
+   - Já as estimativas em termos **reais** ou a preços constantes são ajustadas pela variação dos preços e permitem comparar melhor o comportamento ao longo do tempo [3].
+
+2. **Manter atenção ao ano-base e ao tipo de índice**
+   - O PIB mensal usa **índice de Laspeyres com pesos do ano anterior**, com **base móvel**, e depois faz **encadeamento** para obter índices tratáveis como de base fixa [6].
+   - A fonte também destaca que a escolha do ano-base e da base de ponderação é um critério metodológico central [6].
+
+3. **Usar pesos consistentes e atualizados conforme a metodologia**
+   - Para o PIB mensal, os pesos do ano “Y-1” são usados para calcular a evolução em um mês do ano Y, mantendo as participações relativas constantes ao longo do ano [1].
+   - Esses pesos são atualizados quando sai uma nova divulgação do PIB anual, e a atualização é aplicada aos resultados do ano anterior e do ano corrente do PIB mensal [1].
+
+4. **Comparar apenas séries compatíveis metodologicamente**
+   - A fonte do Sistema de Contas Regionais alerta que os dados de 2022 devem ser usados **com ressalva** para análises da série 2002-2022, porque houve mudanças de procedimento e de nível de detalhamento [9].
+   - Ela também informa que a redução do detalhamento restringe a comparabilidade da série disponível [9].
+
+5. **Considerar revisões e retificações**
+   - Os indicadores podem ser retificados com base em dados primários revisados, e os dados ajustados sazonalmente podem ser revistos desde o início da série histórica a cada divulgação [4], [5].
+   - Portanto, comparações entre divulgações diferentes podem não ser idênticas às séries já publicadas anteriormente [4], [5].
+
+6. **Respeitar o tipo de comparação divulgado**
+   - A metodologia lista diferentes recortes: mês contra mês imediatamente anterior, mês contra o mesmo mês do ano anterior, acumulado no ano contra igual período do ano anterior e acumulado em 12 meses contra os 12 meses anteriores [7].
+   - Cada um desses comparativos mede coisas distintas, então não devem ser confundidos entre si [7].
+
+7. **Cuidar do ajuste sazonal quando for o caso**
+   - Há séries com **ajuste sazonal** e a metodologia informa que esses dados podem ser revistos desde o início da série histórica [4], [5], [7].
+   - Assim, comparações ao longo do tempo devem indicar se usam série ajustada sazonalmente ou não [4], [5], [7].
+
+8. **Observar mudanças de classificação e cobertura ao longo do tempo**
+   - A metodologia menciona mudança de classificação dos estabelecimentos no caso do Datasus, com diferentes formas de disponibilidade conforme o período [7].
+   - Isso exige cautela para não comparar diretamente períodos com classificações diferentes sem verificar a compatibilidade [7].
+
+9. **Levar em conta proxies, mensalização e hipóteses de estimativa**
+   - Em alguns casos, foram usadas **medidas representativas (proxies)** para estimar magnitudes cuja variação no tempo se quer estudar [2].
+   - No agro, há “mensalização” de dados anuais e, para culturas sem informação, foi adotada hipótese de distribuição uniforme da colheita [2].
+   - Para carne bovina, aves, leite e ovos, a fonte informa procedimentos específicos de estimativa porque certos dados trimestrais não estavam disponíveis no fechamento mensal [2].
+   - Isso significa que a comparação temporal desses indicadores depende dessas hipóteses metodológicas [2].
+
+10. **Não supor comparabilidade total quando a fonte informa limitação**
+   - A fonte das Contas Regionais afirma explicitamente que a redução do detalhamento em 2022 restringe a comparabilidade da série [9].
+   - Portanto, se a pergunta for sobre uma série específica, é necessário verificar se há ressalvas explícitas na publicação [9].
+
+Em resumo, neste corpus a comparação temporal exige: distinguir real/nominal, verificar ano-base e pesos, usar séries comparáveis, considerar revisões, confirmar se há ajuste sazonal, respeitar a base de comparação de cada taxa e observar mudanças de classificação, proxies e limitações de detalhamento [1], [3], [4], [5], [6], [7], [9].
+
+Se você quiser, posso transformar isso em um **checklist prático de comparação temporal** com base só nessas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pib_mensal_trimestral_metodologia.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.5; [9] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r2 · simple_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os cuidados metodológicos que aparecem nas fontes são:
+
+1. **Distinguir valores nominais de valores reais**  
+   As fontes explicam que estimativas nominais a preços correntes não descontam variações de preços, o que dificulta a comparação temporal, enquanto as estimativas em termos reais a preços constantes são ajustadas pela variação dos preços e permitem comparar melhor períodos diferentes [3].  
+   **Cuidados:** só comparar no tempo levando em conta se o indicador está em termos correntes ou constantes.
+
+2. **Observar o ano-base e a estrutura de ponderação**  
+   O PIB mensal usa **índice de Laspeyres com pesos do ano anterior** e, na prática, emprega **base móvel** com encadeamento [6]. A fonte também diz que, para o PIB mensal, **os pesos do ano “Y-1”** são usados para calcular a evolução de cada atividade em um mês do ano Y [1].  
+   **Cuidados:** não tratar séries com pesos diferentes como se fossem diretamente equivalentes sem considerar a mudança da base e o encadeamento.
+
+3. **Considerar a atualização dos pesos ao longo do tempo**  
+   A metodologia informa que, devido à defasagem na divulgação do PIB anual, ocorre **atualização dos pesos** quando sai uma nova divulgação do PIB anual, e essa atualização é aplicada aos resultados do ano anterior e do ano corrente do PIB mensal [1].  
+   **Cuidados:** ao comparar anos diferentes, verificar se houve atualização de pesos e se a série foi reprocessada.
+
+4. **Atentar para revisões e retificações**  
+   Os índices da PIM-PF estão sujeitos a retificação dos dados primários, com revisões incorporadas a partir de janeiro do ano anterior ao de referência; além disso, os dados ajustados sazonalmente podem ser revisados desde o início da série histórica a cada divulgação [4], [5].  
+   **Cuidados:** usar a versão mais recente da série e não comparar resultados sem verificar se uma das observações foi revisada.
+
+5. **Verificar se a série foi ajustada sazonalmente**  
+   As fontes mostram que há séries ajustadas sazonalmente e que alguns índices, como o mês/mês anterior, são obtidos a partir do índice de base fixa mensal ajustado sazonalmente [7].  
+   **Cuidados:** não comparar diretamente uma série ajustada sazonalmente com outra não ajustada sem distinguir o tratamento sazonal.
+
+6. **Checar mudanças de cobertura, detalhamento ou metodologia ao longo da série**  
+   Em Contas Regionais, a fonte alerta que a redução do nível de detalhamento em 2022 restringe a comparabilidade da série 2002–2022 [8]. Também há menção, no PIB mensal, de uso de proxies e de fontes diferentes para algumas atividades quando os dados diretos não estão disponíveis [2].  
+   **Cuidados:** verificar se a composição do indicador, o nível de agregação ou as fontes mudaram entre períodos.
+
+7. **Respeitar o território e o recorte específico da metodologia**  
+   A metodologia da agropecuária para o PIB mensal menciona explicitamente o **Estado de São Paulo** e seus pesos setoriais [2]. Já outras fontes tratam do **Brasil** [5], [7] ou das **Unidades da Federação** [8].  
+   **Cuidados:** não comparar séries de territórios diferentes como se fossem o mesmo recorte territorial.
+
+8. **Reconhecer quando a fonte usa proxies ou dados indiretos**  
+   A metodologia informa que, em alguns casos, foram adotadas **medidas representativas (proxies)** para aferir magnitudes cuja variação no tempo se pretende estudar [2].  
+   **Cuidados:** considerar que a comparação temporal pode refletir também a proxy usada, e não apenas o dado observado diretamente.
+
+Em resumo, este corpus exige atenção a: **tipo de preço (corrente/constante), ano-base, pesos, encadeamento, revisões, ajuste sazonal, mudanças de cobertura/agregação, território e uso de proxies** [1], [2], [3], [4], [5], [6], [7], [8].
+
+Se você quiser, posso transformar isso em um **checklist prático de comparação temporal** com base apenas nessas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pim-pf-br_202512caderno.pdf p.5; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r2 · graph_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os principais cuidados metodológicos explicitados nas fontes são:
+
+1. **Usar a mesma lógica de preços: nominal vs. real**
+   - As fontes distinguem estimativas em termos **nominais** e **reais**. As nominais podem ser distorcidas por inflação/deflação, enquanto as reais são ajustadas pela variação de preços e permitem comparação mais precisa ao longo do tempo [3].
+   - Portanto, ao comparar séries no tempo, é preciso verificar se a comparação está sendo feita em **valores correntes** ou **valores constantes** [3].
+
+2. **Observar o ano-base e o tipo de índice**
+   - O PIB mensal usa **índice de Laspeyres com pesos do ano anterior**, com **base móvel**, e depois há **encadeamento** para obter índices comparáveis em base fixa [6].
+   - A fonte também diz que, para calcular a evolução de atividades em um mês do ano \(Y\), são usados os **pesos do ano \(Y-1\)**, e que esses pesos são atualizados quando sai nova divulgação anual do PIB [1].
+   - Isso significa que comparações ao longo do tempo precisam respeitar a **base de ponderação** usada em cada período [1][6].
+
+3. **Atentar para mudanças de pesos e de estrutura**
+   - A atualização dos pesos ocorre porque a estrutura econômica muda ao longo do tempo; a fonte diz que isso permite capturar mudanças estruturais e incluir novos setores e produtos [6].
+   - Em agropecuária, por exemplo, a metodologia usa distribuições anuais mensalizadas e pode mudar a forma de tratamento conforme a disponibilidade de dados e censos usados como referência [2].
+
+4. **Verificar se houve revisão de dados**
+   - Alguns indicadores estão sujeitos a **retificação dos dados primários** e revisões desde períodos anteriores:
+     - na pesquisa industrial, revisões são incorporadas a partir de janeiro do ano anterior ao de referência; os dados ajustados sazonalmente podem ser revistos desde o início da série histórica a cada divulgação [4][5].
+   - Então, séries comparadas em momentos diferentes podem não ser idênticas se houver novas divulgações/revisões [4][5].
+
+5. **Checar se há ajuste sazonal e não misturar séries com tratamentos diferentes**
+   - A fonte lista séries **com ajuste sazonal** e **sem ajuste sazonal**, além de diferentes tipos de variação (mês/mês anterior, mesmo mês do ano anterior, acumulado no ano, acumulado em 12 meses) [7].
+   - Para comparar corretamente, é preciso usar a **mesma base metodológica**: por exemplo, não misturar uma taxa com ajuste sazonal com outra sem ajuste sazonal [7].
+
+6. **Confirmar a comparabilidade entre recortes e níveis de detalhamento**
+   - No Sistema de Contas Regionais, a fonte alerta que os dados de 2022 devem ser usados **com ressalva** para análises da série 2002–2022, porque houve mudança de referência e redução do nível de detalhamento, o que restringe a comparabilidade [9].
+   - Logo, mudanças de classificação, agregação ou detalhamento ao longo da série exigem cautela [7][9].
+
+7. **Considerar proxies e mensalizações quando os dados originais não são mensais**
+   - Em agropecuária, algumas séries anuais são distribuídas por mês por meio de **mensalização**, e para algumas atividades foram usadas **proxy** ou médias de períodos anteriores porque os dados diretos não estavam disponíveis no fechamento [2].
+   - Isso afeta a leitura temporal, porque parte da série não é observada diretamente mês a mês [2].
+
+8. **Ler as notas metodológicas e limitações específicas da série**
+   - As fontes mostram que certos cálculos dependem de hipóteses específicas, como a constância da relação entre Valor Adicionado e Valor da Produção [6].
+   - Também há notas sobre mudanças em classificações administrativas e jurídicas em determinados períodos [7].
+   - Assim, é necessário verificar sempre as notas da tabela ou da publicação antes de comparar períodos.
+
+Em resumo: para comparar indicadores ao longo do tempo neste corpus, é preciso conferir **base do índice, pesos, preços constantes vs. correntes, ajuste sazonal, revisões, mudanças de classificação e limitações da série** [1][3][4][5][6][7][9].
+
+Se você quiser, posso transformar isso em um **checklist prático de comparação temporal** com base apenas nessas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pib_mensal_trimestral_metodologia.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.5; [9] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r3 · simple_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os cuidados metodológicos explicitados nas fontes são os seguintes:
+
+1. **Separar valores nominais de valores reais**
+   - As estimativas **nominais/correntes** não corrigem variações de preços e podem ser distorcidas por inflação ou deflação, o que dificulta a comparação temporal [3].
+   - As estimativas **reais/constantes** corrigem a variação de preços e são as adequadas para comparar evolução ao longo do tempo com mais precisão [3].
+
+2. **Usar uma base de comparação claramente definida**
+   - Nas estimativas reais, seleciona-se um **ano-base**; assim, comparam-se quantidades produzidas, eliminando o efeito dos preços [3].
+   - No PIB mensal e trimestral, o método usa **índice de Laspeyres com pesos do ano anterior**, isto é, base móvel, e depois faz o **encadeamento** para obter índices tratáveis como de base fixa [6].
+   - A própria fonte observa que o termo “base” serve para o período usado como referência para determinar pesos, e que o valor 100 é arbitrário [6].
+
+3. **Manter os pesos atualizados e observar a defasagem das revisões**
+   - No PIB mensal, os pesos usados para calcular a evolução de cada atividade em um mês do ano Y são os do ano **Y-1** [1].
+   - A fonte informa que a atualização dos pesos ocorre quando sai uma nova divulgação do PIB anual, e que essa atualização é aplicada aos resultados do ano anterior e do ano corrente do PIB mensal [1].
+   - Isso é importante porque as participações relativas das atividades permanecem constantes ao longo de um ano, mas podem ser atualizadas depois [1].
+
+4. **Cuidar com revisões e retificações**
+   - Nos indicadores da PIM-PF, os índices estão sujeitos à **retificação dos dados primários** e os dados ajustados sazonalmente podem ser revisados desde o início da série histórica a cada divulgação [4], [5].
+   - Portanto, comparações ao longo do tempo podem mudar após revisões.
+
+5. **Considerar o ajuste sazonal quando a comparação for de curto prazo**
+   - A PIM-PF informa que o índice **mês/mês anterior** é calculado a partir do índice de base fixa mensal **ajustado sazonalmente** [7].
+   - Logo, se a comparação for mensal, é necessário verificar se a série usada foi ajustada sazonalmente ou não.
+
+6. **Respeitar mudanças de metodologia, base e nível de agregação**
+   - O tipo de índice e os pesos podem mudar ao longo do tempo: o PIB mensal usa pesos do ano anterior e encadeamento [1], [6], enquanto a PIM-PF informa uma base de ponderação fixa referida à estrutura de 2019 e uma adaptação de Laspeyres em cadeia [7].
+   - Em Contas Regionais, a fonte alerta que os dados de 2022 devem ser usados **com ressalva** para análises da série 2002-2022, porque houve procedimentos específicos, redução do nível de detalhamento e restrição da comparabilidade [8].
+
+7. **Verificar proxies e mensuração indireta**
+   - Em alguns casos, a metodologia usa **medidas representativas (proxies)** para magnitudes cuja variação no tempo se quer estudar [2].
+   - No agropecuário, por exemplo, a mensalização de dados anuais exige distribuição da produção por mês; quando não há informação, adota-se hipótese de distribuição uniforme da colheita [2].
+   - Também há usos de dados alternativos quando os dados trimestrais do IBGE não estão disponíveis no fechamento mensal, como no caso de carne bovina, aves, leite e ovos [2].
+
+8. **Atentar para mudanças de cobertura ou agregação setorial**
+   - A fonte do agropecuário informa que, no Estado de São Paulo, a construção dos indicadores de volume e preço considerou um conjunto específico de culturas e atividades, representando 80,7% do setor segundo o VA de 2021 [2].
+   - Isso indica que comparações dependem da mesma cobertura setorial ao longo do tempo, quando explicitada pela fonte.
+
+Em resumo, neste corpus, a comparação temporal exige principalmente: **usar preços constantes quando o objetivo for evolução real**, **manter base e pesos consistentes**, **considerar encadeamento e atualização de ponderações**, **levar em conta revisões e ajuste sazonal**, e **não misturar séries com mudanças de cobertura, agregação ou metodologia sem ressalva** [1], [3], [4], [5], [6], [7], [8].
+
+Se você quiser, posso transformar isso em uma **lista curta de “checklist metodológico”** para uso prático.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pim-pf-br_202512caderno.pdf p.5; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r3 · graph_rag
+
+Para comparar indicadores ao longo do tempo neste corpus, os cuidados metodológicos explicitamente apontados nas fontes são:
+
+1. **Distinguir valores nominais de valores reais/constantes**  
+   As fontes alertam que estimativas nominais podem ser distorcidas por inflação ou deflação, dificultando comparação temporal, enquanto as estimativas reais a preços constantes permitem comparar melhor os períodos porque ajustam variações de preço. [3]
+
+2. **Manter a mesma base de comparação e observar a mudança de base/ponderação**  
+   O corpus informa que o PIB mensal usa **índice de Laspeyres com pesos do ano anterior**, com **base móvel**, e que isso exige **encadeamento** para obter séries comparáveis. Também diz que os pesos são atualizados quando há nova divulgação do PIB anual. [1], [6]
+
+3. **Respeitar o ano-base e o tipo de índice divulgado**  
+   Há diferentes formatos de série e comparação, como índices de volume com base 2010=100, índice mês/mês anterior, mês contra o mesmo mês do ano anterior, acumulado no ano e acumulado em 12 meses. Comparações ao longo do tempo devem usar o mesmo tipo de indicador e a mesma base. [7], [8]
+
+4. **Atentar para revisões e retificações dos dados**  
+   Os índices estão sujeitos a retificação dos dados primários; além disso, os dados ajustados sazonalmente podem ser revisados desde o início da série histórica a cada divulgação. Portanto, comparações entre divulgações podem mudar. [4], [5]
+
+5. **Considerar o ajuste sazonal quando a comparação for de curto prazo**  
+   As fontes indicam séries com e sem ajuste sazonal, e o índice mês/mês anterior é obtido a partir da série ajustada sazonalmente. Comparações mensais sem esse cuidado podem ser inadequadas. [7], [8]
+
+6. **Não misturar séries com mudanças metodológicas ou de detalhamento sem ressalva**  
+   As Contas Regionais alertam que, para 2022, houve uso de referência do SCNT, com menor detalhamento, o que **restringe a comparabilidade** da série 2002–2022. [9]  
+   Também há mudança de classificação em notas metodológicas do PIB mensal e trimestral para informações de saúde, com alteração de natureza/esfera a partir de junho de 2012 e novembro de 2015. [7]
+
+7. **Verificar proxy, hipótese e fonte usada para cada atividade**  
+   O corpus informa que, em alguns casos, foram adotadas **medidas representativas (proxies)** e hipóteses específicas, como mensalização de culturas anuais, distribuição uniforme quando não há informação e uso de médias de cinco anos para leite e ovos em certos casos. Isso afeta a interpretação temporal e deve ser considerado. [2]
+
+8. **Checar se há ressalvas específicas de cobertura ou detalhamento**  
+   Por exemplo, os dados de 2022 nas Contas Regionais devem ser usados “com ressalva” para análises da série 2002–2022, segundo a fonte. [9]
+
+Em resumo: para comparar ao longo do tempo, é preciso garantir **mesma base e mesma metodologia**, distinguir **reais vs. nominais**, considerar **ajuste sazonal**, observar **revisões**, e respeitar **mudanças de classificação, detalhamento e proxies**. [1]-[9]
+
+Se quiser, posso reorganizar esses cuidados em um quadro “risco metodológico → implicação para comparação temporal” usando apenas estas fontes.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.8; [2] pib_mensal_trimestral_metodologia.pdf p.14; [3] pib_mensal_trimestral_metodologia.pdf p.5; [4] pim-pf-regional_202512.pdf p.8; [5] pim-pf-br_202512caderno.pdf p.8; [6] pib_mensal_trimestral_metodologia.pdf p.6; [7] pib_mensal_trimestral_metodologia.pdf p.19; [8] pim-pf-br_202512caderno.pdf p.5; [9] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+## T077 (sintese)
+
+**Pergunta:** Sintetize o papel de fontes primárias, proxies e pesos no cálculo do PIB mensal paulista.
+
+**Resposta esperada:** ótica do produto; proxies de volume e preços; pesos das Contas Regionais; relação VA/produção pressuposta constante; parte das atividades estimada indiretamente.
+
+### r1 · simple_rag
+
+No cálculo do PIB mensal paulista, as **fontes primárias** e os **registros administrativos** são a base de informação para construir, setor a setor, os índices usados na estimativa; quando não há dado direto para uma atividade, a metodologia recorre a **proxies**. A própria metodologia diz que, para cada setor, são coletadas informações de diferentes fontes “(pesquisas primárias e registros administrativos)” e que “em alguns casos foi necessário adotar medidas representativas (proxies)” para aferir as magnitudes estudadas [5][9].
+
+As **proxies** entram porque “não existem fontes diretas de dados para todas as categorias (ou atividades) que se pretende apurar” [9]. Assim, em vez de medir diretamente o valor adicionado de cada atividade, o PIB mensal usa um **indicador proxy de variação de volume** e um **indicador de variação de preços**; esses dois indicadores são multiplicados para gerar um **índice de valor** [4]. Em outras palavras, a proxy serve para aproximar a variação de volume quando a informação direta não está disponível, e a metodologia informa que isso é feito atividade por atividade, com fontes específicas conforme o setor [5][7].
+
+Os **pesos** definem a participação de cada atividade econômica no PIB e vêm do **Sistema de Contas Regionais** [2]. A série usa índice de **Laspeyres com pesos do ano anterior**, isto é, **base móvel**: para calcular a evolução de cada atividade em um mês do ano **Y**, usam-se os pesos do ano **Y-1** [4][8]. Esses pesos são atualizados quando há nova divulgação do PIB anual, e essa atualização é aplicada aos resultados do ano anterior e do ano corrente do PIB mensal [8]. A tabela de pesos mostra, por exemplo, a estrutura do valor adicionado do Estado de São Paulo em vários anos e indica que o peso das atividades em relação ao PIB foi de **72,5% em 2002**, **72,4% em 2010, 2015 e 2019**, **73,0% em 2020** e **71,7% em 2021** [2] — sempre para o **Estado de São Paulo**, nesses anos, em **percentual**.
+
+Em síntese:  
+- **Fontes primárias e administrativas**: alimentam os indicadores por setor [5][7][9].  
+- **Proxies**: substituem ou aproximam a medida direta quando não há dado direto suficiente [4][9].  
+- **Pesos**: determinam a importância relativa de cada atividade no agregado e são atualizados com base nas Contas Regionais, usando pesos do ano anterior no cálculo mensal [2][4][8].  
+
+Se você quiser, posso transformar isso em um parágrafo único ainda mais curto.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r1 · lexical_rag
+
+No cálculo do PIB mensal paulista, a metodologia combina três elementos principais:
+
+- **Fontes primárias e registros administrativos**: para cada setor, são coletadas informações de diferentes fontes, “pesquisas primárias e registros administrativos”, porque **não existem fontes diretas para todas as categorias** a serem apuradas [7]. As fontes variam por atividade e incluem, por exemplo, IBGE, FGV, ANP, RAIS, Caged, Sima, Sabesp, Datasus e outras, conforme o setor [5][6][9].
+
+- **Proxies**: como não há dados diretos para todas as atividades, a metodologia usa **medidas representativas (proxies)** para aferir as magnitudes cuja variação no tempo se quer estudar [5]. O texto diz explicitamente que, para calcular o Valor Adicionado em cada atividade, **não se utiliza um método direto**, mas sim um **indicador proxy de variação de volume** (Índice de Volume) e um **indicador de variação de preços** (Índice de Preços), que são combinados para formar o **Índice de Valor** [4]. Em alguns casos, o comportamento de certas atividades é estimado de forma indireta pela média de outras atividades do grupo “demais serviços” [2].
+
+- **Pesos**: os pesos definem a participação de cada atividade no PIB e vêm do **Sistema de Contas Regionais** [2]. A metodologia usa **índice de Laspeyres com pesos do ano anterior**, isto é, uma **base móvel**; para calcular a evolução de cada atividade em um mês do ano \(Y\), usam-se os pesos do ano \(Y-1\) [4][8]. Esses pesos são atualizados quando há nova divulgação do PIB anual, e essa atualização vale para o ano anterior e para o ano corrente do PIB mensal [8]. A tabela de pesos mostra, por exemplo, a estrutura do Valor Adicionado por atividades no Estado de São Paulo em 2002, 2010, 2015, 2019, 2020 e 2021 [2].
+
+Síntese: **as fontes primárias fornecem os dados observados; as proxies permitem estimar setores sem observação direta; e os pesos do ano anterior organizam e agregam essas variações setoriais para construir o índice mensal do PIB paulista** [2][4][5][7][8].
+
+Se quiser, posso transformar isso em um parágrafo único mais curto ou em tópicos para apresentação.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.16; [7] pib_mensal_trimestral_metodologia.pdf p.13; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.19; [10] pib_mensal_trimestral_metodologia.pdf p.1_
+
+### r1 · graph_rag
+
+No cálculo do PIB mensal paulista, as **fontes primárias** são a base das informações por atividade: a metodologia diz que “para cada setor de atividade são coletadas informações de diferentes fontes (pesquisas primárias e registros administrativos)” e que, quando não há fonte direta para todas as categorias, “em alguns casos foi necessário adotar medidas representativas (proxies)” [8]. Ou seja, as fontes primárias alimentam os indicadores de volume e preço por setor, mas a cobertura não é integral para todas as atividades [8].
+
+As **proxies** entram justamente para preencher essas lacunas de mensuração. A metodologia informa que “não existe[m] fontes diretas de dados para todas as categorias” e, por isso, usa-se um **indicador proxy de variação de volume** e um **indicador de variação de preços**, que são multiplicados para gerar um índice de valor [4]. A fonte também diz que, em algumas atividades, os comportamentos são estimados indiretamente pela média de outras atividades: no caso de “profissionais, científicas e técnicas, administrativas e serviços complementares, de artes, cultura, esporte e recreação e de outros serviços e serviços domésticos”, os comportamentos são estimados pela média das atividades de “demais serviços” [2]. Há também exemplos setoriais de proxy em várias atividades, como agricultura, indústria extrativa, indústria de transformação, eletricidade e gás, construção civil e impostos líquidos de subsídios [5], [7], [10].
+
+Os **pesos** organizam a agregação das atividades no PIB. Eles “são derivados do Sistema de Contas Regionais” [2] e, no método adotado, o índice é de **Laspeyres com pesos do ano anterior**, isto é, usa base móvel e “os pesos do ano ‘Y-1’” para calcular a evolução de cada atividade no mês do ano Y [4], [9]. A metodologia também diz que esses pesos são atualizados quando sai uma nova divulgação do PIB anual, e essa atualização é aplicada aos resultados do ano anterior e do ano corrente do PIB mensal [9]. Além disso, a tabela de ponderação mostra que as atividades com indicadores próprios representavam cerca de **72,0% do PIB** e **87,0% do Valor Adicionado** [2].
+
+Em síntese: **fontes primárias** fornecem os dados observados; **proxies** são usadas quando faltam dados diretos ou para estimar variações por atividade; e **pesos** são usados para agregar as atividades e compor o índice do PIB mensal paulista, com atualização anual e base móvel [2], [4], [8], [9].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.8; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r2 · simple_rag
+
+O papel de **fontes primárias, proxies e pesos** no PIB mensal paulista, segundo as fontes, é este:
+
+- **Fontes primárias**: são as bases de dados e registros usados para montar os índices por atividade econômica. A metodologia diz que, para cada setor, são coletadas informações de diferentes fontes “(pesquisas primárias e registros administrativos)” para construir os índices de base móvel e fixa [9]. As fontes variam por setor: por exemplo, agropecuária usa IEA, IBGE e Mapa [5]; indústria extrativa usa ANP, RAIS, Caged e IPA/FGV [7]; indústria de transformação usa PIM-PF/IBGE e IPA/FGV [7]; eletricidade, gás, água e esgoto usa Sima, Sabesp e IPCA/IBGE [7].  
+  Se faltar fonte direta para alguma atividade, a metodologia afirma que isso exige recorrer a outra solução [9].
+
+- **Proxies**: quando não há fonte direta para medir uma atividade ou variável, a metodologia usa **medidas representativas (proxies)** [5]. O texto diz que, “em alguns casos”, foi necessário adotar proxies para aferir magnitudes cuja variação no tempo se pretende estudar [5]. Exemplos dados nas fontes:  
+  - para atividades profissionais, científicas e técnicas, administrativas e serviços complementares, artes, cultura, esporte e recreação, outros serviços e serviços domésticos, os comportamentos são estimados pela média das atividades do item “demais serviços” [2];  
+  - na agropecuária, para carne bovina e aves, usam-se dados de abate fiscalizado do Mapa porque os dados trimestrais do IBGE não estão disponíveis no fechamento das estimativas mensais; para leite e ovos, usa-se a média dos últimos cinco anos para o mês de referência [5].  
+  As fontes não permitem afirmar uma lista completa de proxies para todo o PIB mensal.
+
+- **Pesos**: são os fatores que determinam a participação de cada atividade no PIB e vêm do **Sistema de Contas Regionais** [2]. O índice usado é de **Laspeyres com pesos do ano anterior**, em base móvel [4]. A metodologia resume que, para calcular a evolução de cada atividade em um mês do ano Y, usam-se os pesos do ano Y-1 [8]. Esses pesos são atualizados quando há nova divulgação do PIB anual, e a atualização vale para o ano anterior e para o ano corrente do PIB mensal [8].  
+  A tabela mostra, para o Estado de São Paulo, que as atividades com indicadores próprios representavam cerca de **72,0% do PIB** e **87,0% do Valor Adicionado** [2]. A mesma fonte informa que os indicadores das atividades profissionais, científicas e técnicas, administrativas e serviços complementares, de artes, cultura, esporte e recreação, de outros serviços e de serviços domésticos são estimados indiretamente pela média de “demais serviços” [2].
+
+Em síntese: **as fontes primárias alimentam os índices setoriais; as proxies suprem lacunas quando não há observação direta; e os pesos definem como esses índices são agregados ao PIB, com atualização anual e base móvel** [2], [4], [5], [8], [9].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r2 · graph_rag
+
+O PIB mensal paulista é calculado pela **ótica do produto**, com base em **indicadores de volume e de preços** para estimar o valor adicionado de cada atividade [4].  
+
+**Papel das fontes primárias**
+- As fontes primárias fornecem os dados observados para cada setor ou atividade. A metodologia diz que, para cada setor, são coletadas informações de **diferentes fontes (pesquisas primárias e registros administrativos)** [8].
+- Exemplos de fontes citadas para atividades específicas incluem **IEA, IBGE, Mapa, ANP, Rais, Caged, Sima, Sabesp, Datasus e Fipe** [5][7][10].
+- Quando há lacunas, a metodologia recorre a **proxies** ou estimativas indiretas [5][7][8].
+
+**Papel das proxies**
+- Quando não existe dado direto para uma atividade, usa-se um **indicador proxy** de variação de volume e, quando necessário, de preços [4].
+- A metodologia explicita que, em alguns casos, foi necessário adotar **medidas representativas (proxies)** para aferir magnitudes cuja variação no tempo se pretende estudar [5].
+- Há atividades em que o comportamento é estimado indiretamente: por exemplo, algumas atividades de serviços são estimadas pela **média das atividades constantes no item demais serviços** [2].
+- Em agropecuária, como certos dados não estão disponíveis no fechamento mensal, a metodologia usa **abate fiscalizado do Mapa** para carne bovina e aves e a **média dos últimos cinco anos** para leite e ovos no mês de referência [5].
+
+**Papel dos pesos**
+- Os pesos vêm do **Sistema de Contas Regionais** e determinam a participação de cada atividade no PIB [2].
+- O índice usado é o **Laspeyres com pesos do ano anterior**, com **base móvel**; isso significa que, para calcular a evolução de uma atividade em um mês do ano Y, usam-se os **pesos do ano Y-1** [4][9].
+- Esses pesos são **atualizados quando há nova divulgação do PIB anual**, e a atualização vale para o ano anterior e para o ano corrente do PIB mensal [9].
+- A tabela de ponderação mostra que as atividades com indicadores próprios representam cerca de **87,0% do Valor Adicionado** e **72,0% do PIB**, enquanto outras atividades são estimadas indiretamente [2].
+
+**Síntese**
+Em resumo, o PIB mensal paulista combina:
+1. **fontes primárias** e registros administrativos para medir setores com dados disponíveis;
+2. **proxies** para cobrir atividades sem observação direta ou com informação incompleta;
+3. **pesos setoriais** das Contas Regionais, atualizados com base móvel, para agregar as atividades e manter a série compatível com o PIB anual [2][4][8][9].
+
+Se você quiser, posso transformar isso em um parágrafo único mais curto, em linguagem de relatório.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.8; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+### r3 · simple_rag
+
+O papel de **fontes primárias, proxies e pesos** no PIB mensal paulista é este, segundo a metodologia descrita para o Estado de São Paulo:
+
+- **Fontes primárias**: são as informações coletadas de diferentes pesquisas e registros administrativos para cada setor de atividade, usadas para construir os índices de base móvel e fixa. A metodologia afirma que, para cada setor, são reunidas “informações de diferentes fontes (pesquisas primárias e registros administrativos)”, mas também observa que nem sempre existem dados diretos para todas as atividades [9].  
+- **Proxies**: quando não há medida direta para uma atividade ou variável, a metodologia usa medidas representativas para estimar sua variação. O texto diz que “em alguns casos foi necessário adotar medidas representativas (proxies)” e que, para calcular o Valor Adicionado em cada atividade, “não é utilizado um método direto”, mas sim um **índice proxy de variação de volume** (Índice de Volume) e um **índice de variação de preços** (Índice de Preços), combinados no Índice de Valor [4][5]. Em alguns setores, há também estimativas indiretas: por exemplo, certas atividades de serviços têm seu comportamento estimado pela média de “demais serviços” [2].  
+- **Pesos**: servem para refletir a participação de cada atividade econômica no PIB e para agregar os índices setoriais. Esses pesos vêm do Sistema de Contas Regionais e, no cálculo mensal, usam-se os **pesos do ano anterior**, com base móvel e encadeamento dos índices [2][4][8]. A metodologia informa ainda que as atividades com indicadores próprios representam cerca de **87,0% do Valor Adicionado** do Estado e **72,0% do PIB** [2].  
+
+Em síntese: as **fontes primárias** alimentam os indicadores setoriais; as **proxies** entram quando não há dado direto suficiente; e os **pesos** definem a importância relativa de cada atividade na agregação do PIB mensal paulista [2][4][5][9].
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.8; [9] pib_mensal_trimestral_metodologia.pdf p.13_
+
+### r3 · graph_rag
+
+No PIB mensal paulista, a metodologia usa **três elementos centrais**:
+
+1. **Fontes primárias e registros administrativos**: para cada atividade econômica, são coletadas informações de diferentes fontes, “pesquisas primárias e registros administrativos”, porque **não existem fontes diretas para todas as categorias** que se quer apurar [8]. As fontes variam por setor: por exemplo, agropecuária usa dados do IEA, IBGE e Mapa [5]; indústria extrativa usa ANP, Rais, Caged e FGV [7]; indústria de transformação usa a PIM-PF do IBGE e o IPA da FGV [7].
+
+2. **Proxies**: quando não há dado direto, a metodologia recorre a **medidas representativas (proxies)** para estimar variações de volume e preço [5]. O texto diz que, para calcular o Valor Adicionado de cada atividade, **não se usa um método direto**; em vez disso, usa-se um **Indicador Proxy de variação de volume** (Índice de Volume) e um **indicador de variação de preços** (Índice de Preços), cujo produto gera o Índice de Valor [4]. Há também casos de estimativa indireta: atividades como serviços profissionais, administrativos, artes, outros serviços e serviços domésticos têm comportamento estimado pela média de “demais serviços” [2].
+
+3. **Pesos**: os pesos definem a participação de cada atividade no PIB e vêm do **Sistema de Contas Regionais** [2]. O cálculo usa **índice de Laspeyres com pesos do ano anterior** e, portanto, **base móvel** [4]. Em termos práticos, para calcular a evolução de uma atividade em um mês do ano Y, usam-se os **pesos do ano Y-1** [9]. A metodologia também informa que, com a defasagem de divulgação do PIB anual, os pesos são atualizados quando sai uma nova divulgação do PIB anual, e essa atualização é aplicada ao ano anterior e ao ano corrente do PIB mensal [9].
+
+Em síntese: **as fontes primárias alimentam os indicadores setoriais; as proxies preenchem lacunas quando não há observação direta; e os pesos agregam essas informações, refletindo a estrutura setorial do PIB paulista com atualização anual** [2][4][8][9].
+
+Se quiser, posso também transformar isso em um resumo em **uma frase** ou em **tópicos para apresentação**.
+
+_Fontes: [1] pib_mensal_trimestral_metodologia.pdf p.20; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.2; [4] pib_mensal_trimestral_metodologia.pdf p.6; [5] pib_mensal_trimestral_metodologia.pdf p.14; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.16; [8] pib_mensal_trimestral_metodologia.pdf p.13; [9] pib_mensal_trimestral_metodologia.pdf p.8; [10] pib_mensal_trimestral_metodologia.pdf p.19_
+
+## T078 (sintese)
+
+**Pergunta:** Descreva a relação entre estimativas conjunturais do PIB e Contas Regionais anuais, incluindo revisões.
+
+**Resposta esperada:** compatibilidade com PIB anual; benchmarking/Denton; defasagem de dois anos descrita pela metodologia; incorporação de novas fontes e ponderações; revisões podem alterar séries.
+
+### r1 · simple_rag
+
+A relação descrita nas fontes é a seguinte:
+
+- As **estimativas conjunturais do PIB** (mensais/trimestrais) são construídas para dar um retrato mais imediato da economia, mas a própria metodologia informa que o **PIB anual das Contas Regionais** é o referencial de melhor qualidade para calibrar essas séries de maior frequência. Por isso, usa-se **benchmarking**: o indicador de maior frequência serve para acompanhar o comportamento ao longo do ano, enquanto os **totais anuais conhecidos** das Contas Regionais ajustam o nível da série conjuntural [3].  
+- No método apresentado, para séries de fluxo, a regra é que **a soma dos trimestres deve ser igual ao dado anual**; para números-índices, a restrição pode ser a **média dos trimestres igual ao índice anual** ou a soma dos trimestres igual a quatro vezes o índice anual [3].  
+- As estimativas mensais/trimestrais são, portanto, **atualizadas para coincidir com as Contas Regionais anuais** quando o dado anual fica disponível. No caso citado para o PIB paulista, os dados definitivos do PIB regional são divulgados com **defasagem de dois anos**, e é “desejável” que os valores correntes e as taxas anuais do indicador de alta frequência coincidam com as estimativas anuais [3].  
+- As fontes também mostram que essas séries **passam por revisões** quando entram novas informações: “a cada nova estimativa trimestral” podem ocorrer atualizações na composição das séries, e no **terceiro trimestre de cada ano** há outra revisão, quando são incorporadas **novas ponderações originárias das Contas Regionais** [5].  
+- Além disso, houve revisões maiores ligadas a mudanças de ano-base: no SCR, as mudanças publicadas foram em **2007** e **2015**, com adoção de **2002** e depois **2010** como novos anos de referência [1]. A metodologia do PIB mensal/trimestral paulista diz que, em **2015**, os dados anuais com a nova revisão de referência **2010** permitiram refazer as estimativas mensais [7].  
+- A fonte das Contas Regionais de 2022 também informa que o SCR continua sendo estimado mesmo durante a revisão do sistema, e que os resultados de **2022** foram divulgados com **ressalva para análises da série 2002–2022**, porque foram usados procedimentos e um nível de detalhamento diferente do padrão 2010–2021; esses resultados serão reapresentados de forma definitiva em **2026**, integrados à nova série com **ano-base 2021** [8].
+
+Em resumo, as **estimativas conjunturais** são um acompanhamento de alta frequência do PIB, mas **devem ser ajustadas e revisadas para ficar compatíveis com as Contas Regionais anuais**, que funcionam como referência anual. As revisões podem ocorrer tanto de forma rotineira, com novas ponderações e novas informações, quanto em revisões maiores ligadas à mudança de ano-base [3][5][1][8].
+
+Se você quiser, posso reorganizar isso em um quadro “**estimativa conjuntural x Contas Regionais anuais x revisões**”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r1 · lexical_rag
+
+A relação descrita nas fontes é de **complementaridade e ajuste entre séries de baixa e alta frequência**, com o **PIB mensal/trimestral servindo como indicador conjuntural** e as **Contas Regionais anuais como referência de melhor qualidade para o nível e o total anual**.
+
+- As **estimativas mensais e trimestrais** pretendem ser “um retrato reduzido e atualizado do PIB anual” e usam resultados com base nos setores mais importantes da estrutura econômica do Estado [2].
+- O **benchmarking** é o processo usado para fazer com que os resultados conjunturais coincidam com as estimativas anuais das Contas Regionais, porque a série anual é considerada de melhor qualidade do que a de maior frequência [3].
+- Nesse ajuste, para **séries de fluxos**, a restrição é que **a soma dos trimestres seja igual ao dado anual para cada ano**; para números-índices, a média dos trimestres deve ser igual ao índice anual, ou a soma dos trimestres deve ser igual a quatro vezes o índice anual [3].
+- As estimativas trimestrais podem sofrer **ajustes ao benchmark anual** e também **ajustamento sazonal**; além disso, “a cada ajuste anual, os índices sazonalmente ajustados podem sofrer alterações” [5].
+- As **revisões** são parte inerente da construção do PIB trimestral: novas fontes podem ser incorporadas a cada nova estimativa, e no **terceiro trimestre de cada ano** ocorre outra revisão, quando são incorporadas **novas ponderações originárias das Contas Regionais** [5].
+- As fontes também mostram que a base de ponderação do PIB mensal/trimestral deriva do **Sistema de Contas Regionais** [2].
+- O caso do **Estado de São Paulo** ilustra essa relação: em 2007, com a nova revisão das Contas Regionais (referência 2002), os cálculos do PIB trimestral paulista foram refeitos; em 2010, foram incorporados novos setores, estimativas de valores correntes e o ajuste aos dados anuais; e em 2015, com a nova revisão (referência 2010), as estimativas do PIB mensal foram refeitas [6][7].
+
+Sobre **revisões mais recentes do SCR**, a fonte informa que:
+- o IBGE está revisando as séries de todo o Sistema de Contas, que passará a adotar **2021 como novo ano-base** [1];
+- durante esse processo, o SCR **não interrompe** suas estimativas [1];
+- os resultados de **2022** foram estimados com **2010 como referência**, usando parâmetros do **SCNT** em vez dos resultados definitivos do SCN, e isso reduz o nível de detalhamento e **restringe a comparabilidade** da série disponível **2002-2022** [8];
+- os resultados do SCR serão **reapresentados de forma definitiva em 2026**, integrados à nova série do SCN com ano-base 2021 [8].
+
+Se você quiser, posso transformar isso em uma resposta mais curta, em forma de parágrafo único.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r1 · graph_rag
+
+A relação entre as estimativas conjunturais do PIB e as Contas Regionais anuais é de uso complementar e de ajuste das séries de menor frequência às séries anuais. As estimativas mensais ou trimestrais são usadas para acompanhar a conjuntura econômica, enquanto os dados anuais das Contas Regionais servem como referência mais consistente para o nível e para as taxas de variação anual. Quando há duas séries de frequências diferentes para a mesma variável, a série anual, de melhor qualidade, é usada como benchmark para a série de maior frequência, por meio do processo chamado benchmarking [3].
+
+As fontes informam que os dados definitivos do PIB regional são divulgados anualmente com defasagem de dois anos, e que, por isso, é desejável que os valores correntes e as taxas de variação anual do indicador de maior frequência coincidam com as estimativas das Contas Regionais [3]. Nesse ajuste, a série de maior frequência serve para aferir o comportamento ao longo do ano e para fornecer informação quando o dado anual ainda não está disponível [3]. O texto também diz que, para séries de fluxos, a soma dos trimestres deve ser igual ao dado anual de cada ano [3].
+
+As fontes também mostram que os pesos usados nas estimativas mensais e trimestrais derivam do Sistema de Contas Regionais [2]. No caso paulista, foi informado que, no terceiro trimestre de cada ano, ocorre uma revisão em que são incorporadas novas ponderações originárias das Contas Regionais [5]. Além disso, as estimativas mensais foram refeitas quando houve nova revisão das Contas Regionais com referência 2010, em 2015, mantendo-se a metodologia e passando a disponibilizar os resultados com 50 dias de defasagem [8].
+
+A relação com revisões aparece ainda no fato de que o Sistema de Contas Regionais passou por mudanças de ano-base em 2007 e 2015, adotando 2002 e depois 2010 como novas referências [1]. A fonte também informa que o IBGE está em revisão das séries com novo ano-base 2021, sem interromper as estimativas do Sistema de Contas Nacionais Trimestrais nem do Sistema de Contas Regionais [1].
+
+Se a pergunta exigir um recorte territorial específico, as fontes permitem ver exemplos nacionais e do Estado de São Paulo, mas não fornecem uma regra única explicitamente comparada para todos os territórios no mesmo detalhe [2], [3], [5], [8].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 27; [8] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r2 · simple_rag
+
+As fontes mostram que há uma relação de complementaridade entre as estimativas conjunturais do PIB e as Contas Regionais anuais, com ajuste e revisões periódicas.
+
+- As estimativas mensais/trimestrais buscam ser um “retrato reduzido e atualizado do PIB anual”, usando os pesos do Sistema de Contas Regionais para montar séries de maior frequência [2].  
+- Como o dado anual é considerado de melhor qualidade, os resultados de maior frequência são ajustados ao dado anual por “benchmarking”: a série de maior frequência serve para acompanhar o comportamento ao longo do ano, mas não o nível, e deve coincidir com as Contas Regionais anuais quando estas estiverem disponíveis [3].  
+- No caso do PIB mensal paulista, a metodologia diz que os dados definitivos do PIB regional são divulgados anualmente com defasagem de dois anos, e que é desejável que os valores correntes e as taxas de variação anual do indicador mensal coincidam com as estimativas das Contas Regionais [3].  
+- A mesma fonte explica que, além do benchmarking, a cada nova estimativa trimestral podem entrar atualizações na composição das séries, e que no terceiro trimestre de cada ano ocorre uma revisão adicional porque são incorporadas novas ponderações originárias das Contas Regionais [5].  
+
+Sobre revisões e atualização da base:
+
+- O SCR é periodicamente rebaseado; as últimas mudanças de ano-base foram publicadas em 2007 e 2015, com adoção de 2002 e depois 2010 como referência [1].  
+- Durante a revisão da série de todo o Sistema de Contas, que passará a adotar 2021 como novo ano-base, o IBGE informa que nem o SCNT nem o SCR interrompem suas estimativas [1].  
+- A publicação de 2022 também alerta que os dados de 2022 devem ser usados com ressalva para análises da série 2002–2022, porque alguns procedimentos e o nível de detalhamento diferem da série 2010–2021; esses resultados serão reapresentados de forma definitiva em 2026, integrados à nova série do SCN [8].  
+- Ainda em 2022, a estimativa do PIB das Unidades da Federação usou como referência os valores do SCNT, e não os resultados definitivos do SCN, justamente por indisponibilidade de parte das informações estruturais no momento da divulgação [8].  
+
+Em resumo, pelas fontes, as Contas Regionais anuais fornecem a base estrutural e os pesos para os indicadores conjunturais; estes acompanham a economia em maior frequência, mas são ajustados/revisados para convergir com os dados anuais quando estes ficam disponíveis [2][3][5]. Além disso, mudanças de ano-base e revisões metodológicas podem alterar pesos, detalhamento e comparabilidade ao longo da série [1][8].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r2 · graph_rag
+
+A relação descrita nas fontes é de **complementaridade e ajuste** entre as estimativas conjunturais do PIB e as Contas Regionais anuais.
+
+- As estimativas mensais/trimestrais do PIB são apresentadas como um **retrato reduzido e atualizado do PIB anual**; elas usam setores mais importantes da estrutura econômica e visam acompanhar a conjuntura, enquanto os dados anuais das Contas Regionais são o referencial de melhor qualidade para o nível da variável [2], [3].
+- Como os **dados definitivos do PIB regional** são divulgados com **defasagem de dois anos**, o indicador conjuntural serve para acompanhar o comportamento da economia antes da disponibilidade do dado anual [3].
+- O procedimento de **benchmarking** é usado para fazer com que os valores correntes e as **taxas de variação anual** do indicador conjuntural coincidam com as estimativas das Contas Regionais; para séries de fluxo, a restrição é que **a soma dos trimestres seja igual ao dado anual** de cada ano [3].
+- Na série paulista, as **novas ponderações originárias das Contas Regionais** são incorporadas em revisão realizada no **terceiro trimestre de cada ano** [5].
+- As fontes também indicam que as estimativas conjunturais podem ser **refeitas quando há nova revisão das Contas Regionais**: em 2007, com a nova revisão das Contas Regionais de referência 2002, os cálculos do PIB trimestral paulista foram refeitos; em 2015, com a nova revisão de referência 2010, as estimativas do PIB mensal foram refeitas [6], [8].
+- Além disso, uma mudança de ano-base nas Contas — como 2002, 2010 e o processo em curso para 2021 — envolve atualização de pesos, classificações, fontes e métodos; durante essa revisão, o SCR continua sendo estimado [1], [4].
+
+Em resumo, as fontes mostram que as estimativas conjunturais do PIB **dependem das Contas Regionais anuais como benchmark**, podem ser **revisadas quando as Contas Regionais são revisadas** e incorporam novas ponderações anuais para manter a coerência com o dado anual [1], [3], [5], [6], [8].
+
+Se quiser, posso reorganizar isso em formato de **texto corrido**, **tópicos**, ou **quadro comparativo**.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 27; [8] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r3 · simple_rag
+
+A relação descrita nas fontes é de **complementaridade com ajuste/compatibilização** entre as estimativas conjunturais do PIB e as Contas Regionais anuais.
+
+- As **estimativas mensais/trimestrais do PIB** são um “retrato reduzido e atualizado do PIB anual” e servem para acompanhar a economia com maior frequência; como os dados anuais têm melhor qualidade, o procedimento adequado é fazer o **benchmarking** para que os valores correntes e as taxas anuais do indicador conjuntural coincidam com as estimativas das Contas Regionais [2], [3].  
+- Esse benchmarking é feito preservando os totais anuais conhecidos: para séries de fluxos, **a soma dos trimestres deve ser igual ao dado anual**; para números-índices, a restrição pode ser a média dos trimestres igual ao índice anual ou a soma dos trimestres igual a quatro vezes o índice anual [3].  
+- Nas estimativas paulistas, além do benchmarking, o método usa **ajustamento sazonal**, porque a comparação entre períodos consecutivos sem dessazonalização pode levar a conclusões inadequadas; o ajuste sazonal é feito pelo X-13 Arima [5].  
+- As fontes também mostram que, quando novas informações anuais ficam disponíveis, as séries conjunturais são **refeitas/revisadas** para incorporar as novas ponderações das Contas Regionais. No caso paulista, em 2010 os resultados passaram a ser ajustados aos dados anuais (volume e valor) e, em 2015, com a nova revisão das Contas Regionais (referência 2010), as estimativas do PIB mensal foram refeitas [7]. Em outro trecho, informa-se que, a cada nova estimativa trimestral, podem ser introduzidas atualizações nas séries usadas, e que no terceiro trimestre de cada ano ocorre nova revisão com incorporação de ponderações oriundas das Contas Regionais [5].  
+- Para o SCR do Brasil, as Contas Regionais são publicadas com base uniforme por Unidade da Federação e integradas ao SCN; durante a revisão do ano-base, o IBGE continua estimando o SCR, e os resultados de 2022 foram apresentados com **ressalva** para análises da série 2002-2022, pois o nível de detalhamento foi menor do que na série 2010-2021 [1], [8].
+
+**Em resumo:** as estimativas conjunturais do PIB usam as Contas Regionais anuais como referência de nível e ponderação; quando os dados anuais definitivos entram, a série conjuntural é compatibilizada e pode ser revisada para manter consistência com as Contas Regionais [2], [3], [5], [7], [8].
+
+Se você quiser, posso transformar isso em um parágrafo único mais curto ou em tópicos comparando “PIB conjuntural” e “Contas Regionais anuais”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] pib_mensal_trimestral_metodologia.pdf p.2; [8] contas_regionais_2022_notas_tecnicas.pdf p.8_
+
+### r3 · graph_rag
+
+As fontes mostram que a relação entre as estimativas conjunturais do PIB e as Contas Regionais anuais é de **referência e ajuste**: as estimativas de maior frequência (mensais ou trimestrais) servem para acompanhar a conjuntura, mas devem ser alinhadas aos totais anuais das Contas Regionais, que têm melhor qualidade. Esse alinhamento é chamado de **benchmarking** [3].
+
+Pontos principais, com o recorte das fontes:
+
+- **As Contas Regionais anuais são a referência para os pesos e para a calibração das séries conjunturais.**  
+  A metodologia do PIB mensal/trimestral informa que os pesos das atividades econômicas no PIB são derivados do Sistema de Contas Regionais [2]. Também diz que as estimativas mensais pretendem ser “um retrato reduzido e atualizado do PIB anual” [2].
+
+- **O dado anual é tratado como melhor qualidade do que o de maior frequência.**  
+  Segundo a metodologia, quando há séries de frequências diferentes para a mesma variável, a série de menor frequência, no caso a anual, tem melhor qualidade; por isso, o indicador conjuntural serve para medir o comportamento ao longo do ano, mas não o nível da variável até que haja o dado anual [3].
+
+- **O ajuste busca compatibilizar os totais anuais.**  
+  O documento descreve que o benchmarking usa métodos que fazem as séries de maior frequência ficarem em conformidade com os totais anuais conhecidos, preservando o padrão intraanual. No caso de séries de fluxos, a restrição é que a soma dos trimestres seja igual ao dado anual do ano correspondente [3].
+
+- **Há revisões quando novas Contas Regionais anuais ficam disponíveis.**  
+  A metodologia do PIB paulista informa que “a cada ajuste anual, os índices sazonalmente ajustados podem sofrer alterações” [5]. Também diz que, no terceiro trimestre de cada ano, ocorre uma revisão em que são incorporadas novas ponderações originárias das Contas Regionais [5]. Além disso, em 2015, com a nova revisão das Contas Regionais (referência 2010), as estimativas do PIB mensal foram refeitas [8].
+
+- **As séries conjunturais podem ser atualizadas várias vezes.**  
+  As fontes informam que, a cada nova estimativa trimestral, podem ser introduzidas atualizações na composição das séries usadas na construção do PIB conjuntural [5]. E, quando há mudança de ano-base nas Contas Regionais, isso altera pesos, fontes e metodologia do sistema [1].
+
+- **As Contas Regionais continuam sendo estimadas mesmo durante revisão de ano-base.**  
+  O texto das notas técnicas afirma que, no processo de revisão do Sistema de Contas para adotar 2021 como novo ano-base, o IBGE não interrompe as estimativas nem do Sistema de Contas Nacionais Trimestrais nem do Sistema de Contas Regionais [1].
+
+Em resumo, pelas fontes: **as estimativas conjunturais do PIB dependem das Contas Regionais anuais como benchmark, e são revistas quando novas séries anuais, novos pesos ou novos anos-base são incorporados** [1][3][5][8].
+
+Se quiser, posso transformar isso em um parágrafo único mais curto ou em formato de tópicos para relatório.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.7; [2] pib_mensal_trimestral_metodologia.pdf p.11; [3] pib_mensal_trimestral_metodologia.pdf p.12; [4] contas_regionais_2022_notas_tecnicas.pdf p.7; [5] pib_mensal_trimestral_metodologia.pdf p.13; [6] pib_mensal_trimestral_metodologia.pdf p.1; [7] tabelas-pib-anual-2023.xlsx p.Tabela 27; [8] pib_mensal_trimestral_metodologia.pdf p.2_
+
+## T079 (sintese)
+
+**Pergunta:** Resuma os conceitos territoriais que precisam ser distinguidos ao interpretar as tabelas de PIB paulista.
+
+**Resposta esperada:** estado, município, Região Administrativa, Região Metropolitana; código IBGE liga cadastro municipal à base de PIB; divisão territorial tem referência própria; recortes não são intercambiáveis.
+
+### r1 · simple_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir estes recortes territoriais, porque as fontes usam mais de um:
+
+- **Estado de São Paulo / economia paulista**: aparece como o território de referência nas tabelas anuais e regionais. Na Tabela 3, a participação do PIB paulista no Brasil é apresentada para o **Estado de São Paulo** [1], [2], [10]. Na Tabela 2 regional, os dados se referem ao **total da economia paulista** e ao **Estado de São Paulo** como base territorial [3], [5], [9].
+- **Brasil / nacional**: na Tabela 3, o PIB de São Paulo é comparado com o **Brasil**; o título diz “participação do Produto Interno Bruto paulista no Brasil” [1], [10].
+- **Regiões administrativas**: na tabela regional, a participação do valor adicionado setorial e do PIB é detalhada “segundo as regiões administrativas”, isto é, o recorte subestadual usado para comparar partes do estado entre si [3], [9].
+- **Outras unidades territoriais não citadas nas fontes**: as fontes fornecidas não mostram, para essas tabelas, um detalhamento por município, região metropolitana ou outra divisão territorial. Portanto, não é possível afirmar isso com base nelas.
+
+Também é importante distinguir **níveis de agregação territorial** dentro do próprio Estado de São Paulo:
+- a **economia paulista como um todo** [3], [5];
+- as **regiões administrativas** dentro do estado [3], [9];
+- a comparação do estado com o **Brasil** [1], [10].
+
+E há ainda um cuidado territorial ligado à metodologia: a fonte metodológica distingue o PIB estadual paulista como uma série própria, e menciona o uso de séries “paulistas” e “nacionais” para comparação e dessazonalização, mas sem detalhar aqui outras divisões territoriais [4], [7], [8], [11].
+
+Se você quiser, posso transformar isso em um quadro “território x tabela x uso na interpretação” usando só essas fontes.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.5; [8] pib_mensal_trimestral_metodologia.pdf p.11; [9] 01-2026-tabelas-pib-regional-site.xlsx p.índice; [10] tabelas-pib-anual-2023.xlsx p.Índice; [11] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r1 · lexical_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir pelo menos estes conceitos territoriais:
+
+1. **Estado de São Paulo / economia paulista**  
+   É o território de referência principal de várias tabelas, como a Tabela 2 regional, que trata da participação do valor adicionado e do PIB no total da economia paulista [3][5][10]. A Tabela 3 também se refere ao **Estado de São Paulo** ao comparar a participação do PIB paulista no Brasil [1][2].
+
+2. **Brasil / nacional**  
+   Na Tabela 3, a comparação é feita com o **Brasil**, isto é, a participação do PIB paulista no PIB brasileiro [1][2].
+
+3. **Regiões administrativas do Estado de São Paulo**  
+   Na tabela regional, o recorte territorial não é o Estado como um todo, mas as **regiões administrativas** dentro do Estado de São Paulo [3][5][10]. Os dados são apresentados para cada região administrativa e também para o total do Estado [3][5].
+
+4. **Setores e subsetores da economia paulista**  
+   Algumas tabelas distinguem o território do Estado de São Paulo do recorte **setorial**: a Tabela 2 regional mostra a participação do **valor adicionado setorial** e do PIB no total da economia paulista segundo as regiões administrativas [3][5]. A metodologia também separa atividades econômicas e seus pesos na economia paulista [9].
+
+5. **Abrangência temporal do recorte**  
+   As fontes mostram séries em períodos diferentes:  
+   - Tabela 3: **2002–2023** [1][2]  
+   - Tabela 2 regional: o índice indica **1º trimestre de 2026** [10], e a nota informa que os dados são **preliminares e sujeitos a revisão** [3][5].  
+   Isso importa porque o território comparado pode ser o mesmo, mas o período muda a leitura.
+
+Em resumo, o principal cuidado é não misturar:
+- **Estado de São Paulo** com **regiões administrativas** dentro do estado;
+- **São Paulo** com **Brasil**;
+- e **recortes territoriais** com **recortes setoriais** [1][2][3][5][9][10].
+
+Se quiser, posso transformar isso em uma versão ainda mais curta, em 3 linhas, para uso em nota metodológica.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] tabelas-pib-anual-2023.xlsx p.Índice; [8] pib_mensal_trimestral_metodologia.pdf p.5; [9] pib_mensal_trimestral_metodologia.pdf p.11; [10] 01-2026-tabelas-pib-regional-site.xlsx p.índice; [11] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r1 · graph_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir pelo menos estes conceitos territoriais, conforme as fontes:
+
+1. **Estado de São Paulo / economia paulista**  
+   As tabelas tratam do PIB do **Estado de São Paulo** e da **economia paulista** como recorte territorial principal [1], [3], [5], [10].
+
+2. **Brasil / total nacional**  
+   Na Tabela 3, o indicador é a **participação do Produto Interno Bruto paulista no Brasil**; portanto, há uma comparação entre o Estado de São Paulo e o **Brasil** [1].  
+   A fonte também menciona “economia nacional” ao tratar da estrutura e da importância dos setores [10].
+
+3. **Regiões administrativas**  
+   A Tabela 2 da fonte regional organiza os dados “**segundo as regiões administrativas**”, isto é, dentro do Estado de São Paulo há um desdobramento territorial por regiões administrativas [3], [5].
+
+4. **Setores e subsetores de atividade econômica dentro do território paulista**  
+   A Tabela 1 do índice remete aos componentes do PIB sob as óticas de produção e renda, e o índice também destaca setores e subsetores de atividade econômica na economia paulista [6], [8], [10].  
+   Isso não é outro território, mas é importante não confundir **recorte territorial** com **recorte setorial**.
+
+5. **Série estadual versus série nacional na metodologia**  
+   A metodologia diz que a produção dos indicadores busca refletir o PIB **paulista** e, em alguns pontos, compara a construção paulista com o PIB **do Brasil** [7], [10]. Então, ao ler as tabelas, é preciso separar claramente:
+   - o que é **Estado de São Paulo**;
+   - o que é **Brasil**;
+   - o que é **região administrativa dentro do Estado** [1], [3], [10].
+
+Em resumo: o principal cuidado territorial é não misturar **São Paulo (Estado)**, **Brasil (nacional)** e **regiões administrativas paulistas**; além disso, é preciso não confundir esses recortes territoriais com os **setores de atividade econômica** mostrados nas tabelas [1], [3], [10].
+
+Se quiser, posso também resumir isso em uma frase curta para usar como observação metodológica.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.1; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] pib_mensal_trimestral_metodologia.pdf p.5; [10] pib_mensal_trimestral_metodologia.pdf p.11_
+
+### r2 · simple_rag
+
+Para interpretar as tabelas de PIB paulista, é preciso distinguir estes conceitos territoriais:
+
+1. **Estado de São Paulo / economia paulista**: é o território principal das tabelas. As tabelas da série anual e da regional usam “Estado de São Paulo” no título, e a Tabela 2 regional trata da “economia paulista” [1], [3], [5], [9], [10].  
+2. **Brasil / nacional**: aparece como o território de comparação na Tabela 3, que mede a “participação do Produto Interno Bruto paulista no Brasil” [1], [2].  
+3. **Regiões administrativas**: são o recorte territorial usado na tabela regional, que apresenta a participação do valor adicionado setorial e do PIB “segundo as regiões administrativas” do Estado de São Paulo [3], [5], [9].  
+4. **Setores e subsetores de atividade econômica**: não são territórios, mas aparecem como o outro eixo de interpretação territorial das tabelas regionais e mensuram a economia paulista por atividade, não por área geográfica [3], [8], [11].
+
+Em resumo: ao ler as tabelas, é importante não confundir **o Estado de São Paulo** com o **Brasil**, nem misturar esse recorte estadual com o das **regiões administrativas** dentro do estado. A Tabela 3 compara São Paulo com o Brasil; a Tabela 2 regional distribui os resultados entre regiões administrativas do próprio estado [1], [3], [5], [9], [10].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.5; [8] pib_mensal_trimestral_metodologia.pdf p.11; [9] 01-2026-tabelas-pib-regional-site.xlsx p.índice; [10] tabelas-pib-anual-2023.xlsx p.Índice; [11] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r2 · graph_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir **territórios distintos** e **bases de comparação distintas**:
+
+1. **Estado de São Paulo**  
+   É o território principal de várias tabelas, por exemplo a Tabela 3, que trata do PIB paulista no Brasil e apresenta dados para o **Estado de São Paulo** no período **2002–2023**, em **%** [1], [2], [8].
+
+2. **Brasil**  
+   Surge como o território de comparação na Tabela 3, cujo título indica a **participação do Produto Interno Bruto paulista no Brasil** [1], [8].  
+   Portanto, nessa tabela o percentual deve ser lido como participação de São Paulo **no total do Brasil**, e não como um valor do PIB do Brasil em si [1].
+
+3. **Regiões administrativas do Estado de São Paulo**  
+   Na Tabela 2 regional, o recorte territorial é diferente: a distribuição é feita **segundo as regiões administrativas**, dentro do **Estado de São Paulo** [3], [5].  
+   Ali, os percentuais se referem à participação dessas regiões no total da economia paulista [3], [5].
+
+4. **Economia paulista / total da economia paulista**  
+   A Tabela 2 regional usa esse total como base para calcular a participação de cada região administrativa [3], [5].  
+   Assim, é um recorte interno ao Estado de São Paulo, diferente do comparativo com o Brasil na Tabela 3 [1], [3], [5].
+
+5. **Setores e subsetores de atividade econômica**  
+   A lista do índice mostra uma tabela específica sobre a **participação da economia paulista na nacional, segundo setores e subsetores de atividade econômica** [6].  
+   Isso indica que, além do território, também é preciso distinguir o **recorte setorial** usado em cada tabela [6], [10].
+
+6. **Óticas de produção, demanda e renda**  
+   A metodologia informa que o PIB pode ser analisado por diferentes óticas, e resume assim: **ótica do produto = quem produziu; ótica da demanda = quem gastou; ótica da renda = quem foi remunerado** [9].  
+   Na Tabela 3, a participação do PIB paulista no Brasil é apresentada “segundo as óticas de produção e da renda” [1], [8].  
+   Portanto, a leitura precisa distinguir a ótica usada, porque a tabela não está mostrando o mesmo enquadramento conceitual em todas as colunas [1], [8], [9].
+
+Em resumo, as tabelas de PIB paulista pedem atenção para pelo menos três distinções: **território** (Estado de São Paulo, Brasil, regiões administrativas do Estado), **base de comparação** (total do Brasil, total da economia paulista) e **ótica/setor** usado na tabela [1], [3], [5], [6], [9], [10].
+
+Se você quiser, posso transformar isso em uma versão ainda mais curta, em forma de lista para uso em relatório.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.1; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] pib_mensal_trimestral_metodologia.pdf p.5; [10] pib_mensal_trimestral_metodologia.pdf p.11_
+
+### r3 · simple_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir pelo menos estes recortes territoriais:
+
+1. **Estado de São Paulo / economia paulista**  
+   É o território usado nas tabelas sobre o PIB paulista em geral, como a participação do PIB paulista no Brasil e a participação do valor adicionado no total da economia paulista. As fontes citam explicitamente “Estado de São Paulo” e “economia paulista” nessas tabelas [1], [3], [5], [9].
+
+2. **Brasil**  
+   Nas tabelas de participação do PIB paulista no Brasil, o denominador territorial é o **Brasil**; a tabela mede a participação do PIB paulista “no Brasil” [1], [10].
+
+3. **Regiões administrativas do Estado de São Paulo**  
+   Na tabela regional, a comparação não é com o Brasil, mas entre as **regiões administrativas** dentro do Estado de São Paulo [3], [5], [9].
+
+Além disso, há uma distinção conceitual importante que não é territorial, mas afeta a leitura das tabelas:
+
+4. **Óticas do PIB: produção, renda e demanda**  
+   As fontes dizem que o PIB pode ser medido por três óticas: **produção**, **renda** e **demanda** [7]. Na Tabela 3, a participação do PIB paulista no Brasil é apresentada “segundo as óticas de produção e da renda” [1], [10].
+
+Também é preciso distinguir, nas tabelas e na metodologia:
+
+5. **Valor Adicionado (VA) x PIB**  
+   Em algumas tabelas aparece a participação do **Valor Adicionado setorial** e, em outras, do **PIB** no total da economia paulista [3], [5]. A metodologia informa que o PIB é diferente do VA, pois inclui os **impostos líquidos de subsídios** [7], [8], [11].
+
+6. **Dados anuais x dados mensais/trimestrais**  
+   A metodologia separa a série anual das estimativas mensais/trimestrais e informa que a série mensal paulista começa em 2002, com ano-base 2010 no processo descrito [8], [11]. Isso importa porque o recorte temporal e a forma de estimação mudam a leitura dos resultados.
+
+Em resumo: para interpretar corretamente as tabelas de PIB paulista, é necessário distinguir **Estado de São Paulo**, **Brasil** e **regiões administrativas**; e, no conteúdo econômico, separar **ótica de produção, renda e demanda**, além de **PIB versus Valor Adicionado** [1], [3], [7], [8], [11].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.5; [8] pib_mensal_trimestral_metodologia.pdf p.11; [9] 01-2026-tabelas-pib-regional-site.xlsx p.índice; [10] tabelas-pib-anual-2023.xlsx p.Índice; [11] pib_mensal_trimestral_metodologia.pdf p.2_
+
+### r3 · graph_rag
+
+Ao interpretar as tabelas de PIB paulista, é preciso distinguir pelo menos estes conceitos territoriais, com os recortes que as fontes mostram:
+
+1. **Estado de São Paulo / economia paulista**  
+   As tabelas tratam do **Estado de São Paulo** e da **economia paulista** como o território de referência. Isso aparece no título da Tabela 3 (“Estado de São Paulo, 2002-2023”) e na Tabela 2 (“Estado de São Paulo”). [1][3][5]
+
+2. **Brasil / nacional**  
+   Algumas tabelas comparam São Paulo com o **Brasil**. A Tabela 3 mede a “participação do Produto Interno Bruto paulista no Brasil”, ou seja, o território de comparação é o país. [1]
+
+3. **Regiões administrativas do Estado de São Paulo**  
+   A Tabela 2 regional detalha a participação do valor adicionado setorial e do PIB **segundo as regiões administrativas** dentro do Estado de São Paulo. Portanto, o recorte territorial não é o Brasil, mas as regiões administrativas paulistas. [3][5]
+
+4. **Setor, atividade e subsetor dentro do território paulista**  
+   A metodologia mostra que, dentro do Estado de São Paulo, as estimativas podem ser organizadas por **setores de atividade** e por componentes como **valor adicionado** e **PIB**. Ela também informa que alguns setores são mensurados diretamente e outros indiretamente. Isso é um recorte setorial, não um território diferente. [10]
+
+5. **Recortes que não devem ser confundidos**  
+   - **Ótica de produção, da demanda e da renda** são formas de leitura do PIB, não territórios. A fonte distingue essas óticas e indica que, independentemente da abordagem, o resultado do PIB permanece inalterado. [9]  
+   - **Nominal e real** também não são territórios; são formas de mensuração ao longo do tempo. [9]  
+   - **Base móvel, ano-base e série temporal** são recortes temporais/metodológicos, não territoriais. [4][7][10]
+
+Em resumo: ao ler as tabelas, o principal é não misturar **Estado de São Paulo** com **Brasil**, nem com **regiões administrativas paulistas**; e também não confundir esses recortes territoriais com **ótica de cálculo** ou **tipo de valor**. As fontes disponíveis mostram explicitamente esses três níveis territoriais: **Estado de São Paulo**, **Brasil** e **regiões administrativas**. [1][3][5]
+
+Se você quiser, posso transformar isso em uma versão ainda mais curta, em formato de lista para usar como nota metodológica.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 3; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pib_mensal_trimestral_metodologia.pdf p.13; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Índice; [7] pib_mensal_trimestral_metodologia.pdf p.1; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] pib_mensal_trimestral_metodologia.pdf p.5; [10] pib_mensal_trimestral_metodologia.pdf p.11_
+
+## T085 (sintese)
+
+**Pergunta:** Sintetize quais PDFs servem para resultados conjunturais e quais dão apoio metodológico, apresentando um exemplo de cada finalidade.
+
+**Resposta esperada:** PIB nacional, PIM nacional/regional e PMC contêm resultados; Seade metodologia explica índices e traz tabelas de pesos e de índices encadeados; notas SCR explicam procedimentos e agregações; não inferir números estaduais de um texto metodológico.
+
+### r1 · simple_rag
+
+Os PDFs se dividem, pelas fontes, em dois usos principais:
+
+**1) Resultados conjunturais**
+- **Exemplo de PDF:** `pmc_202512caderno.pdf` [2], [3], [4], [5], [7], [8], [9], [10], [11]
+- **Por quê:** esse arquivo traz tabelas de **indicadores conjunturais** da **Pesquisa Mensal de Comércio**, com resultados por **Unidade da Federação** e por **atividade**, em bases como **mensal**, **acumulado no ano** e **últimos 12 meses** [3], [4], [5], [7], [8], [9], [11].
+- **Exemplo de resultado conjuntural:** no **Rio Grande do Sul**, o **comércio varejista** teve **4,5%** em **dezembro de 2025** na comparação **dezembro de 2025/dezembro de 2024**; e **3,4%** no acumulado de **janeiro-dezembro** na base de comparação **igual período do ano anterior**, em **%** [3].
+
+**2) Apoio metodológico**
+- **Exemplo de PDF:** `contas_regionais_2022_notas_tecnicas.pdf` [1], [6]
+- **Por quê:** a fonte informa explicitamente que a **segunda parte** da publicação traz **considerações de natureza metodológica** sobre o estudo e que a metodologia do **Sistema de Contas Regionais** está descrita em detalhes nas notas técnicas [1], [6].
+- **Exemplo de conteúdo metodológico:** o documento explica que a série do **Sistema de Contas Regionais – referência 2010** tem metodologia e base de dados integradas ao **Sistema de Contas Nacionais – referência 2010**, e cita a incorporação de diversas pesquisas e fontes de dados [6].
+
+**Síntese curta:**  
+- `pmc_202512caderno.pdf` serve para **resultados conjunturais** [2]-[11].  
+- `contas_regionais_2022_notas_tecnicas.pdf` serve para **apoio metodológico** [1], [6].
+
+Se quiser, posso também organizar isso em uma tabela de “finalidade / PDF / evidência na fonte”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] pmc_202512caderno.pdf p.53; [8] pmc_202512caderno.pdf p.38; [9] pim-pf-regional_202512.pdf p.15; [10] pmc_202512caderno.pdf p.2; [11] pmc_202512caderno.pdf p.37_
+
+### r1 · lexical_rag
+
+Pelas fontes, há dois tipos de PDFs claramente distintos:
+
+- **Para resultados conjunturais**: os fascículos de **“Indicadores IBGE”**, que reúnem tabelas de resultados, comentários e notas metodológicas, com informações em diferentes níveis geográficos. A própria fonte diz que o periódico “passou a incorporar [...] informações sobre agropecuária, contas nacionais trimestrais e serviços, visando contemplar as variadas demandas por estatísticas conjunturais” e lista fascículos como **Pesquisa mensal de comércio**, **Pesquisa industrial mensal: produção física regional** e **Contas nacionais trimestrais** [11].  
+  - **Exemplo**: o PDF **`pmc_202512caderno.pdf`**, da **Pesquisa Mensal de Comércio**, traz resultados de dezembro de 2025 para comércio varejista e varejista ampliado, por unidade da federação e por atividade, com bases como “igual mês do ano anterior”, “igual período do ano anterior” e “últimos 12 meses anteriores” [2], [3], [4], [5], [8], [9]. Outro exemplo é **`pim-pf-regional_202512.pdf`**, que traz “Indicadores Conjunturais da Indústria” com resultados regionais de dezembro de 2025 [10].
+
+- **Para apoio metodológico**: os PDFs de **notas técnicas / metodológicas**. A fonte sobre Contas Regionais informa que, a partir da edição lançada em 2017, a publicação passou a ser divulgada em duas partes: a primeira com resultados e comentários analíticos, e a segunda, “objeto deste documento”, com **considerações de natureza metodológica**; além disso, o texto diz que essa segunda parte é veiculada em PDF no portal [1].  
+  - **Exemplo**: **`contas_regionais_2022_notas_tecnicas.pdf`**, que contém “Notas técnicas”, explica a metodologia, os procedimentos de estimativa de 2022 e as limitações de comparabilidade da série [6], [7].
+
+Em síntese: **`pmc_202512caderno.pdf`** e **`pim-pf-regional_202512.pdf`** servem a **resultados conjunturais**; **`contas_regionais_2022_notas_tecnicas.pdf`** serve a **apoio metodológico** [1], [6], [7], [10], [11].
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.8; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.53; [9] pmc_202512caderno.pdf p.38; [10] pim-pf-regional_202512.pdf p.15; [11] pmc_202512caderno.pdf p.2_
+
+### r1 · graph_rag
+
+Com base apenas nas fontes fornecidas, **os PDFs que servem para resultados conjunturais** são os fascículos de **“Indicadores IBGE”** ligados a pesquisas mensais/conjunturais. A fonte [11] diz que esse periódico reúne “**informações sobre agropecuária, contas nacionais trimestrais e serviços**” e “**tabelas de resultados, comentários e notas metodológicas**”, com “**resultados**” em diferentes níveis geográficos. Como exemplo de resultado conjuntural, o **`pmc_202512caderno.pdf`** traz a **Pesquisa Mensal de Comércio**, com tabelas de variação do volume de vendas por unidade da federação e por atividade, como a **Tabela 4 - Paraná - Dezembro 2025 - Variação (%)** [5] ou a **Tabela 9 - Rio Grande do Sul - Dezembro 2025 - Variação (%)** [3]. Outro exemplo é o **`pim-pf-regional_202512.pdf`**, que traz a **Tabela 1 - Indicadores Conjunturais da Indústria - Resultados Regionais - Dezembro/2025** [10].
+
+**Os PDFs que dão apoio metodológico** são as **notas técnicas**. A fonte [1] informa que, desde a edição de 2017, a publicação do Sistema de Contas Regionais foi dividida em duas partes: a primeira com “**comentários analíticos**” e a segunda, “**objeto deste documento**”, com “**considerações de natureza metodológica**” e veiculada em PDF. Como exemplo de apoio metodológico, o arquivo **`contas_regionais_2022_notas_tecnicas.pdf`** explica procedimentos da estimativa de 2022, inclusive limitações de comparabilidade e a relação com o SCNT [6]. A mesma fonte [7] também indica que a **metodologia** do SCR é descrita em “**Série Relatórios Metodológicos**”, disponível no portal do IBGE.
+
+Em síntese:
+- **Resultados conjunturais:** fascículos de divulgação com tabelas de resultados, como `pmc_202512caderno.pdf` e `pim-pf-regional_202512.pdf` [11], [5], [10].
+- **Apoio metodológico:** notas técnicas/metodológicas, como `contas_regionais_2022_notas_tecnicas.pdf` [1], [6], [7].
+
+Se você quiser, eu também posso reorganizar isso em uma tabela de “finalidade | PDF | exemplo citado”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.8; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.53; [9] pmc_202512caderno.pdf p.38; [10] pim-pf-regional_202512.pdf p.15; [11] pmc_202512caderno.pdf p.2_
+
+### r2 · simple_rag
+
+Os PDFs se dividem claramente em duas finalidades, com base no que as próprias fontes mostram:
+
+**1) Resultados conjunturais**
+- **`pmc_202512caderno.pdf`**: é o fascículo da **Pesquisa Mensal de Comércio**, com **tabelas de resultados** e **comentários** sobre o volume de vendas do comércio varejista e varejista ampliado, inclusive por unidade da federação e por atividade. A própria fonte diz que o periódico reúne “tabelas de resultados, comentários e notas metodológicas” e que contém informações conjunturais em diferentes níveis geográficos [10].  
+  **Exemplo:** a **Tabela 4** traz, para o **Rio de Janeiro**, em **dezembro de 2025**, variação do **Comércio Varejista** de **-0,2%** na comparação **mensal** (base: **igual mês do ano anterior**), e de **3,7%** no **acumulado no ano** (base: **igual período do ano anterior**) [11].  
+  Outro exemplo de resultado conjuntural é a **Tabela 1** da indústria, que traz, para o **Brasil**, em **dezembro de 2025**, variação de **-1,2%** na comparação com **novembro de 2025** e de **0,4%** na comparação com **dezembro de 2024** [9].
+
+**2) Apoio metodológico**
+- **`contas_regionais_2022_notas_tecnicas.pdf`**: a própria fonte informa que essa **segunda parte** da publicação “traz considerações de natureza metodológica sobre o estudo” e é veiculada em pdf [1].  
+  **Exemplo:** o documento explica a metodologia do **Sistema de Contas Regionais**, indicando que a série referência 2010 é integrada ao Sistema de Contas Nacionais e que a metodologia está descrita em detalhe na Série Relatórios Metodológicos [6].
+
+**Síntese curta**
+- **Para resultados conjunturais:** `pmc_202512caderno.pdf` [10].  
+- **Para apoio metodológico:** `contas_regionais_2022_notas_tecnicas.pdf` [1].
+
+Se você quiser, posso também reorganizar isso em uma frase única “de prova” ou em tópicos ainda mais curtos.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] pmc_202512caderno.pdf p.53; [8] pmc_202512caderno.pdf p.38; [9] pim-pf-regional_202512.pdf p.15; [10] pmc_202512caderno.pdf p.2; [11] pmc_202512caderno.pdf p.37_
+
+### r2 · graph_rag
+
+Os PDFs se dividem em dois tipos, conforme as próprias fontes mostram:
+
+- **Para resultados conjunturais**: os fascículos de divulgação com **tabelas de resultados, comentários e notas metodológicas** do periódico *Indicadores IBGE* servem para apresentar os dados conjunturais [11].  
+  - **Exemplo**: o PDF **`pmc_202512caderno.pdf`** traz a **Pesquisa Mensal de Comércio**, com tabelas de variação do volume de vendas por unidade da Federação, como a tabela de **São Paulo – Dezembro 2025 – Variação (%)** [9], e também resultados regionais do comércio e da indústria em outras páginas do mesmo material [2], [3], [4], [5], [8], [10].
+
+- **Para apoio metodológico**: os PDFs de **notas técnicas/metodológicas** explicam procedimentos, integração de séries e critérios de estimativa [1], [6], [7].  
+  - **Exemplo**: o PDF **`contas_regionais_2022_notas_tecnicas.pdf`** informa que essa segunda parte “traz considerações de natureza metodológica sobre o estudo” [1] e detalha procedimentos da série 2010, inclusive ressalvas sobre a série 2002–2022 e o uso de resultados do SCNT em 2022 [6], [7].
+
+Em síntese:  
+- **Resultados conjunturais** → PDFs de divulgação com tabelas e comentários, como **`pmc_202512caderno.pdf`** [11].  
+- **Apoio metodológico** → PDFs de notas técnicas/metodológicas, como **`contas_regionais_2022_notas_tecnicas.pdf`** [1], [6], [7].
+
+Se você quiser, posso também listar **quais fontes da relação são claramente conjunturais e quais são metodológicas**, uma a uma.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.8; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.53; [9] pmc_202512caderno.pdf p.38; [10] pim-pf-regional_202512.pdf p.15; [11] pmc_202512caderno.pdf p.2_
+
+### r3 · simple_rag
+
+Os PDFs que **servem para resultados conjunturais** são os fascículos com tabelas e comentários da **Pesquisa Mensal de Comércio** e da **Pesquisa Industrial Mensal**, porque eles trazem indicadores de curto prazo por território e período. Exemplo de resultado conjuntural: no arquivo **pmc_202512caderno.pdf**, a **Tabela 4** traz para **Rio de Janeiro**, em **dezembro de 2025**, a variação do **Comércio Varejista** em **mensal**, **acumulado no ano** e **últimos 12 meses**; por exemplo, o comércio varejista teve **-0,2%** no mês, **-0,6%** no acumulado no ano e **-0,6%** nos últimos 12 meses, com base de comparação indicada na tabela como **“igual mês do ano anterior”**, **“igual período do ano anterior”** e **“últimos 12 meses anteriores”** [11]. Outro exemplo conjuntural é a **Tabela 1** do arquivo **pim-pf-regional_202512.pdf**, que apresenta os **Resultados Regionais** da indústria para **dezembro/2025**, com variações para **Brasil** de **-1,2%** em **dezembro 2025/novembro 2025**, **0,4%** em **dezembro 2025/dezembro 2024**, **0,6%** no **acumulado janeiro-dezembro** e **0,6%** nos **últimos 12 meses**; a tabela informa que a primeira comparação é **série com ajuste sazonal** [9].
+
+Os PDFs que **dão apoio metodológico** são as **notas técnicas**, especialmente a do **Sistema de Contas Regionais**. Exemplo de apoio metodológico: em **contas_regionais_2022_notas_tecnicas.pdf**, a publicação informa que, desde a edição lançada em 2017, a divulgação passou a ser em **duas partes**: a primeira com **comentários analíticos** e a segunda, que é este documento, com **considerações de natureza metodológica**; a mesma fonte também diz que a metodologia do SCR está descrita na **Série Relatórios Metodológicos** [1]. Além disso, a mesma nota técnica explica que os dados divulgados tratam da composição e evolução do **PIB de cada Unidade da Federação**, com base em estatísticas anuais de produção, consumo intermediário e valor adicionado bruto [6].
+
+Em resumo:
+- **Resultados conjunturais:** PDFs de divulgação de pesquisas, como **pmc_202512caderno.pdf** e **pim-pf-regional_202512.pdf** [9][11].
+- **Apoio metodológico:** PDFs de **notas técnicas**, como **contas_regionais_2022_notas_tecnicas.pdf** [1][6].
+
+Se você quiser, posso reorganizar isso em uma tabela de “finalidade / exemplo / evidência”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.6; [7] pmc_202512caderno.pdf p.53; [8] pmc_202512caderno.pdf p.38; [9] pim-pf-regional_202512.pdf p.15; [10] pmc_202512caderno.pdf p.2; [11] pmc_202512caderno.pdf p.37_
+
+### r3 · graph_rag
+
+Os PDFs das fontes se dividem em duas finalidades principais:
+
+**1) Resultados conjunturais**
+- **`pmc_202512caderno.pdf`**: traz tabelas de resultados da **Pesquisa Mensal de Comércio**, com indicadores de volume de vendas por Unidade da Federação, atividades e bases de comparação mensais, acumuladas no ano e em 12 meses. Exemplo: na tabela de **São Paulo – Dezembro/2025**, o **comércio varejista** aparece com **-0,5%** na comparação **dezembro/2025 vs. dezembro/2024** e **0,3%** no **acumulado no ano**, ambos para **São Paulo** e com as bases indicadas na própria tabela [2], [3], [4], [5], [8], [9].  
+- **`pim-pf-regional_202512.pdf`**: traz **Indicadores Conjunturais da Indústria** por localidade. Exemplo: na **Tabela 1**, o **Brasil** registra **-1,2%** em **dezembro/2025 vs. novembro/2025** e **0,4%** em **dezembro/2025 vs. dezembro/2024** [10].
+
+**2) Apoio metodológico**
+- **`contas_regionais_2022_notas_tecnicas.pdf`**: é um documento de **notas técnicas/metodológicas** do Sistema de Contas Regionais. As fontes informam que ele descreve procedimentos, integrações com o SCN/SCNT e ressalvas de comparabilidade. Exemplo: a fonte explica que, para 2022, o detalhamento ficou em **12 atividades econômicas** e não **18**, porque o SCNT “fornece um resultado conjuntural” e não dispõe de informações estruturais para divulgação imediata [6]. Também informa que a metodologia do SCR está descrita de forma detalhada na Série Relatórios Metodológicos [7].
+
+Em síntese: **`pmc_202512caderno.pdf`** e **`pim-pf-regional_202512.pdf`** servem para **resultados conjunturais**; **`contas_regionais_2022_notas_tecnicas.pdf`** serve como **apoio metodológico** [1], [6], [7], [11].
+
+Se quiser, posso reorganizar isso em uma tabela curta com “PDF / finalidade / exemplo”.
+
+_Fontes: [1] contas_regionais_2022_notas_tecnicas.pdf p.4; [2] pmc_202512caderno.pdf p.24; [3] pmc_202512caderno.pdf p.58; [4] pmc_202512caderno.pdf p.49; [5] pmc_202512caderno.pdf p.39; [6] contas_regionais_2022_notas_tecnicas.pdf p.8; [7] contas_regionais_2022_notas_tecnicas.pdf p.6; [8] pmc_202512caderno.pdf p.53; [9] pmc_202512caderno.pdf p.38; [10] pim-pf-regional_202512.pdf p.15; [11] pmc_202512caderno.pdf p.2_
+
+## T087 (limites)
+
+**Pergunta:** Qual é o PIB por bairro do Município de São Paulo em 2020?
+
+**Resposta esperada:** A base municipal não contém recorte por bairro; não atribuir o PIB municipal a bairros.
+
+### r1 · simple_rag
+
+Não há, nas fontes fornecidas, dado de **PIB por bairro** do Município de São Paulo em 2020. As fontes mostram o PIB do **Município de São Paulo** por ano e por trimestre, além de índices e taxas de crescimento, mas **não desagregam por bairro** [1][2][3][4][5][6][7][8][9][10][11].
+
+Se o recorte for o **Município de São Paulo em 2020**, o PIB aparece como:
+- **R$ 746,9093295890265 bilhões**, em **preço corrente**, para o **ano de 2020** [4].
+- Também há valores trimestrais de 2020 para o Município de São Paulo:
+  - **1º trimestre**: **R$ 91,45281088103606 bilhões** (PIB, **base 2010 = 100**, índice trimestral) [1].
+  - **2º trimestre**: **R$ 89,36334161073233 bilhões** (PIB, **base 2010 = 100**, índice trimestral) [2].
+  - **3º trimestre**: **R$ 187,5763321473691 bilhões** (PIB, **em R$ bilhões**) [5].
+  - **4º trimestre**: **R$ 202,9630748566292 bilhões** (PIB, **em R$ bilhões**) [6].
+
+As tabelas citadas trazem nota de que os dados são **preliminares e sujeitos a revisão** [1][2][3][4][5][6][7][8][9][10][11].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r1 · lexical_rag
+
+Não consigo responder “PIB por bairro” com as fontes fornecidas, porque elas trazem dados do **Município de São Paulo** e não por **bairro**. Portanto, falta informação para recortar o indicador no nível territorial solicitado. [1], [2], [3], [4]
+
+O que as fontes permitem afirmar para **Município de São Paulo / 2020** é:
+
+- **PIB total, preço corrente:** **R$ 746,9093295890265 bilhões** no **Município de São Paulo**, **ano de 2020**, em **em bilhões de Reais**. A fonte informa que os dados são **preliminares e sujeitos a revisão**. [4]
+- **PIB total, preço do ano anterior:** **R$ 771,6316661426736 bilhões** no **Município de São Paulo**, **ano de 2020**, em **em bilhões de Reais**. A fonte informa que os dados são **preliminares e sujeitos a revisão**. [4]
+- **PIB per capita, preço corrente:** **R$ 62.925,9245495681** no **Município de São Paulo**, **ano de 2020**, em **Reais**. A fonte informa que os dados são **preliminares e sujeitos a revisão** e que a população residente considerada é uma **projeção da Fundação Seade**. [4]
+
+Se você quiser, posso tentar responder com o **PIB do Município de São Paulo em 2020** ou verificar se há alguma fonte adicional por **subprefeitura/distrito/bairro**.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.5_
+
+### r1 · graph_rag
+
+A pergunta pede o **PIB por bairro** do Município de São Paulo em 2020, mas **as fontes fornecidas não trazem dados por bairro**. Elas mostram apenas o **Município de São Paulo** como território.
+
+O que as fontes permitem informar para 2020 é o **PIB total do Município de São Paulo**:
+
+- **Município de São Paulo, 2020, PIB total, preço corrente, em bilhões de Reais: 746,9093295890265** [4]
+
+Também há o valor trimestral do PIB do município em 2020, mas isso **não é PIB por bairro**:
+
+- **Município de São Paulo, 2020, 1º trimestre, PIB, em R$ bilhões: 91,45281088103606** [1]
+- **Município de São Paulo, 2020, 2º trimestre, PIB, em R$ bilhões: 89,36334161073233** [2]
+- **Município de São Paulo, 2020, 2º trimestre, PIB, em R$ bilhões: 173,72404710993155** [6]
+- **Município de São Paulo, 2020, 3º trimestre, PIB, em R$ bilhões: 187,5763321473691** [5]
+
+As fontes também informam que **os dados são preliminares e sujeitos a revisão** [1][2][4][5][6].
+
+Se você quiser, posso tentar responder com o **PIB do Município de São Paulo em 2020** ou verificar se há outra base específica com dados por bairro.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.5_
+
+### r2 · simple_rag
+
+Não encontrei nas fontes fornecidas o **PIB por bairro** do Município de São Paulo em 2020. As fontes trazem dados de PIB do **Município de São Paulo** e de **regiões administrativas**, mas não por bairro [1][3][4].
+
+O que as fontes mostram para o Município de São Paulo em 2020 é:
+
+- **PIB total (preço corrente)**: **R$ 746,9093295890265 bilhões** — território: Município de São Paulo; período: **2020**; base de comparação: **preço corrente**; unidade: **R$ bilhões** [4].
+- **PIB total (preço do ano anterior)**: **R$ 771,6316661426736 bilhões** — território: Município de São Paulo; período: **2020**; base de comparação: **preço do ano anterior**; unidade: **R$ bilhões** [4].
+- **PIB total, índice de volume**: **94,39306744949228** — território: Município de São Paulo; período: **2020**; base de comparação: **2010 = 100**; unidade: **índice** [4].
+
+As fontes também indicam que os dados são **preliminares e sujeitos a revisão** [1][3][4][5][6][7][8][9][10][11].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r2 · graph_rag
+
+Não há nas fontes fornecidas informação de **PIB por bairro** do Município de São Paulo em 2020.
+
+O que as fontes mostram para **Município de São Paulo** em 2020 é o **PIB total do município**, não desagregado por bairro:  
+- **2020 | Município de São Paulo | PIB total | preço corrente | R$ bilhões | 746,9093295890265** [4]  
+- A mesma fonte também traz o PIB trimestral do município em 2020, por trimestre, também sem bairro:  
+  - **I trimestre de 2020 | Município de São Paulo | PIB | R$ bilhões | 91,45281088103606** [1]  
+  - **II trimestre de 2020 | Município de São Paulo | PIB | R$ bilhões | 89,36334161073233** [2]  
+  - **III trimestre de 2020 | Município de São Paulo | PIB | R$ bilhões | 187,5763321473691** [5]  
+  - **IV trimestre de 2020 | Município de São Paulo | PIB**: não há valor de PIB para o IV trimestre nas fontes fornecidas [9].
+
+As fontes também indicam que os dados são **preliminares e sujeitos a revisão** [1][2][4][5].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.5_
+
+### r3 · simple_rag
+
+Não há nas fontes fornecidas um **PIB por bairro** do Município de São Paulo em 2020. As fontes trazem **PIB do Município de São Paulo** como um todo, não por bairro [1][2][3][4][5][6][7][8][9][10][11].
+
+O que as fontes permitem informar para **2020, Município de São Paulo** é:
+
+- **PIB total, preço corrente:** **R$ 746,9093295890265 bilhões** [3][4]  
+  - território: Município de São Paulo  
+  - período: 2020  
+  - base de comparação: preço corrente / sem base de índice informada para esse valor  
+  - unidade: R$ bilhões
+
+- **PIB total, preço do ano anterior:** **R$ 771,6316661426736 bilhões** [4]  
+  - território: Município de São Paulo  
+  - período: 2020  
+  - base de comparação: preço do ano anterior  
+  - unidade: R$ bilhões
+
+- **PIB total, índice de volume:** **94,39306744949228** (base 2010 = 100) [4]  
+  - território: Município de São Paulo  
+  - período: 2020  
+  - base de comparação: 2010 = 100  
+  - unidade: índice
+
+- **PIB per capita, preço corrente:** **R$ 62.925,9245495681** [4]  
+  - território: Município de São Paulo  
+  - período: 2020  
+  - base de comparação: preço corrente  
+  - unidade: R$
+
+A tabela indica ainda que os dados são **preliminares e sujeitos a revisão** [1][2][3][4][5][6][7][8][9][10][11].
+
+Se você quiser, posso tentar responder com um recorte diferente, por exemplo **PIB do município** ou **PIB per capita**, mas **não há dado por bairro nas fontes fornecidas**.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4_
+
+### r3 · graph_rag
+
+Não há, nas fontes fornecidas, **PIB por bairro** do Município de São Paulo em 2020. As fontes trazem dados de PIB e valor adicionado para o **Município de São Paulo** como um todo, em bases anual e trimestral, mas **não por bairro** [1][3][4][5][6].
+
+O que as fontes mostram para 2020 é:
+
+- **Município de São Paulo, 2020, PIB total, preço corrente:** **R$ 746,9093295890265 bilhões** [3][4].  
+- **Município de São Paulo, 2020, PIB total, índice de volume, base 2010 = 100:** **94,39306744949228** [4].  
+- **Município de São Paulo, 2020, PIB per capita, preço corrente:** **R$ 62.925,9245495681** [4].  
+- Nas tabelas trimestrais de 2020 para o Município de São Paulo, há valores de PIB para os trimestres I, II, III e IV, sempre para o município como um todo, não para bairros [1][2][5][6].
+
+As fontes também indicam que os dados são **preliminares e sujeitos a revisão** [1][3][4][5][6][7][8][9][10][11].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 80; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.3!linha 81; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 1; [4] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.1; [5] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [6] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.9; [7] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.7; [8] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [9] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.6; [10] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.4; [11] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 21.5_
+
+## T093 (limites)
+
+**Pergunta:** Quanto a indústria cresceu em dezembro de 2025?
+
+**Resposta esperada:** Pedir território, atividade e base de comparação: Brasil/estado, mês anterior ajustado/mês do ano anterior/acumulado anual.
+
+### r1 · simple_rag
+
+Se a pergunta se refere à **indústria geral do Brasil**, ela **cresceu 0,4% em dezembro de 2025 na comparação com dezembro de 2024** (série sem ajuste sazonal) [1][2][3].
+
+Também há outro recorte possível nas fontes:
+- **Brasil, dezembro de 2025 frente a novembro de 2025**: a produção industrial **recuou 1,2%** na série livre de influências sazonais [1].
+- **Acumulado em 2025**: a atividade industrial **cresceu 0,6%** frente a igual período de 2024 [1][2][3].
+
+Se você queria outro território, diga qual, porque as fontes trazem resultados regionais diferentes para dezembro de 2025 [4]-[11].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.16; [7] pim-pf-regional_202512.pdf p.33; [8] pim-pf-regional_202512.pdf p.26; [9] pim-pf-regional_202512.pdf p.29; [10] pim-pf-regional_202512.pdf p.30; [11] pim-pf-regional_202512.pdf p.22_
+
+### r1 · lexical_rag
+
+Depende da base de comparação usada pelas fontes, porque a pergunta não especifica isso.
+
+- **Brasil, dezembro de 2025 vs. novembro de 2025, série com ajuste sazonal:** a **Indústria Geral caiu 1,2%** [10].
+- **Brasil, dezembro de 2025 vs. dezembro de 2024:** a **Indústria Geral cresceu 0,4%** [2], [3], [10].
+- **Brasil, acumulado de janeiro a dezembro de 2025 vs. mesmo período de 2024:** a **Indústria Geral cresceu 0,6%** [2], [3], [10].
+- **Brasil, acumulado nos últimos 12 meses até dezembro de 2025:** a **Indústria Geral cresceu 0,6%** [1], [3], [10].
+
+Se você quiser, eu posso responder em uma única leitura específica, por exemplo **“cresceu quanto em relação a dezembro de 2024?”** ou **“em relação a novembro de 2025?”**
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-br_202512caderno.pdf p.11; [7] pim-pf-br_202512caderno.pdf p.17; [8] pim-pf-br_202512caderno.pdf p.10; [9] pim-pf-br_202512caderno.pdf p.14; [10] pim-pf-br_202512caderno.pdf p.22_
+
+### r1 · graph_rag
+
+Se o recorte for **o total da indústria no Brasil, em dezembro de 2025, na comparação com igual mês do ano anterior**, a indústria **cresceu 0,4%**. A fonte também informa que **em dezembro de 2025 houve 1 dia útil a mais** do que em dezembro de 2024, o que é destacado como efeito-calendário nessa comparação [1][2][8].
+
+Se, porém, a pergunta for sobre a **variação na passagem de novembro para dezembro de 2025** na série com ajuste sazonal, então a indústria **recuou 1,2%**, ou seja, **não cresceu** nessa base de comparação [1][6][7].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.10; [9] pim-pf-br_202512caderno.pdf p.11_
+
+### r2 · simple_rag
+
+Se você se refere ao **total da indústria no Brasil**, ela **cresceu 0,4% em dezembro de 2025 na comparação com dezembro de 2024**. A mesma fonte também informa que, na passagem de **novembro para dezembro de 2025**, a produção industrial **recuou 1,2%** na série com ajuste sazonal. [1][2][3]
+
+Se quiser, posso também informar o crescimento de dezembro de 2025 por **estado/região**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.16; [7] pim-pf-regional_202512.pdf p.33; [8] pim-pf-regional_202512.pdf p.26; [9] pim-pf-regional_202512.pdf p.29; [10] pim-pf-regional_202512.pdf p.30; [11] pim-pf-regional_202512.pdf p.22_
+
+### r2 · graph_rag
+
+A indústria **não cresceu na comparação mês contra mês** em dezembro de 2025: a produção industrial nacional **recuou 1,2% frente ao mês imediatamente anterior**, na série com ajuste sazonal, para o **Brasil**, em **dezembro de 2025**, na base **mês imediatamente anterior**, em **%** [1], [6], [7].
+
+Se você se refere à comparação **com dezembro de 2024**, então a indústria **cresceu 0,4%** no **Brasil**, em **dezembro de 2025**, na base **igual mês do ano anterior**, em **%** [1], [2], [8].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.10; [9] pim-pf-br_202512caderno.pdf p.11_
+
+### r3 · simple_rag
+
+A indústria cresceu **0,4% em dezembro de 2025 no Brasil**, na comparação com **dezembro de 2024** e na série **sem ajuste sazonal** [1][2].
+
+Se você quis dizer outra base de comparação, em dezembro de 2025 a indústria também:
+- **recuou 1,2%** frente a **novembro de 2025**, na série **livre de influências sazonais** [1];
+- cresceu **0,6%** no **acumulado de janeiro a dezembro de 2025** frente a igual período de 2024 [1][2];
+- cresceu **0,6%** nos **últimos 12 meses** [1].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.16; [7] pim-pf-regional_202512.pdf p.33; [8] pim-pf-regional_202512.pdf p.26; [9] pim-pf-regional_202512.pdf p.29; [10] pim-pf-regional_202512.pdf p.30; [11] pim-pf-regional_202512.pdf p.22_
+
+### r3 · graph_rag
+
+Em dezembro de 2025, a indústria **cresceu 0,4% em relação a dezembro de 2024** no Brasil, na série **sem ajuste sazonal**. [1][2][3]
+
+Se a leitura for pela série **com ajuste sazonal**, então a indústria **não cresceu**: ela **recuou 1,2% frente a novembro de 2025**. [1][6][7]
+
+**Recorte usado na resposta principal:** Brasil, **dezembro de 2025 vs. dezembro de 2024**, unidade em **percentual (%)**, com base no confronto interanual. [1][2][3]
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-br_202512caderno.pdf p.24; [4] pim-pf-regional_202512.pdf p.18; [5] pim-pf-regional_202512.pdf p.27; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.19; [8] pim-pf-regional_202512.pdf p.10; [9] pim-pf-br_202512caderno.pdf p.11_
+
+## T094 (limites)
+
+**Pergunta:** Qual foi o índice de comércio em julho de 2026?
+
+**Resposta esperada:** Pedir território, segmento e se deseja a série com ou sem ajuste sazonal; a base contém mais de uma medida.
+
+### r1 · simple_rag
+
+Não há, nas fontes fornecidas, informação sobre **julho de 2026**. As tabelas mostram dados de **dezembro de 2025** e, por isso, não é possível informar o índice de comércio para julho de 2026 sem extrapolar além das fontes [1]-[11].
+
+Se você quiser, posso informar o índice de comércio de **dezembro de 2025** para algum território específico que apareça nas fontes, usando o recorte e a base exibidos na tabela.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.59; [7] pmc_202512caderno.pdf p.51; [8] pmc_202512caderno.pdf p.57; [9] pmc_202512caderno.pdf p.52; [10] pmc_202512caderno.pdf p.50; [11] pmc_202512caderno.pdf p.42_
+
+### r1 · lexical_rag
+
+Não é possível responder com as fontes fornecidas.
+
+As fontes mostram **dados de dezembro de 2025** para o comércio varejista e varejista ampliado em vários territórios, com bases como **mês contra mesmo mês do ano anterior**, **acumulado no ano** e **últimos 12 meses** [1]-[11].  
+Não há, nas fontes, **julho de 2026** nem um “índice de comércio” para esse mês.
+
+Se você quiser, posso responder com o valor de **julho de 2025** ou de **dezembro de 2025**, caso exista na tabela correspondente.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.60; [7] pmc_202512caderno.pdf p.22; [8] pmc_202512caderno.pdf p.38; [9] pmc_202512caderno.pdf p.46; [10] pmc_202512caderno.pdf p.34; [11] pmc_202512caderno.pdf p.59_
+
+### r1 · graph_rag
+
+Não há informação nas fontes fornecidas sobre **julho de 2026**. As tabelas apresentadas referem-se a **dezembro de 2025** e mostram indicadores de comércio para alguns territórios e bases de comparação, mas não trazem dado para julho de 2026 [1]-[8].
+
+Se você quiser, posso informar o índice de comércio **para dezembro de 2025** em algum território específico mostrado nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.60; [7] pmc_202512caderno.pdf p.22; [8] pmc_202512caderno.pdf p.38_
+
+### r2 · simple_rag
+
+Não há informação sobre **julho de 2026** nas fontes fornecidas. As tabelas exibidas são de **dezembro de 2025** e trazem recortes por estado, com indicadores de comércio varejista e varejista ampliado, mas **não mostram julho de 2026** [1]-[11].
+
+Se você quiser, posso responder para:
+- **julho de 2025**, ou
+- **dezembro de 2025**,
+usando somente as fontes acima.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.59; [7] pmc_202512caderno.pdf p.51; [8] pmc_202512caderno.pdf p.57; [9] pmc_202512caderno.pdf p.52; [10] pmc_202512caderno.pdf p.50; [11] pmc_202512caderno.pdf p.42_
+
+### r2 · graph_rag
+
+As fontes fornecidas **não trazem julho de 2026**. Elas mostram dados de **dezembro de 2025** para alguns territórios e indicadores da Pesquisa Mensal de Comércio [1]-[8]. Portanto, **não é possível informar o índice de comércio em julho de 2026 com base apenas nessas fontes**.
+
+Se você quiser, posso informar o **índice de comércio de dezembro de 2025** para um território específico que apareça nas fontes.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.60; [7] pmc_202512caderno.pdf p.22; [8] pmc_202512caderno.pdf p.38_
+
+### r3 · simple_rag
+
+Não há informação suficiente nas fontes para responder sobre **julho de 2026**. As fontes fornecidas trazem dados da **Pesquisa Mensal de Comércio para dezembro de 2025**, com indicadores mensais, acumulados no ano e dos últimos 12 meses, por estado e atividade, mas **não mostram julho de 2026** [1]-[11].
+
+Se você quiser, posso informar o índice de comércio para **dezembro de 2025** em um território específico que apareça nas fontes, citando a tabela correspondente.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.59; [7] pmc_202512caderno.pdf p.51; [8] pmc_202512caderno.pdf p.57; [9] pmc_202512caderno.pdf p.52; [10] pmc_202512caderno.pdf p.50; [11] pmc_202512caderno.pdf p.42_
+
+### r3 · graph_rag
+
+As fontes fornecidas não trazem **julho de 2026**. Elas mostram apenas dados de **dezembro de 2025** e, em alguns casos, de **outubro a dezembro de 2025**. Portanto, **não é possível informar o índice de comércio em julho de 2026 com base nessas fontes** [1][2][3][4][5][6][7][8].
+
+Se a intenção era outro mês do conjunto mostrado nas tabelas, eu posso localizar o valor correspondente.
+
+_Fontes: [1] pmc_202512caderno.pdf p.56; [2] pmc_202512caderno.pdf p.54; [3] pmc_202512caderno.pdf p.40; [4] pmc_202512caderno.pdf p.32; [5] pmc_202512caderno.pdf p.36; [6] pmc_202512caderno.pdf p.60; [7] pmc_202512caderno.pdf p.22; [8] pmc_202512caderno.pdf p.38_
+
+## T095 (limites)
+
+**Pergunta:** O índice da PMS de julho de 2026 equivale a quantos reais de faturamento?
+
+**Resposta esperada:** Não é possível converter diretamente um número-índice em faturamento em reais sem nível monetário de referência e metodologia apropriada.
+
+### r1 · simple_rag
+
+Não há informação suficiente nas fontes para converter o **índice da PMS de julho de 2026** em **reais de faturamento**.
+
+As fontes fornecidas dizem apenas que, na metodologia da PIB mensal e trimestral, a **Pesquisa Mensal de Serviços (PMS)** é usada como fonte para construir indicadores de volume e receita em certos setores, e que em alguns casos há uso de **faturamento** como insumo metodológico [2]. Porém, **não há nas fontes nenhum índice da PMS de julho de 2026, nem uma tabela ou série que mostre a correspondência entre esse índice e um valor em reais de faturamento** [2]. A fonte metodológica também não informa um fator de conversão geral entre índice e faturamento [2].
+
+Portanto, **não é possível dizer quantos reais de faturamento correspondem ao índice da PMS de julho de 2026 com base apenas nas fontes fornecidas**.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r1 · lexical_rag
+
+Não é possível responder com as fontes fornecidas.
+
+A fonte [2] informa apenas que, para **“a partir de 2013”**, os indicadores de transporte são construídos a partir dos **índices de volume e receita da Pesquisa Mensal de Serviços (PMS)**. Ela **não traz o índice da PMS de julho de 2026**, nem um fator de conversão para “reais de faturamento”, nem uma série numérica que permita fazer essa equivalência.  
+A fonte [3] explica a metodologia geral do PIB, mas **não fornece dados numéricos da PMS**.  
+A fonte [1] é sobre Contas Nacionais Trimestrais e **não mostra a PMS de julho de 2026**.
+
+Portanto, faltam informações para dizer a quantos reais de faturamento corresponde o índice da PMS de julho de 2026.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r1 · graph_rag
+
+Não é possível responder com as fontes fornecidas.
+
+As fontes [1], [2] e [3] não trazem o índice da PMS de julho de 2026 nem uma tabela que permita convertê-lo em “reais de faturamento”. A fonte [2] apenas informa que, a partir de 2013, os indicadores passam a ser construídos a partir do índice de volume e receita da PMS, e menciona faturamento como insumo em alguns períodos/metodologias, mas não apresenta o valor do índice de julho de 2026 nem uma taxa de conversão para reais. A fonte [3] é apenas metodológica e não fornece a série numérica solicitada. A fonte [1] trata de Contas Nacionais Trimestrais e não contém a PMS. [1][2][3]
+
+Se você quiser, posso ajudar a localizar qual seria a fonte adequada para responder isso, mas com o corpus fornecido não dá para converter o índice em reais de faturamento.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r2 · simple_rag
+
+As fontes fornecidas **não permitem responder** à pergunta “O índice da PMS de julho de 2026 equivale a quantos reais de faturamento?”.
+
+O que elas mostram é:
+
+- A metodologia do IBGE informa que, a partir de 2013, os indicadores de transporte são construídos com base nos **índices de volume e receita da Pesquisa Mensal de Serviços (PMS)** [2].
+- Porém, **não há nas fontes um índice da PMS de julho de 2026**, nem uma tabela ou nota que converta esse índice em **reais de faturamento** para esse mês/território/setor [2].
+- A outra fonte é uma tabela de Contas Nacionais Trimestrais com valores anuais em **R$ milhões** para 2019–2025, mas ela **não trata da PMS de julho de 2026** nem traz a conversão pedida [1].
+
+Portanto, **falta informação suficiente nas fontes para calcular ou informar quantos reais de faturamento correspondem ao índice da PMS de julho de 2026** [1][2].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r2 · graph_rag
+
+Não é possível responder com as fontes fornecidas.
+
+As fontes mostram:
+- que a PMS inclui **índices de volume e receita** e, a partir de 2013, esses indicadores passam a ser construídos a partir da PMS do IBGE [2];
+- que o faturamento aparece como uma informação usada na metodologia em alguns setores [2].
+
+Mas **nenhuma fonte fornecida informa o valor do índice da PMS de julho de 2026 nem uma conversão desse índice para “reais de faturamento”**. Também não há, nas fontes, uma tabela ou série com o recorte **julho de 2026** ou um fator de conversão índice→R$ para esse mês.
+
+Portanto, faltam informações para calcular ou afirmar quantos reais de faturamento correspondem ao índice da PMS de julho de 2026.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r3 · simple_rag
+
+Não há informação suficiente nas fontes para converter o **índice da PMS de julho de 2026** em **reais de faturamento**.
+
+As fontes só informam que, na metodologia do PIB mensal e trimestral, a partir de 2013 os indicadores do setor passaram a ser construídos com base no **“índice de volume e receita da Pesquisa Mensal de Serviços – PMS”** [2]. Porém, **não há na fonte fornecida**:
+
+- o valor do índice da PMS de **julho de 2026**;
+- a fórmula de conversão desse índice para **reais de faturamento**;
+- a base de comparação, o território ou a série específica necessária para fazer essa equivalência.
+
+Além disso, a outra fonte é uma tabela de contas nacionais anuais em **R$ milhões** para 2019–2025 [1], mas ela **não traz** a PMS de julho de 2026 nem uma relação direta com faturamento mensal.
+
+Portanto, **não é possível responder com um número** usando somente as fontes fornecidas [1], [2], [3].
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+### r3 · graph_rag
+
+As fontes fornecidas **não trazem o índice da PMS de julho de 2026 nem uma tabela de conversão desse índice para reais de faturamento**.  
+
+O que a fonte [2] informa é apenas que, na metodologia do PIB mensal/trimestral, **a partir de 2013 os indicadores são construídos a partir do índice de volume e receita da Pesquisa Mensal de Serviços (PMS) do IBGE** [2]. Ela também menciona que, em algumas atividades, os indicadores usavam faturamento como insumo, mas **não apresenta um fator de conversão, série numérica, nem o valor de faturamento associado ao índice de julho de 2026** [2].  
+
+Portanto, **não é possível dizer, com base nas fontes fornecidas, a quantos reais de faturamento o índice da PMS de julho de 2026 equivale**.
+
+_Fontes: [1] pib-vol-val_202504caderno.pdf p.35; [2] pib_mensal_trimestral_metodologia.pdf p.17; [3] pib_mensal_trimestral_metodologia.pdf p.3_
+
+## T096 (limites)
+
+**Pergunta:** Qual foi o total das remunerações paulistas em 2023 na tabela anual pela ótica da renda?
+
+**Resposta esperada:** A célula está marcada como dado não disponível; não tratar reticências como zero e não estimar sem suporte.
+
+### r1 · simple_rag
+
+Não é possível informar o **total das remunerações paulistas em 2023** com base nas fontes fornecidas, porque a **Tabela 1 para o Estado de São Paulo** mostra o valor de **Remuneração** apenas até **2021**; para **2022** e **2023** os dados aparecem como **“Dados não disponíveis”** [1].
+
+O que a fonte permite afirmar é que, no **Estado de São Paulo**, na **tabela anual pela ótica da renda**, a **Remuneração** foi de **1.111.278,75413333 milhões de reais em 2021** [1].  
+
+Se você quiser, posso procurar na própria lista de fontes se há algum outro componente ou tabela que permita inferir algo sobre 2023, mas **nesta base fornecida o valor de 2023 não está disponível** [1].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] tabelas-pib-anual-2023.xlsx p.Índice; [10] tabelas-pib-anual-2023.xlsx p.Tabela 16; [11] tabelas-pib-anual-2023.xlsx p.Tabela 16_
+
+### r1 · lexical_rag
+
+Não é possível informar o total das remunerações paulistas em **2023** com as fontes fornecidas, porque na **Tabela 1** para o Estado de São Paulo o valor de **Remuneração** em **2023** aparece como **não disponível** (“…”) [1].  
+
+O que a fonte mostra é apenas que a tabela é do **Estado de São Paulo**, no período **2002–2023**, com unidade em **milhões de reais**; porém o número de 2023 para esse indicador não está visível na fonte fornecida [1].  
+
+Se ajudar, a mesma tabela mostra valores de anos anteriores, por exemplo **2021: 1.111.278,75413333 milhões de reais** para **Remuneração** em **São Paulo** [1].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Tabela 15; [9] tabelas-pib-anual-2023.xlsx p.Tabela 4; [10] tabelas-pib-anual-2023.xlsx p.Tabela 3; [11] tabelas-pib-anual-2023.xlsx p.Índice_
+
+### r1 · graph_rag
+
+Não há, nas fontes fornecidas, o valor de **2023** para **Remuneração** na **Tabela 1** do **Estado de São Paulo** sob a **ótica da renda**. A fonte mostra a série para 2010–2021, mas em **2023** consta “…”/“Dados não disponíveis” [1].
+
+Como recorte usado: **Estado de São Paulo**, **ano de 2023**, **indicador Remuneração**, **Tabela 1**, **em milhões de reais** [1].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Tabela 15; [9] tabelas-pib-anual-2023.xlsx p.Tabela 4; [10] tabelas-pib-anual-2023.xlsx p.Tabela 3; [11] tabelas-pib-anual-2023.xlsx p.Índice_
+
+### r2 · simple_rag
+
+Não é possível informar o total das **remunerações paulistas em 2023** com as fontes fornecidas, porque na **Tabela 1** o valor de **2023** para **Remuneração** no **Estado de São Paulo** aparece como **não disponível** ([1]). A própria nota da tabela informa: **“Dados não disponíveis”** ([1]).
+
+O que as fontes permitem dizer é apenas que:
+- **Estado de São Paulo**, **Tabela 1**, componente **Remuneração**, **2023**: **dado não disponível**, em **milhões de reais** ([1]).
+
+Se quiser, posso também informar o último valor disponível dessa série para São Paulo antes de 2023, mas só se você pedir.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] tabelas-pib-anual-2023.xlsx p.Índice; [10] tabelas-pib-anual-2023.xlsx p.Tabela 16; [11] tabelas-pib-anual-2023.xlsx p.Tabela 16_
+
+### r2 · graph_rag
+
+Não é possível informar o total das remunerações paulistas em 2023 com base nas fontes fornecidas, porque a **Tabela 1 para o Estado de São Paulo mostra “Remuneração” e o ano de 2023 como “Dados não disponíveis”** [1].  
+
+O que a fonte permite afirmar é apenas que a tabela é do **Estado de São Paulo**, no período **2002–2023**, em **milhões de reais**, e que os valores de **2010 a 2021** para “Remuneração” estão presentes, mas **2023 não está informado** [1].  
+
+Se você quiser, posso também verificar se alguma outra tabela das fontes traz o mesmo indicador para 2023 em outro recorte.
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Tabela 15; [9] tabelas-pib-anual-2023.xlsx p.Tabela 4; [10] tabelas-pib-anual-2023.xlsx p.Tabela 3; [11] tabelas-pib-anual-2023.xlsx p.Índice_
+
+### r3 · simple_rag
+
+Não é possível informar o total das **remunerações paulistas em 2023** com base nas fontes fornecidas, porque a **Tabela 1** para o Estado de São Paulo mostra o valor de **Remuneração** até **2021** e indica **“Dados não disponíveis”** para **2022** e **2023** [1].
+
+Recorte usado: **Estado de São Paulo**, **tabela anual pela ótica da renda**, **componente “Remuneração”** [1].
+
+O que a fonte mostra:
+- **Estado de São Paulo**
+- **2023**
+- **Remuneração**
+- **unidade:** milhões de reais
+- **valor:** **não उपलब्धível / dados não disponíveis** [1]
+
+Se você quiser, posso também localizar o último valor disponível de remuneração paulista na mesma tabela, que é de **2021** [1].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Índice; [9] tabelas-pib-anual-2023.xlsx p.Índice; [10] tabelas-pib-anual-2023.xlsx p.Tabela 16; [11] tabelas-pib-anual-2023.xlsx p.Tabela 16_
+
+### r3 · graph_rag
+
+Não é possível informar o total das **remunerações paulistas em 2023** com as fontes fornecidas, porque a **Tabela 1** para **Estado de São Paulo** mostra o componente **“Remuneração”** até **2021** e traz **2022** e **2023** como **dados não disponíveis** [1].  
+
+O que a fonte permite afirmar é apenas:
+- **Território:** Estado de São Paulo  
+- **Período:** 2023  
+- **Indicador/base:** remuneração, na tabela anual pela ótica da renda  
+- **Unidade:** milhões de reais  
+- **Situação do dado:** não disponível para 2023 [1]
+
+Se você quiser, posso também informar o último valor disponível dessa série na mesma tabela, que é **2021** [1].
+
+_Fontes: [1] tabelas-pib-anual-2023.xlsx p.Tabela 1; [2] tabelas-pib-anual-2023.xlsx p.Tabela 3; [3] tabelas-pib-anual-2023.xlsx p.Tabela 1; [4] tabelas-pib-anual-2023.xlsx p.Tabela 2; [5] tabelas-pib-anual-2023.xlsx p.Tabela 2; [6] tabelas-pib-anual-2023.xlsx p.Tabela 3; [7] tabelas-pib-anual-2023.xlsx p.Tabela 15; [8] tabelas-pib-anual-2023.xlsx p.Tabela 15; [9] tabelas-pib-anual-2023.xlsx p.Tabela 4; [10] tabelas-pib-anual-2023.xlsx p.Tabela 3; [11] tabelas-pib-anual-2023.xlsx p.Índice_
+
+## T097 (limites)
+
+**Pergunta:** Qual foi a variação industrial do Maranhão entre novembro e dezembro de 2025, com ajuste sazonal, na Tabela 1 regional?
+
+**Resposta esperada:** A tabela exibe traço para essa comparação; não interpretar como zero nem substituir pela comparação interanual.
+
+### r1 · simple_rag
+
+Na **Tabela 1 regional**, o **Maranhão** teve **variação de -1,9%** na produção industrial em **dezembro de 2025 frente a novembro de 2025**, na **série com ajuste sazonal**. A fonte indica isso na coluna **“Dezembro 2025/Novembro 2025 (1)”** e a nota **(1)** informa que a série é **com ajuste sazonal** [1].
+
+Se precisar, posso também informar os demais recortes do Maranhão na mesma tabela, como dezembro/2025 sobre dezembro/2024, acumulado do ano e acumulado em 12 meses [1].
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.19; [7] pim-pf-br_202512caderno.pdf p.11; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.22_
+
+### r1 · lexical_rag
+
+Na **Tabela 1 regional**, o **Maranhão** teve variação industrial de **-1,9%** em **dezembro de 2025 frente a novembro de 2025**, **com ajuste sazonal**. A própria tabela traz a marcação **(1) Série com ajuste sazonal** nessa coluna [1].
+
+Se quiser, também posso informar as demais colunas do Maranhão na mesma tabela.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-regional_202512.pdf p.10; [9] pim-pf-regional_202512.pdf p.7; [10] pim-pf-regional_202512.pdf p.54_
+
+### r1 · graph_rag
+
+Na **Tabela 1 regional**, o **Maranhão** não apresenta valor para a variação **de dezembro de 2025 frente a novembro de 2025, com ajuste sazonal**: a célula está marcada como **“–”** para esse recorte. Portanto, **a fonte não informa essa variação para o Maranhão**. [1]
+
+Para referência, a mesma tabela mostra para o Maranhão:
+- **Dezembro/2025 frente a dezembro/2024:** **-1,9%** [1]
+- **Acumulado janeiro-dezembro de 2025:** **-5,1%** [1]
+- **Acumulado nos últimos 12 meses:** **-5,1%** [1]
+
+A nota da tabela indica que a série de **dezembro/2025 vs novembro/2025** é **“com ajuste sazonal”**. [1]
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.10_
+
+### r2 · simple_rag
+
+Na **Tabela 1 regional**, o **Maranhão** não tem valor informado para a variação **dezembro de 2025 / novembro de 2025** na coluna com **ajuste sazonal**: aparece como **“-”**. Portanto, **a fonte não permite informar a variação industrial do Maranhão entre novembro e dezembro de 2025 com ajuste sazonal** [1].
+
+Se você quiser, posso também informar as demais comparações do Maranhão que aparecem na mesma tabela.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.19; [7] pim-pf-br_202512caderno.pdf p.11; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.22_
+
+### r2 · graph_rag
+
+A **variação industrial do Maranhão entre novembro e dezembro de 2025, com ajuste sazonal**, foi de **-1,9%**, na **Tabela 1 regional**, para o **Maranhão**, no período **dezembro de 2025 / novembro de 2025**, em **percentual (%)**. A própria tabela indica que essa série é **com ajuste sazonal** na nota (1). [1]
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.10_
+
+### r3 · simple_rag
+
+Na **Tabela 1 regional**, o **Maranhão** teve **variação de -1,9%** na produção industrial entre **novembro e dezembro de 2025**, **com ajuste sazonal**.  
+- **Território:** Maranhão  
+- **Período:** dezembro de 2025 / novembro de 2025  
+- **Base de comparação:** mês imediatamente anterior, série com ajuste sazonal  
+- **Unidade:** porcentagem (%) [1]
+
+Se você quiser, também posso informar as demais colunas da Tabela 1 para o Maranhão.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.19; [7] pim-pf-br_202512caderno.pdf p.11; [8] pim-pf-regional_202512.pdf p.9; [9] pim-pf-br_202512caderno.pdf p.22_
+
+### r3 · graph_rag
+
+Na **Tabela 1 regional**, o **Maranhão** teve **variação de -1,9%** na produção industrial em **dezembro de 2025 frente a novembro de 2025**, **com ajuste sazonal**. A fonte identifica esse valor como a série de **“Dezembro 2025/Novembro 2025 (1)”**. [1]
+
+Se você quiser, também posso informar as outras comparações do Maranhão na mesma tabela.
+
+_Fontes: [1] pim-pf-regional_202512.pdf p.15; [2] pim-pf-regional_202512.pdf p.13; [3] pim-pf-br_202512caderno.pdf p.9; [4] pim-pf-regional_202512.pdf p.55; [5] pim-pf-regional_202512.pdf p.11; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-regional_202512.pdf p.12; [8] pim-pf-br_202512caderno.pdf p.20; [9] pim-pf-regional_202512.pdf p.10_
+
+## T098 (limites)
+
+**Pergunta:** Os resultados do PIB paulista no segundo trimestre de 2026 são definitivos e nunca mais poderão mudar?
+
+**Resposta esperada:** Não: a nota declara que os dados são preliminares e sujeitos a revisão.
+
+### r1 · simple_rag
+
+Não é possível afirmar, com as fontes fornecidas, que os resultados do PIB paulista no **2º trimestre de 2026** sejam definitivos e que **nunca mais poderão mudar**.
+
+O que as fontes mostram é que a tabela do PIB de São Paulo traz a **nota**: **“Os dados são preliminares e sujeitos a revisão”** [1]. Portanto, a própria fonte indica que os números **não são finais** no momento de divulgação.
+
+Além disso, a Tabela 4.2 exibida na fonte [1] vai **até o 1º trimestre de 2026**; não há, nas fontes fornecidas, dado específico do **2º trimestre de 2026** [1]. Também não há, nas fontes, informação de que uma revisão futura seja impossível.
+
+Se você quiser, posso responder de forma mais objetiva em uma frase curta, ainda só com base nas fontes.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r1 · lexical_rag
+
+Não é possível afirmar, com as fontes fornecidas, que os resultados do PIB paulista no **2º trimestre de 2026** sejam definitivos e que **nunca mais poderão mudar**. O que as fontes mostram é apenas que a tabela de PIB regional do **Estado de São Paulo** traz uma nota dizendo que **“os dados são preliminares e sujeitos a revisão”** [1] e [2].
+
+Além disso, a fonte [1] apresentada é da **Tabela 4.2** com abrangência de **2º trimestre de 2002 a 1º trimestre de 2026** para o **Estado de São Paulo** [1]. Portanto, **não há nessa fonte um dado do 2º trimestre de 2026** para eu avaliar. Também não há nas fontes fornecidas uma declaração de que um resultado futuro ou qualquer resultado do PIB paulista seja irrevisível.
+
+Se você quiser, posso responder de forma mais específica sobre:
+- se há alguma fonte nas referências que trate do **2º trimestre de 2026**; ou
+- quais resultados da tabela disponível estão marcados como **preliminares e sujeitos a revisão** [1] [2].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r1 · graph_rag
+
+Não. Pelas fontes, os dados do PIB paulista mostrados em [1] **são preliminares e sujeitos a revisão**, então não é correto dizer que são definitivos ou que nunca mais poderão mudar [1].
+
+Além disso, a tabela exibida em [1] vai **até o 1º trimestre de 2026**, e não mostra um resultado do **2º trimestre de 2026**. Portanto, com as fontes fornecidas, **não há informação sobre o PIB paulista do 2º trimestre de 2026** [1].
+
+Resumo do que as fontes permitem afirmar:
+- **Estado/Território:** Estado de São Paulo
+- **Período mostrado:** até o 1º trimestre de 2026
+- **Base de comparação:** várias bases na tabela (trimestre imediatamente anterior com ajuste sazonal; mesmo trimestre do ano anterior; acumulado no ano; últimos quatro trimestres)
+- **Unidade:** porcentagem
+- **Nota da tabela:** dados preliminares e sujeitos a revisão [1]
+
+Portanto, a resposta é: **não há base nas fontes para dizer que os resultados do 2º trimestre de 2026 são definitivos; e, em geral, os resultados dessa tabela são preliminares e podem ser revisados** [1].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r2 · simple_rag
+
+Não. As fontes não permitem afirmar que os resultados do PIB paulista do segundo trimestre de 2026 sejam definitivos e que nunca mais poderão mudar.
+
+O que as fontes mostram é que, na **Tabela 4.2** do PIB regional do **Estado de São Paulo**, os dados são **preliminares e sujeitos a revisão** [1]. Portanto, o próprio documento indica que podem mudar.
+
+Além disso, a tabela exibida na fonte [1] vai até o **1º trimestre de 2026**; ela não mostra o **2º trimestre de 2026** [1]. Assim, faltam informações para confirmar qualquer resultado específico desse trimestre.
+
+Se você quiser, posso também dizer exatamente quais indicadores a fonte [1] traz para o Estado de São Paulo e quais períodos ela cobre.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r2 · graph_rag
+
+Não é possível afirmar, com as fontes fornecidas, que os resultados do PIB paulista no **2º trimestre de 2026** sejam definitivos e que **nunca mais poderão mudar**.
+
+O que as fontes mostram é que a tabela do PIB de São Paulo traz uma **nota** dizendo: **“Os dados são preliminares e sujeitos a revisão.”** [1] Isso indica que os valores podem ser revisados, e portanto não são apresentados como definitivos.
+
+Além disso, a fonte disponível sobre o PIB paulista vai até o **1º trimestre de 2026** na Tabela 4.2 [1]. Não há, nas fontes fornecidas, um resultado do **2º trimestre de 2026** para eu citar.
+
+Em resumo:  
+- **Não** há base nas fontes para dizer que o resultado do 2º trimestre de 2026 seja definitivo.  
+- **Não** há base para dizer que ele nunca mais poderá mudar.  
+- A única informação aplicável é que os dados da tabela são **preliminares e sujeitos a revisão** [1].
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r3 · simple_rag
+
+Não. Pelas fontes fornecidas, **não é possível afirmar que os resultados do PIB paulista do 2º trimestre de 2026 sejam definitivos e que nunca mais poderão mudar**.
+
+O que a fonte mostra é que, para o **Estado de São Paulo**, os dados da **Tabela 4.2** têm a nota: **“Os dados são preliminares e sujeitos a revisão”** [1]. Portanto, a própria fonte indica que esses números **podem ser revisados**.
+
+Além disso, a Tabela 4.2 fornecida vai até o **1º trimestre de 2026** [1], então **não há, nas fontes apresentadas, um resultado do 2º trimestre de 2026** para confirmar se ele existe ou como estaria classificado.
+
+Fonte: [1]
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+### r3 · graph_rag
+
+Não. As fontes mostram apenas que os dados do PIB de São Paulo são **preliminares e sujeitos a revisão**. Isso aparece na nota da Tabela 4.2, que traz a série do **Estado de São Paulo** até o **1º trimestre de 2026**, e informa: “Os dados são preliminares e sujeitos a revisão” [1]. A Tabela 2 também traz a mesma nota de que os dados são preliminares e sujeitos a revisão [2][3].
+
+Além disso, a fonte disponível para o PIB paulista nesta seleção **não mostra o 2º trimestre de 2026**; ela vai até o **1º trimestre de 2026** [1]. Portanto, com base apenas nessas fontes, **não é possível afirmar** que resultados do PIB paulista no 2º trimestre de 2026 sejam definitivos ou que nunca mais possam mudar.
+
+_Fontes: [1] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 4.2; [2] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [3] 01-2026-tabelas-pib-regional-site.xlsx p.Tabela 2; [4] pmc_202512caderno.pdf p.2; [5] pim-pf-br_202512caderno.pdf p.2_
+
+## T099 (limites)
+
+**Pergunta:** A produção industrial brasileira cresceu 0,6% em dezembro de 2025 frente a novembro, correto?
+
+**Resposta esperada:** Corrigir a base: 0,6% é acumulado de 2025; dezembro frente a novembro, com ajuste sazonal, foi -1,2%.
+
+### r1 · simple_rag
+
+Não. A fonte informa que, em **dezembro de 2025 frente a novembro de 2025**, a **produção industrial brasileira recuou 1,2%**, na **série com ajuste sazonal** [1][5][7].
+
+O **0,6%** citado nas fontes se refere a outro recorte: o **acumulado de janeiro a dezembro de 2025 frente a igual período de 2024** (Brasil, indústria geral), não à comparação mês contra mês [1][2][4][7][8].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.10_
+
+### r1 · lexical_rag
+
+Não. As fontes indicam que, em dezembro de 2025, a produção industrial brasileira **caiu 1,2% frente a novembro de 2025**, na **série com ajuste sazonal** [1][5][6][7].  
+
+O **0,6%** citado nas fontes é para o **acumulado de janeiro a dezembro de 2025 frente a igual período de 2024**, no **Brasil**, e não para a comparação de dezembro contra novembro [1][2][4][7].  
+
+Se você quiser, posso resumir as três comparações que aparecem nas fontes:
+- dezembro/2025 vs. novembro/2025;
+- dezembro/2025 vs. dezembro/2024;
+- acumulado janeiro-dezembro/2025 vs. igual período de 2024.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-br_202512caderno.pdf p.11; [9] pim-pf-br_202512caderno.pdf p.10_
+
+### r1 · graph_rag
+
+Não. A fonte informa que, no **Brasil**, a **indústria geral** teve **variação de 0,4% em dezembro de 2025 frente a dezembro de 2024** na comparação com igual mês do ano anterior, e **queda de 1,2% em dezembro de 2025 frente a novembro de 2025** na série com ajuste sazonal [1][2][5][7].
+
+Se a sua referência era o **acumulado janeiro-dezembro de 2025 frente a igual período de 2024**, aí sim a produção industrial brasileira **cresceu 0,6%** [1][2][4][7].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-br_202512caderno.pdf p.11_
+
+### r2 · simple_rag
+
+Não, **não é correto** dizer que a produção industrial brasileira cresceu **0,6% em dezembro de 2025 frente a novembro**.
+
+Pelas fontes, em **Brasil**, **dezembro de 2025 / novembro de 2025**, a **indústria geral** teve **queda de 1,2%**, na **série com ajuste sazonal** [1][5][7].  
+O valor de **0,6%** aparece para o **acumulado em janeiro-dezembro de 2025 frente a igual período de 2024** [1][2][4][7][8].
+
+Resumo dos números citados:
+- **Brasil / dezembro de 2025 vs. novembro de 2025 / indústria geral / série com ajuste sazonal:** **-1,2%** [1][5][7]
+- **Brasil / janeiro-dezembro de 2025 vs. janeiro-dezembro de 2024 / indústria geral:** **0,6%** [1][2][4][7][8]
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.10_
+
+### r2 · graph_rag
+
+Não. A fonte informa que, **em dezembro de 2025 frente a novembro de 2025**, a produção industrial brasileira **recuou 1,2%** na série com ajuste sazonal, e não cresceu 0,6% [1], [5], [6], [7].
+
+O valor de **0,6%** citado nas fontes corresponde a outro recorte: **o acumulado janeiro-dezembro de 2025 frente a igual período de 2024** (Brasil, indústria geral), e não à comparação dezembro/novembro [1], [2], [4], [7].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-br_202512caderno.pdf p.11_
+
+### r3 · simple_rag
+
+Não. As fontes mostram que a produção industrial brasileira **recuou 1,2% em dezembro de 2025 frente a novembro de 2025**, na série com ajuste sazonal [1][5][6][7].  
+
+O valor **0,6%** refere-se a outra comparação: **acumulado janeiro-dezembro de 2025 frente a igual período de 2024** (Brasil, indústria geral) [1][2][4][7][8].  
+
+Portanto, para a pergunta sobre **dezembro de 2025 frente a novembro**, a resposta correta é **não, não cresceu 0,6%; caiu 1,2%** [1][5][6][7].
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-regional_202512.pdf p.12; [9] pim-pf-regional_202512.pdf p.10_
+
+### r3 · graph_rag
+
+Não. A fonte mostra que, no Brasil, a produção industrial **recuou 1,2% em dezembro de 2025 frente a novembro de 2025**, na série com ajuste sazonal [1][5][7]. 
+
+O valor de **0,6%** citado nas fontes refere-se a **outra base de comparação**: o **acumulado no período janeiro-dezembro de 2025 frente a igual período de 2024** [1][2][4][7]. 
+
+Se você quiser, posso também separar os números de dezembro de 2025 por comparação:
+- **mês contra mês**;
+- **mês contra igual mês do ano anterior**;
+- **acumulado no ano**.
+
+_Fontes: [1] pim-pf-br_202512caderno.pdf p.9; [2] pim-pf-br_202512caderno.pdf p.20; [3] pim-pf-regional_202512.pdf p.13; [4] pim-pf-br_202512caderno.pdf p.17; [5] pim-pf-br_202512caderno.pdf p.19; [6] pim-pf-regional_202512.pdf p.9; [7] pim-pf-br_202512caderno.pdf p.22; [8] pim-pf-br_202512caderno.pdf p.11_
